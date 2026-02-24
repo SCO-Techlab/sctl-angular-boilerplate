@@ -1,0 +1,16 @@
+{
+    "SAKAI_LAYOUT": {
+        "APP_NAME": "Sctl Angular Boilerplate",
+        "FOOTER_ENABLED": true,
+        "SIDEBAR_ENABLED": true,
+        "FLOATING_SIDEBAR": true,
+        "TOPBAR_SWITCH_THEME_ENABLED": true,
+        "TOPBAR_THEME_CONFIGURATOR_ENABLED": true,
+        "TOPBAR_ACTIONS_ENABLED": true,
+        "THEME_PRESET": "Aura",
+        "THEME_PRIMARY": "emerald",
+        "THEME_SURFACE": null,
+        "THEME_DARK_THEME": false,
+        "THEME_MENU_MODE": "static"
+    }
+}
