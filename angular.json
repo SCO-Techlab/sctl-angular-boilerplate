@@ -30,20 +30,11 @@
                             {
                                 "glob": "**/*",
                                 "input": "public"
-                            },
-                            {
-                                "glob": "**/*",
-                                "input": "node_modules/@sco-techlab/sctl-angular-core/resources/images",
-                                "output": "resources/images/"
-                            },
-                            {
-                                "glob": "**/*",
-                                "input": "node_modules/@sco-techlab/sctl-angular-core/resources/styles",
-                                "output": "resources/styles/"
                             }
                         ],
                         "styles": [
-                            "src/assets/styles.scss"
+                            "src/assets/styles.scss",
+                            "src/assets/styles/layout.scss"
                         ],
                         "scripts": []
                     },

@@ -1,0 +1,18 @@
+<div class="layout-wrapper" [ngClass]="containerClass">
+  <sctl-topbar [config]="config?.topbarConfig"></sctl-topbar>
+
+  @if (isSidebarEnabled) {
+    <sctl-sidebar [config]="config?.sidebarConfig"></sctl-sidebar>
+  }
+
+  <div class="layout-main-container" [ngClass]="{'layout-main-container__static-menu-open': staticMenuOpen}">
+    <div class="layout-main">
+      <router-outlet></router-outlet>
+    </div>
+    @if (isFooterEnabled) {
+      <sctl-footer [config]="config?.footerConfig"></sctl-footer>
+    }
+  </div>
+
+  <div class="layout-mask animate-fadein"></div>
+</div>

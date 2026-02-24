@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { ISakaiLayoutNotfound, SakaiNotfound } from '@sco-techlab/sctl-angular-core';
+import { ILayoutNotfound, Notfound as NotfoundComponent } from '@/shared/layouts';
 
 @Component({
   selector: 'app-notfound',
   standalone: true,
   templateUrl: './notfound.component.html',
-  imports: [SakaiNotfound]
+  imports: [NotfoundComponent]
 })
 export class Notfound {
-  public notfoundConfig: ISakaiLayoutNotfound = {
+  public notfoundConfig: ILayoutNotfound = {
     showConfigurator: true,
     title: 'Not Found',
     message: 'Requested resource is not available.',

@@ -1,0 +1,25 @@
+.sctl-spinner {
+
+  &__overlay {
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0, 0%, 100%, .6);
+    cursor: default;
+
+    .sctl-spinner__spinner {
+      position: fixed;
+    }
+  }
+
+  &__spinner {
+    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+  }
+}

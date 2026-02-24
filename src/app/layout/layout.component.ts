@@ -1,6 +1,7 @@
+import { ILayout, Layout } from '@/shared/layouts';
+import { CONFIG_CONSTANTS, ConfigService } from '@/shared/services';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CONFIG_CONSTANTS, ConfigService, ISakaiLayout, SakaiLayout } from '@sco-techlab/sctl-angular-core';
 
 @Component({
   selector: 'app-layout',
@@ -8,13 +9,13 @@ import { CONFIG_CONSTANTS, ConfigService, ISakaiLayout, SakaiLayout } from '@sco
   templateUrl: './layout.component.html',
   imports: [
     CommonModule,
-    SakaiLayout
+    Layout
   ]
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
 
   public viewInit: boolean = false;
-  public config: ISakaiLayout;
+  public config: ILayout;
 
   @ViewChild('footerTemplate') private footerTemplate!: TemplateRef<any>;
   @ViewChild('logoTemplate') private logoTemplate!: TemplateRef<any>;
@@ -30,9 +31,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.config = {
       footerConfig: {
         footerTemplate: undefined,
-        footerText: 'SAKAI Template by',
+        footerText: 'Angular Boilerplate by',
         footerLink: 'https://sco-techlab.com',
-        footerLinkText: this.configService.get(CONFIG_CONSTANTS.SAKAI_LAYOUT.APP_NAME)
+        footerLinkText: this.configService.get(CONFIG_CONSTANTS.LAYOUT.APP_NAME)
       },
       sidebarConfig: {
         menuConfig: {
@@ -44,8 +45,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         menuButtonIconSize: '1.75rem',
         logoTemplate: undefined,
         logoRedirect: '/',
-        logoUrl: 'resources/images/logo-sco-techlab.png',
-        logoText: this.configService.get(CONFIG_CONSTANTS.SAKAI_LAYOUT.APP_NAME),
+        logoUrl: 'assets/images/logo-sco-techlab.png',
+        logoText: this.configService.get(CONFIG_CONSTANTS.LAYOUT.APP_NAME),
         logoCssClass: 'w-20',
         actionsTemplate: undefined,
         actions: [
@@ -210,7 +211,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
           {
             label: 'View Source',
             icon: 'pi pi-fw pi-github',
-            url: 'https://github.com/primefaces/sakai-ng',
+            url: 'https://github.com/SCO-Techlab/sctl-angular-boilerplate',
             target: '_blank'
           }
         ]

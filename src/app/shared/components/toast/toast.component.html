@@ -1,0 +1,35 @@
+<div class="toast-container"
+  [ngClass]="{
+    'toast-container__top-right': getPosition() === TOAST_POSITION.TOP_RIGHT,
+    'toast-container__top-left': getPosition() === TOAST_POSITION.TOP_LEFT,
+    'toast-container__bottom-right': getPosition() === TOAST_POSITION.BOTTOM_RIGHT,
+    'toast-container__bottom-left': getPosition() === TOAST_POSITION.BOTTOM_LEFT,
+    'toast-container__block-top': getPosition() === TOAST_POSITION.TOP_CENTER,
+    'toast-container__block-bottom': getPosition() === TOAST_POSITION.BOTTOM_CENTER
+  }"
+>
+  @for (msg of messages; track msg) {
+    <div class="toast" [@toastAnim] [ngClass]="msg.severity">
+      <div class="toast-content">
+        @if (!msg.disableIcon) {
+          <i class="toast-icon" [class]="getIcon(msg.severity)"></i>
+        }
+
+        <div class="toast-text">
+          @if (msg.summary) {
+          <div class="toast-summary">{{ msg.summary }}</div>
+          }
+          @if (msg.detail) {
+          <div class="toast-detail">{{ msg.detail }}</div>
+          }
+        </div>
+
+        @if (!msg.disableClose) {
+          <button class="close-btn" (click)="close(msg.id!)">
+            <i class="pi pi-times"></i>
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

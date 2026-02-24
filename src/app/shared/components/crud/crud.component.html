@@ -1,0 +1,334 @@
+<div class="flex flex-col md:flex-row gap-8">
+  <div class="w-full">
+    <div class="card">
+
+      <!-- toolbar -->
+      <p-toolbar styleClass="mb-4 flex flex-row align-items-center">
+        <ng-template #start>
+          <h5 style="margin-top: 0px; margin-bottom: 0px;">{{ literals?.TITLE }}</h5>
+        </ng-template>
+        <ng-template #end>
+          @if (buttonsEnabled?.EXPORT) {
+            <button class="p-button-help"
+              pButton 
+              pRipple 
+              icon="pi pi-upload" 
+              [label]="literals?.EXPORT" 
+              (click)="dt.exportCSV(); export.emit()">
+            </button>
+          }
+        </ng-template>
+      </p-toolbar>
+
+      <!-- table -->
+      <p-table #dt 
+        [paginatorDropdownAppendTo]="'body'"
+        [dataKey]="dataKey"
+        [value]="values" 
+        [columns]="cols" 
+        [exportFilename]="exportFilename"
+        [rowsPerPageOptions]="rowsPerPageOptions"
+        [rows]="10"
+        [paginator]="paginator" 
+        [showCurrentPageReport]="showCurrentPageReport"
+        [currentPageReportTemplate]="literals?.PAGINATOR_REPORT || 'Showing {first} to {last} of {totalRecords} values'"
+        [rowHover]="rowHover" 
+        [globalFilterFields]="globalFilterFields" 
+        [(selection)]="selectedValues" 
+        selectionMode="multiple" 
+        responsiveLayout="scroll" 
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center gap-2">
+            <div style="width: fit-content;">
+              @if (buttonsEnabled?.SEARCH && globalFilterFields && literals?.SEARCH) {
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" [placeholder]="literals?.SEARCH"  class="w-full sm:w-auto"/>
+              }
+            </div>
+            <div style="flex-grow: 1; display: flex; align-items: center; justify-content: end;">
+              @if (buttonsEnabled?.NEW && literals?.NEW) {
+                <button class="p-button-primary" [ngClass]="{'mr-2': buttonsEnabled?.DELETE}"
+                  pButton 
+                  pRipple 
+                  icon="pi pi-plus" 
+                  [label]="literals?.NEW" 
+                  (click)="openNewDialog()">
+                </button>
+              }
+              @if (buttonsEnabled?.DELETE && literals?.DELETE) {
+                <button class="p-button-danger"
+                  pButton 
+                  pRipple  
+                  icon="pi pi-trash" 
+                  [disabled]="!selectedValues || !selectedValues.length"
+                  [label]="literals?.DELETE"
+                  (click)="openMultipleDeleteDialog()">
+                </button>
+              }
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+            @for(col of cols; track col) {
+              @if (col.sortable) {
+                <th [pSortableColumn]="col.field">
+                  <span class="p-column-title">{{ col.header }}</span>
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              } @else {
+                <th>{{ col.header }}</th>
+              }
+            }
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-value>
+          <tr>
+            <td><p-tableCheckbox [value]="value"></p-tableCheckbox></td>
+            @for(col of cols; track col) {
+               @if (col.type === CRUD_COLUMN_TYPE.AVATAR) {
+                <td style="min-width: 5rem;">
+                  <img [src]="getAvatarUrl(value, col)" class="avatar-image" />
+                </td>
+               } @else {
+                <td style="min-width: 10rem;">
+                  {{ showValue(value, col) }}
+                </td>
+              }
+            }
+            <td>
+              <div class="text-end" style="width: max-content;">
+                @if (extraActions && extraActions.length > 0) {
+                  @for (action of extraActions; track action; let i = $index) {
+                    <button class="p-button-rounded p-button-{{action.severity}}"
+                      [ngClass]="{'mr-2': i > 0 || i === 0 && (buttonsEnabled?.DELETE_ACTION || buttonsEnabled?.EDIT_ACTION)}"
+                      pButton 
+                      pRipple 
+                      [severity]="action.severity"
+                      icon="{{action.icon}}"
+                      (click)="selectAction(action, value)">
+                    </button>
+                  }
+                }
+
+                @if (buttonsEnabled?.EDIT_ACTION) {
+                  <button class="p-button-rounded p-button-primary" [ngClass]="{'mr-2': buttonsEnabled?.DELETE_ACTION}"
+                    pButton 
+                    pRipple 
+                    icon="pi pi-pencil" 
+                    (click)="openEditDialog(value)">
+                  </button>
+                }
+                @if (buttonsEnabled?.DELETE_ACTION) {
+                  <button class="p-button-rounded p-button-danger"
+                    pButton 
+                    pRipple 
+                    icon="pi pi-trash" 
+                    (click)="openDeleteDialog(value)">
+                  </button>
+                }
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      
+    </div>
+  </div>
+</div>
+
+<!-- FormDialog -->
+ @if (formDialog) {
+  <p-dialog 
+    [(visible)]="formDialog" 
+    [header]="!isEdit ? literals?.FORM_TITLE : (literals?.FORM_TITLE_EDIT + ': ' + editTitle)"
+    [modal]="true" 
+    [style]="{width: modalWidth, height: 'auto'}"
+    [resizable]="false"
+    [draggable]="false"
+  >
+    @if (inputs && inputs.length > 0 && value) {
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        @for(input of inputs; track input) {
+          @if (showInput(input)) {
+            <div>
+              <span class="mb-1 block flex items-center">
+                @if (input?.required === true) {
+                  <p-message severity="error" variant="simple" size="small">
+                    <span class="mr-1 mt-1 input-required">*</span>
+                  </p-message>
+                }
+                {{input.label}}
+              </span>
+
+              @if (input.type === CRUD_INPUT_TYPE.ENUM) {
+                <p-select 
+                  [appendTo]="'body'"
+                  [options]="input?.options?.[input.type].values"
+                  [(ngModel)]="value[input.field]"
+                  [style]="{width: '100%'}"
+                  (ngModelChange)="onChangeValue()"
+                ></p-select>
+              } 
+              
+              @else if (input.type === CRUD_INPUT_TYPE.SELECT) {
+                <p-select 
+                  [appendTo]="'body'"
+                  [options]="input?.options?.[input.type].values" 
+                  [(ngModel)]="value[input.field]"
+                  [style]="{width: '100%'}"
+                  (ngModelChange)="onChangeValue()"
+                ></p-select>
+              }
+              
+              @else if (input.type === CRUD_INPUT_TYPE.NUMBER) {
+                <p-inputNumber 
+                  [style]="{width: '100%'}"
+                  [(ngModel)]="value[input.field]" 
+                  [min]="input?.options?.[input.type].min" 
+                  [max]="input?.options?.[input.type].max"
+                  (ngModelChange)="onChangeValue()">
+                </p-inputNumber>
+              }
+
+              @else if (input.type === CRUD_INPUT_TYPE.BOOLEAN) {
+                <div class="ms-1">
+                  <p-toggleswitch  
+                    [(ngModel)]="value[input.field]"
+                    (ngModelChange)="onChangeValue()"
+                  ></p-toggleswitch >
+                </div>
+              }
+
+              @else if (input.type === CRUD_INPUT_TYPE.PASSWORD) {
+                  <p-password 
+                    [(ngModel)]="value[input.field]"
+                    [styleClass]="'w-full'"
+                    [inputStyle]="{width: '100%'}"
+                    (ngModelChange)="onChangeValue()"
+                  ></p-password>
+              }
+
+              @else if (input.type === CRUD_INPUT_TYPE.DATE) {
+                <p-datepicker  
+                  [style]="{width: '100%'}"
+                  [(ngModel)]="value[input.field]" 
+                  [inline]="true"
+                  [dateFormat]="input?.options?.[input.type].format"
+                  (ngModelChange)="onChangeValue()">
+                </p-datepicker>
+              }
+
+              @else {
+                <input 
+                  pInputText 
+                  [style]="{width: '100%'}"
+                  [(ngModel)]="value[input.field]"
+                  (ngModelChange)="onChangeValue()"
+                />
+              }
+
+              @if (formErrors && formErrors[input.field]) {
+                <div class="flex flex-col gap-4 mt-2 ml-2">
+                  <p-message severity="error" variant="simple" size="small">
+                    <span>{{formErrors[input.field]}}</span>
+                  </p-message>
+                </div>
+              }
+              
+            </div>
+          }
+        }
+      </div>
+    }
+    <div class="mt-3 text-right">
+      @if (literals?.CANCEL) {
+        <button class="p-button-text p-button-danger mr-2" 
+          pButton 
+          pRipple 
+          icon="pi pi-times" 
+          [label]="literals?.CANCEL" 
+          (click)="cancelFormDialog()">
+        </button>
+      }
+      @if (literals?.SAVE && literals?.EDIT) {
+        <button class="p-button-text p-button-primary" 
+          pButton 
+          pRipple 
+          icon="pi pi-check" 
+          [disabled]="!formIsValid"
+          [label]="!isEdit ? literals?.SAVE : literals?.EDIT"
+          (click)="confirmFormDialog()">
+        </button>
+      }
+    </div>
+  </p-dialog>
+}
+
+<!-- deleteDialog -->
+<p-dialog 
+  [(visible)]="deleteDialog" 
+  [header]="literals?.DELETE_TITLE"
+  [modal]="true" 
+  [style]="{width: modalWidth}"
+  [resizable]="false"
+  [draggable]="false"
+>
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-exclamation-triangle mr-1" style="font-size: 2rem"></i>
+    <div class="p-2">
+      <span>{{ literals?.DELETE_MESSAGE }}: <span class="ps-1"><b>'{{value?.[valueKey]}}'</b></span>?</span>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="p-button-text p-button-danger"
+      pButton 
+      pRipple 
+      icon="pi pi-times" 
+      [label]="literals?.NO" 
+      (click)="deleteDialog = false">
+    </button>
+    <button class="p-button-text p-button-primary"
+      pButton 
+      pRipple 
+      icon="pi pi-check" 
+      [label]="literals?.YES" 
+      (click)="confirmDelete()">
+    </button>
+  </ng-template>
+</p-dialog>
+
+<!-- deleteMultipleDialog -->
+<p-dialog 
+  [(visible)]="deleteMultipleDialog" 
+  [header]="literals?.DELETE_MULTIPLE_TITLE"
+  [modal]="true" 
+  [style]="{width: modalWidth}" 
+  [resizable]="false"
+  [draggable]="false"
+>
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-exclamation-triangle mr-1" style="font-size: 2rem"></i>
+    <div class="p-2">
+      <span>{{ literals?.DELETE_MULTIPLE_MESSAGE }}</span>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="p-button-text p-button-danger"
+      pButton 
+      pRipple 
+      icon="pi pi-times" 
+      [label]="literals?.NO" 
+      (click)="deleteMultipleDialog = false">
+    </button>
+    <button class="p-button-text p-button-primary"
+      pButton 
+      pRipple 
+      icon="pi pi-check" 
+      [label]="literals?.YES" 
+      (click)="confirmMultipleDelete()">
+    </button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,9 @@
+<div class="sctl-spinner sctl-spinner__overlay" [hidden]="!spinnerService.isShowing">
+  <div class="sctl-spinner__spinner">
+    @if (!config?.loaderMode) {
+      <img [src]="config?.pathImg" alt="Loading..." />
+    } @else {
+      <sctl-loader [config]="config?.loaderConfig"></sctl-loader>
+    }
+  </div>
+</div>

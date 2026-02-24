@@ -3,9 +3,10 @@ import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
-import { ConfigInitializerFactory, ConfigService, ToastService, translateProvider } from '@sco-techlab/sctl-angular-core';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
+import { ConfigInitializerFactory, ConfigService, translateProvider } from '@/shared/services';
+import { ToastService } from '@/shared/components';
 
 export const appConfig: ApplicationConfig = {
   providers: [

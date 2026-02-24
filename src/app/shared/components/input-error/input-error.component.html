@@ -1,0 +1,11 @@
+@if (showInputError()) {
+  <div class="flex flex-col gap-4 mt-2 ml-2 {{config?.cssClass}}">
+    @for (error of config?.errorsToShow; track error) {
+      @if (config?.formControl?.errors?.[error?.error]) {
+        <p-message severity="error" variant="simple" size="small">
+          <span>{{error?.message}}</span>
+        </p-message>
+      }
+    }
+  </div>
+}

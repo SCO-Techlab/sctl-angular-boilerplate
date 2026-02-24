@@ -1,5 +1,5 @@
 {
-    "SAKAI_LAYOUT": {
+    "LAYOUT": {
         "APP_NAME": "Sctl Angular Boilerplate",
         "FOOTER_ENABLED": true,
         "SIDEBAR_ENABLED": true,

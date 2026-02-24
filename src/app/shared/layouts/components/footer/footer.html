@@ -1,0 +1,10 @@
+<div class="layout-footer">
+  @if (config?.footerTemplate) {
+    <ng-container *ngTemplateOutlet="config.footerTemplate"></ng-container>
+  } @else {
+    {{ config?.footerText }}
+    <a [href]="config?.footerLink" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">
+      <span>{{ config?.footerLinkText }}</span>
+    </a>
+  }
+</div>
