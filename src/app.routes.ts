@@ -12,7 +12,6 @@ export const appRoutes: Routes = [
       // { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
     ]
   },
-  //{ path: 'landing', component: Landing },
   { path: 'notfound', component: NotfoundComponent },
   { path: 'auth', loadChildren: () => import('./app/modules/auth/auth.routes') },
   { path: '**', redirectTo: '/notfound' }
