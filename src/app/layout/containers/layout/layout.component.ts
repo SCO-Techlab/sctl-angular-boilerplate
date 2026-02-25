@@ -47,7 +47,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         menuButtonIconSize: '1.75rem',
         logoTemplate: undefined,
         logoRedirect: '/',
-        logoUrl: 'assets/images/logo-sco-techlab.png',
+        logoUrl: 'assets/images/logo.png',
         logoText: this.configService.get(CONFIG_CONSTANTS.LAYOUT.APP_NAME),
         logoCssClass: 'w-20',
         actionsTemplate: undefined,
