@@ -1,5 +1,4 @@
-import { BUTTON_SEVERITY } from '../../enums';
-import { CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE } from './crud.enum';
+import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE } from '../enums';
 
 export interface ICrudColumn {
   field: string;

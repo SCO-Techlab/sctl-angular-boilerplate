@@ -1,12 +1,18 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { TranslateDirective } from '@shared/directives';
-import { TranslateProviderFactory } from '@shared/factories';
-import { ITranslateConfig } from '@shared/interfaces';
-import { TranslatePipe } from '@shared/pipes';
+import { TranslateDirective } from '../directives';
+import { TranslateProviderFactory } from '../factories';
+import { ITranslateConfig } from '../interfaces';
+import { TranslatePipe } from '../pipes';
 
 @NgModule({
-  imports: [TranslatePipe, TranslateDirective],
-  exports: [TranslatePipe, TranslateDirective],
+  imports: [
+    TranslatePipe,
+    TranslateDirective
+  ],
+  exports: [
+    TranslatePipe,
+    TranslateDirective
+  ],
 })
 export class TranslateModule {
   static forRoot(config: ITranslateConfig): ModuleWithProviders<TranslateModule> {

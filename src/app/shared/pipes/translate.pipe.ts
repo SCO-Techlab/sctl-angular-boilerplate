@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, DestroyRef, Pipe, PipeTransform, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslateService } from '@shared/services';
+import { TranslateService } from '../services';
 
 @Pipe({
   name: 'translate',
@@ -30,7 +30,7 @@ export class TranslatePipe implements PipeTransform {
     if (!key) {
       return '';
     }
-    
+
     if (key === this.lastKey && JSON.stringify(params) === JSON.stringify(this.lastParams)) {
       return this.value!;
     }

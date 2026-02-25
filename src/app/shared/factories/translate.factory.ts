@@ -1,6 +1,6 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
-import { TranslateService } from '../services/translate/translate.service';
-import { ITranslateConfig } from '../interfaces/translate.interface';
+import { ITranslateConfig } from '../interfaces';
+import { TranslateService } from '../services';
 
 export function TranslateProviderFactory(config: ITranslateConfig): EnvironmentProviders {
   return makeEnvironmentProviders([

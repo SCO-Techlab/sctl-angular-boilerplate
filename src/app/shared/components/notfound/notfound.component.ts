@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { INotfoundComponent } from './notfound.interface';
+import { INotfoundComponent } from '../../interfaces';
 import { FloatingConfigurator } from '@layout/components';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '../../constants';
 
 @Component({
   selector: 'sctl-notfound',

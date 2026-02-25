@@ -1,4 +1,4 @@
-import { ISpinnerComponent, IToastComponent } from "@shared/components";
+import { ISpinnerComponent, IToastComponent } from "@shared/interfaces";
 
 export interface IShellComponent {
   spinnerEnabled?: boolean;

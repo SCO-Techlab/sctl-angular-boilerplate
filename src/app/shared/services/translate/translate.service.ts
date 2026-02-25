@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, from, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { MAGIC_NUMBERS } from '../../constants';
-import { ITranslateConfig } from '../../interfaces/translate.interface';
+import { ITranslateConfig } from '../../interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class TranslateService {
-  
+
   private _data = new Map<string, any>();
   private _currentLang: string;
   private _defaultLang: string;
@@ -70,8 +70,8 @@ export class TranslateService {
       return Promise.resolve(true);
     }
 
-    const path: string = this.config.path[this.config.path.length - MAGIC_NUMBERS.N_1] === '/' 
-      ? this.config.path 
+    const path: string = this.config.path[this.config.path.length - MAGIC_NUMBERS.N_1] === '/'
+      ? this.config.path
       : `${this.config.path}/`;
 
     return this.http.get(`${path}${lang}.json`).toPromise()

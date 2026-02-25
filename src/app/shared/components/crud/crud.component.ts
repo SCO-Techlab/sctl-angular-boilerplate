@@ -14,9 +14,9 @@ import { Table, TableModule } from 'primeng/table';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DATES, MAGIC_NUMBERS } from '../../constants';
+import { CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE } from '../../enums';
+import { ICrudAction, ICrudActionEvent, ICrudButtonsEnabled, ICrudColumn, ICrudFormInput, ICrudInputError, ICrudLiterals, ICrudSaveEvent } from '../../interfaces';
 import { ScreenService } from '../../services';
-import { CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE } from './crud.enum';
-import { ICrudAction, ICrudActionEvent, ICrudButtonsEnabled, ICrudColumn, ICrudFormInput, ICrudInputError, ICrudLiterals, ICrudSaveEvent } from './crud.interface';
 
 @Component({
   selector: 'sctl-crud',
