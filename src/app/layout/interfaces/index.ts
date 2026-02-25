@@ -1,5 +1,3 @@
-export * from './layout-access.interface';
-export * from './layout-error.interface';
 export * from './layout-footer.interface';
 export * from './layout-login.interface';
 export * from './layout-menu.interface';

@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { FloatingConfigurator } from '@/layout/components';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { ILayoutError } from '../../interfaces';
-import { FloatingConfigurator } from '../floatingconfigurator';
+import { IErrorComponent } from './error.interface';
 
 @Component({
   selector: 'sctl-error',
   standalone: true,
-  templateUrl: './error.html',
+  templateUrl: './error.component.html',
   imports:
     [
       ButtonModule,
@@ -17,13 +17,22 @@ import { FloatingConfigurator } from '../floatingconfigurator';
       FloatingConfigurator
     ],
 })
-export class Error implements OnInit {
+export class ErrorComponent implements OnInit {
 
-  @Input() config: ILayoutError = {};
+  public config: IErrorComponent = {};
 
-  constructor(private router: Router) { }
+  private router = inject(Router);
 
   ngOnInit(): void {
+    this.checkDefaultConfig();
+  }
+
+  onClickButton(): void {
+    if (!this.config?.buttonLink) return;
+    this.router.navigate([this.config?.buttonLink]);
+  }
+
+  private checkDefaultConfig(): void {
     this.config.showConfigurator = this.config?.showConfigurator !== undefined ? this.config.showConfigurator : false;
     this.config.showIcon = this.config?.showIcon !== undefined ? this.config.showIcon : true;
     this.config.icon = this.config?.icon ?? 'pi-exclamation-circle';
@@ -33,10 +42,5 @@ export class Error implements OnInit {
     this.config.image = this.config?.image ?? 'https://primefaces.org/cdn/templates/sakai/auth/asset-error.svg';
     this.config.buttonLabel = this.config?.buttonLabel ?? 'Go to Dashboard';
     this.config.buttonLink = this.config?.buttonLink ?? '/';
-  }
-
-  onClickButton(): void {
-    if (!this.config?.buttonLink) return;
-    this.router.navigate([this.config?.buttonLink]);
   }
 }

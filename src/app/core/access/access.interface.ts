@@ -1,4 +1,4 @@
-export interface ILayoutError {
+export interface IAccessComponent {
   showConfigurator?: boolean;
   showIcon?: boolean;
   icon?: string;
