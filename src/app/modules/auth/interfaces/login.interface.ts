@@ -1,4 +1,4 @@
-import { IInputErrorComponent } from '../input-error';
+import { IInputErrorComponent } from "@shared/components";
 
 export interface ILoginComponent {
   showConfigurator?: boolean;

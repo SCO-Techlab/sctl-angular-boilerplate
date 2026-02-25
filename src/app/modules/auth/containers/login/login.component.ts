@@ -3,14 +3,14 @@ import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { FloatingConfigurator } from '@layout/components';
+import { InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { InputErrorComponent } from '../input-error';
-import { ILoginComponent, ILoginComponentEvent } from './login.interface';
+import { ILoginComponent, ILoginComponentEvent } from '../../interfaces';
 
 @Component({
   selector: 'sctl-login',

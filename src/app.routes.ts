@@ -14,6 +14,6 @@ export const appRoutes: Routes = [
   },
   //{ path: 'landing', component: Landing },
   { path: 'notfound', component: NotfoundComponent },
-  // { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
+  { path: 'auth', loadChildren: () => import('./app/modules/auth/auth.routes') },
   { path: '**', redirectTo: '/notfound' }
 ];
