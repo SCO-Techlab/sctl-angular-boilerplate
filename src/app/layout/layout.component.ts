@@ -1,21 +1,22 @@
-import { ILayout, Layout } from '@/shared/layout';
 import { CONFIG_CONSTANTS, ConfigService } from '@/shared/services';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { LayoutContainerComponent } from './components';
+import { ILayoutContainerComponent } from './interfaces';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'sctl-layout',
   standalone: true,
   templateUrl: './layout.component.html',
   imports: [
     CommonModule,
-    Layout
+    LayoutContainerComponent
   ]
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
 
   public viewInit: boolean = false;
-  public config: ILayout;
+  public config: ILayoutContainerComponent;
 
   @ViewChild('footerTemplate') private footerTemplate!: TemplateRef<any>;
   @ViewChild('logoTemplate') private logoTemplate!: TemplateRef<any>;

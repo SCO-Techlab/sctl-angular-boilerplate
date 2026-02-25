@@ -7,8 +7,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { InputErrorComponent } from '../../../components';
-import { MAGIC_NUMBERS, REGEX_PATTERNS } from '../../../constants';
+import { InputErrorComponent } from '../../../shared/components';
+import { MAGIC_NUMBERS, REGEX_PATTERNS } from '../../../shared/constants';
 import { ILayoutLogin, ILayoutLoginEvent } from '../../interfaces';
 import { FloatingConfigurator } from '../floatingconfigurator';
 

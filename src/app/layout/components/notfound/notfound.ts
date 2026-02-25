@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { MAGIC_NUMBERS } from '../../../constants';
+import { MAGIC_NUMBERS } from '../../../shared/constants';
 import { ILayoutNotfound } from '../../interfaces';
 import { FloatingConfigurator } from '../floatingconfigurator';
 

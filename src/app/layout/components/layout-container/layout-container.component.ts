@@ -1,19 +1,19 @@
+import { CONFIG_CONSTANTS, ConfigService } from '@/shared/services';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { CONFIG_CONSTANTS, ConfigService } from '../../services';
-import { Footer } from '../components/footer/footer';
-import { Sidebar } from '../components/sidebar/sidebar';
-import { Topbar } from '../components/topbar/topbar';
-import { LAYOUT_MENU } from '../enums';
-import { ILayout, ILayoutFooter, ILayoutSidebar, ILayoutTopbar } from '../interfaces';
-import { LayoutService } from '../services/layout.service';
+import { LAYOUT_MENU } from '../../enums';
+import { ILayoutContainerComponent, ILayoutFooter, ILayoutSidebar, ILayoutTopbar } from '../../interfaces';
+import { LayoutService } from '../../services';
+import { Sidebar } from '../sidebar';
+import { Topbar } from '../topbar';
+import { Footer } from '../footer';
 
 @Component({
-  selector: 'sctl-layout',
+  selector: 'sctl-layout-container',
   standalone: true,
-  templateUrl: './layout.html',
+  templateUrl: './layout-container.component.html',
   imports: [
     CommonModule,
     Topbar,
@@ -22,9 +22,9 @@ import { LayoutService } from '../services/layout.service';
     Footer
   ],
 })
-export class Layout implements OnInit {
+export class LayoutContainerComponent implements OnInit {
 
-  @Input() config: ILayout = {
+  @Input() config: ILayoutContainerComponent = {
     footerConfig: {},
     sidebarConfig: {},
     topbarConfig: {}

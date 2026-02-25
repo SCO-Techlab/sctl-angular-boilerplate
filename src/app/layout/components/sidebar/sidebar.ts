@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, ElementRef, Input } from '@angular/core';
-import { CONFIG_CONSTANTS, ConfigService } from '../../../services';
+import { CONFIG_CONSTANTS, ConfigService } from '../../../shared/services';
 import { ILayoutSidebar } from '../../interfaces';
 import { Menu } from '../menu/menu';
 

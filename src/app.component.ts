@@ -1,4 +1,4 @@
-import { Shell } from '@/shell';
+import { ShellComponent } from '@/shell';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `<sctl-shell></sctl-shell>`,
   imports: [
-    Shell
+    ShellComponent
   ]
 })
 export class AppComponent {

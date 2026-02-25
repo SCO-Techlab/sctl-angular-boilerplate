@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
-import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '../../../services';
+import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '../../../shared/services';
 import { ILayoutTopbar } from '../../interfaces/layout-topbar.interface';
 import { LayoutService } from '../../services/layout.service';
 import { Configurator } from '../configurator/configurator';

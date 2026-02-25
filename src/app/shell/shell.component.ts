@@ -1,10 +1,11 @@
 import { SpinnerComponent, TOAST_POSITION, ToastComponent } from '@/shared/components';
 import { MAGIC_NUMBERS } from '@/shared/constants';
-import { ILayoutConfig, LayoutService } from '@/shared/layout';
 import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '@/shared/services';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IShellComponent } from './shell.interface';
+import { LayoutService } from '@/layout/services';
+import { ILayoutConfig } from '@/layout/interfaces';
 
 @Component({
   selector: 'sctl-shell',
@@ -16,9 +17,8 @@ import { IShellComponent } from './shell.interface';
     ToastComponent
   ]
 })
-export class Shell implements OnInit {
+export class ShellComponent implements OnInit {
 
-  public readonly TOAST_POSITION = TOAST_POSITION;
   public config: IShellComponent = {};
 
   constructor(

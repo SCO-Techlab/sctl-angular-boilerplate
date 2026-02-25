@@ -1,21 +1,8 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MAGIC_NUMBERS } from '../../constants';
-import { ILayoutConfig } from '../interfaces';
+import { MAGIC_NUMBERS } from '../../shared/constants';
+import { ILayoutConfig, ILayoutState, IMenuChangeEvent } from '../interfaces';
 import { LAYOUT_CONSTANTS } from '../constants';
-
-interface LayoutState {
-  staticMenuDesktopInactive?: boolean;
-  overlayMenuActive?: boolean;
-  configSidebarVisible?: boolean;
-  staticMenuMobileActive?: boolean;
-  menuHoverActive?: boolean;
-}
-
-interface MenuChangeEvent {
-  key: string;
-  routeEvent?: boolean;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +16,7 @@ export class LayoutService {
     menuMode: LAYOUT_CONSTANTS.DEFAULT_THEME.MENU_MODE
   };
 
-  _state: LayoutState = {
+  _state: ILayoutState = {
     staticMenuDesktopInactive: false,
     overlayMenuActive: false,
     configSidebarVisible: false,
@@ -39,13 +26,13 @@ export class LayoutService {
 
   layoutConfig = signal<ILayoutConfig>(this._config);
 
-  layoutState = signal<LayoutState>(this._state);
+  layoutState = signal<ILayoutState>(this._state);
 
   private configUpdate = new Subject<ILayoutConfig>();
 
   private overlayOpen = new Subject<any>();
 
-  private menuSource = new Subject<MenuChangeEvent>();
+  private menuSource = new Subject<IMenuChangeEvent>();
 
   private resetSource = new Subject();
 
@@ -163,7 +150,7 @@ export class LayoutService {
     this.configUpdate.next(this.layoutConfig());
   }
 
-  onMenuStateChange(event: MenuChangeEvent) {
+  onMenuStateChange(event: IMenuChangeEvent) {
     this.menuSource.next(event);
   }
 
