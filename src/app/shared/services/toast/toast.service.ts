@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MAGIC_NUMBERS } from '../../constants';
-import { IToastMessage } from '../../interfaces/toast.interface';
+import { IToastMessage } from '../../interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {

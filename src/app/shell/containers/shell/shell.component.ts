@@ -4,9 +4,9 @@ import { ILayoutConfig } from '@layout/interfaces';
 import { LayoutService } from '@layout/services';
 import { SpinnerComponent, ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
+import { TOAST_POSITION } from '@shared/enums';
 import { ConfigService, ScreenService } from '@shared/services';
 import { IShellComponent } from '../../interfaces';
-import { TOAST_POSITION } from '@shared/enums';
 
 @Component({
   selector: 'sctl-shell',

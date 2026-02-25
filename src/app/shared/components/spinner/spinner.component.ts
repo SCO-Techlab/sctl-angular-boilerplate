@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { LoaderComponent } from '../loader';
-import { SpinnerService } from '../../services/spinner';
+import { SpinnerService } from '../../services';
 import { ISpinnerComponent } from '../../interfaces';
 
 @Component({
