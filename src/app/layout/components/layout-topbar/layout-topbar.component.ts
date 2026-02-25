@@ -7,7 +7,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { ConfigService, ScreenService } from '../../../shared/services';
 import { ILayoutTopbarComponent } from '../../interfaces/layout-topbar.interface';
 import { LayoutService } from '../../../shared/services/layout/layout.service';
-import { LayoutConfiguratorComponent } from '../layout-configurator/layout-configurator.component';
+import { ThemeConfiguratorComponent } from '@shared/components';
 
 @Component({
   selector: 'sctl-layout-topbar',
@@ -17,7 +17,7 @@ import { LayoutConfiguratorComponent } from '../layout-configurator/layout-confi
     RouterModule,
     CommonModule,
     StyleClassModule,
-    LayoutConfiguratorComponent
+    ThemeConfiguratorComponent
   ],
 })
 export class LayoutTopbarComponent {

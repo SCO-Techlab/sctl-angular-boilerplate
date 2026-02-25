@@ -3,7 +3,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LayoutService } from '../../../shared/services/layout/layout.service';
-import { LayoutConfiguratorComponent } from '../layout-configurator/layout-configurator.component';
+import { ThemeConfiguratorComponent } from "@shared/components";
 
 @Component({
   selector: 'sctl-floating-configurator',
@@ -12,7 +12,7 @@ import { LayoutConfiguratorComponent } from '../layout-configurator/layout-confi
     CommonModule,
     ButtonModule,
     StyleClassModule,
-    LayoutConfiguratorComponent
+    ThemeConfiguratorComponent
   ],
 })
 export class FloatingConfigurator {

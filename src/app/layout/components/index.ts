@@ -1,4 +1,3 @@
-export * from './layout-configurator';
 export * from './floatingconfigurator';
 export * from './layout-footer';
 export * from './layout-content';
