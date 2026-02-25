@@ -1,9 +1,9 @@
-import { FloatingConfigurator } from '@/layout/components';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { IErrorComponent } from './error.interface';
+import { FloatingConfigurator } from '@layout/components';
 
 @Component({
   selector: 'sctl-error',

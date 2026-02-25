@@ -1,6 +1,6 @@
-import { ILayoutFooterComponent } from '@/layout/interfaces';
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ILayoutFooterComponent } from '@layout/interfaces';
 
 @Component({
   standalone: true,

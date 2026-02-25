@@ -1,11 +1,11 @@
-import { SpinnerComponent, TOAST_POSITION, ToastComponent } from '@/shared/components';
-import { MAGIC_NUMBERS } from '@/shared/constants';
-import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '@/shared/services';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IShellComponent } from './shell.interface';
-import { LayoutService } from '@/layout/services';
-import { ILayoutConfig } from '@/layout/interfaces';
+import { ILayoutConfig } from '@layout/interfaces';
+import { LayoutService } from '@layout/services';
+import { SpinnerComponent, TOAST_POSITION, ToastComponent } from '@shared/components';
+import { MAGIC_NUMBERS } from '@shared/constants';
+import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '@shared/services';
+import { IShellComponent } from '../../interfaces';
 
 @Component({
   selector: 'sctl-shell',
@@ -21,11 +21,11 @@ export class ShellComponent implements OnInit {
 
   public config: IShellComponent = {};
 
-  constructor(
-    private layoutService: LayoutService,
-    private configService: ConfigService,
-    private screenService: ScreenService
-  ) {
+  private layoutService = inject(LayoutService);
+  private configService = inject(ConfigService);
+  private screenService = inject(ScreenService);
+
+  constructor() {
     this.setConfigTheme();
     this.screenService.setSize(window.innerWidth);
   }

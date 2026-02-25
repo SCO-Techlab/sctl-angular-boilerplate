@@ -5,8 +5,8 @@ import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScroll
 import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
-import { ConfigInitializerFactory, ConfigService, translateProvider } from '@/shared/services';
-import { ToastService } from '@/shared/components';
+import { ToastService } from '@shared/components';
+import { ConfigInitializerFactory, ConfigService, translateProvider } from '@shared/services';
 
 export const appConfig: ApplicationConfig = {
   providers: [

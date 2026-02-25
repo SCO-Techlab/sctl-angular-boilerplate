@@ -1,5 +1,5 @@
-import { ShellComponent } from '@/shell';
 import { Component } from '@angular/core';
+import { ShellComponent } from '@shell/containers';
 
 @Component({
   selector: 'app-root',
