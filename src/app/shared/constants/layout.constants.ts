@@ -1,4 +1,4 @@
-import { LAYOUT_MENU, LAYOUT_PRESET, LAYOUT_PRIMARY } from '../enums';
+import { LAYOUT_MENU, LAYOUT_PRESET, LAYOUT_PRIMARY } from "@shared/enums";
 
 export const LAYOUT_CONSTANTS = {
   DEFAULT_THEME: {

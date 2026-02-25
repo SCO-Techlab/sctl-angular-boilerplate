@@ -6,7 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ConfigService, ScreenService } from '../../../shared/services';
 import { ILayoutTopbarComponent } from '../../interfaces/layout-topbar.interface';
-import { LayoutService } from '../../services/layout.service';
+import { LayoutService } from '../../../shared/services/layout/layout.service';
 import { LayoutConfiguratorComponent } from '../layout-configurator/layout-configurator.component';
 
 @Component({

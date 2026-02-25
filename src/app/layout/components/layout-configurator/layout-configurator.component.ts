@@ -8,7 +8,7 @@ import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
 import { PrimeNG } from 'primeng/config';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { LayoutService } from '../../services/layout.service';
+import { LayoutService } from '../../../shared/services/layout/layout.service';
 
 const presets = {
   Aura,

@@ -7,3 +7,4 @@ export * from './notfound.interface';
 export * from './spinner.interface';
 export * from './toast.interface';
 export * from './translate.interface';
+export * from './layout.interface';

@@ -1,12 +1,11 @@
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ILayoutConfig } from '@layout/interfaces';
-import { LayoutService } from '@layout/services';
 import { SpinnerComponent, ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
-import { ConfigService, ScreenService } from '@shared/services';
+import { ConfigService, LayoutService, ScreenService } from '@shared/services';
 import { IShellComponent } from '../../interfaces';
+import { ILayoutConfig } from '@shared/interfaces';
 
 @Component({
   selector: 'sctl-shell',
