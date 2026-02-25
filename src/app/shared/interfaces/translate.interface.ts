@@ -3,3 +3,7 @@ export interface ITranslateConfig {
   availableLangs: string[];
   path: string;
 }
+
+export interface ITranslateLiterals {
+  [key: string]: any;
+}

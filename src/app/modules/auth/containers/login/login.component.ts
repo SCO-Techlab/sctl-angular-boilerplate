@@ -1,10 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
-import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
+import { REGEX_PATTERNS } from '@shared/constants';
+import { INPUT_ERROR } from '@shared/enums';
+import { ITranslateLiterals } from '@shared/interfaces';
+import { TranslateModule } from '@shared/modules';
+import { TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -27,23 +32,32 @@ import { RippleModule } from 'primeng/ripple';
     RippleModule,
     FloatingThemeConfigurator,
     InputErrorComponent,
+    TranslateModule
   ],
 })
 export class LoginComponent implements OnInit {
 
-  @Output() login = new EventEmitter<ILoginComponentEvent>();
-  @Output() forgotPassword = new EventEmitter<void>();
-
   public config: ILoginComponent = {};
   public loginForm: FormGroup;
 
+  private literals: ITranslateLiterals;
+
+  private destroyRef$ = inject(DestroyRef);
   private router = inject(Router);
+  private translate = inject(TranslateService);
 
   ngOnInit(): void {
-    this.checkDefaultConfig();
     this.initForm();
-    this.setRememberedInitialValues();
-    this.setFormControlsErrors();
+    this.checkDefaultConfig();
+
+    this.translate.stream('AUTH.LOGIN')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: ITranslateLiterals) => {
+        this.literals = res;
+        this.setCustomConfig();
+        this.setRememberedInitialValues();
+        this.setConfigFormErrors();
+      });
   }
 
   onClickLogo(): void {
@@ -53,17 +67,26 @@ export class LoginComponent implements OnInit {
   }
 
   onClickForgotPassword(): void {
-    this.forgotPassword.emit();
+    this.router.navigate(['/auth/forgot-password']);
   }
 
-  onClickButton(rememberMeLogin: boolean = false): void {
+  onClickButton(autoLogin: boolean = false): void {
     const event: ILoginComponentEvent = {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
       rememberMe: this.loginForm.get('rememberMe')?.value,
-      rememberMeLogin
+      autoLogin
     };
-    this.login.emit(event);
+
+    console.log(event);
+  }
+
+  private initForm(): void {
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
+      password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
+      rememberMe: new FormControl(false)
+    });
   }
 
   private checkDefaultConfig(): void {
@@ -84,14 +107,29 @@ export class LoginComponent implements OnInit {
     this.config.forgotPasswordEnabled = this.config?.forgotPasswordEnabled ?? true;
     this.config.forgotPasswordLabel = this.config?.forgotPasswordLabel ?? 'Forgot password?';
     this.config.buttonLabel = this.config?.buttonLabel ?? 'Sign In';
+    this.config.initialValues = {
+      email: this.config?.initialValues?.email ?? '',
+      password: this.config?.initialValues?.password ?? '',
+      rememberMe: this.config?.initialValues?.rememberMe ?? false
+    };
+    this.config.formErrors = {
+      email: this.config?.formErrors?.email ?? {},
+      password: this.config?.formErrors?.password ?? {}
+    };
   }
 
-  private initForm(): void {
-    this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
-      password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
-      rememberMe: new FormControl(false)
-    });
+  private setCustomConfig(): void {
+    this.config.title = this.literals['TITLE'];
+    this.config.subTitle = this.literals['SUB_TITLE'];
+    this.config.emailLabel = this.literals['EMAIL_LABEL'];
+    this.config.emailPlaceholder = this.literals['EMAIL_PLACEHOLDER'];
+    this.config.passwordLabel = this.literals['PASSWORD_LABEL'];
+    this.config.passwordPlaceholder = this.literals['PASSWORD_PLACEHOLDER'];
+    this.config.rememberMeEnabled = this.config?.rememberMeEnabled ?? true;
+    this.config.rememberMeLabel = this.literals['REMEMBER_ME'];
+    this.config.forgotPasswordEnabled = this.config?.forgotPasswordEnabled ?? true;
+    this.config.forgotPasswordLabel = this.literals['FORGOT_PASSWORD'];
+    this.config.buttonLabel = this.literals['BUTTON_LABEL'];
   }
 
   private setRememberedInitialValues(): void {
@@ -117,13 +155,22 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  private setFormControlsErrors(): void {
-    if (
-      this.config?.formErrors?.email.errorsToShow?.length > MAGIC_NUMBERS.N_0 ||
-      this.config?.formErrors?.password.errorsToShow?.length > MAGIC_NUMBERS.N_0
-    ) {
-      this.config.formErrors.email.formControl = this.loginForm.get('email');
-      this.config.formErrors.password.formControl = this.loginForm.get('password');
-    }
+  private setConfigFormErrors(): void {
+    this.config.formErrors = {
+      email: {
+        formControl: this.loginForm.get('email'),
+        errorsToShow: [
+          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['EMAIL'] },
+          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['EMAIL_INVALID'] }
+        ]
+      },
+      password: {
+        formControl: this.loginForm.get('password'),
+        errorsToShow: [
+          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['PASSWORD'] },
+          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['PASSWORD_INVALID'] }
+        ]
+      }
+    };
   }
 }

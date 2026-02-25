@@ -1,3 +1,21 @@
 {
-    "HELLO_WORLD": "¡Hola Mundo!"
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Iniciar sesión",
+      "SUB_TITLE": "Iniciar sesión para continuar",
+      "EMAIL_LABEL": "Correo electrónico",
+      "EMAIL_PLACEHOLDER": "Correo electrónico",
+      "PASSWORD_LABEL": "Contraseña",
+      "PASSWORD_PLACEHOLDER": "Contraseña",
+      "REMEMBER_ME": "Recuerdame",
+      "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+      "BUTTON_LABEL": "Iniciar sesión",
+      "ERROR": {
+        "EMAIL": "El correo electrónico es obligatorio",
+        "EMAIL_INVALID": "El correo electrónico no es válido",
+        "PASSWORD": "La contraseña es obligatoria",
+        "PASSWORD_INVALID": "La contraseña no es válida"
+      }
+    }
+  }
 }

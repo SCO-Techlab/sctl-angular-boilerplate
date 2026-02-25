@@ -33,5 +33,5 @@ export interface ILoginComponentEvent {
   email: string;
   password: string;
   rememberMe: boolean;
-  rememberMeLogin?: boolean;
+  autoLogin?: boolean;
 }

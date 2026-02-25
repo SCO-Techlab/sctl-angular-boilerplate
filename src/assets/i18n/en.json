@@ -1,3 +1,21 @@
 {
-    "HELLO_WORLD": "Hello World!"
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Sign In",
+      "SUB_TITLE": "Sign in to continue",
+      "EMAIL_LABEL": "Email",
+      "EMAIL_PLACEHOLDER": "Email address",
+      "PASSWORD_LABEL": "Password",
+      "PASSWORD_PLACEHOLDER": "Password",
+      "REMEMBER_ME": "Remember me",
+      "FORGOT_PASSWORD": "Forgot password?",
+      "BUTTON_LABEL": "Sign In",
+      "ERROR": {
+        "EMAIL": "Email is required",
+        "EMAIL_INVALID": "Email is invalid",
+        "PASSWORD": "Password is required",
+        "PASSWORD_INVALID": "Password is invalid"
+      }
+    }
+  }
 }

@@ -22,19 +22,12 @@ export class NotfoundComponent {
 
   ngOnInit(): void {
     this.config = {
-      showConfigurator: true,
+      showConfigurator: false,
       title: 'Not Found',
       message: 'Requested resource is not available.',
       buttonLabel: 'Go to Dashboard',
       buttonLink: '/',
-      actions: [
-        {
-          icon: 'pi-table',
-          title: 'Example',
-          subTitle: 'Sub title example',
-          link: '/'
-        }
-      ]
+      actions: []
     };
 
     this.checkDefaultConfig();

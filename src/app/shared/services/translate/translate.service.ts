@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { MAGIC_NUMBERS } from '@shared/constants';
-import { ITranslateConfig } from '@shared/interfaces';
+import { ITranslateConfig, ITranslateLiterals } from '@shared/interfaces';
 import { BehaviorSubject, from, map, Observable, of, startWith, switchMap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,6 @@ export class TranslateService {
     this._onLangChange = new BehaviorSubject<string>(this._currentLang);
     this._onLangChange$ = this._onLangChange.asObservable();
     this.setNavigatorLanguage();
-    this.use(this._currentLang);
   }
 
   public get currentLang(): string {
@@ -93,7 +92,7 @@ export class TranslateService {
     return translation ? this.interpolate(translation, params) : key;
   }
 
-  get(key: string, params?: Record<string, any>): Observable<string> {
+  get(key: string, params?: Record<string, any>): Observable<string | ITranslateLiterals> {
     const translation = this.instant(key, params);
     if (translation !== key) return of(translation);
 
@@ -102,9 +101,8 @@ export class TranslateService {
     );
   }
 
-  stream(key: string, params?: Record<string, any>): Observable<string> {
+  stream(key: string, params?: Record<string, any>): Observable<string | ITranslateLiterals> {
     return this._onLangChange$.pipe(
-      startWith(this.currentLang),
       switchMap(() => this.get(key, params))
     );
   }
