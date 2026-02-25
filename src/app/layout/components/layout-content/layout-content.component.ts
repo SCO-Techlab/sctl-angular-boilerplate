@@ -4,16 +4,16 @@ import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { LAYOUT_MENU } from '../../enums';
-import { ILayoutContainerComponent, ILayoutFooter, ILayoutSidebar, ILayoutTopbar } from '../../interfaces';
+import { ILayoutContentComponent, ILayoutFooter, ILayoutSidebar, ILayoutTopbar } from '../../interfaces';
 import { LayoutService } from '../../services';
 import { Sidebar } from '../sidebar';
 import { Topbar } from '../topbar';
 import { Footer } from '../footer';
 
 @Component({
-  selector: 'sctl-layout-container',
+  selector: 'sctl-layout-content',
   standalone: true,
-  templateUrl: './layout-container.component.html',
+  templateUrl: './layout-content.component.html',
   imports: [
     CommonModule,
     Topbar,
@@ -22,9 +22,9 @@ import { Footer } from '../footer';
     Footer
   ],
 })
-export class LayoutContainerComponent implements OnInit {
+export class LayoutContentComponent implements OnInit {
 
-  @Input() config: ILayoutContainerComponent = {
+  @Input() config: ILayoutContentComponent = {
     footerConfig: {},
     sidebarConfig: {},
     topbarConfig: {}

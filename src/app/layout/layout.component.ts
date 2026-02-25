@@ -1,8 +1,8 @@
 import { CONFIG_CONSTANTS, ConfigService } from '@/shared/services';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { LayoutContainerComponent } from './components';
-import { ILayoutContainerComponent } from './interfaces';
+import { LayoutContentComponent } from './components';
+import { ILayoutContentComponent } from './interfaces';
 
 @Component({
   selector: 'sctl-layout',
@@ -10,13 +10,13 @@ import { ILayoutContainerComponent } from './interfaces';
   templateUrl: './layout.component.html',
   imports: [
     CommonModule,
-    LayoutContainerComponent
+    LayoutContentComponent
   ]
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
 
   public viewInit: boolean = false;
-  public config: ILayoutContainerComponent;
+  public config: ILayoutContentComponent;
 
   @ViewChild('footerTemplate') private footerTemplate!: TemplateRef<any>;
   @ViewChild('logoTemplate') private logoTemplate!: TemplateRef<any>;

@@ -10,7 +10,7 @@ export interface ILayoutConfig {
   menuMode?: string;
 }
 
-export interface ILayoutContainerComponent {
+export interface ILayoutContentComponent {
   footerConfig?: ILayoutFooter;
   sidebarConfig?: ILayoutSidebar;
   topbarConfig?: ILayoutTopbar;
