@@ -22,17 +22,20 @@
             "@environment": [
                 "src/environments/index.ts"
             ],
-            "@shell/*": [
-                "src/app/shell/*"
-            ],
-            "@shared/*": [
-                "src/app/shared/*"
-            ],
             "@layout/*": [
                 "src/app/layout/*"
             ],
             "@modules/*": [
                 "src/app/modules/*"
+            ],
+            "@persist-storage/*": [
+                "src/app/persist-storage/*"
+            ],
+            "@shared/*": [
+                "src/app/shared/*"
+            ],
+            "@shell/*": [
+                "src/app/shell/*"
             ],
         }
     },

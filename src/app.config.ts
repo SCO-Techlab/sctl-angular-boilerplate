@@ -1,7 +1,11 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
+import { environment } from '@environment';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { NgxsModule } from '@ngxs/store';
+import { PersistStorageState } from '@persist-storage/persist-storage.state';
 import Aura from '@primeuix/themes/aura';
 import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
 import { ConfigService, ToastService } from '@shared/services';
@@ -25,6 +29,13 @@ export const appConfig: ApplicationConfig = {
         }
       }
     }),
+    importProvidersFrom(
+      NgxsModule.forRoot(
+        [PersistStorageState],
+        { developmentMode: !environment.production }
+      ),
+      NgxsStoragePluginModule.forRoot({ keys: ['persiststorage'] })
+    ),
     {
       provide: APP_INITIALIZER,
       useFactory: ConfigInitializerFactory,
