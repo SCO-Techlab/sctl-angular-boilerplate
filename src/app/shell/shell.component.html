@@ -1,0 +1,9 @@
+@if (config?.spinnerEnabled) {
+  <sctl-spinner [config]="config?.spinnerConfig"></sctl-spinner>
+}
+
+@if (config?.toastEnabled) {
+  <sctl-toast [config]="config?.toastConfig"></sctl-toast>
+}
+
+<router-outlet></router-outlet>

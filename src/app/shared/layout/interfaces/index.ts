@@ -4,7 +4,6 @@ export * from './layout-footer.interface';
 export * from './layout-login.interface';
 export * from './layout-menu.interface';
 export * from './layout-notfound.interface';
-export * from './layout-shell.interface';
 export * from './layout-sidebar.interface';
 export * from './layout-topbar.interface';
 export * from './layout.interface';

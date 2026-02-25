@@ -1,32 +1,25 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { SpinnerComponent, TOAST_POSITION, ToastComponent } from '@/shared/components';
+import { MAGIC_NUMBERS } from '@/shared/constants';
+import { ILayoutConfig, LayoutService } from '@/shared/layout';
+import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '@/shared/services';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SpinnerComponent, TOAST_POSITION, ToastComponent } from '../../components';
-import { MAGIC_NUMBERS } from '../../constants';
-import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '../../services';
-import { ILayoutConfig, ILayoutShell } from '../interfaces';
-import { LayoutService } from '../services';
+import { IShellComponent } from './shell.interface';
 
 @Component({
   selector: 'sctl-shell',
   standalone: true,
-  template: `
-    @if (config?.spinnerEnabled) {
-      <sctl-spinner [config]="config?.spinnerConfig"></sctl-spinner>
-    }
-
-    @if (config?.toastEnabled) {
-      <sctl-toast [config]="config?.toastConfig"></sctl-toast>
-    }
-
-    <router-outlet></router-outlet>
-  `,
-  imports: [RouterModule, SpinnerComponent, ToastComponent]
+  templateUrl: './shell.component.html',
+  imports: [
+    RouterModule,
+    SpinnerComponent,
+    ToastComponent
+  ]
 })
 export class Shell implements OnInit {
 
   public readonly TOAST_POSITION = TOAST_POSITION;
-
-  @Input() config: ILayoutShell = {};
+  public config: IShellComponent = {};
 
   constructor(
     private layoutService: LayoutService,

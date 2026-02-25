@@ -1,6 +1,6 @@
-import { ISpinnerComponent, IToastComponent } from '../../components';
+import { ISpinnerComponent, IToastComponent } from '../shared/components';
 
-export interface ILayoutShell {
+export interface IShellComponent {
   spinnerEnabled?: boolean;
   spinnerConfig?: ISpinnerComponent;
   toastEnabled?: boolean;
