@@ -2,12 +2,12 @@ import { CommonModule } from "@angular/common";
 import { Component, computed, inject, input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
-import { LayoutService } from '../../../shared/services/layout/layout.service';
-import { ThemeConfiguratorComponent } from "@shared/components";
+import { ThemeConfiguratorComponent } from "../../components";
+import { LayoutService } from '../../services';
 
 @Component({
-  selector: 'sctl-floating-configurator',
-  templateUrl: './floatingconfigurator.html',
+  selector: 'sctl-floating-theme-configurator',
+  templateUrl: './floating-theme-configurator.html',
   imports: [
     CommonModule,
     ButtonModule,
@@ -15,7 +15,7 @@ import { ThemeConfiguratorComponent } from "@shared/components";
     ThemeConfiguratorComponent
   ],
 })
-export class FloatingConfigurator {
+export class FloatingThemeConfigurator {
   LayoutService = inject(LayoutService);
 
   float = input<boolean>(true);

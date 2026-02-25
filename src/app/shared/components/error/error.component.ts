@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { FloatingConfigurator } from '@layout/components';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { IErrorComponent } from '../../interfaces';
+import { FloatingThemeConfigurator } from '../floating-theme-configurator';
 
 @Component({
   selector: 'sctl-error',
@@ -14,7 +14,7 @@ import { IErrorComponent } from '../../interfaces';
       ButtonModule,
       RippleModule,
       RouterModule,
-      FloatingConfigurator
+      FloatingThemeConfigurator
     ],
 })
 export class ErrorComponent implements OnInit {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { FloatingConfigurator } from '@layout/components';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { IAccessComponent } from '../../interfaces';
+import { FloatingThemeConfigurator } from '../floating-theme-configurator';
 
 @Component({
   selector: 'sctl-access',
@@ -13,7 +13,7 @@ import { IAccessComponent } from '../../interfaces';
     ButtonModule,
     RouterModule,
     RippleModule,
-    FloatingConfigurator
+    FloatingThemeConfigurator
   ],
 })
 export class AccessComponent implements OnInit {

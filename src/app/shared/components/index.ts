@@ -7,3 +7,4 @@ export * from './notfound';
 export * from './spinner';
 export * from './theme-configurator';
 export * from './toast';
+export * from './floating-theme-configurator';

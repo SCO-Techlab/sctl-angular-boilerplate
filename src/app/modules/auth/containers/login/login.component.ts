@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { FloatingConfigurator } from '@layout/components';
-import { InputErrorComponent } from '@shared/components';
+import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -26,7 +25,7 @@ import { ILoginComponent, ILoginComponentEvent } from '../../interfaces';
     ReactiveFormsModule,
     RouterModule,
     RippleModule,
-    FloatingConfigurator,
+    FloatingThemeConfigurator,
     InputErrorComponent,
   ],
 })
