@@ -9,7 +9,6 @@ export const appRoutes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: DashboardComponent },
-      // { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
     ]
   },
   { path: 'notfound', component: NotfoundComponent },
