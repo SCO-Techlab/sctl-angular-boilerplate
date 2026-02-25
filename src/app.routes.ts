@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './app/modules/dashboard';
 import { LayoutComponent } from '@layout/layout.component';
+import { DashboardComponent } from '@modules/dashboard';
 import { NotfoundComponent } from '@shared/components';
 
 export const appRoutes: Routes = [
@@ -10,8 +10,6 @@ export const appRoutes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       // { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-      // { path: 'documentation', component: Documentation },
-      // { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
     ]
   },
   //{ path: 'landing', component: Landing },
