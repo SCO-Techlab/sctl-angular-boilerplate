@@ -19,17 +19,17 @@
         "module": "ES2022",
         "baseUrl": "./",
         "paths": {
-            "@shell": [
-                "src/app/shell"
+            "@shell/*": [
+                "src/app/shell/*"
             ],
-            "@shared": [
-                "src/app/shared"
+            "@shared/*": [
+                "src/app/shared/*"
             ],
-            "@layout": [
-                "src/app/layout"
+            "@layout/*": [
+                "src/app/layout/*"
             ],
-            "@modules": [
-                "src/app/modules"
+            "@modules/*": [
+                "src/app/modules/*"
             ],
         }
     },
