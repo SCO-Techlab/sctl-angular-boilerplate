@@ -1,6 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
-export interface ILayoutTopbar {
+export interface ILayoutTopbarComponent {
   menuButtonCssClass?: string;
   menuButtonIconSize?: string;
   logoTemplate?: TemplateRef<any>;
@@ -9,12 +9,12 @@ export interface ILayoutTopbar {
   logoText?: string;
   logoCssClass?: string;
   actionsTemplate?: TemplateRef<any>;
-  actions?: ILayoutTopbarAction[];
+  actions?: ILayoutTopbarComponentAction[];
   switchThemeDarkModeLabel?: string;
   switchThemeLightModeLabel?: string;
 }
 
-export interface ILayoutTopbarAction {
+export interface ILayoutTopbarComponentAction {
   icon: string;
   label: string;
   command?: (event: any) => void;

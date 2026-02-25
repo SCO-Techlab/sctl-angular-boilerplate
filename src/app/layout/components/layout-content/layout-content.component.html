@@ -1,8 +1,8 @@
 <div class="layout-wrapper" [ngClass]="containerClass">
-  <sctl-topbar [config]="config?.topbarConfig"></sctl-topbar>
+  <sctl-layout-topbar [config]="config?.topbarConfig"></sctl-layout-topbar>
 
   @if (isSidebarEnabled) {
-    <sctl-sidebar [config]="config?.sidebarConfig"></sctl-sidebar>
+    <sctl-layout-sidebar [config]="config?.sidebarConfig"></sctl-layout-sidebar>
   }
 
   <div class="layout-main-container" [ngClass]="{'layout-main-container__static-menu-open': staticMenuOpen}">
@@ -10,7 +10,7 @@
       <router-outlet></router-outlet>
     </div>
     @if (isFooterEnabled) {
-      <sctl-footer [config]="config?.footerConfig"></sctl-footer>
+      <sctl-layout-footer [config]="config?.footerConfig"></sctl-layout-footer>
     }
   </div>
 

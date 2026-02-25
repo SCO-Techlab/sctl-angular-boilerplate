@@ -10,8 +10,8 @@ import { LayoutService } from '../../services/layout.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[sctl-menuitem]',
-  templateUrl: './menuitem.html',
+  selector: '[sctl-layout-menu-item]',
+  templateUrl: './layout-menu-item.component.html',
   animations: [
     trigger('children', [
       state(
@@ -36,7 +36,7 @@ import { LayoutService } from '../../services/layout.service';
   ],
   providers: [LayoutService]
 })
-export class Menuitem {
+export class LayoutMenuItemComponent {
   @Input() item!: MenuItem;
 
   @Input() index!: number;

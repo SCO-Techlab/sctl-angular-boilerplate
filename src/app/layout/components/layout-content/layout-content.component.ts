@@ -4,11 +4,11 @@ import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { LAYOUT_MENU } from '../../enums';
-import { ILayoutContentComponent, ILayoutFooter, ILayoutSidebar, ILayoutTopbar } from '../../interfaces';
+import { ILayoutContentComponent, ILayoutFooterComponent, ILayoutSidebarComponent, ILayoutTopbarComponent } from '../../interfaces';
 import { LayoutService } from '../../services';
-import { Sidebar } from '../sidebar';
-import { Topbar } from '../topbar';
-import { Footer } from '../footer';
+import { LayoutSidebarComponent } from '../layout-sidebar';
+import { LayoutTopbarComponent } from '../layout-topbar';
+import { LayoutFooterComponent } from '../layout-footer';
 
 @Component({
   selector: 'sctl-layout-content',
@@ -16,10 +16,10 @@ import { Footer } from '../footer';
   templateUrl: './layout-content.component.html',
   imports: [
     CommonModule,
-    Topbar,
-    Sidebar,
+    LayoutTopbarComponent,
+    LayoutSidebarComponent,
     RouterModule,
-    Footer
+    LayoutFooterComponent
   ],
 })
 export class LayoutContentComponent implements OnInit {
@@ -34,9 +34,9 @@ export class LayoutContentComponent implements OnInit {
 
   menuOutsideClickListener: any;
 
-  @ViewChild(Sidebar) appSidebar!: Sidebar;
+  @ViewChild(LayoutSidebarComponent) appSidebar!: LayoutSidebarComponent;
 
-  @ViewChild(Topbar) appTopBar!: Topbar;
+  @ViewChild(LayoutTopbarComponent) appTopBar!: LayoutTopbarComponent;
 
   public isFooterEnabled = true;
   public isSidebarEnabled = true;
@@ -144,7 +144,7 @@ export class LayoutContentComponent implements OnInit {
     }
   }
 
-  private setFooterConfig(config: ILayoutFooter): ILayoutFooter {
+  private setFooterConfig(config: ILayoutFooterComponent): ILayoutFooterComponent {
     config = config ?? {};
     config.footerTemplate = config?.footerTemplate ?? undefined;
     config.footerText = config.footerText ?? '';
@@ -153,14 +153,14 @@ export class LayoutContentComponent implements OnInit {
     return config;
   }
 
-  private setSidebarConfig(config: ILayoutSidebar): ILayoutSidebar {
+  private setSidebarConfig(config: ILayoutSidebarComponent): ILayoutSidebarComponent {
     config = config ?? {};
     config.menuConfig = config?.menuConfig ?? {};
     config.menuConfig.menu = config.menuConfig?.menu ?? [];
     return config;
   }
 
-  private setTopbarConfig(config: ILayoutTopbar): ILayoutTopbar {
+  private setTopbarConfig(config: ILayoutTopbarComponent): ILayoutTopbarComponent {
     config = config ?? {};
     config.menuButtonCssClass = config.menuButtonCssClass ?? 'me-2 mt-2';
     config.menuButtonIconSize = config.menuButtonIconSize ?? '2rem';

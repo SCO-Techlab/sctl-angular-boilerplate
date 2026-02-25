@@ -1,7 +1,3 @@
-import { ILayoutFooter } from './layout-footer.interface';
-import { ILayoutSidebar } from './layout-sidebar.interface';
-import { ILayoutTopbar } from './layout-topbar.interface';
-
 export interface ILayoutConfig {
   preset?: string;
   primary?: string;
@@ -10,8 +6,15 @@ export interface ILayoutConfig {
   menuMode?: string;
 }
 
-export interface ILayoutContentComponent {
-  footerConfig?: ILayoutFooter;
-  sidebarConfig?: ILayoutSidebar;
-  topbarConfig?: ILayoutTopbar;
+export interface ILayoutState {
+  staticMenuDesktopInactive?: boolean;
+  overlayMenuActive?: boolean;
+  configSidebarVisible?: boolean;
+  staticMenuMobileActive?: boolean;
+  menuHoverActive?: boolean;
+}
+
+export interface ILayoutMenuChangeEvent {
+  key: string;
+  routeEvent?: boolean;
 }

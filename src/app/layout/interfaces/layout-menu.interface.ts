@@ -1,5 +1,5 @@
 import { MenuItem } from 'primeng/api';
 
-export interface ILayoutMenu {
+export interface ILayoutMenuComponent {
   menu?: MenuItem[];
 }

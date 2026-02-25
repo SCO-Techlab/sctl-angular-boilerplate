@@ -1,5 +1,5 @@
-import { ILayoutMenu } from './layout-menu.interface';
+import { ILayoutMenuComponent } from './layout-menu.interface';
 
-export interface ILayoutSidebar {
-  menuConfig?: ILayoutMenu;
+export interface ILayoutSidebarComponent {
+  menuConfig?: ILayoutMenuComponent;
 }

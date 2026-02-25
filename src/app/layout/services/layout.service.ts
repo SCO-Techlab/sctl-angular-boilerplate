@@ -1,7 +1,7 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MAGIC_NUMBERS } from '../../shared/constants';
-import { ILayoutConfig, ILayoutState, IMenuChangeEvent } from '../interfaces';
+import { ILayoutConfig, ILayoutState, ILayoutMenuChangeEvent } from '../interfaces';
 import { LAYOUT_CONSTANTS } from '../constants';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class LayoutService {
 
   private overlayOpen = new Subject<any>();
 
-  private menuSource = new Subject<IMenuChangeEvent>();
+  private menuSource = new Subject<ILayoutMenuChangeEvent>();
 
   private resetSource = new Subject();
 
@@ -150,7 +150,7 @@ export class LayoutService {
     this.configUpdate.next(this.layoutConfig());
   }
 
-  onMenuStateChange(event: IMenuChangeEvent) {
+  onMenuStateChange(event: ILayoutMenuChangeEvent) {
     this.menuSource.next(event);
   }
 

@@ -4,24 +4,24 @@ import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
 import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '../../../shared/services';
-import { ILayoutTopbar } from '../../interfaces/layout-topbar.interface';
+import { ILayoutTopbarComponent } from '../../interfaces/layout-topbar.interface';
 import { LayoutService } from '../../services/layout.service';
-import { Configurator } from '../configurator/configurator';
+import { LayoutConfiguratorComponent } from '../layout-configurator/layout-configurator.component';
 
 @Component({
-  selector: 'sctl-topbar',
+  selector: 'sctl-layout-topbar',
   standalone: true,
-  templateUrl: './topbar.html',
+  templateUrl: './layout-topbar.component.html',
   imports: [
     RouterModule,
     CommonModule,
     StyleClassModule,
-    Configurator
+    LayoutConfiguratorComponent
   ],
 })
-export class Topbar {
+export class LayoutTopbarComponent {
 
-  @Input() config: ILayoutTopbar;
+  @Input() config: ILayoutTopbarComponent;
 
   items!: MenuItem[];
 

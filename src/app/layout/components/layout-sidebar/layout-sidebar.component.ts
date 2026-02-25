@@ -1,21 +1,21 @@
 import { NgClass } from '@angular/common';
 import { Component, ElementRef, Input } from '@angular/core';
 import { CONFIG_CONSTANTS, ConfigService } from '../../../shared/services';
-import { ILayoutSidebar } from '../../interfaces';
-import { Menu } from '../menu/menu';
+import { ILayoutSidebarComponent } from '../../interfaces';
+import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
 
 @Component({
-  selector: 'sctl-sidebar',
+  selector: 'sctl-layout-sidebar',
   standalone: true,
-  templateUrl: './sidebar.html',
+  templateUrl: './layout-sidebar.component.html',
   imports: [
     NgClass,
-    Menu
+    LayoutMenuComponent
   ]
 })
-export class Sidebar {
+export class LayoutSidebarComponent {
 
-  @Input() config: ILayoutSidebar;
+  @Input() config: ILayoutSidebarComponent;
 
   public isFloating = true;
 
