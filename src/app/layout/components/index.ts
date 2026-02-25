@@ -7,6 +7,5 @@ export * from './layout-container';
 export * from './login';
 export * from './menu';
 export * from './menuitem';
-export * from './notfound';
 export * from './sidebar';
 export * from './topbar';

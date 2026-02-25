@@ -1,4 +1,4 @@
-import { Notfound } from '@/core';
+import { NotfoundComponent } from '@/core';
 import { DashboardComponent } from '@/dashboard';
 import { LayoutComponent } from '@/layout/layout.component';
 import { Routes } from '@angular/router';
@@ -15,7 +15,7 @@ export const appRoutes: Routes = [
     ]
   },
   //{ path: 'landing', component: Landing },
-  { path: 'notfound', component: Notfound },
+  { path: 'notfound', component: NotfoundComponent },
   // { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
   { path: '**', redirectTo: '/notfound' }
 ];

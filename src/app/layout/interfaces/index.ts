@@ -3,7 +3,6 @@ export * from './layout-error.interface';
 export * from './layout-footer.interface';
 export * from './layout-login.interface';
 export * from './layout-menu.interface';
-export * from './layout-notfound.interface';
 export * from './layout-service.interface';
 export * from './layout-sidebar.interface';
 export * from './layout-topbar.interface';
