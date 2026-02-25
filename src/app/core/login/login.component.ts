@@ -1,5 +1,8 @@
+import { FloatingConfigurator } from '@/layout/components';
+import { InputErrorComponent } from '@/shared/components';
+import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@/shared/constants';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -7,15 +10,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { InputErrorComponent } from '../../../shared/components';
-import { MAGIC_NUMBERS, REGEX_PATTERNS } from '../../../shared/constants';
-import { ILayoutLogin, ILayoutLoginEvent } from '../../interfaces';
-import { FloatingConfigurator } from '../floatingconfigurator';
+import { ILoginComponent, ILoginComponentEvent } from './login.interface';
 
 @Component({
   selector: 'sctl-login',
   standalone: true,
-  templateUrl: './login.html',
+  templateUrl: './login.component.html',
   imports: [
     CommonModule,
     ButtonModule,
@@ -30,18 +30,18 @@ import { FloatingConfigurator } from '../floatingconfigurator';
     InputErrorComponent,
   ],
 })
-export class Login implements OnInit {
+export class LoginComponent implements OnInit {
 
-  @Input() config: ILayoutLogin = {};
-  @Output() login = new EventEmitter<ILayoutLoginEvent>();
+  @Output() login = new EventEmitter<ILoginComponentEvent>();
   @Output() forgotPassword = new EventEmitter<void>();
 
+  public config: ILoginComponent = {};
   public loginForm: FormGroup;
 
-  constructor(private router: Router) { }
+  private router = inject(Router);
 
   ngOnInit(): void {
-    this.initConfig();
+    this.checkDefaultConfig();
     this.initForm();
     this.setRememberedInitialValues();
     this.setFormControlsErrors();
@@ -58,7 +58,7 @@ export class Login implements OnInit {
   }
 
   onClickButton(rememberMeLogin: boolean = false): void {
-    const event: ILayoutLoginEvent = {
+    const event: ILoginComponentEvent = {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
       rememberMe: this.loginForm.get('rememberMe')?.value,
@@ -67,7 +67,7 @@ export class Login implements OnInit {
     this.login.emit(event);
   }
 
-  private initConfig(): void {
+  private checkDefaultConfig(): void {
     this.config.showConfigurator = this.config?.showConfigurator !== undefined ? this.config.showConfigurator : false;
     this.config.showLogo = this.config?.showLogo !== undefined ? this.config.showLogo : true;
     this.config.logoUrl = this.config?.logoUrl ?? undefined;

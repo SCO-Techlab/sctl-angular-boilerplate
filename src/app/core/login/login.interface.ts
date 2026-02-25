@@ -1,6 +1,6 @@
 import { IInputErrorComponent } from '../../shared/components/input-error';
 
-export interface ILayoutLogin {
+export interface ILoginComponent {
   showConfigurator?: boolean;
   showLogo?: boolean;
   logoUrl?: string;
@@ -29,7 +29,7 @@ export interface ILayoutLogin {
   }
 }
 
-export interface ILayoutLoginEvent {
+export interface ILoginComponentEvent {
   email: string;
   password: string;
   rememberMe: boolean;

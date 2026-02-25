@@ -2,7 +2,6 @@ export * from './configurator';
 export * from './floatingconfigurator';
 export * from './footer';
 export * from './layout-container';
-export * from './login';
 export * from './menu';
 export * from './menuitem';
 export * from './sidebar';
