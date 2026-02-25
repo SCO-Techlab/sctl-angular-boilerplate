@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ConfigService } from '..';
+import { ConfigService } from '../services';
 
 @Pipe({
-  name: 'sctlConfig',
+  name: 'config',
   standalone: true
 })
 export class ConfigPipe implements PipeTransform {

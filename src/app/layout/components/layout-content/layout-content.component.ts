@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { CONFIG_CONSTANTS } from '@shared/constants';
+import { ConfigService } from '@shared/services';
 import { filter, Subscription } from 'rxjs';
 import { LAYOUT_MENU } from '../../enums';
 import { ILayoutContentComponent, ILayoutFooterComponent, ILayoutSidebarComponent, ILayoutTopbarComponent } from '../../interfaces';
 import { LayoutService } from '../../services';
+import { LayoutFooterComponent } from '../layout-footer';
 import { LayoutSidebarComponent } from '../layout-sidebar';
 import { LayoutTopbarComponent } from '../layout-topbar';
-import { LayoutFooterComponent } from '../layout-footer';
-import { ConfigService, CONFIG_CONSTANTS } from '@shared/services';
 
 @Component({
   selector: 'sctl-layout-content',

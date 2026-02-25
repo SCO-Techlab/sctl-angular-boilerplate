@@ -4,7 +4,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
 import { ToastService } from '@shared/components';
-import { ConfigInitializerFactory, ConfigService, translateProvider } from '@shared/services';
+import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
+import { ConfigService } from '@shared/services';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 
@@ -31,7 +32,7 @@ export const appConfig: ApplicationConfig = {
       deps: [ConfigService],
       multi: true
     },
-    translateProvider({
+    TranslateProviderFactory({
       defaultLang: 'en',
       availableLangs: ['en', 'es'],
       path: '/assets/i18n'

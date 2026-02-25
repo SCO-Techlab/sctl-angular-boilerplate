@@ -3,8 +3,8 @@ import { RouterModule } from '@angular/router';
 import { ILayoutConfig } from '@layout/interfaces';
 import { LayoutService } from '@layout/services';
 import { SpinnerComponent, TOAST_POSITION, ToastComponent } from '@shared/components';
-import { MAGIC_NUMBERS } from '@shared/constants';
-import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '@shared/services';
+import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
+import { ConfigService, ScreenService } from '@shared/services';
 import { IShellComponent } from '../../interfaces';
 
 @Component({

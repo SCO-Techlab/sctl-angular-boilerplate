@@ -1,14 +1,14 @@
 import { DestroyRef, Directive, ElementRef, Input, OnInit, Renderer2, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslateService } from './translate.service';
+import { TranslateService } from '../services/translate/translate.service';
 
 @Directive({
-  selector: '[sctlTranslate]',
+  selector: '[translate]',
   standalone: true
 })
 export class TranslateDirective implements OnInit {
 
-  @Input('sctlTranslate') key!: string;
+  @Input('translate') key!: string;
   @Input('translateParams') params?: Record<string, any>;
 
   private readonly destroyRef = inject(DestroyRef);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MAGIC_NUMBERS } from '../../constants';
-import { SCREEN_SIZE } from './screen.enum';
+import { SCREEN_SIZE } from '../../enums';
 
 @Injectable({
   providedIn: 'root'

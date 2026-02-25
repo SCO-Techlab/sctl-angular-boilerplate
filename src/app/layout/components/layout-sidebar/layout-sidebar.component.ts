@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, ElementRef, Input } from '@angular/core';
-import { CONFIG_CONSTANTS, ConfigService } from '../../../shared/services';
+import { CONFIG_CONSTANTS } from '@shared/constants';
+import { ConfigService } from '../../../shared/services';
 import { ILayoutSidebarComponent } from '../../interfaces';
 import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
 

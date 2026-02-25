@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { CONFIG_CONSTANTS } from '@shared/constants';
 import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
-import { CONFIG_CONSTANTS, ConfigService, ScreenService } from '../../../shared/services';
+import { ConfigService, ScreenService } from '../../../shared/services';
 import { ILayoutTopbarComponent } from '../../interfaces/layout-topbar.interface';
 import { LayoutService } from '../../services/layout.service';
 import { LayoutConfiguratorComponent } from '../layout-configurator/layout-configurator.component';
