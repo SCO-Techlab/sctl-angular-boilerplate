@@ -19,6 +19,9 @@
         "module": "ES2022",
         "baseUrl": "./",
         "paths": {
+            "@environment": [
+                "src/environments/index.ts"
+            ],
             "@shell/*": [
                 "src/app/shell/*"
             ],
