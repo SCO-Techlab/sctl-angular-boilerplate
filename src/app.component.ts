@@ -1,4 +1,4 @@
-import { Shell } from '@/shared/layouts';
+import { Shell } from '@/shared/layout';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,7 +8,4 @@ import { Component } from '@angular/core';
   template: `<sctl-shell></sctl-shell>`
 })
 export class AppComponent {
-  constructor() { 
-    console.log('AppComponent');
-  }
 }

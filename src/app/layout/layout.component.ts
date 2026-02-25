@@ -1,4 +1,4 @@
-import { ILayout, Layout } from '@/shared/layouts';
+import { ILayout, Layout } from '@/shared/layout';
 import { CONFIG_CONSTANTS, ConfigService } from '@/shared/services';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';

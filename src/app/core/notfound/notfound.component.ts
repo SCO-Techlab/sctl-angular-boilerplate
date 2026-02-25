@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ILayoutNotfound, Notfound as NotfoundComponent } from '@/shared/layouts';
+import { ILayoutNotfound, Notfound as NotfoundComponent } from '@/shared/layout';
 
 @Component({
   selector: 'app-notfound',
