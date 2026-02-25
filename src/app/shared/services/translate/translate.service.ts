@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { MAGIC_NUMBERS } from '@shared/constants';
+import { ITranslateConfig } from '@shared/interfaces';
 import { BehaviorSubject, from, map, Observable, of, startWith, switchMap } from 'rxjs';
-import { MAGIC_NUMBERS } from '../../constants';
-import { ITranslateConfig } from '../../interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class TranslateService {

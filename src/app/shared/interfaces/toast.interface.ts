@@ -1,4 +1,4 @@
-import { TOAST_POSITION, TOAST_SEVERITY } from '../enums';
+import { TOAST_POSITION, TOAST_SEVERITY } from "@shared/enums";
 
 export interface IToastComponent {
   position?: TOAST_POSITION;

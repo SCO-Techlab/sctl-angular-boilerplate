@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, DestroyRef, Pipe, PipeTransform, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslateService } from '../services';
+import { TranslateService } from '@shared/services';
 
 @Pipe({
   name: 'translate',

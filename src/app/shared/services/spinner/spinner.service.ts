@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MAGIC_NUMBERS } from '../../constants';
+import { MAGIC_NUMBERS } from '@shared/constants';
 
 @Injectable({
   providedIn: 'root'

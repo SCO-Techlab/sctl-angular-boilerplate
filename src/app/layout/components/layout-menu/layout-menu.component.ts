@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ILayoutMenuComponent } from '../../interfaces';
-import { LayoutMenuItemComponent } from '../layout-menu-item/layout-menu-item.component';
+import { ILayoutMenuComponent } from '@layout/interfaces';
+import { LayoutMenuItemComponent } from '../layout-menu-item';
 
 @Component({
   selector: 'sctl-layout-menu',

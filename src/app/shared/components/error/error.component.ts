@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { IErrorComponent } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { IErrorComponent } from '../../interfaces';
 import { FloatingThemeConfigurator } from '../floating-theme-configurator';
 
 @Component({

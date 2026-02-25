@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { LayoutContentComponent } from '@layout/components';
+import { ILayoutContentComponent } from '@layout/interfaces';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ConfigService } from '@shared/services';
-import { LayoutContentComponent } from '../../components';
-import { ILayoutContentComponent } from '../../interfaces';
 
 @Component({
   selector: 'sctl-layout',

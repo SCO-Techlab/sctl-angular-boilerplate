@@ -2,11 +2,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { LayoutService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { RippleModule } from 'primeng/ripple';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { LayoutService } from '../../../shared/services/layout/layout.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

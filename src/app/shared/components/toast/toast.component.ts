@@ -1,10 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { TOAST_POSITION } from '@shared/enums';
+import { IToastComponent, IToastMessage } from '@shared/interfaces';
+import { ToastService } from '@shared/services';
 import { Subscription } from 'rxjs';
-import { TOAST_POSITION } from '../../enums';
-import { IToastComponent, IToastMessage } from '../../interfaces';
-import { ToastService } from '../../services';
 
 @Component({
   selector: 'sctl-toast',

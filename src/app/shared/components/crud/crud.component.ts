@@ -1,6 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MAGIC_NUMBERS, DATES } from '@shared/constants';
+import { CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE } from '@shared/enums';
+import { ICrudColumn, ICrudFormInput, ICrudButtonsEnabled, ICrudAction, ICrudLiterals, ICrudSaveEvent, ICrudActionEvent, ICrudInputError } from '@shared/interfaces';
+import { ScreenService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -13,10 +17,6 @@ import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { ToolbarModule } from 'primeng/toolbar';
-import { DATES, MAGIC_NUMBERS } from '../../constants';
-import { CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE } from '../../enums';
-import { ICrudAction, ICrudActionEvent, ICrudButtonsEnabled, ICrudColumn, ICrudFormInput, ICrudInputError, ICrudLiterals, ICrudSaveEvent } from '../../interfaces';
-import { ScreenService } from '../../services';
 
 @Component({
   selector: 'sctl-crud',

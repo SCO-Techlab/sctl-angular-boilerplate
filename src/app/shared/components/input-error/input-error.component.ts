@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IInputErrorComponent } from '@shared/interfaces';
 import { MessageModule } from 'primeng/message';
-import { IInputErrorComponent } from '../../interfaces';
 
 @Component({
   selector: 'sctl-input-error',

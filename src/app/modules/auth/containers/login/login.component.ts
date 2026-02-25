@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { ButtonModule } from 'primeng/button';
@@ -9,7 +10,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { ILoginComponent, ILoginComponentEvent } from '../../interfaces';
 
 @Component({
   selector: 'sctl-login',

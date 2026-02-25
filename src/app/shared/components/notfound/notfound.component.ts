@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { MAGIC_NUMBERS } from '@shared/constants';
+import { INotfoundComponent } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
-import { MAGIC_NUMBERS } from '../../constants';
-import { INotfoundComponent } from '../../interfaces';
 import { FloatingThemeConfigurator } from '../floating-theme-configurator';
 
 @Component({

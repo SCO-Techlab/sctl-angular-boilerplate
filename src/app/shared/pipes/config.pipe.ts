@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ConfigService } from '../services';
+import { ConfigService } from '@shared/services';
 
 @Pipe({
   name: 'config',

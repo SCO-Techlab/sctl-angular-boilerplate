@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { ILayoutTopbarComponent } from '@layout/interfaces';
+import { ThemeConfiguratorComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
+import { ConfigService, LayoutService, ScreenService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
-import { ConfigService, ScreenService } from '../../../shared/services';
-import { ILayoutTopbarComponent } from '../../interfaces/layout-topbar.interface';
-import { LayoutService } from '../../../shared/services/layout/layout.service';
-import { ThemeConfiguratorComponent } from '@shared/components';
 
 @Component({
   selector: 'sctl-layout-topbar',

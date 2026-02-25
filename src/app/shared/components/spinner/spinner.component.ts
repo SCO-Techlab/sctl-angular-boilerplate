@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { ISpinnerComponent } from '@shared/interfaces';
+import { SpinnerService } from '@shared/services';
 import { LoaderComponent } from '../loader';
-import { SpinnerService } from '../../services';
-import { ISpinnerComponent } from '../../interfaces';
 
 @Component({
   selector: 'sctl-spinner',

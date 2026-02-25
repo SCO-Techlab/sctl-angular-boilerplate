@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ILayoutContentComponent, ILayoutFooterComponent, ILayoutSidebarComponent, ILayoutTopbarComponent } from '@layout/interfaces';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { LAYOUT_MENU } from '@shared/enums';
 import { ConfigService, LayoutService } from '@shared/services';
 import { filter, Subscription } from 'rxjs';
-import { ILayoutContentComponent, ILayoutFooterComponent, ILayoutSidebarComponent, ILayoutTopbarComponent } from '../../interfaces';
 import { LayoutFooterComponent } from '../layout-footer';
 import { LayoutSidebarComponent } from '../layout-sidebar';
 import { LayoutTopbarComponent } from '../layout-topbar';

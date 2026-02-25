@@ -3,9 +3,9 @@ import { RouterModule } from '@angular/router';
 import { SpinnerComponent, ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
-import { ConfigService, LayoutService, ScreenService } from '@shared/services';
-import { IShellComponent } from '../../interfaces';
 import { ILayoutConfig } from '@shared/interfaces';
+import { ConfigService, LayoutService, ScreenService } from '@shared/services';
+import { IShellComponent } from '@shell/interfaces';
 
 @Component({
   selector: 'sctl-shell',

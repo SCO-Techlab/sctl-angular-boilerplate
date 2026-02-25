@@ -1,4 +1,4 @@
-import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE } from '../enums';
+import { CRUD_COLUMN_TYPE, CRUD_INPUT_TYPE, BUTTON_SEVERITY } from "@shared/enums";
 
 export interface ICrudColumn {
   field: string;

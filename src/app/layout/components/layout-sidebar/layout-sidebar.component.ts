@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, ElementRef, Input } from '@angular/core';
+import { ILayoutSidebarComponent } from '@layout/interfaces';
 import { CONFIG_CONSTANTS } from '@shared/constants';
-import { ConfigService } from '../../../shared/services';
-import { ILayoutSidebarComponent } from '../../interfaces';
-import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
+import { ConfigService } from '@shared/services';
+import { LayoutMenuComponent } from '../layout-menu';
 
 @Component({
   selector: 'sctl-layout-sidebar',

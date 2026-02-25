@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, computed, inject, input } from '@angular/core';
+import { LayoutService } from "@shared/services";
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
-import { ThemeConfiguratorComponent } from "../../components";
-import { LayoutService } from '../../services';
+import { ThemeConfiguratorComponent } from "../theme-configurator";
 
 @Component({
   selector: 'sctl-floating-theme-configurator',
