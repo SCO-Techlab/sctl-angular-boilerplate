@@ -1,0 +1,22 @@
+<div [ngClass]="config?.containerCssClass">
+  @if (config?.showLogo) {
+    <img class="mb-6 shrink-0 mx-auto {{config?.logoCssClass}}" 
+      [ngClass]="{'cursor-pointer': config?.logoRedirect}"
+      [src]="config?.logoUrl" 
+      [alt]="config?.logoText"  
+      (click)="onClickLogo()" 
+    />
+  }
+
+  @if (config?.title) {
+    <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">
+      {{config?.title}}
+    </div>
+  }
+
+  @if (config?.subTitle) {
+    <span class="text-muted-color font-medium">
+      {{config?.subTitle}}
+    </span>
+  }
+</div>
