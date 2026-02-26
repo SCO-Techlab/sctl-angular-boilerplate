@@ -4,6 +4,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthHeaderComponent } from '@modules/auth/components';
 import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { Store } from '@ngxs/store';
@@ -19,7 +20,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { finalize, take } from 'rxjs';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'sctl-login',
@@ -37,7 +38,8 @@ import { finalize, take } from 'rxjs';
     RippleModule,
     FloatingThemeConfigurator,
     InputErrorComponent,
-    TranslateModule
+    TranslateModule,
+    AuthHeaderComponent
   ],
 })
 export class LoginComponent implements OnInit {
@@ -68,12 +70,6 @@ export class LoginComponent implements OnInit {
         this.setRememberedInitialValues();
         this.setConfigFormErrors();
       });
-  }
-
-  onClickLogo(): void {
-    if (this.config?.logoRedirect) {
-      this.router.navigate([this.config?.logoRedirect]);
-    }
   }
 
   onClickForgotPassword(): void {
@@ -154,13 +150,16 @@ export class LoginComponent implements OnInit {
 
   private checkDefaultConfig(): void {
     this.config.showConfigurator = this.config?.showConfigurator !== undefined ? this.config.showConfigurator : false;
-    this.config.showLogo = this.config?.showLogo !== undefined ? this.config.showLogo : true;
-    this.config.logoUrl = this.config?.logoUrl ?? undefined;
-    this.config.logoText = this.config?.logoText ?? '';
-    this.config.logoRedirect = this.config?.logoRedirect ?? '';
-    this.config.logoCssClass = this.config?.logoCssClass ?? 'w-32';
-    this.config.title = this.config?.title ?? 'Sign In';
-    this.config.subTitle = this.config?.subTitle ?? 'Sign in to continue';
+
+    this.config.headerConfig = this.config?.headerConfig ?? {};
+    this.config.headerConfig.showLogo = this.config?.headerConfig?.showLogo ?? true;
+    this.config.headerConfig.logoUrl = this.config?.headerConfig?.logoUrl ?? '/assets/images/logo.png';
+    this.config.headerConfig.logoText = this.config?.headerConfig?.logoText ?? '';
+    this.config.headerConfig.logoRedirect = this.config?.headerConfig?.logoRedirect ?? '';
+    this.config.headerConfig.logoCssClass = this.config?.headerConfig?.logoCssClass ?? 'w-32';
+    this.config.headerConfig.title = this.config?.headerConfig?.title ?? 'Sign In';
+    this.config.headerConfig.subTitle = this.config?.headerConfig?.subTitle ?? 'Sign in to continue';
+
     this.config.emailLabel = this.config?.emailLabel ?? 'Email';
     this.config.emailPlaceholder = this.config?.emailPlaceholder ?? 'Email address';
     this.config.passwordLabel = this.config?.passwordLabel ?? 'Password';
@@ -182,8 +181,8 @@ export class LoginComponent implements OnInit {
   }
 
   private setCustomConfig(): void {
-    this.config.title = this.literals['TITLE'];
-    this.config.subTitle = this.literals['SUB_TITLE'];
+    this.config.headerConfig.title = this.literals['TITLE'];
+    this.config.headerConfig.subTitle = this.literals['SUB_TITLE'];
     this.config.emailLabel = this.literals['EMAIL_LABEL'];
     this.config.emailPlaceholder = this.literals['EMAIL_PLACEHOLDER'];
     this.config.passwordLabel = this.literals['PASSWORD_LABEL'];

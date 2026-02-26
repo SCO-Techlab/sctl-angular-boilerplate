@@ -7,7 +7,6 @@ import { IAuthHeaderComponent } from '@modules/auth/interfaces';
   selector: 'sctl-auth-header',
   standalone: true,
   templateUrl: './auth-header.component.html',
-  styleUrls: ['./auth-header.component.scss'],
   imports: [
     NgClass
   ]

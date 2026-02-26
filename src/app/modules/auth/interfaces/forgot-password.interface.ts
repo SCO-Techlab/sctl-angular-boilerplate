@@ -1,14 +1,9 @@
 import { IInputErrorComponent } from "@shared/interfaces";
+import { IAuthHeaderComponent } from "./auth-header.interface";
 
 export interface IForgotPasswordComponent {
   showConfigurator?: boolean;
-  showLogo?: boolean;
-  logoUrl?: string;
-  logoText?: string;
-  logoRedirect?: string;
-  logoCssClass?: string;
-  title?: string;
-  subTitle?: string;
+  headerConfig?: IAuthHeaderComponent;
   emailLabel?: string;
   emailPlaceholder?: string;
   linkEnabled?: boolean;

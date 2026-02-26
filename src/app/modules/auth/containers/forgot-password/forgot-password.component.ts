@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthHeaderComponent } from '@modules/auth/components';
 import { IForgotPasswordComponent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
@@ -35,7 +35,8 @@ import { finalize } from 'rxjs';
     RippleModule,
     FloatingThemeConfigurator,
     InputErrorComponent,
-    TranslateModule
+    TranslateModule,
+    AuthHeaderComponent
   ],
 })
 export class ForgotPasswordComponent implements OnInit {
@@ -63,12 +64,6 @@ export class ForgotPasswordComponent implements OnInit {
         this.setCustomConfig();
         this.setConfigFormErrors();
       });
-  }
-
-  onClickLogo(): void {
-    if (this.config?.logoRedirect) {
-      this.router.navigate([this.config?.logoRedirect]);
-    }
   }
 
   onClickLink(): void {
@@ -105,7 +100,7 @@ export class ForgotPasswordComponent implements OnInit {
 
           this.router.navigate(['/']);
         },
-        error: (error: HttpErrorResponse) => {
+        error: () => {
           this.toastService.add({
             severity: TOAST_SEVERITY.ERROR,
             summary: this.translateService.instant('TOAST.ERROR'),
@@ -123,13 +118,16 @@ export class ForgotPasswordComponent implements OnInit {
 
   private checkDefaultConfig(): void {
     this.config.showConfigurator = this.config?.showConfigurator !== undefined ? this.config.showConfigurator : false;
-    this.config.showLogo = this.config?.showLogo !== undefined ? this.config.showLogo : true;
-    this.config.logoUrl = this.config?.logoUrl ?? undefined;
-    this.config.logoText = this.config?.logoText ?? '';
-    this.config.logoRedirect = this.config?.logoRedirect ?? '';
-    this.config.logoCssClass = this.config?.logoCssClass ?? 'w-32';
-    this.config.title = this.config?.title ?? 'Forgot Password';
-    this.config.subTitle = this.config?.subTitle ?? 'Enter your email address to reset your password';
+
+    this.config.headerConfig = this.config?.headerConfig ?? {};
+    this.config.headerConfig.showLogo = this.config.headerConfig?.showLogo !== undefined ? this.config.headerConfig.showLogo : true;
+    this.config.headerConfig.logoUrl = this.config?.headerConfig?.logoUrl ?? '/assets/images/logo.png';
+    this.config.headerConfig.logoText = this.config.headerConfig?.logoText ?? '';
+    this.config.headerConfig.logoRedirect = this.config.headerConfig?.logoRedirect ?? '';
+    this.config.headerConfig.logoCssClass = this.config.headerConfig?.logoCssClass ?? 'w-32';
+    this.config.headerConfig.title = this.config.headerConfig?.title ?? 'Forgot Password';
+    this.config.headerConfig.subTitle = this.config.headerConfig?.subTitle ?? 'Enter your email address to reset your password';
+
     this.config.emailLabel = this.config?.emailLabel ?? 'Email';
     this.config.emailPlaceholder = this.config?.emailPlaceholder ?? 'Email address';
     this.config.linkEnabled = this.config?.linkEnabled ?? true;
@@ -142,8 +140,8 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   private setCustomConfig(): void {
-    this.config.title = this.literals['TITLE'];
-    this.config.subTitle = this.literals['SUB_TITLE'];
+    this.config.headerConfig.title = this.literals['TITLE'];
+    this.config.headerConfig.subTitle = this.literals['SUB_TITLE'];
     this.config.emailLabel = this.literals['EMAIL_LABEL'];
     this.config.emailPlaceholder = this.literals['EMAIL_PLACEHOLDER'];
     this.config.linkEnabled = this.config?.linkEnabled ?? true;

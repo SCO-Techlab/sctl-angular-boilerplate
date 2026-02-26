@@ -31,7 +31,7 @@
       "SUB_TITLE": "Ingresa tu correo electrónico para restablecer tu contraseña",
       "EMAIL_LABEL": "Correo electrónico",
       "EMAIL_PLACEHOLDER": "Correo electrónico",
-      "LINK_LABEL": "Ir a inicio de sesión?",
+      "LINK_LABEL": "¿Ir a inicio de sesión?",
       "BUTTON_LABEL": "Restablecer contraseña",
       "ERROR": {
         "EMAIL": "El correo electrónico es obligatorio",
