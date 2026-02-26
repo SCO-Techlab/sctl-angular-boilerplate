@@ -1,4 +1,10 @@
 {
+  "TOAST": {
+    "ERROR": "Error",
+    "SUCCESS": "Success",
+    "INFO": "Info",
+    "WARNING": "Warning"
+  },
   "AUTH": {
     "LOGIN": {
       "TITLE": "Sign In",
@@ -15,7 +21,10 @@
         "EMAIL_INVALID": "Email is invalid",
         "PASSWORD": "Password is required",
         "PASSWORD_INVALID": "Password is invalid"
-      }
+      },
+      "LOGIN_OK": "Login successful",
+      "LOGIN_KO": "Error trying to login",
+      "LOGIN_KO_401": "User or password incorrect"
     }
   }
 }

@@ -3,9 +3,10 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angula
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { environment } from '@environment';
+import { AuthGuard } from '@guards';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { PersistStorageState } from '@persist-storage/persist-storage.state';
+import { PersistStorageState } from '@persist-storage';
 import Aura from '@primeuix/themes/aura';
 import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
 import { ConfigService, ToastService } from '@shared/services';
@@ -47,6 +48,7 @@ export const appConfig: ApplicationConfig = {
       availableLangs: ['en', 'es'],
       path: '/assets/i18n'
     }),
-    ToastService
+    ToastService,
+    AuthGuard
   ]
 };

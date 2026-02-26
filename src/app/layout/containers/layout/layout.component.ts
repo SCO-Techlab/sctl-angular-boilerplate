@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { LayoutContentComponent } from '@layout/components';
 import { ILayoutContentComponent } from '@layout/interfaces';
+import { Store } from '@ngxs/store';
+import { SetToken } from '@persist-storage';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ConfigService } from '@shared/services';
 
@@ -25,7 +28,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   constructor(
     private configService: ConfigService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private store: Store,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -57,6 +62,14 @@ export class LayoutComponent implements OnInit, AfterViewInit {
             icon: 'pi pi-user',
             command: (action) => {
               console.log(action);
+            }
+          },
+          {
+            label: 'Logout',
+            icon: 'pi pi-sign-out',
+            command: (action) => {
+              this.store.dispatch(new SetToken({ token: undefined, delete: true }));
+              this.router.navigate(['/auth/login']);
             }
           }
         ],

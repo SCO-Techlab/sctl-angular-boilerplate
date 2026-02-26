@@ -1,20 +1,25 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
+import { AuthService } from '@modules/auth/services';
+import { Store } from '@ngxs/store';
+import { PersistStorageState, SetAutoLogin, SetToken } from '@persist-storage';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
-import { REGEX_PATTERNS } from '@shared/constants';
-import { INPUT_ERROR } from '@shared/enums';
-import { ITranslateLiterals } from '@shared/interfaces';
+import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
+import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
+import { IJwtToken, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { TranslateService } from '@shared/services';
+import { SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
+import { finalize, take } from 'rxjs';
 
 @Component({
   selector: 'sctl-login',
@@ -41,16 +46,21 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
 
   private literals: ITranslateLiterals;
+  private isAutoLogin: boolean = false;
 
   private destroyRef$ = inject(DestroyRef);
   private router = inject(Router);
-  private translate = inject(TranslateService);
+  private store = inject(Store);
+  private translateService = inject(TranslateService);
+  private authService = inject(AuthService);
+  private spinnerService = inject(SpinnerService);
+  private toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.initForm();
     this.checkDefaultConfig();
 
-    this.translate.stream('AUTH.LOGIN')
+    this.translateService.stream('AUTH.LOGIN')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
@@ -70,15 +80,71 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/auth/forgot-password']);
   }
 
-  onClickButton(autoLogin: boolean = false): void {
+  onClickButton(): void {
     const event: ILoginComponentEvent = {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
       rememberMe: this.loginForm.get('rememberMe')?.value,
-      autoLogin
+      autoLogin: this.isAutoLogin
     };
 
-    console.log(event);
+    const request$ = this.isAutoLogin
+      ? this.authService.refreshToken(event.email, event.password, false)
+      : this.authService.logIn(event);
+    this.isAutoLogin = false;
+
+    this.spinnerService.show();
+    request$
+      .pipe(
+        take(MAGIC_NUMBERS.N_1),
+        finalize(() => this.spinnerService.hide())
+      )
+      .subscribe({
+        next: (jwtToken: IJwtToken) => {
+          if (!jwtToken?.accessToken) {
+            this.toastService.add({
+              severity: TOAST_SEVERITY.ERROR,
+              summary: this.translateService.instant('TOAST.ERROR'),
+              detail: this.literals['LOGIN_KO_401'],
+              life: MAGIC_NUMBERS.N_3000
+            });
+            return;
+          }
+
+          this.store.dispatch(new SetToken({
+            token: {
+              ...jwtToken,
+              refreshToken: undefined
+            }
+          }));
+
+          this.store.dispatch(new SetAutoLogin({
+            autoLogin: !event.rememberMe ? undefined : { email: event.email, password: jwtToken.refreshToken },
+            delete: !event.rememberMe
+          }));
+
+          this.toastService.add({
+            severity: TOAST_SEVERITY.SUCCESS,
+            summary: this.translateService.instant('TOAST.SUCCESS'),
+            detail: this.literals['LOGIN_OK'],
+            life: MAGIC_NUMBERS.N_3000
+          });
+
+          this.router.navigate(['/']);
+        },
+        error: (error: HttpErrorResponse) => {
+          const detail: string = error.status === MAGIC_NUMBERS.N_401
+            ? this.literals['LOGIN_KO_401']
+            : this.literals['LOGIN_KO'];
+
+          this.toastService.add({
+            severity: TOAST_SEVERITY.ERROR,
+            summary: this.translateService.instant('TOAST.ERROR'),
+            detail,
+            life: MAGIC_NUMBERS.N_3000
+          });
+        }
+      })
   }
 
   private initForm(): void {
@@ -130,6 +196,14 @@ export class LoginComponent implements OnInit {
     this.config.forgotPasswordEnabled = this.config?.forgotPasswordEnabled ?? true;
     this.config.forgotPasswordLabel = this.literals['FORGOT_PASSWORD'];
     this.config.buttonLabel = this.literals['BUTTON_LABEL'];
+
+    const autoLogin: { email: string, password: string } | undefined = this.store.selectSnapshot(PersistStorageState.autoLogin);
+    this.isAutoLogin = autoLogin !== undefined;
+    this.config.initialValues = {
+      email: autoLogin?.email ?? '',
+      password: autoLogin?.password ?? '',
+      rememberMe: autoLogin !== undefined
+    };
   }
 
   private setRememberedInitialValues(): void {
@@ -143,16 +217,9 @@ export class LoginComponent implements OnInit {
       rememberMe: this.config?.initialValues?.rememberMe ?? false
     });
 
-    const form = this.loginForm.value;
-    if (form.rememberMe && form.email && form.password) {
-      this.onClickButton(true);
-    } else {
-      this.loginForm.setValue({
-        email: '',
-        password: '',
-        rememberMe: false
-      });
-    }
+    this.loginForm.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe(() => this.isAutoLogin = false);
   }
 
   private setConfigFormErrors(): void {

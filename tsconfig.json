@@ -22,14 +22,17 @@
             "@environment": [
                 "src/environments/index.ts"
             ],
+            "@guards": [
+                "src/app/guards/index.ts"
+            ],
             "@layout/*": [
                 "src/app/layout/*"
             ],
             "@modules/*": [
                 "src/app/modules/*"
             ],
-            "@persist-storage/*": [
-                "src/app/persist-storage/*"
+            "@persist-storage": [
+                "src/app/persist-storage/index.ts"
             ],
             "@shared/*": [
                 "src/app/shared/*"
