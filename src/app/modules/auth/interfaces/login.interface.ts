@@ -1,5 +1,6 @@
 import { IInputErrorComponent } from "@shared/interfaces";
 import { IAuthHeaderComponent } from "./auth-header.interface";
+import { IAuthLinkComponent } from "./auth-link.interface";
 
 export interface ILoginComponent {
   showConfigurator?: boolean;
@@ -10,8 +11,7 @@ export interface ILoginComponent {
   passwordPlaceholder?: string;
   rememberMeEnabled?: boolean;
   rememberMeLabel?: string;
-  forgotPasswordEnabled?: boolean;
-  forgotPasswordLabel?: string;
+  links?: IAuthLinkComponent[];
   buttonLabel?: string;
   initialValues?: {
     email?: string;

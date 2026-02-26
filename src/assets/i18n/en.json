@@ -15,6 +15,7 @@
       "PASSWORD_PLACEHOLDER": "Password",
       "REMEMBER_ME": "Remember me",
       "FORGOT_PASSWORD": "Forgot password?",
+      "REGISTER": "Don't have an account?",
       "BUTTON_LABEL": "Sign In",
       "ERROR": {
         "EMAIL": "Email is required",

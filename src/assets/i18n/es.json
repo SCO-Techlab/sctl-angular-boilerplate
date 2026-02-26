@@ -15,6 +15,7 @@
       "PASSWORD_PLACEHOLDER": "Contraseña",
       "REMEMBER_ME": "Recuerdame",
       "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+      "REGISTER": "¿No tienes una cuenta?",
       "BUTTON_LABEL": "Iniciar sesión",
       "ERROR": {
         "EMAIL": "El correo electrónico es obligatorio",

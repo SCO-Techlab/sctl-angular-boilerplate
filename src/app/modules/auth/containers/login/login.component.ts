@@ -72,8 +72,10 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  onClickForgotPassword(): void {
-    this.router.navigate(['/auth/forgot-password']);
+  onClickLink(url: string): void {
+    if (url) {
+      this.router.navigate([url]);
+    }
   }
 
   onClickButton(): void {
@@ -166,8 +168,17 @@ export class LoginComponent implements OnInit {
     this.config.passwordPlaceholder = this.config?.passwordPlaceholder ?? 'Password';
     this.config.rememberMeEnabled = this.config?.rememberMeEnabled ?? true;
     this.config.rememberMeLabel = this.config?.rememberMeLabel ?? 'Remember me';
-    this.config.forgotPasswordEnabled = this.config?.forgotPasswordEnabled ?? true;
-    this.config.forgotPasswordLabel = this.config?.forgotPasswordLabel ?? 'Forgot password?';
+
+    this.config.links = this.config?.links ?? [];
+    this.config.links.push({
+      linkLabel: this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkLabel ?? 'Forgot password?',
+      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkUrl ?? '/auth/forgot-password'
+    });
+    this.config.links.push({
+      linkLabel: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkLabel ?? 'Don\'t have an account?',
+      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkUrl ?? '/auth/register'
+    });
+
     this.config.buttonLabel = this.config?.buttonLabel ?? 'Sign In';
     this.config.initialValues = {
       email: this.config?.initialValues?.email ?? '',
@@ -189,8 +200,8 @@ export class LoginComponent implements OnInit {
     this.config.passwordPlaceholder = this.literals['PASSWORD_PLACEHOLDER'];
     this.config.rememberMeEnabled = this.config?.rememberMeEnabled ?? true;
     this.config.rememberMeLabel = this.literals['REMEMBER_ME'];
-    this.config.forgotPasswordEnabled = this.config?.forgotPasswordEnabled ?? true;
-    this.config.forgotPasswordLabel = this.literals['FORGOT_PASSWORD'];
+    this.config.links[MAGIC_NUMBERS.N_0].linkLabel = this.literals['FORGOT_PASSWORD'];
+    this.config.links[MAGIC_NUMBERS.N_1].linkLabel = this.literals['REGISTER'];
     this.config.buttonLabel = this.literals['BUTTON_LABEL'];
 
     const autoLogin: { email: string, password: string } | undefined = this.store.selectSnapshot(PersistStorageState.autoLogin);
