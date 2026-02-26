@@ -32,6 +32,7 @@
       "EMAIL_LABEL": "Email",
       "EMAIL_PLACEHOLDER": "Email address",
       "LINK_LABEL": "Go to login?",
+      "LINK_REGISTER_LABEL": "Don't have an account?",
       "BUTTON_LABEL": "Reset Password",
       "ERROR": {
         "EMAIL": "Email is required",
@@ -40,5 +41,28 @@
       "REQUEST_OK": "Password reset email sent",
       "REQUEST_KO": "Error trying to reset password"
     }
+  },
+  "REGISTER": {
+    "TITLE": "Create Account",
+    "SUB_TITLE": "Create your account to start using our services",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "Email address",
+    "PASSWORD_LABEL": "Password",
+    "PASSWORD_PLACEHOLDER": "Password",
+    "CONFIRM_PASSWORD_LABEL": "Confirm Password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
+    "LINK_LABEL": "Already have an account?",
+    "LINK_LABEL_FORGOT_PASSWORD": "Forgot password?",
+    "BUTTON_LABEL": "Create Account",
+    "ERROR": {
+      "EMAIL": "Email is required",
+      "EMAIL_INVALID": "Email is invalid",
+      "PASSWORD": "Password is required",
+      "PASSWORD_INVALID": "Password is invalid",
+      "CONFIRM_PASSWORD": "Confirm Password is required",
+      "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid"
+    },
+    "REQUEST_OK": "Account created successfully",
+    "REQUEST_KO": "Error trying to create account"
   }
 }

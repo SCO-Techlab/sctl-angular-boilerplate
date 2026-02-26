@@ -32,6 +32,7 @@
       "EMAIL_LABEL": "Correo electrónico",
       "EMAIL_PLACEHOLDER": "Correo electrónico",
       "LINK_LABEL": "¿Ir a inicio de sesión?",
+      "LINK_REGISTER_LABEL": "¿No tienes una cuenta?",
       "BUTTON_LABEL": "Restablecer contraseña",
       "ERROR": {
         "EMAIL": "El correo electrónico es obligatorio",
@@ -39,6 +40,29 @@
       },
       "REQUEST_OK": "Se ha enviado un correo para restablecer la contraseña",
       "REQUEST_KO": "Error intentando restablecer la contraseña"
+    },
+    "REGISTER": {
+      "TITLE": "Crear cuenta",
+      "SUB_TITLE": "Crea tu cuenta para comenzar a usar nuestros servicios",
+      "EMAIL_LABEL": "Correo electrónico",
+      "EMAIL_PLACEHOLDER": "Correo electrónico",
+      "PASSWORD_LABEL": "Contraseña",
+      "PASSWORD_PLACEHOLDER": "Contraseña",
+      "CONFIRM_PASSWORD_LABEL": "Confirmar contraseña",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Confirmar contraseña",
+      "LINK_LABEL": "¿Ya tienes una cuenta?",
+      "LINK_LABEL_FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+      "BUTTON_LABEL": "Crear cuenta",
+      "ERROR": {
+        "EMAIL": "El correo electrónico es obligatorio",
+        "EMAIL_INVALID": "El correo electrónico no es válido",
+        "PASSWORD": "La contraseña es obligatoria",
+        "PASSWORD_INVALID": "La contraseña no es válida",
+        "CONFIRM_PASSWORD": "La confirmación de la contraseña es obligatoria",
+        "CONFIRM_PASSWORD_INVALID": "La confirmación de la contraseña no es válida"
+      },
+      "REQUEST_OK": "Cuenta creada exitosamente",
+      "REQUEST_KO": "Error intentando crear la cuenta"
     }
   }
 }

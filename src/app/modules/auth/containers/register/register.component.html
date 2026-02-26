@@ -3,13 +3,13 @@
 }
 
 <sctl-auth-card [config]="{ headerConfig: config?.headerConfig }">
-  <form [formGroup]="forgotPasswordForm" body>
+  <form [formGroup]="registerForm" body>
     <div class="mb-6">
-      <label for="forgot-password-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+      <label for="register-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
         {{config?.emailLabel}}
       </label>
       <input pInputText class="w-full md:w-120"
-        id="forgot-password-email" 
+        id="register-email" 
         type="text"
         formControlName="email"
         [placeholder]="config?.emailPlaceholder"
@@ -29,7 +29,7 @@
 
     <p-button 
       [label]="config?.buttonLabel"
-      [disabled]="forgotPasswordForm?.invalid"
+      [disabled]="registerForm?.invalid"
       styleClass="w-full {{ config?.links?.length > 0 ? 'mt-4' : '' }}" 
       (click)="onClickButton()"
     ></p-button>

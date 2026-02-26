@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
-import { IForgotPasswordComponent } from '@modules/auth/interfaces';
+import { IForgotPasswordComponent, IRegisterComponent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
@@ -20,9 +20,9 @@ import { RippleModule } from 'primeng/ripple';
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'sctl-forgot-password',
+  selector: 'sctl-register',
   standalone: true,
-  templateUrl: './forgot-password.component.html',
+  templateUrl: './register.component.html',
   imports: [
     CommonModule,
     ButtonModule,
@@ -39,10 +39,10 @@ import { finalize } from 'rxjs';
     AuthCardComponent
   ],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
-  public config: IForgotPasswordComponent = {};
-  public forgotPasswordForm: FormGroup;
+  public config: IRegisterComponent = {};
+  public registerForm: FormGroup;
 
   private literals: ITranslateLiterals;
 
@@ -57,7 +57,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.initForm();
     this.checkDefaultConfig();
 
-    this.translateService.stream('AUTH.FORGOT_PASSWORD')
+    this.translateService.stream('AUTH.REGISTER')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
@@ -73,7 +73,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onClickButton(): void {
-    const email: string = this.forgotPasswordForm.get('email')?.value;
+    const email: string = this.registerForm.get('email')?.value;
 
     this.spinnerService.show();
     this.authService.forgotPassword(email)
@@ -111,7 +111,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.forgotPasswordForm = new FormGroup({
+    this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)])
     });
   }
@@ -125,8 +125,8 @@ export class ForgotPasswordComponent implements OnInit {
     this.config.headerConfig.logoText = this.config.headerConfig?.logoText ?? '';
     this.config.headerConfig.logoRedirect = this.config.headerConfig?.logoRedirect ?? '';
     this.config.headerConfig.logoCssClass = this.config.headerConfig?.logoCssClass ?? 'w-32';
-    this.config.headerConfig.title = this.config.headerConfig?.title ?? 'Forgot Password';
-    this.config.headerConfig.subTitle = this.config.headerConfig?.subTitle ?? 'Enter your email address to reset your password';
+    this.config.headerConfig.title = this.config.headerConfig?.title ?? 'Create Account';
+    this.config.headerConfig.subTitle = this.config.headerConfig?.subTitle ?? 'Create your account to start using our services';
 
     this.config.emailLabel = this.config?.emailLabel ?? 'Email';
     this.config.emailPlaceholder = this.config?.emailPlaceholder ?? 'Email address';
@@ -137,13 +137,7 @@ export class ForgotPasswordComponent implements OnInit {
       linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkUrl ?? '/auth/login'
     });
 
-    this.config.links.push({
-      linkLabel: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkLabel ?? 'Don\'t have an account?',
-      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkUrl ?? '/auth/register'
-    });
-
-    this.config.buttonLabel = this.config?.buttonLabel ?? 'Reset Password';
-
+    this.config.buttonLabel = this.config?.buttonLabel ?? 'Create Account';
     this.config.formErrors = {
       email: this.config?.formErrors?.email ?? {},
     };
@@ -156,15 +150,17 @@ export class ForgotPasswordComponent implements OnInit {
     this.config.emailPlaceholder = this.literals['EMAIL_PLACEHOLDER'];
     this.config.links[MAGIC_NUMBERS.N_0].linkLabel = this.literals['LINK_LABEL'];
     this.config.links[MAGIC_NUMBERS.N_0].linkUrl = this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkUrl ?? '/auth/login';
-    this.config.links[MAGIC_NUMBERS.N_1].linkLabel = this.literals['LINK_REGISTER_LABEL'];
-    this.config.links[MAGIC_NUMBERS.N_1].linkUrl = this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkUrl ?? '/auth/register';
+    this.config.links.push({
+      linkLabel: this.literals['LINK_LABEL_FORGOT_PASSWORD'],
+      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkUrl ?? '/auth/forgot-password'
+    });
     this.config.buttonLabel = this.literals['BUTTON_LABEL'];
   }
 
   private setConfigFormErrors(): void {
     this.config.formErrors = {
       email: {
-        formControl: this.forgotPasswordForm.get('email'),
+        formControl: this.registerForm.get('email'),
         errorsToShow: [
           { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['EMAIL'] },
           { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['EMAIL_INVALID'] }

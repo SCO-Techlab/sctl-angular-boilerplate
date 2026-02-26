@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ForgotPasswordComponent, LoginComponent } from './containers';
+import { ForgotPasswordComponent, LoginComponent, RegisterComponent } from './containers';
 
 export default [
   {
@@ -9,5 +9,9 @@ export default [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   }
 ] as Routes;

@@ -2,7 +2,7 @@ import { IInputErrorComponent } from "@shared/interfaces";
 import { IAuthHeaderComponent } from "./auth-header.interface";
 import { IAuthLinkComponent } from "./auth-link.interface";
 
-export interface IForgotPasswordComponent {
+export interface IRegisterComponent {
   showConfigurator?: boolean;
   headerConfig?: IAuthHeaderComponent;
   emailLabel?: string;
