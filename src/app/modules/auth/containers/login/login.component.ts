@@ -4,7 +4,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthHeaderComponent } from '@modules/auth/components';
+import { AuthCardComponent } from '@modules/auth/components';
 import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { Store } from '@ngxs/store';
@@ -39,7 +39,7 @@ import { finalize } from 'rxjs';
     FloatingThemeConfigurator,
     InputErrorComponent,
     TranslateModule,
-    AuthHeaderComponent
+    AuthCardComponent
   ],
 })
 export class LoginComponent implements OnInit {

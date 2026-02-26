@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthHeaderComponent } from '@modules/auth/components';
+import { AuthCardComponent } from '@modules/auth/components';
 import { IForgotPasswordComponent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
@@ -36,7 +36,7 @@ import { finalize } from 'rxjs';
     FloatingThemeConfigurator,
     InputErrorComponent,
     TranslateModule,
-    AuthHeaderComponent
+    AuthCardComponent
   ],
 })
 export class ForgotPasswordComponent implements OnInit {
