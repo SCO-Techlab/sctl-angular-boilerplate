@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
     this.spinnerService.show();
     request$
       .pipe(
-        take(MAGIC_NUMBERS.N_1),
+        takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
@@ -105,8 +105,7 @@ export class LoginComponent implements OnInit {
             this.toastService.add({
               severity: TOAST_SEVERITY.ERROR,
               summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.literals['LOGIN_KO_401'],
-              life: MAGIC_NUMBERS.N_3000
+              detail: this.literals['LOGIN_KO_401']
             });
             return;
           }
@@ -126,8 +125,7 @@ export class LoginComponent implements OnInit {
           this.toastService.add({
             severity: TOAST_SEVERITY.SUCCESS,
             summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.literals['LOGIN_OK'],
-            life: MAGIC_NUMBERS.N_3000
+            detail: this.literals['LOGIN_OK']
           });
 
           this.router.navigate(['/']);
@@ -140,8 +138,7 @@ export class LoginComponent implements OnInit {
           this.toastService.add({
             severity: TOAST_SEVERITY.ERROR,
             summary: this.translateService.instant('TOAST.ERROR'),
-            detail,
-            life: MAGIC_NUMBERS.N_3000
+            detail
           });
         }
       })

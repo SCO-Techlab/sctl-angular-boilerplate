@@ -25,6 +25,20 @@
       "LOGIN_OK": "Inicio de sesión exitoso",
       "LOGIN_KO": "Error intentando iniciar sesión",
       "LOGIN_KO_401": "Usuario o contraseña incorrectos"
+    },
+    "FORGOT_PASSWORD": {
+      "TITLE": "Recuperar contraseña",
+      "SUB_TITLE": "Ingresa tu correo electrónico para restablecer tu contraseña",
+      "EMAIL_LABEL": "Correo electrónico",
+      "EMAIL_PLACEHOLDER": "Correo electrónico",
+      "LINK_LABEL": "Ir a inicio de sesión?",
+      "BUTTON_LABEL": "Restablecer contraseña",
+      "ERROR": {
+        "EMAIL": "El correo electrónico es obligatorio",
+        "EMAIL_INVALID": "El correo electrónico no es válido"
+      },
+      "REQUEST_OK": "Se ha enviado un correo para restablecer la contraseña",
+      "REQUEST_KO": "Error intentando restablecer la contraseña"
     }
   }
 }

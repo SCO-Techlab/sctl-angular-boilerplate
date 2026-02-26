@@ -25,6 +25,20 @@
       "LOGIN_OK": "Login successful",
       "LOGIN_KO": "Error trying to login",
       "LOGIN_KO_401": "User or password incorrect"
+    },
+    "FORGOT_PASSWORD": {
+      "TITLE": "Forgot Password",
+      "SUB_TITLE": "Enter your email address to reset your password",
+      "EMAIL_LABEL": "Email",
+      "EMAIL_PLACEHOLDER": "Email address",
+      "LINK_LABEL": "Go to login?",
+      "BUTTON_LABEL": "Reset Password",
+      "ERROR": {
+        "EMAIL": "Email is required",
+        "EMAIL_INVALID": "Email is invalid"
+      },
+      "REQUEST_OK": "Password reset email sent",
+      "REQUEST_KO": "Error trying to reset password"
     }
   }
 }
