@@ -1,8 +1,8 @@
 import { IJwtToken } from "@shared/interfaces";
 
-export class SetAutoLogin {
+export class SetRememberUser {
   static readonly type = '[App] Set auto login';
-  constructor(public payload: { autoLogin: { email: string, password: string }, delete?: boolean }) {}
+  constructor(public payload: { rememberUser: { email: string, password: string }, delete?: boolean }) {}
 }
 
 export class SetDarkMode {

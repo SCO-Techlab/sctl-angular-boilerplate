@@ -1,16 +1,16 @@
 import { IInputErrorComponent } from "@shared/interfaces";
 import { IAuthHeaderComponent } from "./auth-header.interface";
 import { IAuthLinkComponent } from "./auth-link.interface";
+import { IAuthInputComponent } from "./auth-input.interface";
 
 export interface ILoginComponent {
   showConfigurator?: boolean;
   headerConfig?: IAuthHeaderComponent;
-  emailLabel?: string;
-  emailPlaceholder?: string;
-  passwordLabel?: string;
-  passwordPlaceholder?: string;
-  rememberMeEnabled?: boolean;
-  rememberMeLabel?: string;
+  inputs?: {
+    email?: IAuthInputComponent;
+    password?: IAuthInputComponent;
+    rememberMe?: IAuthInputComponent;
+  };
   links?: IAuthLinkComponent[];
   buttonLabel?: string;
   initialValues?: {
@@ -28,5 +28,4 @@ export interface ILoginComponentEvent {
   email: string;
   password: string;
   rememberMe: boolean;
-  autoLogin?: boolean;
 }

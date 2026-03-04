@@ -3,12 +3,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
 import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { Store } from '@ngxs/store';
-import { PersistStorageState, SetAutoLogin, SetToken } from '@persist-storage';
+import { PersistStorageState, SetRememberUser, SetToken } from '@persist-storage';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
@@ -48,10 +48,10 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
 
   private literals: ITranslateLiterals;
-  private isAutoLogin: boolean = false;
 
   private destroyRef$ = inject(DestroyRef);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private store = inject(Store);
   private translateService = inject(TranslateService);
   private authService = inject(AuthService);
@@ -60,15 +60,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.checkDefaultConfig();
 
     this.translateService.stream('AUTH.LOGIN')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.setCustomConfig();
-        this.setRememberedInitialValues();
-        this.setConfigFormErrors();
+        this.subscribeToQueryParams();
+        this.setConfig();
+        this.setForInitialValues();
       });
   }
 
@@ -82,17 +81,11 @@ export class LoginComponent implements OnInit {
     const event: ILoginComponentEvent = {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
-      rememberMe: this.loginForm.get('rememberMe')?.value,
-      autoLogin: this.isAutoLogin
+      rememberMe: this.loginForm.get('rememberMe')?.value
     };
 
-    const request$ = this.isAutoLogin
-      ? this.authService.refreshToken(event.email, event.password, false)
-      : this.authService.logIn(event);
-    this.isAutoLogin = false;
-
     this.spinnerService.show();
-    request$
+    this.authService.logIn(event)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
@@ -108,15 +101,10 @@ export class LoginComponent implements OnInit {
             return;
           }
 
-          this.store.dispatch(new SetToken({
-            token: {
-              ...jwtToken,
-              refreshToken: undefined
-            }
-          }));
+          this.store.dispatch(new SetToken({ token: { ...jwtToken } }));
 
-          this.store.dispatch(new SetAutoLogin({
-            autoLogin: !event.rememberMe ? undefined : { email: event.email, password: jwtToken.refreshToken },
+          this.store.dispatch(new SetRememberUser({
+            rememberUser: !event.rememberMe ? undefined : { email: event.email, password: event.password },
             delete: !event.rememberMe
           }));
 
@@ -131,7 +119,9 @@ export class LoginComponent implements OnInit {
         error: (error: HttpErrorResponse) => {
           const detail: string = error.status === MAGIC_NUMBERS.N_401
             ? this.literals['LOGIN_KO_401']
-            : this.literals['LOGIN_KO'];
+            : error.status === MAGIC_NUMBERS.N_403
+              ? this.literals['LOGIN_KO_403']
+              : this.literals['LOGIN_KO'];
 
           this.toastService.add({
             severity: TOAST_SEVERITY.ERROR,
@@ -142,6 +132,40 @@ export class LoginComponent implements OnInit {
       })
   }
 
+  private subscribeToQueryParams(): void {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((params: Params) => {
+        const reason: string = params['reason'];
+
+        if (reason === 'expired') {
+          
+        }
+
+        if (reason) {
+          const detail: string = reason === 'expired'
+            ? this.literals['LOGIN_KO_401_EXPIRED']
+            : this.literals['LOGIN_SESSION_CLOSED'];
+
+          const severity: TOAST_SEVERITY = reason === 'expired'
+            ? TOAST_SEVERITY.ERROR
+            : TOAST_SEVERITY.SUCCESS;
+
+          this.toastService.add({
+            severity,
+            summary: this.translateService.instant('TOAST.ERROR'),
+            detail
+          });
+
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {},
+            replaceUrl: true 
+          });
+        }
+      });
+  }
+
   private initForm(): void {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
@@ -150,86 +174,39 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  private checkDefaultConfig(): void {
-    this.config.showConfigurator = this.config?.showConfigurator !== undefined ? this.config.showConfigurator : false;
+  private setConfig(): void {
+    this.config.showConfigurator = false;
 
-    this.config.headerConfig = this.config?.headerConfig ?? {};
-    this.config.headerConfig.showLogo = this.config?.headerConfig?.showLogo ?? true;
-    this.config.headerConfig.logoUrl = this.config?.headerConfig?.logoUrl ?? '/assets/images/logo.png';
-    this.config.headerConfig.logoText = this.config?.headerConfig?.logoText ?? '';
-    this.config.headerConfig.logoRedirect = this.config?.headerConfig?.logoRedirect ?? '';
-    this.config.headerConfig.logoCssClass = this.config?.headerConfig?.logoCssClass ?? 'w-32';
-    this.config.headerConfig.title = this.config?.headerConfig?.title ?? 'Sign In';
-    this.config.headerConfig.subTitle = this.config?.headerConfig?.subTitle ?? 'Sign in to continue';
-
-    this.config.emailLabel = this.config?.emailLabel ?? 'Email';
-    this.config.emailPlaceholder = this.config?.emailPlaceholder ?? 'Email address';
-    this.config.passwordLabel = this.config?.passwordLabel ?? 'Password';
-    this.config.passwordPlaceholder = this.config?.passwordPlaceholder ?? 'Password';
-    this.config.rememberMeEnabled = this.config?.rememberMeEnabled ?? true;
-    this.config.rememberMeLabel = this.config?.rememberMeLabel ?? 'Remember me';
-
-    this.config.links = this.config?.links ?? [];
-    this.config.links.push({
-      linkLabel: this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkLabel ?? 'Forgot password?',
-      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkUrl ?? '/auth/forgot-password'
-    });
-    this.config.links.push({
-      linkLabel: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkLabel ?? 'Don\'t have an account?',
-      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkUrl ?? '/auth/register'
-    });
-
-    this.config.buttonLabel = this.config?.buttonLabel ?? 'Sign In';
-    this.config.initialValues = {
-      email: this.config?.initialValues?.email ?? '',
-      password: this.config?.initialValues?.password ?? '',
-      rememberMe: this.config?.initialValues?.rememberMe ?? false
+    this.config.headerConfig = {
+      showLogo: true,
+      logoUrl: '/assets/images/logo.png',
+      logoText: '',
+      logoRedirect: '',
+      logoCssClass: 'w-32',
+      title: this.literals['TITLE'],
+      subTitle: this.literals['SUB_TITLE']
     };
-    this.config.formErrors = {
-      email: this.config?.formErrors?.email ?? {},
-      password: this.config?.formErrors?.password ?? {}
-    };
-  }
 
-  private setCustomConfig(): void {
-    this.config.headerConfig.title = this.literals['TITLE'];
-    this.config.headerConfig.subTitle = this.literals['SUB_TITLE'];
-    this.config.emailLabel = this.literals['EMAIL_LABEL'];
-    this.config.emailPlaceholder = this.literals['EMAIL_PLACEHOLDER'];
-    this.config.passwordLabel = this.literals['PASSWORD_LABEL'];
-    this.config.passwordPlaceholder = this.literals['PASSWORD_PLACEHOLDER'];
-    this.config.rememberMeEnabled = this.config?.rememberMeEnabled ?? true;
-    this.config.rememberMeLabel = this.literals['REMEMBER_ME'];
-    this.config.links[MAGIC_NUMBERS.N_0].linkLabel = this.literals['FORGOT_PASSWORD'];
-    this.config.links[MAGIC_NUMBERS.N_1].linkLabel = this.literals['REGISTER'];
+    this.config.inputs = {
+      email: { label: this.literals['EMAIL_LABEL'], placeholder: this.literals['EMAIL_PLACEHOLDER'], disabled: false },
+      password: { label: this.literals['PASSWORD_LABEL'], placeholder: this.literals['PASSWORD_PLACEHOLDER'], disabled: false },
+      rememberMe: { label: this.literals['REMEMBER_ME'], placeholder: '', disabled: false }
+    };
+
+    this.config.links = [
+      { linkLabel: this.literals['FORGOT_PASSWORD'], linkUrl: '/auth/forgot-password' },
+      { linkLabel: this.literals['REGISTER'], linkUrl: '/auth/register' }
+    ];
+
     this.config.buttonLabel = this.literals['BUTTON_LABEL'];
 
-    const autoLogin: { email: string, password: string } | undefined = this.store.selectSnapshot(PersistStorageState.autoLogin);
-    this.isAutoLogin = autoLogin !== undefined;
+    const rememberUser: { email: string, password: string } | undefined = this.store.selectSnapshot(PersistStorageState.rememberUser);
     this.config.initialValues = {
-      email: autoLogin?.email ?? '',
-      password: autoLogin?.password ?? '',
-      rememberMe: autoLogin !== undefined
+      email: rememberUser?.email ?? '',
+      password: rememberUser?.password ?? '',
+      rememberMe: rememberUser !== undefined
     };
-  }
 
-  private setRememberedInitialValues(): void {
-    if (!this.config.rememberMeEnabled || !this.config?.initialValues) {
-      return;
-    }
-
-    this.loginForm.setValue({
-      email: this.config?.initialValues?.email ?? '',
-      password: this.config?.initialValues?.password ?? '',
-      rememberMe: this.config?.initialValues?.rememberMe ?? false
-    });
-
-    this.loginForm.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe(() => this.isAutoLogin = false);
-  }
-
-  private setConfigFormErrors(): void {
     this.config.formErrors = {
       email: {
         formControl: this.loginForm.get('email'),
@@ -246,5 +223,17 @@ export class LoginComponent implements OnInit {
         ]
       }
     };
+  }
+
+  private setForInitialValues(): void {
+    if (this.config.inputs?.rememberMe?.disabled || !this.config?.initialValues) {
+      return;
+    }
+
+    this.loginForm.setValue({
+      email: this.config?.initialValues?.email ?? '',
+      password: this.config?.initialValues?.password ?? '',
+      rememberMe: this.config?.initialValues?.rememberMe ?? false
+    });
   }
 }

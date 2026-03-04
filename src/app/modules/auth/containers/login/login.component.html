@@ -6,25 +6,25 @@
   <form [formGroup]="loginForm" body>
     <div class="mb-6">
       <label for="login-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-        {{config?.emailLabel}}
+        {{config?.inputs?.email.label}}
       </label>
       <input pInputText class="w-full md:w-120"
         id="login-email" 
         type="text"
         formControlName="email"
-        [placeholder]="config?.emailPlaceholder"
+        [placeholder]="config?.inputs?.email.placeholder"
       />
       <sctl-input-error [config]="config?.formErrors?.email"></sctl-input-error>
     </div>
 
     <div class="mb-6">
       <label for="login-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
-        {{config?.passwordLabel}}
+        {{config?.inputs?.password.label}}
       </label>
       <p-password
         id="login-password"
         formControlName="password"
-        [placeholder]="config?.passwordPlaceholder"
+        [placeholder]="config?.inputs?.password.placeholder"
         [toggleMask]="true"
         [fluid]="true"
         [feedback]="false">
@@ -32,11 +32,11 @@
       <sctl-input-error [config]="config?.formErrors?.password"></sctl-input-error>
     </div>
 
-    @if (config?.rememberMeEnabled) {
+    @if (!config?.inputs?.rememberMe?.disabled) {
       <div class="flex items-center justify-start mt-2 mb-6 gap-8">
         <div class="flex items-center">
           <p-checkbox binary class="mr-2" id="login-rememberme" formControlName="rememberMe"></p-checkbox>
-          <label for="login-rememberme">{{config?.rememberMeLabel}}</label>
+          <label for="login-rememberme">{{config?.inputs?.rememberMe.label}}</label>
         </div>
       </div>
     }

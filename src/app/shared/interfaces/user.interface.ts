@@ -8,6 +8,7 @@ export interface IUser {
   personalName?: string;
   active: boolean;
   emailConfirmed?: boolean;
+  emailConfirmedAt?: Date;
   role: IRole
   pwdRecoveryToken?: string;
   pwdRecoveryDate?: Date;

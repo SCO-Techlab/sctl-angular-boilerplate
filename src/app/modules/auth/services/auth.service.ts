@@ -23,7 +23,19 @@ export class AuthService {
   }
 
   register(user: IUser): Observable<boolean> {
-    return this.http.post<boolean>(`${environment.apiUrl}/auth/register`, user);
+    const body = { 
+      email: user.email, 
+      userName: user.userName,
+      personalName: user.personalName,
+      password: user.password,
+      active: user.active,
+      role: user.role?.name || user.role
+    };
+    return this.http.post<boolean>(`${environment.apiUrl}/auth/register`, body);
+  }
+
+  findUser(email: string): Observable<IUser> {
+    return this.http.get<IUser>(`${environment.apiUrl}/auth/find/user/${email}`);
   }
 
   confirmEmail(email: string): Observable<boolean> {
@@ -35,11 +47,11 @@ export class AuthService {
   }
 
   passwordRecoveryFind(pwdRecoveryToken: string): Observable<IUser> {
-    return this.http.get<IUser>(`${environment.apiUrl}/auth/recovery/find/${pwdRecoveryToken}`);
+    return this.http.get<IUser>(`${environment.apiUrl}/auth/recover/password/find/${pwdRecoveryToken}`);
   }
 
-  passwordRecoveryReset(pwdRecoveryToken: string, password: string): Observable<boolean> {
-    const body = { password };
-    return this.http.put<boolean>(`${environment.apiUrl}/auth/recovery/reset/${pwdRecoveryToken}`, body);
+  passwordRecoveryReset(userId: string, password: string): Observable<boolean> {
+    const body = { userId, password };
+    return this.http.put<boolean>(`${environment.apiUrl}/auth/recover/password/reset`, body);
   }
 }

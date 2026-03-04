@@ -55,14 +55,12 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.checkDefaultConfig();
 
     this.translateService.stream('AUTH.FORGOT_PASSWORD')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.setCustomConfig();
-        this.setConfigFormErrors();
+        this.setConfig();
       });
   }
 
@@ -87,7 +85,7 @@ export class ForgotPasswordComponent implements OnInit {
             this.toastService.add({
               severity: TOAST_SEVERITY.ERROR,
               summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.literals['REQUEST_KO']
+              detail: this.literals['FORGOT_PASSWORD_KO']
             });
             return;
           }
@@ -95,7 +93,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.toastService.add({
             severity: TOAST_SEVERITY.SUCCESS,
             summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.literals['REQUEST_OK']
+            detail: this.literals['FORGOT_PASSWORD_OK']
           });
 
           this.router.navigate(['/']);
@@ -104,7 +102,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.toastService.add({
             severity: TOAST_SEVERITY.ERROR,
             summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals['REQUEST_KO']
+            detail: this.literals['FORGOT_PASSWORD_KO']
           });
         }
       })
@@ -116,53 +114,31 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  private checkDefaultConfig(): void {
-    this.config.showConfigurator = this.config?.showConfigurator !== undefined ? this.config.showConfigurator : false;
+  private setConfig(): void {
+    this.config.showConfigurator = false;
 
-    this.config.headerConfig = this.config?.headerConfig ?? {};
-    this.config.headerConfig.showLogo = this.config.headerConfig?.showLogo !== undefined ? this.config.headerConfig.showLogo : true;
-    this.config.headerConfig.logoUrl = this.config?.headerConfig?.logoUrl ?? '/assets/images/logo.png';
-    this.config.headerConfig.logoText = this.config.headerConfig?.logoText ?? '';
-    this.config.headerConfig.logoRedirect = this.config.headerConfig?.logoRedirect ?? '';
-    this.config.headerConfig.logoCssClass = this.config.headerConfig?.logoCssClass ?? 'w-32';
-    this.config.headerConfig.title = this.config.headerConfig?.title ?? 'Forgot Password';
-    this.config.headerConfig.subTitle = this.config.headerConfig?.subTitle ?? 'Enter your email address to reset your password';
-
-    this.config.emailLabel = this.config?.emailLabel ?? 'Email';
-    this.config.emailPlaceholder = this.config?.emailPlaceholder ?? 'Email address';
-
-    this.config.links = this.config?.links ?? [];
-    this.config.links.push({
-      linkLabel: this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkLabel ?? 'Go to login?',
-      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkUrl ?? '/auth/login'
-    });
-
-    this.config.links.push({
-      linkLabel: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkLabel ?? 'Don\'t have an account?',
-      linkUrl: this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkUrl ?? '/auth/register'
-    });
-
-    this.config.buttonLabel = this.config?.buttonLabel ?? 'Reset Password';
-
-    this.config.formErrors = {
-      email: this.config?.formErrors?.email ?? {},
+    this.config.headerConfig = {
+      showLogo: true,
+      logoUrl: '/assets/images/logo.png',
+      logoText: '',
+      logoRedirect: '',
+      logoCssClass: 'w-32',
+      title: this.literals['TITLE'],
+      subTitle: this.literals['SUB_TITLE']
     };
-  }
 
-  private setCustomConfig(): void {
-    this.config.headerConfig.title = this.literals['TITLE'];
-    this.config.headerConfig.subTitle = this.literals['SUB_TITLE'];
-    this.config.emailLabel = this.literals['EMAIL_LABEL'];
-    this.config.emailPlaceholder = this.literals['EMAIL_PLACEHOLDER'];
-    this.config.links[MAGIC_NUMBERS.N_0].linkLabel = this.literals['LINK_LABEL'];
-    this.config.links[MAGIC_NUMBERS.N_0].linkUrl = this.config?.links?.[MAGIC_NUMBERS.N_0]?.linkUrl ?? '/auth/login';
-    this.config.links[MAGIC_NUMBERS.N_1].linkLabel = this.literals['LINK_REGISTER_LABEL'];
-    this.config.links[MAGIC_NUMBERS.N_1].linkUrl = this.config?.links?.[MAGIC_NUMBERS.N_1]?.linkUrl ?? '/auth/register';
+    this.config.inputs = {
+      email: { label: this.literals['EMAIL_LABEL'], placeholder: this.literals['EMAIL_PLACEHOLDER'], disabled: false }
+    };
+
+    this.config.links = [
+      { linkLabel: this.literals['LINK_LABEL'], linkUrl: '/auth/login' },
+      { linkLabel: this.literals['LINK_REGISTER_LABEL'], linkUrl: '/auth/register' }
+    ];
+
     this.config.buttonLabel = this.literals['BUTTON_LABEL'];
-  }
 
-  private setConfigFormErrors(): void {
-    this.config.formErrors = {
+     this.config.formErrors = {
       email: {
         formControl: this.forgotPasswordForm.get('email'),
         errorsToShow: [

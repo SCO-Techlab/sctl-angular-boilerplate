@@ -1,9 +1,10 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { environment } from '@environment';
 import { AuthGuard } from '@guards';
+import { errorHandlerInterceptor } from '@interceptors';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { PersistStorageState } from '@persist-storage';
@@ -12,6 +13,7 @@ import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/fact
 import { ConfigService, ToastService } from '@shared/services';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
+import { authInitializer } from '@modules/auth';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,7 +22,10 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
       withEnabledBlockingInitialNavigation()
     ),
-    provideHttpClient(withFetch()),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([errorHandlerInterceptor])
+    ),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
@@ -49,6 +54,11 @@ export const appConfig: ApplicationConfig = {
       path: '/assets/i18n'
     }),
     ToastService,
-    AuthGuard
+    AuthGuard,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: authInitializer,
+      multi: true
+    }
   ]
 };

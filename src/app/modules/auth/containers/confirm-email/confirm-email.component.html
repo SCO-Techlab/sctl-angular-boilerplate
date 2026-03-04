@@ -1,0 +1,19 @@
+@if (config?.showConfigurator) {
+  <sctl-floating-theme-configurator />
+}
+
+<sctl-auth-card [config]="{ headerConfig: config?.headerConfig }">
+  <div body>
+    <div class="mb-6 flex justify-center align-items-center">
+      <p-message [severity]="isError ? 'error' : 'success'" variant="simple" size="large">
+        <span>{{ resultMessage }}</span>
+      </p-message>
+    </div>
+    <p-button 
+      [label]="config?.buttonLabel"
+      [disabled]="false"
+      styleClass="w-full mt-4" 
+      (click)="onClickLink(config?.buttonRedirect)"
+    ></p-button>
+  </div>
+</sctl-auth-card>

@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { IJwtToken } from "@shared/interfaces";
-import { SetAutoLogin, SetDarkMode, SetToken } from "./persist-storage.actions";
+import { SetDarkMode, SetRememberUser, SetToken } from "./persist-storage.actions";
 
 class PersistStorageStateModel {
-  autoLogin: { email: string, password: string } | undefined;
+  rememberUser: { email: string, password: string } | undefined;
   darkMode: boolean;
   token: IJwtToken
 }
@@ -12,7 +12,7 @@ class PersistStorageStateModel {
 @State<PersistStorageStateModel>({
   name: 'persiststorage',
   defaults: {
-    autoLogin: undefined,
+    rememberUser: undefined,
     darkMode: undefined,
     token: undefined
   }
@@ -21,8 +21,8 @@ class PersistStorageStateModel {
 export class PersistStorageState {
 
   @Selector()
-  static autoLogin(state: PersistStorageStateModel): { email: string, password: string } | undefined {
-    return state.autoLogin;
+  static rememberUser(state: PersistStorageStateModel): { email: string, password: string } | undefined {
+    return state.rememberUser;
   }
 
   @Selector()
@@ -35,15 +35,15 @@ export class PersistStorageState {
     return state.token;
   }
 
-  @Action(SetAutoLogin)
-  public setAutoLogin(
+  @Action(SetRememberUser)
+  public setRememberUser(
     { patchState }: StateContext<PersistStorageStateModel>,
-    { payload }: SetAutoLogin
+    { payload }: SetRememberUser
   ) {
     patchState({
-      autoLogin: payload.delete
+      rememberUser: payload.delete
         ? undefined
-        : payload.autoLogin
+        : payload.rememberUser
     });
   }
 

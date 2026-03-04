@@ -30,7 +30,7 @@ export class ToastService {
     }
 
     this._messages.next([...msgs, message]);
-    const life = message.life ?? MAGIC_NUMBERS.N_3000;
+    const life = message.life ?? MAGIC_NUMBERS.N_5000;
     setTimeout(() => this.remove(message.id!), life);
   }
 

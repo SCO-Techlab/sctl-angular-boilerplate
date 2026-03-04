@@ -25,6 +25,9 @@
             "@guards": [
                 "src/app/guards/index.ts"
             ],
+            "@interceptors": [
+                "src/app/interceptors/index.ts"
+            ],
             "@layout/*": [
                 "src/app/layout/*"
             ],

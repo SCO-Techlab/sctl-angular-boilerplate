@@ -25,7 +25,10 @@
       },
       "LOGIN_OK": "Inicio de sesión exitoso",
       "LOGIN_KO": "Error intentando iniciar sesión",
-      "LOGIN_KO_401": "Usuario o contraseña incorrectos"
+      "LOGIN_KO_401": "Usuario o contraseña incorrectos",
+      "LOGIN_KO_403": "Usuario no activo",
+      "LOGIN_KO_401_EXPIRED": "Tu sesión ha expirado, por favor, inicia sesión nuevamente",
+      "LOGIN_SESSION_CLOSED": "Sesión cerrada con éxito"
     },
     "FORGOT_PASSWORD": {
       "TITLE": "Recuperar contraseña",
@@ -39,8 +42,8 @@
         "EMAIL": "El correo electrónico es obligatorio",
         "EMAIL_INVALID": "El correo electrónico no es válido"
       },
-      "REQUEST_OK": "Se ha enviado un correo para restablecer la contraseña",
-      "REQUEST_KO": "Error intentando restablecer la contraseña"
+      "FORGOT_PASSWORD_OK": "Correo electrónico de restablecimiento de contraseña enviado",
+      "FORGOT_PASSWORD_KO": "Error intentando restablecer la contraseña"
     },
     "REGISTER": {
       "TITLE": "Crear cuenta",
@@ -60,10 +63,42 @@
         "PASSWORD": "La contraseña es obligatoria",
         "PASSWORD_INVALID": "La contraseña no es válida",
         "CONFIRM_PASSWORD": "La confirmación de la contraseña es obligatoria",
-        "CONFIRM_PASSWORD_INVALID": "La confirmación de la contraseña no es válida"
+        "CONFIRM_PASSWORD_INVALID": "La confirmación de la contraseña no es válida",
+        "PASSWORDS_NOT_MATCH": "Las contraseñas no coinciden"
       },
-      "REQUEST_OK": "Cuenta creada exitosamente",
-      "REQUEST_KO": "Error intentando crear la cuenta"
+      "REGISTER_OK": "Su cuenta se ha creado exitosamente",
+      "REGISTER_KO": "Error intentando crear la cuenta",
+      "REGISTER_KO_403_EMAIL_EXISTS": "El correo electrónico ya está en uso",
+      "REGISTER_KO_403_ROLE_NOT_FOUND": "El rol no se encuentra",
+      "REGISTER_KO_403_EMAIL_NOT_SEND": "Error al enviar el correo electrónico de confirmación"
+    },
+    "CONFIRM_EMAIL": {
+      "TITLE": "Confirmación de usuario",
+      "SUB_TITLE": "",
+      "BUTTON_LABEL": "Volver a iniciar sesión",
+      "CONFIRM_EMAIL_OK": "Su cuenta de usuario ha sido confirmada correctamente",
+      "CONFIRM_EMAIL_KO": "Hubo un error al intentar confirmar su cuenta de usuario",
+      "ALREADY_CONFIRMED": "Su cuenta de usuario ya ha sido confirmada"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Reiniciar contraseña",
+      "SUB_TITLE": "Ingrese una nueva contraseña para su cuenta",
+      "PASSWORD_LABEL": "Contraseña",
+      "PASSWORD_PLACEHOLDER": "Contraseña",
+      "CONFIRM_PASSWORD_LABEL": "Confirmar contraseña",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Confirmar contraseña",
+      "BUTTON_LABEL": "Restablecer contraseña",
+      "ERROR": {
+        "PASSWORD": "La contraseña es obligatoria",
+        "PASSWORD_INVALID": "La contraseña no es válida",
+        "CONFIRM_PASSWORD": "La confirmación de la contraseña es obligatoria",
+        "CONFIRM_PASSWORD_INVALID": "La confirmación de la contraseña no es válida",
+        "PASSWORDS_NOT_MATCH": "Las contraseñas no coinciden"
+      },
+      "RESET_PASSWORD_OK": "La contraseña ha sido restablecida correctamente",
+      "RESET_PASSWORD_KO": "Hubo un error al intentar restablecer la contraseña",
+      "RESET_PASSWORD_USER_NOT_FOUND": "No se ha podido recuperar el usuario con el token",
+      "RESET_PASSWORD_TOKEN_EXPIRED": "El token de recuperación de contraseña ha expirado"
     }
   }
 }

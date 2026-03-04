@@ -69,7 +69,14 @@ export class LayoutComponent implements OnInit, AfterViewInit {
             icon: 'pi pi-sign-out',
             command: (action) => {
               this.store.dispatch(new SetToken({ token: undefined, delete: true }));
-              this.router.navigate(['/auth/login']);
+              this.router.navigate(
+                ['/auth/login'],
+                {
+                  queryParams: {
+                    reason: 'signout'
+                  }
+                }
+              );
             }
           }
         ],

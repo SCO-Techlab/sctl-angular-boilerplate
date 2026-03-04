@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ForgotPasswordComponent, LoginComponent, RegisterComponent } from './containers';
+import { ConfirmEmailComponent, ForgotPasswordComponent, LoginComponent, RegisterComponent, ResetPasswordComponent } from './containers';
 
 export default [
   {
@@ -13,5 +13,13 @@ export default [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'confirm-email/:email',
+    component: ConfirmEmailComponent
+  },
+  {
+    path: 'reset-password/:pwdRecoveryToken',
+    component: ResetPasswordComponent
   }
 ] as Routes;

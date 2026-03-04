@@ -6,15 +6,45 @@
   <form [formGroup]="registerForm" body>
     <div class="mb-6">
       <label for="register-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-        {{config?.emailLabel}}
+        {{config?.inputs?.email.label}}
       </label>
       <input pInputText class="w-full md:w-120"
         id="register-email" 
         type="text"
         formControlName="email"
-        [placeholder]="config?.emailPlaceholder"
+        [placeholder]="config?.inputs?.email.placeholder"
       />
       <sctl-input-error [config]="config?.formErrors?.email"></sctl-input-error>
+    </div>
+
+    <div class="mb-6">
+      <label for="register-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
+        {{config?.inputs?.password.label}}
+      </label>
+      <p-password
+        id="register-password"
+        formControlName="password"
+        [placeholder]="config?.inputs?.password.placeholder"
+        [toggleMask]="true"
+        [fluid]="true"
+        [feedback]="false">
+      </p-password>
+      <sctl-input-error [config]="config?.formErrors?.password"></sctl-input-error>
+    </div>
+
+    <div class="mb-6">
+      <label for="register-confirm-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
+        {{config?.inputs?.confirmPassword.label}}
+      </label>
+      <p-password
+        id="register-confirm-password"
+        formControlName="confirmPassword"
+        [placeholder]="config?.inputs?.confirmPassword.placeholder"
+        [toggleMask]="true"
+        [fluid]="true"
+        [feedback]="false">
+      </p-password>
+      <sctl-input-error [config]="config?.formErrors?.confirmPassword"></sctl-input-error>
     </div>
 
     @if (config?.links?.length > 0) {

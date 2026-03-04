@@ -25,7 +25,10 @@
       },
       "LOGIN_OK": "Login successful",
       "LOGIN_KO": "Error trying to login",
-      "LOGIN_KO_401": "User or password incorrect"
+      "LOGIN_KO_401": "User or password incorrect",
+      "LOGIN_KO_403": "User not active",
+      "LOGIN_KO_401_EXPIRED": "Your session has expired, please login again",
+      "LOGIN_SESSION_CLOSED": "Session closed successfully"
     },
     "FORGOT_PASSWORD": {
       "TITLE": "Forgot Password",
@@ -39,8 +42,8 @@
         "EMAIL": "Email is required",
         "EMAIL_INVALID": "Email is invalid"
       },
-      "REQUEST_OK": "Password reset email sent",
-      "REQUEST_KO": "Error trying to reset password"
+      "FORGOT_PASSWORD_OK": "Password reset email sent",
+      "FORGOT_PASSWORD_KO": "Error trying to reset password"
     }
   },
   "REGISTER": {
@@ -61,9 +64,41 @@
       "PASSWORD": "Password is required",
       "PASSWORD_INVALID": "Password is invalid",
       "CONFIRM_PASSWORD": "Confirm Password is required",
-      "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid"
+      "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
+      "PASSWORDS_NOT_MATCH": "Passwords do not match"
     },
-    "REQUEST_OK": "Account created successfully",
-    "REQUEST_KO": "Error trying to create account"
+    "REGISTER_OK": "Your account has been created successfully",
+    "REGISTER_KO": "Error trying to create account",
+    "REGISTER_KO_403_EMAIL_EXISTS": "Email already exists",
+    "REGISTER_KO_403_ROLE_NOT_FOUND": "Role not found",
+    "REGISTER_KO_403_EMAIL_NOT_SEND": "Error sending email confirmation"
+  },
+  "CONFIRM_EMAIL": {
+    "TITLE": "Confirm User",
+    "SUB_TITLE": "",
+    "BUTTON_LABEL": "Back to Login",
+    "CONFIRM_EMAIL_OK": "Your user account has been confirmed successfully",
+    "CONFIRM_EMAIL_KO": "Error trying to confirm your user account",
+    "ALREADY_CONFIRMED": "Your user account has already been confirmed"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Reset Password",
+    "SUB_TITLE": "Enter a new password to reset your account",
+    "PASSWORD_LABEL": "Password",
+    "PASSWORD_PLACEHOLDER": "Password",
+    "CONFIRM_PASSWORD_LABEL": "Confirm Password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
+    "BUTTON_LABEL": "Reset Password",
+    "ERROR": {
+      "PASSWORD": "Password is required",
+      "PASSWORD_INVALID": "Password is invalid",
+      "CONFIRM_PASSWORD": "Confirm Password is required",
+      "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
+      "PASSWORDS_NOT_MATCH": "Passwords do not match"
+    },
+    "RESET_PASSWORD_OK": "Password reset successfully",
+    "RESET_PASSWORD_KO": "Error trying to reset password",
+    "RESET_PASSWORD_USER_NOT_FOUND": "User not found",
+    "RESET_PASSWORD_TOKEN_EXPIRED": "Password recovery token expired"
   }
 }
