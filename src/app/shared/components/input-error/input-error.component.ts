@@ -12,7 +12,11 @@ import { MessageModule } from 'primeng/message';
 })
 export class InputErrorComponent implements OnInit {
 
-  public config = input<IInputErrorComponent>({});
+  public config = input<IInputErrorComponent>({
+    cssClass: 'mb-8',
+    formControl: undefined,
+    errorsToShow: []
+  });
 
   ngOnInit(): void {
     this.setDefaultConfig();
@@ -24,6 +28,10 @@ export class InputErrorComponent implements OnInit {
   }
 
   private setDefaultConfig(): void {
+    if (!this.config()) {
+      return;
+    }
+    
     this.config().cssClass = this.config()?.cssClass ?? 'mb-8';
     this.config().formControl = this.config()?.formControl ?? undefined;
     this.config().errorsToShow = this.config()?.errorsToShow ?? [];
