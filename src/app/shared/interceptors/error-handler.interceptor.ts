@@ -7,7 +7,7 @@ import { MAGIC_NUMBERS } from '@shared/constants';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
+export const ErrorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
 
   const store = inject(Store);
   const router = inject(Router);

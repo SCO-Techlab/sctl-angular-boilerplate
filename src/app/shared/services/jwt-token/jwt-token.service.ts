@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MAGIC_NUMBERS } from '@shared/constants';
-import { IAuthPayload } from '@shared/interfaces';
+import { IJwtPayload } from '@shared/interfaces';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -8,12 +8,12 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class JwtTokenService {
 
-  public decodeToken(token?: string): IAuthPayload {
+  public decodeToken(token?: string): IJwtPayload {
     if (!token) {
       return undefined;
     }
 
-    const decoded = jwtDecode<IAuthPayload>(token);
+    const decoded = jwtDecode<IJwtPayload>(token);
     return decoded ?? undefined;
   }
 
@@ -22,7 +22,7 @@ export class JwtTokenService {
       return true;
     }
 
-    const decoded = jwtDecode<IAuthPayload>(token);
+    const decoded = this.decodeToken(token);
     if (!decoded || decoded.exp === undefined) {
       return true;
     }
