@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SessionStorageState } from '@session-storage';
-import { IJwtToken } from '@shared/interfaces';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -13,8 +12,8 @@ export class AuthGuard implements CanActivate {
   ) { }
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const token: IJwtToken = this.store.selectSnapshot(SessionStorageState.token);
-    if (!token) {
+    const accessToken: string = this.store.selectSnapshot(SessionStorageState.accessToken);
+    if (!accessToken) {
       this.router.navigate(
         ['/auth/login'],
         {

@@ -19,7 +19,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { finalize } from 'rxjs';
-import { SessionStorageState, SetRememberUser, SetToken } from 'src/app/session-storage';
+import { SessionStorageState } from 'src/app/session-storage';
 
 @Component({
   selector: 'sctl-login',

@@ -10,12 +10,12 @@ export function AuthInitializer(): () => void {
     const jwtTokenService = inject(JwtTokenService);
     const userService = inject(UserService);
 
-    const token = store.selectSnapshot(SessionStorageState.token);
-    if (!token?.accessToken) {
+    const accessToken: string = store.selectSnapshot(SessionStorageState.accessToken);
+    if (!accessToken) {
       return;
     }
 
-    if (jwtTokenService.isTokenExpired(token.accessToken)) {
+    if (jwtTokenService.isTokenExpired(accessToken)) {
       userService.logout('expired');
     }
   };
