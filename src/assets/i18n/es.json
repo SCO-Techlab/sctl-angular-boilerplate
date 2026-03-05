@@ -131,6 +131,11 @@
       "MESSAGE_0": "No tienes los permisos necesarios para acceder a esta página",
       "MESSAGE_1": "Por favor, contacta con los administradores",
       "BUTTON_LABEL": "Volver a inicio"
+    },
+    "NOTFOUND": {
+      "TITLE": "Página no encontrada",
+      "MESSAGE": "La página solicitada no está disponible",
+      "BUTTON_LABEL": "Volver a inicio"
     }
   }
 }

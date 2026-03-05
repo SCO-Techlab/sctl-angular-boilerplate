@@ -4,7 +4,6 @@ export * from './input-error.interface';
 export * from './jwt-token.interface';
 export * from './layout.interface';
 export * from './loader.interface';
-export * from './notfound.interface';
 export * from './permissions.interface';
 export * from './roles.interface';
 export * from './spinner.interface';

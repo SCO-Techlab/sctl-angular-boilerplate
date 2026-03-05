@@ -1,5 +1,4 @@
 export interface INotfoundComponent {
-  showConfigurator?: boolean;
   title?: string;
   message?: string;
   buttonLabel?: string;
