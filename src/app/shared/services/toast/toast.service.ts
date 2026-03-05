@@ -40,7 +40,7 @@ export class ToastService {
     this.add(message);
   }
 
-  private add(message: IToastMessage): void {
+  public add(message: IToastMessage): void {
     message.id = this.genId();
     const msgs = this._messages.getValue();
 
