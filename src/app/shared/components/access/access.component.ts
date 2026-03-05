@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IAccessComponent } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
-import { RippleModule } from 'primeng/ripple';
 import { FloatingThemeConfigurator } from '../floating-theme-configurator';
 
 @Component({
@@ -12,7 +11,6 @@ import { FloatingThemeConfigurator } from '../floating-theme-configurator';
   imports: [
     ButtonModule,
     RouterModule,
-    RippleModule,
     FloatingThemeConfigurator
   ],
 })

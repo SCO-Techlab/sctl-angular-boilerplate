@@ -92,7 +92,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.translateService.stream('LAYOUT.MENU')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
@@ -104,7 +104,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.overlayMenuOpenSubscription) {
       this.overlayMenuOpenSubscription.unsubscribe();
     }
@@ -114,7 +114,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  isOutsideClicked(event: MouseEvent) {
+  private isOutsideClicked(event: MouseEvent): boolean {
     const sidebarEl = document.querySelector('.layout-sidebar');
     const topbarEl = document.querySelector('.layout-menu-button');
     const eventTarget = event.target as Node;
@@ -127,7 +127,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  hideMenu() {
+  private hideMenu(): void {
     this.layoutService.layoutState.update((prev) => ({ ...prev, overlayMenuActive: false, staticMenuMobileActive: false, menuHoverActive: false }));
     if (this.menuOutsideClickListener) {
       this.menuOutsideClickListener();
@@ -136,7 +136,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.unblockBodyScroll();
   }
 
-  blockBodyScroll(): void {
+  private blockBodyScroll(): void {
     if (document.body.classList) {
       document.body.classList.add('blocked-scroll');
     } else {
@@ -144,7 +144,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  unblockBodyScroll(): void {
+  private unblockBodyScroll(): void {
     if (document.body.classList) {
       document.body.classList.remove('blocked-scroll');
     } else {
@@ -152,15 +152,15 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private mockMenu(literals: ITranslateLiterals) {
+  private mockMenu(literals: ITranslateLiterals): MenuItem[] {
     return [
       {
         label: literals['HOME']['LABEL'],
         items: [
-          { 
-            label: literals['HOME']['ITEMS']['DASHBOARD'], 
-            icon: 'pi pi-fw pi-home', 
-            routerLink: ['/'] 
+          {
+            label: literals['HOME']['ITEMS']['DASHBOARD'],
+            icon: 'pi pi-fw pi-home',
+            routerLink: ['/']
           }
         ]
       },

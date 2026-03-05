@@ -12,7 +12,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
-import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { Table, TableModule } from 'primeng/table';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -28,7 +27,6 @@ import { ToolbarModule } from 'primeng/toolbar';
     TableModule,
     FormsModule,
     ButtonModule,
-    RippleModule,
     ToolbarModule,
     DialogModule,
     InputTextModule,

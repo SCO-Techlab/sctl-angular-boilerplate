@@ -5,7 +5,6 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { LayoutService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
-import { RippleModule } from 'primeng/ripple';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -32,8 +31,7 @@ import { filter } from 'rxjs/operators';
   ],
   imports: [
     CommonModule,
-    RouterModule,
-    RippleModule
+    RouterModule
   ],
   providers: [LayoutService]
 })

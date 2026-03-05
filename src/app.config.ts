@@ -12,6 +12,7 @@ import { AuthGuard } from '@shared/guards';
 import { errorHandlerInterceptor } from '@shared/interceptors';
 import { ConfigService, ToastService } from '@shared/services';
 import { providePrimeNG } from 'primeng/config';
+import { RippleModule } from 'primeng/ripple';
 import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -39,7 +40,8 @@ export const appConfig: ApplicationConfig = {
         [SessionStorageState],
         { developmentMode: !environment.production }
       ),
-      NgxsStoragePluginModule.forRoot({ keys: ['sctlangularboilerplate'] })
+      NgxsStoragePluginModule.forRoot({ keys: ['sctlangularboilerplate'] }),
+      RippleModule
     ),
     {
       provide: APP_INITIALIZER,

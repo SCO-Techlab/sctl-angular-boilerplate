@@ -57,12 +57,12 @@ export class LayoutTopbarComponent implements OnInit {
       });
   }
 
-  toggleDarkMode(): void {
+  public toggleDarkMode(): void {
     this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
     this.store.dispatch(new SetDarkMode({ darkMode: this.layoutService.isDarkTheme() }));
   }
 
-  onClickLogo(): void {
+  public onClickLogo(): void {
     if (this.config?.logoRedirect) {
       this.router.navigate([this.config?.logoRedirect]);
     }
