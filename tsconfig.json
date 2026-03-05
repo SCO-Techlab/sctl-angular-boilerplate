@@ -39,10 +39,7 @@
             ],
             "@shared/*": [
                 "src/app/shared/*"
-            ],
-            "@shell/*": [
-                "src/app/shell/*"
-            ],
+            ]
         }
     },
     "angularCompilerOptions": {

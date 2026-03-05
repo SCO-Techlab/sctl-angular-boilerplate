@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ILayoutTopbarComponent } from '@layout/interfaces';
+import { Store } from '@ngxs/store';
+import { SetDarkMode } from '@persist-storage';
 import { ThemeConfiguratorComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ConfigService, LayoutService, ScreenService } from '@shared/services';
@@ -34,7 +36,8 @@ export class LayoutTopbarComponent {
     public layoutService: LayoutService,
     public configService: ConfigService,
     public screenService: ScreenService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {
     this.isSidebarEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.SIDEBAR_ENABLED);
     this.isSwitchThemeEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.TOPBAR_SWITCH_THEME_ENABLED);
@@ -44,6 +47,7 @@ export class LayoutTopbarComponent {
 
   toggleDarkMode() {
     this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
+    this.store.dispatch(new SetDarkMode({ darkMode: this.layoutService.isDarkTheme() }));
   }
 
   onClickLogo() {
