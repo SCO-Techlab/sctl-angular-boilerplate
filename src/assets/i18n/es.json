@@ -100,5 +100,26 @@
       "RESET_PASSWORD_USER_NOT_FOUND": "No se ha podido recuperar el usuario con el token",
       "RESET_PASSWORD_TOKEN_EXPIRED": "El token de recuperación de contraseña ha expirado"
     }
+  },
+  "LAYOUT": {
+    "MENU": {
+      "HOME": {
+        "LABEL": "Home",
+        "ITEMS": {
+          "DASHBOARD": "Dashboard"
+        }
+      }
+    },
+    "FOOTER": {
+      "TEXT": "Angular Boilerplate realizado por"
+    },
+    "TOPBAR": {
+      "SWITCH_THEME_DARK_MODE": "Modo oscuro",
+      "SWITCH_THEME_LIGHT_MODE": "Modo claro",
+      "ACTIONS": {
+        "PROFILE": "Perfil",
+        "LOGOUT": "Cerrar sesión"
+      }
+    }
   }
 }

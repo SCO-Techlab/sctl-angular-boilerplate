@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { LayoutFooterComponent, LayoutSidebarComponent, LayoutTopbarComponent } from '@layout/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { LAYOUT_MENU } from '@shared/enums';
-import { ConfigService, LayoutService } from '@shared/services';
+import { ITranslateLiterals } from '@shared/interfaces';
+import { TranslateModule } from '@shared/modules';
+import { ConfigService, LayoutService, TranslateService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { filter, Subscription } from 'rxjs';
 
@@ -14,9 +17,10 @@ import { filter, Subscription } from 'rxjs';
   templateUrl: './layout.component.html',
   imports: [
     CommonModule,
+    RouterModule,
+    TranslateModule,
     LayoutTopbarComponent,
     LayoutSidebarComponent,
-    RouterModule,
     LayoutFooterComponent,
   ]
 })
@@ -61,6 +65,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public renderer = inject(Renderer2);
   public router = inject(Router);
   public configService = inject(ConfigService);
+  private destroyRef$ = inject(DestroyRef);
+  private translateService = inject(TranslateService);
   private cdRef = inject(ChangeDetectorRef);
 
   constructor() {
@@ -87,7 +93,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.menu = this.mockMenu();
+    this.translateService.stream('LAYOUT.MENU')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: ITranslateLiterals) => {
+        this.menu = this.mockMenu(res);
+      });
   }
 
   ngAfterViewInit(): void {
@@ -142,12 +152,17 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private mockMenu() {
+  private mockMenu(literals: ITranslateLiterals) {
     return [
       {
-        label: 'Home',
-        visible: true,
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'], visible: true }]
+        label: literals['HOME']['LABEL'],
+        items: [
+          { 
+            label: literals['HOME']['ITEMS']['DASHBOARD'], 
+            icon: 'pi pi-fw pi-home', 
+            routerLink: ['/'] 
+          }
+        ]
       },
     ];
   }

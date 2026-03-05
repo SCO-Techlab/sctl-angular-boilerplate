@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterModule } from '@angular/router';
 import { ILayoutTopbarComponent } from '@layout/interfaces';
 import { Store } from '@ngxs/store';
 import { SetDarkMode, SetToken } from '@session-storage';
 import { ThemeConfiguratorComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
-import { ConfigService, LayoutService, ScreenService } from '@shared/services';
+import { ITranslateLiterals } from '@shared/interfaces';
+import { TranslateModule } from '@shared/modules';
+import { ConfigService, LayoutService, ScreenService, TranslateService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
 
@@ -15,9 +18,10 @@ import { StyleClassModule } from 'primeng/styleclass';
   standalone: true,
   templateUrl: './layout-topbar.component.html',
   imports: [
-    RouterModule,
     CommonModule,
+    RouterModule,
     StyleClassModule,
+    TranslateModule,
     ThemeConfiguratorComponent
   ],
 })
@@ -32,9 +36,11 @@ export class LayoutTopbarComponent implements OnInit {
 
   public layoutService = inject(LayoutService);
   public screenService = inject(ScreenService);
+  private destroyRef$ = inject(DestroyRef);
   private configService = inject(ConfigService);
   private router = inject(Router);
   private store = inject(Store);
+  private translateService = inject(TranslateService);
 
   constructor() {
     this.isSidebarEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.SIDEBAR_ENABLED);
@@ -44,28 +50,11 @@ export class LayoutTopbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.config = {
-      menuButtonCssClass: 'me-2 mt-2',
-      menuButtonIconSize: '1.75rem',
-      logoRedirect: '/',
-      logoUrl: 'assets/images/logo.png',
-      logoText: this.configService.get(CONFIG_CONSTANTS.LAYOUT.APP_NAME),
-      logoCssClass: 'w-20',
-      actions: [
-        {
-          label: 'Profile',
-          icon: 'pi pi-user',
-          command: (action) => this.router.navigate(['/profile'])
-        },
-        {
-          label: 'Logout',
-          icon: 'pi pi-sign-out',
-          command: (action) => this.userLogOut()
-        }
-      ],
-      switchThemeDarkModeLabel: 'Dark mode',
-      switchThemeLightModeLabel: 'Light mode'
-    };
+    this.translateService.stream('LAYOUT.TOPBAR')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: ITranslateLiterals) => {
+        this.setConfig(res);
+      });
   }
 
   toggleDarkMode(): void {
@@ -89,5 +78,30 @@ export class LayoutTopbarComponent implements OnInit {
         }
       }
     );
+  }
+
+  private setConfig(literals: ITranslateLiterals): void {
+    this.config = {
+      menuButtonCssClass: 'me-2 mt-2',
+      menuButtonIconSize: '1.75rem',
+      logoRedirect: '/',
+      logoUrl: 'assets/images/logo.png',
+      logoText: this.configService.get(CONFIG_CONSTANTS.LAYOUT.APP_NAME),
+      logoCssClass: 'w-20',
+      actions: [
+        {
+          label: literals['ACTIONS']['PROFILE'],
+          icon: 'pi pi-user',
+          command: () => this.router.navigate(['/profile'])
+        },
+        {
+          label: literals['ACTIONS']['LOGOUT'],
+          icon: 'pi pi-sign-out',
+          command: () => this.userLogOut()
+        }
+      ],
+      switchThemeDarkModeLabel: literals['SWITCH_THEME_DARK_MODE'],
+      switchThemeLightModeLabel: literals['SWITCH_THEME_LIGHT_MODE']
+    };
   }
 }

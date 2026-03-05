@@ -53,7 +53,7 @@ export class LayoutMenuItemComponent implements OnInit, OnDestroy {
   public get isRoot(): boolean {
     return this.root();
   }
-  
+
   public get submenuAnimation() {
     return this.isRoot
       ? 'expanded'
@@ -95,7 +95,6 @@ export class LayoutMenuItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.item())
     this.key = this.parentKey()
       ? `${this.parentKey()}-${this.index()}`
       : String(this.index());

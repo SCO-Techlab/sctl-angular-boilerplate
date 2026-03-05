@@ -100,5 +100,26 @@
     "RESET_PASSWORD_KO": "Error trying to reset password",
     "RESET_PASSWORD_USER_NOT_FOUND": "User not found",
     "RESET_PASSWORD_TOKEN_EXPIRED": "Password recovery token expired"
+  },
+  "LAYOUT": {
+    "MENU": {
+      "HOME": {
+        "LABEL": "Home",
+        "ITEMS": {
+          "DASHBOARD": "Dashboard"
+        }
+      }
+    },
+    "FOOTER": {
+      "TEXT": "Angular Boilerplate by"
+    },
+    "TOPBAR": {
+      "SWITCH_THEME_DARK_MODE": "Dark mode",
+      "SWITCH_THEME_LIGHT_MODE": "Light mode",
+      "ACTIONS": {
+        "PROFILE": "Profile",
+        "LOGOUT": "Logout"
+      }
+    }
   }
 }
