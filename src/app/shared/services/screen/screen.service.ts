@@ -33,7 +33,7 @@ export class ScreenService {
     return this.size === SCREEN_SIZE.XXL;
   }
 
-  setSize(width: number): void {
+  public setSize(width: number): void {
     if (width >= MAGIC_NUMBERS.N_1920) {
       this._size = SCREEN_SIZE.XXL;
     }

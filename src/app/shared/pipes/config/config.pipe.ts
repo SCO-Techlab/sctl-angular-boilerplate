@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { ConfigService } from '@shared/services';
 
 @Pipe({
@@ -7,9 +7,9 @@ import { ConfigService } from '@shared/services';
 })
 export class ConfigPipe implements PipeTransform {
 
-  constructor(private readonly service: ConfigService) { }
+  private configService = inject(ConfigService);
 
   transform(path: string): any {
-    return this.service.get(path);
+    return this.configService.get(path);
   }
 }

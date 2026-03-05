@@ -1,3 +1,3 @@
-export * from './config.pipe';
+export * from './config';
 export * from './join.pipe';
-export * from './translate.pipe';
+export * from './translate';

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { inject, Inject, Injectable } from '@angular/core';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { ITranslateConfig, ITranslateLiterals } from '@shared/interfaces';
 import { BehaviorSubject, from, map, Observable, of, switchMap } from 'rxjs';
@@ -11,13 +11,13 @@ export class TranslateService {
   private _currentLang: string;
   private _defaultLang: string;
   private _availableLangs: string[] = [];
-
   private _onLangChange: BehaviorSubject<string>;
   private _onLangChange$: Observable<string>;
 
+  private http = inject(HttpClient);
+
   constructor(
-    @Inject('TRANSLATE_CONFIG') private readonly config: ITranslateConfig,
-    private readonly http: HttpClient,
+    @Inject('TRANSLATE_CONFIG') private readonly config: ITranslateConfig
   ) {
     this._defaultLang = this.config.defaultLang;
     this._availableLangs = this.config.availableLangs;

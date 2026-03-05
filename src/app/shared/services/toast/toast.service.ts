@@ -7,19 +7,19 @@ import { BehaviorSubject } from 'rxjs';
 export class ToastService {
 
   private _messages = new BehaviorSubject<IToastMessage[]>([]);
-  messages$ = this._messages.asObservable();
-
   private _toastLimit: number = undefined;
+
+  public messages$ = this._messages.asObservable();
 
   public set toastLimit(value: number) {
     if (!value === null || value === undefined || value <= MAGIC_NUMBERS.N_0) {
       value = undefined;
     }
-    
+
     this._toastLimit = value;
   }
 
-  add(message: IToastMessage) {
+  public add(message: IToastMessage): void {
     message.id = this.genId();
     const msgs = this._messages.getValue();
 
@@ -34,16 +34,16 @@ export class ToastService {
     setTimeout(() => this.remove(message.id!), life);
   }
 
-  clear() {
+  public clear(): void {
     this._messages.next([]);
   }
 
-  remove(id: string) {
+  public remove(id: string): void {
     const msgs = this._messages.getValue().filter(m => m.id !== id);
     this._messages.next(msgs);
   }
 
-  private genId() {
+  private genId(): string {
     return Math.random()
       .toString(MAGIC_NUMBERS.N_36)
       .substring(MAGIC_NUMBERS.N_2, MAGIC_NUMBERS.N_9);

@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { INPUT_ERROR } from '@shared/enums';
 
-export const passwordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+export const PasswordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
   const passwordCtrl = group.get('password');
   const confirmCtrl = group.get('confirmPassword');
 

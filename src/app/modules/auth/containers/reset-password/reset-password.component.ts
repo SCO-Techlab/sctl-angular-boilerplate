@@ -12,7 +12,7 @@ import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
 import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
-import { passwordMatchValidator } from '@shared/validators';
+import { PasswordMatchValidator } from '@shared/validators';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { finalize } from 'rxjs';
@@ -123,7 +123,7 @@ export class ResetPasswordComponent implements OnInit {
         confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)])
       },
       {
-        validators: [passwordMatchValidator]
+        validators: [PasswordMatchValidator]
       }
     );
   }

@@ -11,14 +11,13 @@ export class TranslatePipe implements PipeTransform {
   private lastParams?: Record<string, any>;
   private value?: string;
 
-  private readonly destroyRef = inject(DestroyRef);
+  private destroyRef$ = inject(DestroyRef);
+  private translateService = inject(TranslateService);
+  private cdRef = inject(ChangeDetectorRef);
 
-  constructor(
-    private readonly translate: TranslateService,
-    private readonly cdr: ChangeDetectorRef
-  ) {
-    this.translate.onLangChange$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+  constructor() {
+    this.translateService.onLangChange$
+      .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe(() => {
         if (this.lastKey) {
           this.updateValue(this.lastKey, this.lastParams);
@@ -42,7 +41,7 @@ export class TranslatePipe implements PipeTransform {
   }
 
   private updateValue(key: string, params?: Record<string, any>): void {
-    this.value = this.translate.instant(key, params);
-    this.cdr.markForCheck();
+    this.value = this.translateService.instant(key, params);
+    this.cdRef.markForCheck();
   }
 }

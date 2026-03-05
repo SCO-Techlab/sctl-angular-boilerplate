@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class JwtTokenService {
 
-  decodeToken(token?: string): IAuthPayload {
+  public decodeToken(token?: string): IAuthPayload {
     if (!token) {
       return undefined;
     }
@@ -17,7 +17,7 @@ export class JwtTokenService {
     return decoded ?? undefined;
   }
 
-  isTokenExpired(token?: string): boolean {
+  public isTokenExpired(token?: string): boolean {
     if (!token) {
       return true;
     }

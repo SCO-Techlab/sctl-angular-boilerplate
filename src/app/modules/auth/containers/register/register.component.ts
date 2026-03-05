@@ -13,7 +13,7 @@ import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
 import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
-import { passwordMatchValidator } from '@shared/validators';
+import { PasswordMatchValidator } from '@shared/validators';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
         password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
         confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)])
       },
-      { validators: [passwordMatchValidator] }
+      { validators: [PasswordMatchValidator] }
     );
   }
 

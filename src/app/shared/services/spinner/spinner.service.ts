@@ -13,11 +13,11 @@ export class SpinnerService {
     return this._isShowing;
   }
 
-  show(): void {
+  public show(): void {
     this._isShowing = true;
   }
 
-  hide(delay: number = MAGIC_NUMBERS.N_0): void {
+  public hide(delay: number = MAGIC_NUMBERS.N_0): void {
     if (delay === undefined || delay === null || delay <= MAGIC_NUMBERS.N_0) {
       this._isShowing = false;
       return;

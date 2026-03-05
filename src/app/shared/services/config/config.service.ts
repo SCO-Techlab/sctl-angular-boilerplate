@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
+
   private _data: any = {};
 
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
-  async readConfigJson(path: string): Promise<void> {
+  public async readConfigJson(path: string): Promise<void> {
     try {
       const data = await firstValueFrom(this.http.get(path));
       this._data = data;
@@ -19,7 +20,7 @@ export class ConfigService {
     }
   }
 
-  get(path: string): any {
+  public get(path: string): any {
     if (!this._data || !path) return null;
 
     return path.split('.').reduce((acc, key) => {
@@ -30,7 +31,7 @@ export class ConfigService {
     }, this._data);
   }
 
-  getAll(): any {
+  public getAll(): any {
     return structuredClone
       ? structuredClone(this._data)
       : JSON.parse(JSON.stringify(this._data));
