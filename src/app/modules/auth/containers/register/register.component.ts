@@ -4,8 +4,8 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthCardComponent } from '@modules/auth/components';
-import { IAuthCardComponent, IAuthInput, IAuthLink } from '@modules/auth/interfaces';
+import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components';
+import { IAuthCardComponent, IAuthInput, IAuthLink, IAuthLinksComponent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { InputErrorComponent } from '@shared/components';
 import { REGEX_PATTERNS } from '@shared/constants';
@@ -32,15 +32,16 @@ import { finalize } from 'rxjs';
     InputTextModule,
     PasswordModule,
     AuthCardComponent,
+    AuthLinksComponent,
     InputErrorComponent
   ],
 })
 export class RegisterComponent implements OnInit {
 
   public cardConfig: IAuthCardComponent = {};
+  public linksConfig: IAuthLinksComponent = {};
   public registerForm: FormGroup;
   public inputs: { [key: string]: IAuthInput } = {};
-  public links: IAuthLink[] = [];
   public formErrors: { [key: string]: IInputErrorComponent } = {};
 
   private literals: ITranslateLiterals;
@@ -162,16 +163,18 @@ export class RegisterComponent implements OnInit {
   }
 
   private setLinks(): void {
-    this.links = [
-      {
-        linkLabel: this.literals['LINK_LABEL'],
-        linkUrl: '/auth/login'
-      },
-      {
-        linkLabel: this.literals['LINK_LABEL_FORGOT_PASSWORD'],
-        linkUrl: '/auth/forgot-password'
-      }
-    ];
+    this.linksConfig = {
+      links: [
+        {
+          linkLabel: this.literals['LINK_LABEL'],
+          linkUrl: '/auth/login'
+        },
+        {
+          linkLabel: this.literals['LINK_LABEL_FORGOT_PASSWORD'],
+          linkUrl: '/auth/forgot-password'
+        }
+      ]
+    };
   }
 
   private setFormErrors(): void {
