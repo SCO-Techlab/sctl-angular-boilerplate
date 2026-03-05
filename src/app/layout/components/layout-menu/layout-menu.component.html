@@ -1,5 +1,5 @@
 <ul class="layout-menu">
-  @for (item of menu(); track item; let i = $index) {
+  @for (item of menu(); track item.label; let i = $index) {
     <ng-container>
       @if (item.separator) {
         <li class="menu-separator"></li>

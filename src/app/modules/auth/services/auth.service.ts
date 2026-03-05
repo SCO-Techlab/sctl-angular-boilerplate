@@ -17,9 +17,9 @@ export class AuthService {
     return this.http.post<IJwtToken>(`${environment.apiUrl}/auth/login`, body);
   }
 
-  refreshToken(email: string, token: string, isAccessToken: boolean): Observable<IJwtToken> {
-    const body = { token, isAccessToken };
-    return this.http.post<IJwtToken>(`${environment.apiUrl}/auth/refresh/${email}`, body);
+  tokenValidation(email: string, token: string, isAccessToken: boolean): Observable<IJwtToken> {
+    const body = { email, token, isAccessToken };
+    return this.http.post<IJwtToken>(`${environment.apiUrl}/auth/token/validation`, body);
   }
 
   register(user: IUser): Observable<boolean> {

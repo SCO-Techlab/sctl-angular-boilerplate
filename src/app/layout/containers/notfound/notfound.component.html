@@ -12,7 +12,7 @@
         }
 
         @if (showActions()) {
-          @for (action of config?.actions; track action) {
+          @for (action of config?.actions; track action.title) {
             <a class="w-full flex items-center mb-8 py-8 border-surface-300 dark:border-surface-500 border-b" (click)="onClickButton(action?.link)">
               <span class="flex justify-center items-center border-2 border-primary text-primary rounded-border" style="height: 3.5rem; width: 3.5rem">
                 <i class="pi pi-fw text-2xl! {{action?.icon}}"></i>

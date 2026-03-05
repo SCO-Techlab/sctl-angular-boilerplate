@@ -13,7 +13,7 @@ export const ErrorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
 
       if (error.status === MAGIC_NUMBERS.N_401) {
-        userService.logout('expired');
+        userService.logout({ reason: 'expired' });
       }
 
       return throwError(() => error);

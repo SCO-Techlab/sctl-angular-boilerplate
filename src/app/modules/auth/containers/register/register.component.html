@@ -2,25 +2,25 @@
   <form [formGroup]="registerForm" body>
     <div class="mb-6">
       <label for="register-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-        {{inputs?.['email'].label}}
+        {{inputs?.['email']?.label}}
       </label>
       <input pInputText class="w-full md:w-120"
         id="register-email" 
         type="text"
         formControlName="email"
-        [placeholder]="inputs?.['email'].placeholder"
+        [placeholder]="inputs?.['email']?.placeholder"
       />
       <sctl-input-error [config]="formErrors?.['email']"></sctl-input-error>
     </div>
 
     <div class="mb-6">
       <label for="register-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
-        {{inputs?.['password'].label}}
+        {{inputs?.['password']?.label}}
       </label>
       <p-password
         id="register-password"
         formControlName="password"
-        [placeholder]="inputs?.['password'].placeholder"
+        [placeholder]="inputs?.['password']?.placeholder"
         [toggleMask]="true"
         [fluid]="true"
         [feedback]="false">
@@ -30,12 +30,12 @@
 
     <div class="mb-6">
       <label for="register-confirm-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
-        {{inputs?.['confirmPassword'].label}}
+        {{inputs?.['confirmPassword']?.label}}
       </label>
       <p-password
         id="register-confirm-password"
         formControlName="confirmPassword"
-        [placeholder]="inputs?.['confirmPassword'].placeholder"
+        [placeholder]="inputs?.['confirmPassword']?.placeholder"
         [toggleMask]="true"
         [fluid]="true"
         [feedback]="false">

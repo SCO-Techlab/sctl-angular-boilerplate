@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { IJwtToken } from "@shared/interfaces";
-import { SetDarkMode, SetRememberUser, SetAccessToken } from "./session-storage.actions";
+import { SetAccessToken, SetDarkMode, SetRefreshToken, SetRememberUser } from "./session-storage.actions";
 import { ISessionStorageState } from "./session-storage.interface";
 
 @State<ISessionStorageState>({
@@ -9,14 +8,15 @@ import { ISessionStorageState } from "./session-storage.interface";
   defaults: {
     rememberUser: undefined,
     darkMode: undefined,
-    accessToken: undefined
+    accessToken: undefined,
+    refreshToken: undefined
   }
 })
 @Injectable()
 export class SessionStorageState {
 
   @Selector()
-  static rememberUser(state: ISessionStorageState): { email: string, password: string } | undefined {
+  static rememberUser(state: ISessionStorageState): string {
     return state.rememberUser;
   }
 
@@ -28,6 +28,11 @@ export class SessionStorageState {
   @Selector()
   static accessToken(state: ISessionStorageState): string {
     return state.accessToken;
+  }
+
+  @Selector()
+  static refreshToken(state: ISessionStorageState): string {
+    return state.refreshToken;
   }
 
   @Action(SetRememberUser)
@@ -52,5 +57,13 @@ export class SessionStorageState {
     { payload }: SetAccessToken
   ) {
     patchState({ accessToken: payload.accessToken ?? undefined });
+  }
+
+  @Action(SetRefreshToken)
+  public setRefreshToken(
+    { patchState }: StateContext<ISessionStorageState>,
+    { payload }: SetRefreshToken
+  ) {
+    patchState({ refreshToken: payload.refreshToken ?? undefined });
   }
 }

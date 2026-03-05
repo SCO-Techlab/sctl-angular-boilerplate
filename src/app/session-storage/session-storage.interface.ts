@@ -1,5 +1,6 @@
 export interface ISessionStorageState {
-  rememberUser: { email: string, password: string } | undefined;
+  rememberUser: string;
   darkMode: boolean;
-  accessToken: string
+  accessToken: string;
+  refreshToken: string;
 }

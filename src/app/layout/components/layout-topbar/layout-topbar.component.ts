@@ -69,7 +69,7 @@ export class LayoutTopbarComponent implements OnInit {
   }
 
   private userLogOut(): void {
-    this.userService.logout('signout');
+    this.userService.logout({ reason: 'signout' });
   }
 
   private setConfig(literals: ITranslateLiterals): void {

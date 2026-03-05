@@ -71,7 +71,7 @@
               </button>
             }
 
-            @for (action of config?.actions; track action) {
+            @for (action of config?.actions; track action.label) {
               <button class="layout-topbar-action"
                 type="button" 
                 (click)="action?.command?.(action)"

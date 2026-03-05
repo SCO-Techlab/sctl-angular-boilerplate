@@ -21,7 +21,7 @@
         id="login-password"
         formControlName="password"
         [placeholder]="inputs?.['password']?.placeholder"
-        [toggleMask]="true"
+        [toggleMask]="!loginForm.controls['password'].disabled ? true : false"
         [fluid]="true"
         [feedback]="false">
       </p-password>
@@ -31,7 +31,7 @@
     @if (!inputs?.['rememberMe']?.disabled) {
       <div class="flex items-center justify-start mt-2 mb-6 gap-8">
         <div class="flex items-center">
-          <p-checkbox binary class="mr-2" id="login-rememberme" formControlName="rememberMe"></p-checkbox>
+          <p-checkbox binary class="mr-2" id="login-rememberme" formControlName="rememberMe" (onChange)="onRememberMeChange()"></p-checkbox>
           <label for="login-rememberme">{{inputs?.['rememberMe']?.label}}</label>
         </div>
       </div>

@@ -16,7 +16,7 @@ export function AuthInitializer(): () => void {
     }
 
     if (jwtTokenService.isTokenExpired(accessToken)) {
-      userService.logout('expired');
+      userService.logout({ reason: 'expired' });
     }
   };
 }

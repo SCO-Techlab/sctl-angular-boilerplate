@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { IAuthEvent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetAccessToken, SetRememberUser } from '@session-storage';
+import { SessionStorageState, SetAccessToken, SetRefreshToken, SetRememberUser } from '@session-storage';
 import { IJwtPayload, IJwtToken, IUser } from '@shared/interfaces';
 import { JwtTokenService } from '../jwt-token';
 
@@ -17,19 +17,24 @@ export class UserService {
 
   public login(jwtToken: IJwtToken, event: IAuthEvent): void {
     this.store.dispatch(new SetAccessToken({ accessToken: jwtToken?.accessToken }));
-    this.store.dispatch(new SetRememberUser({
-      rememberUser: !event.rememberMe
-        ? undefined
-        : { email: event.email, password: event.password },
+    this.store.dispatch(new SetRefreshToken({ refreshToken: jwtToken?.refreshToken && event?.rememberMe
+      ? jwtToken?.refreshToken 
+      : undefined 
     }));
+    this.store.dispatch(new SetRememberUser({ rememberUser: event?.rememberMe ? event?.email : undefined }));
     this.router.navigate(['/']);
   }
 
-  public logout(reason?: string): void {
+  public logout(params: { reason?: string; deleteRefreshToken?: boolean }): void {
     this.store.dispatch(new SetAccessToken({ accessToken: undefined }));
+
+    if (params?.deleteRefreshToken) {
+      this.store.dispatch(new SetRefreshToken({ refreshToken: undefined }));
+    }
+
     this.router.navigate(
       ['/auth/login'],
-      { queryParams: { reason: reason ?? 'signout' } }
+      { queryParams: { reason: params?.reason ?? 'signout' } }
     );
   }
 

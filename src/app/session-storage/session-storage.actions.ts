@@ -1,6 +1,6 @@
 export class SetRememberUser {
   static readonly type = '[Session Storage] Set auto login';
-  constructor(public payload: { rememberUser: { email: string, password: string } }) {}
+  constructor(public payload: { rememberUser: string }) {}
 }
 
 export class SetDarkMode {
@@ -11,4 +11,9 @@ export class SetDarkMode {
 export class SetAccessToken {
   static readonly type = '[Session Storage] Set token';
   constructor(public payload: { accessToken: string }) {}
+}
+
+export class SetRefreshToken {
+  static readonly type = '[Session Storage] Set refresh token';
+  constructor(public payload: { refreshToken: string }) {}
 }
