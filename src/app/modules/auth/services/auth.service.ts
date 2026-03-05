@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '@environment';
 import { IJwtToken, IUser } from '@shared/interfaces';
 import { Observable } from 'rxjs';
-import { ILoginComponentEvent } from '../interfaces';
+import { IAuthCardComponent, IAuthEvent } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private readonly http: HttpClient) { }
+  private http = inject(HttpClient);
 
-  logIn(loginEvent: ILoginComponentEvent): Observable<IJwtToken> {
+  logIn(loginEvent: IAuthEvent): Observable<IJwtToken> {
     const body = { email: loginEvent.email, password: loginEvent.password };
     return this.http.post<IJwtToken>(`${environment.apiUrl}/auth/login`, body);
   }
@@ -23,8 +23,8 @@ export class AuthService {
   }
 
   register(user: IUser): Observable<boolean> {
-    const body = { 
-      email: user.email, 
+    const body = {
+      email: user.email,
       userName: user.userName,
       personalName: user.personalName,
       password: user.password,
@@ -53,5 +53,19 @@ export class AuthService {
   passwordRecoveryReset(userId: string, password: string): Observable<boolean> {
     const body = { userId, password };
     return this.http.put<boolean>(`${environment.apiUrl}/auth/recover/password/reset`, body);
+  }
+
+  setCardConfig(title: string, subTitle: string): IAuthCardComponent {
+    return {
+      headerConfig: {
+        showLogo: true,
+        logoUrl: '/assets/images/logo.png',
+        logoText: '',
+        logoRedirect: '',
+        logoCssClass: 'w-32',
+        title,
+        subTitle
+      }
+    }
   }
 }

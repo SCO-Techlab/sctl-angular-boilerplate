@@ -1,21 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
-import { IAuthConfirmEmailComponent } from '@modules/auth/interfaces';
+import { IAuthCardComponent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
-import { FloatingThemeConfigurator } from '@shared/components';
 import { ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { PasswordModule } from 'primeng/password';
-import { RippleModule } from 'primeng/ripple';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -24,33 +18,27 @@ import { finalize } from 'rxjs';
   templateUrl: './confirm-email.component.html',
   imports: [
     CommonModule,
-    ButtonModule,
-    CheckboxModule,
-    InputTextModule,
-    PasswordModule,
-    FormsModule,
-    ReactiveFormsModule,
     RouterModule,
-    RippleModule,
-    FloatingThemeConfigurator,
     TranslateModule,
-    AuthCardComponent,
-    MessageModule
+    ButtonModule,
+    MessageModule,
+    AuthCardComponent
   ],
 })
 export class ConfirmEmailComponent implements OnInit {
 
-  public config: IAuthConfirmEmailComponent = {};
-  public literals: ITranslateLiterals;
+  public cardConfig: IAuthCardComponent = {};
   public isError: boolean = false;
   public resultMessage: string = '';
 
+  private literals: ITranslateLiterals;
+
   private destroyRef$ = inject(DestroyRef);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private translateService = inject(TranslateService);
   private authService = inject(AuthService);
   private spinnerService = inject(SpinnerService);
-  private route = inject(ActivatedRoute);
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
@@ -58,42 +46,21 @@ export class ConfirmEmailComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.setConfig();
-        this.initCoponent();
+        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
+        this.subscribeToQueryParams();
       });
   }
 
-  onClickLink(url: string): void {
-    if (url) {
-      this.router.navigate([url]);
-    }
+  public onClickButton(): void {
+    this.router.navigate(['/auth/login']);
   }
 
-  private initCoponent(): void {
+  private subscribeToQueryParams(): void {
     this.route.params
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((params: Params) => {
         this.findUser(params['email']);
       });
-  }
-
-  private setConfig(): void {
-    this.config.showConfigurator = false;
-
-    this.config.headerConfig = {
-      showLogo: true,
-      logoUrl: '/assets/images/logo.png',
-      logoText: '',
-      logoRedirect: '',
-      logoCssClass: 'w-32',
-      title: this.literals['TITLE'],
-      subTitle: this.literals['SUB_TITLE']
-    };
-
-    this.config.successMessage = this.literals['CONFIRM_EMAIL_OK'];
-    this.config.errorMessage = this.literals['CONFIRM_EMAIL_KO'];
-    this.config.buttonLabel = this.literals['BUTTON_LABEL'];
-    this.config.buttonRedirect = '/auth/login';
   }
 
   private findUser(email: string): void {
@@ -111,23 +78,18 @@ export class ConfirmEmailComponent implements OnInit {
       .subscribe({
         next: (result: IUser) => {
           if (!result) {
-            this.isError = true;
-            this.resultMessage = this.literals['CONFIRM_EMAIL_KO'];
+            this.setResult(true, this.literals['CONFIRM_EMAIL_KO'])
             return;
           }
 
           if (result.emailConfirmed && result.emailConfirmedAt) {
-            this.isError = false;
-            this.resultMessage = this.literals['ALREADY_CONFIRMED'];
+            this.setResult(false, this.literals['ALREADY_CONFIRMED'])
             return;
           }
 
           this.confirmUser(email);
         },
-        error: () => {
-          this.isError = true;
-          this.resultMessage = this.literals['CONFIRM_EMAIL_KO'];
-        }
+        error: () => this.setResult(true, this.literals['CONFIRM_EMAIL_KO'])
       })
   }
 
@@ -141,20 +103,16 @@ export class ConfirmEmailComponent implements OnInit {
         })
       )
       .subscribe({
-        next: (result: boolean) => {
-          if (!result) {
-            this.isError = true;
-            this.resultMessage = this.literals['CONFIRM_EMAIL_KO'];
-            return;
-          }
-
-          this.isError = false;
-          this.resultMessage = this.literals['CONFIRM_EMAIL_OK'];
-        },
-        error: () => {
-          this.isError = true;
-          this.resultMessage = this.literals['CONFIRM_EMAIL_KO'];
-        }
+        next: (result: boolean) => this.setResult(
+          !result ? true : false,
+          !result ? this.literals['CONFIRM_EMAIL_KO'] : this.literals['CONFIRM_EMAIL_OK']
+        ),
+        error: () => this.setResult(true, this.literals['CONFIRM_EMAIL_KO'])
       })
+  }
+
+  private setResult(isError: boolean, resultMessage: string): void {
+    this.isError = isError;
+    this.resultMessage = resultMessage;
   }
 }

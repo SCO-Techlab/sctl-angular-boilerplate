@@ -5,22 +5,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
-import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
+import { IAuthCardComponent, IAuthEvent, IAuthInput, IAuthLink } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetRememberUser, SetToken } from 'src/app/session-storage';
-import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
+import { InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
-import { IJwtToken, ITranslateLiterals } from '@shared/interfaces';
+import { IInputErrorComponent, IJwtToken, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { RippleModule } from 'primeng/ripple';
 import { finalize } from 'rxjs';
+import { SessionStorageState, SetRememberUser, SetToken } from 'src/app/session-storage';
 
 @Component({
   selector: 'sctl-login',
@@ -28,24 +27,25 @@ import { finalize } from 'rxjs';
   templateUrl: './login.component.html',
   imports: [
     CommonModule,
+    RouterModule,
     ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
     CheckboxModule,
     InputTextModule,
     PasswordModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    RippleModule,
-    FloatingThemeConfigurator,
+    AuthCardComponent,
     InputErrorComponent,
-    TranslateModule,
-    AuthCardComponent
   ],
 })
 export class LoginComponent implements OnInit {
 
-  public config: ILoginComponent = {};
+  public cardConfig: IAuthCardComponent = {};
   public loginForm: FormGroup;
+  public inputs: { [key: string]: IAuthInput } = {};
+  public links: IAuthLink[] = [];
+  public formErrors: { [key: string]: IInputErrorComponent } = {};
 
   private literals: ITranslateLiterals;
 
@@ -65,20 +65,23 @@ export class LoginComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
+        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
         this.subscribeToQueryParams();
-        this.setConfig();
-        this.setForInitialValues();
+        this.setInputs();
+        this.setLinks();
+        this.setFormErrors();
+        this.fillForm();
       });
   }
 
-  onClickLink(url: string): void {
+  public onClickLink(url: string): void {
     if (url) {
       this.router.navigate([url]);
     }
   }
 
-  onClickButton(): void {
-    const event: ILoginComponentEvent = {
+  public onClickButton(): void {
+    const event: IAuthEvent = {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
       rememberMe: this.loginForm.get('rememberMe')?.value
@@ -104,8 +107,8 @@ export class LoginComponent implements OnInit {
           this.store.dispatch(new SetToken({ token: { ...jwtToken } }));
 
           this.store.dispatch(new SetRememberUser({
-            rememberUser: !event.rememberMe 
-              ? undefined 
+            rememberUser: !event.rememberMe
+              ? undefined
               : { email: event.email, password: event.password },
           }));
 
@@ -139,10 +142,6 @@ export class LoginComponent implements OnInit {
       .subscribe((params: Params) => {
         const reason: string = params['reason'];
 
-        if (reason === 'expired') {
-          
-        }
-
         if (reason) {
           const detail: string = reason === 'expired'
             ? this.literals['LOGIN_KO_401_EXPIRED']
@@ -161,7 +160,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate([], {
             relativeTo: this.route,
             queryParams: {},
-            replaceUrl: true 
+            replaceUrl: true
           });
         }
       });
@@ -175,66 +174,78 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  private setConfig(): void {
-    this.config.showConfigurator = false;
-
-    this.config.headerConfig = {
-      showLogo: true,
-      logoUrl: '/assets/images/logo.png',
-      logoText: '',
-      logoRedirect: '',
-      logoCssClass: 'w-32',
-      title: this.literals['TITLE'],
-      subTitle: this.literals['SUB_TITLE']
+  private setInputs(): void {
+    this.inputs = {
+      email: {
+        label: this.literals['EMAIL_LABEL'], placeholder:
+          this.literals['EMAIL_PLACEHOLDER'],
+        disabled: false
+      },
+      password: {
+        label: this.literals['PASSWORD_LABEL'],
+        placeholder: this.literals['PASSWORD_PLACEHOLDER'],
+        disabled: false
+      },
+      rememberMe: {
+        label: this.literals['REMEMBER_ME'],
+        placeholder: '',
+        disabled: false
+      }
     };
+  }
 
-    this.config.inputs = {
-      email: { label: this.literals['EMAIL_LABEL'], placeholder: this.literals['EMAIL_PLACEHOLDER'], disabled: false },
-      password: { label: this.literals['PASSWORD_LABEL'], placeholder: this.literals['PASSWORD_PLACEHOLDER'], disabled: false },
-      rememberMe: { label: this.literals['REMEMBER_ME'], placeholder: '', disabled: false }
-    };
-
-    this.config.links = [
-      { linkLabel: this.literals['FORGOT_PASSWORD'], linkUrl: '/auth/forgot-password' },
-      { linkLabel: this.literals['REGISTER'], linkUrl: '/auth/register' }
+  private setLinks(): void {
+    this.links = [
+      {
+        linkLabel: this.literals['FORGOT_PASSWORD'],
+        linkUrl: '/auth/forgot-password'
+      },
+      {
+        linkLabel: this.literals['REGISTER'],
+        linkUrl: '/auth/register'
+      }
     ];
+  }
 
-    this.config.buttonLabel = this.literals['BUTTON_LABEL'];
-
-    const rememberUser: { email: string, password: string } | undefined = this.store.selectSnapshot(SessionStorageState.rememberUser);
-    this.config.initialValues = {
-      email: rememberUser?.email ?? '',
-      password: rememberUser?.password ?? '',
-      rememberMe: rememberUser !== undefined
-    };
-
-    this.config.formErrors = {
+  private setFormErrors(): void {
+    this.formErrors = {
       email: {
         formControl: this.loginForm.get('email'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['EMAIL'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['EMAIL_INVALID'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['EMAIL']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['EMAIL_INVALID']
+          }
         ]
       },
       password: {
         formControl: this.loginForm.get('password'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['PASSWORD'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['PASSWORD_INVALID'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['PASSWORD']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['PASSWORD_INVALID']
+          }
         ]
       }
     };
   }
 
-  private setForInitialValues(): void {
-    if (this.config.inputs?.rememberMe?.disabled || !this.config?.initialValues) {
-      return;
+  private fillForm(): void {
+    const rememberUser: { email: string, password: string } = this.store.selectSnapshot(SessionStorageState.rememberUser);
+    if (rememberUser?.email && rememberUser?.password) {
+      this.loginForm.setValue({
+        email: rememberUser?.email ?? '',
+        password: rememberUser?.password ?? '',
+        rememberMe: rememberUser !== undefined
+      });
     }
-
-    this.loginForm.setValue({
-      email: this.config?.initialValues?.email ?? '',
-      password: this.config?.initialValues?.password ?? '',
-      rememberMe: this.config?.initialValues?.rememberMe ?? false
-    });
   }
 }

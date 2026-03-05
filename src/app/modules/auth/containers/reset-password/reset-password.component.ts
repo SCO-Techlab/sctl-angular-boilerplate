@@ -4,20 +4,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
-import { IAuthResetPasswordComponent } from '@modules/auth/interfaces';
+import { IAuthCardComponent, IAuthInput } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
-import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
+import { InputErrorComponent } from '@shared/components';
 import { REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
-import { ITranslateLiterals, IUser } from '@shared/interfaces';
+import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { passwordMatchValidator } from '@shared/validators';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { RippleModule } from 'primeng/ripple';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -26,22 +23,22 @@ import { finalize } from 'rxjs';
   templateUrl: './reset-password.component.html',
   imports: [
     CommonModule,
-    ButtonModule,
-    PasswordModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
-    RippleModule,
-    FloatingThemeConfigurator,
-    InputErrorComponent,
     TranslateModule,
-    AuthCardComponent
+    ButtonModule,
+    PasswordModule,
+    AuthCardComponent,
+    InputErrorComponent
   ],
 })
 export class ResetPasswordComponent implements OnInit {
 
-  public config: IAuthResetPasswordComponent = {};
+  public cardConfig: IAuthCardComponent = {};
   public resetPasswordForm: FormGroup;
+  public inputs: { [key: string]: IAuthInput } = {};
+  public formErrors: { [key: string]: IInputErrorComponent } = {};
 
   private literals: ITranslateLiterals;
   private userId: string;
@@ -61,8 +58,10 @@ export class ResetPasswordComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.setConfig();
-        this.initComponent();
+        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
+        this.subscribeToQueryParams();
+        this.setInputs();
+        this.setFormErrors();
       });
   }
 
@@ -110,7 +109,7 @@ export class ResetPasswordComponent implements OnInit {
       })
   }
 
-  private initComponent(): void {
+  private subscribeToQueryParams(): void {
     this.route.params
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((params: Params) => {
@@ -130,42 +129,51 @@ export class ResetPasswordComponent implements OnInit {
     );
   }
 
-  private setConfig(): void {
-    this.config.showConfigurator = false;
-
-    this.config.headerConfig = {
-      showLogo: true,
-      logoUrl: '/assets/images/logo.png',
-      logoText: '',
-      logoRedirect: '',
-      logoCssClass: 'w-32',
-      title: this.literals['TITLE'],
-      subTitle: this.literals['SUB_TITLE']
+  private setInputs(): void {
+    this.inputs = {
+      password: {
+        label: this.literals['PASSWORD_LABEL'],
+        placeholder: this.literals['PASSWORD_PLACEHOLDER'],
+        disabled: false
+      },
+      confirmPassword: {
+        label: this.literals['CONFIRM_PASSWORD_LABEL'],
+        placeholder: this.literals['CONFIRM_PASSWORD_PLACEHOLDER'],
+        disabled: false
+      }
     };
+  }
 
-    this.config.inputs = {
-      password: { label: this.literals['PASSWORD_LABEL'], placeholder: this.literals['PASSWORD_PLACEHOLDER'], disabled: false },
-      confirmPassword: { label: this.literals['CONFIRM_PASSWORD_LABEL'], placeholder: this.literals['CONFIRM_PASSWORD_PLACEHOLDER'], disabled: false }
-    };
-
-    this.config.links = [];
-
-    this.config.buttonLabel = this.literals['BUTTON_LABEL'];
-
-    this.config.formErrors = {
+  private setFormErrors(): void {
+    this.formErrors = {
       password: {
         formControl: this.resetPasswordForm.get('password'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['PASSWORD'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['PASSWORD_INVALID'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['PASSWORD']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['PASSWORD_INVALID']
+          }
         ]
       },
       confirmPassword: {
         formControl: this.resetPasswordForm.get('confirmPassword'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['CONFIRM_PASSWORD'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['CONFIRM_PASSWORD_INVALID'] },
-          { error: INPUT_ERROR.MISMATCH, message: this.literals['ERROR']['PASSWORDS_NOT_MATCH'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['CONFIRM_PASSWORD']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['CONFIRM_PASSWORD_INVALID']
+          },
+          {
+            error: INPUT_ERROR.MISMATCH,
+            message: this.literals['ERROR']['PASSWORDS_NOT_MATCH']
+          }
         ]
       }
     };

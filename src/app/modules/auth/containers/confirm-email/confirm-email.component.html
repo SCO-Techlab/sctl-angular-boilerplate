@@ -1,19 +1,19 @@
-@if (config?.showConfigurator) {
-  <sctl-floating-theme-configurator />
-}
-
-<sctl-auth-card [config]="{ headerConfig: config?.headerConfig }">
+<sctl-auth-card [config]="cardConfig">
   <div body>
     <div class="mb-6 flex justify-center align-items-center">
-      <p-message [severity]="isError ? 'error' : 'success'" variant="simple" size="large">
+      <p-message 
+        [severity]="isError ? 'error' : 'success'" 
+        variant="simple" 
+        size="large"
+      >
         <span>{{ resultMessage }}</span>
       </p-message>
     </div>
     <p-button 
-      [label]="config?.buttonLabel"
+      [label]="'AUTH.CONFIRM_EMAIL.BUTTON_LABEL' | translate"
       [disabled]="false"
       styleClass="w-full mt-4" 
-      (click)="onClickLink(config?.buttonRedirect)"
+      (click)="onClickButton()"
     ></p-button>
   </div>
 </sctl-auth-card>

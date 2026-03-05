@@ -1,49 +1,45 @@
-@if (config?.showConfigurator) {
-  <sctl-floating-theme-configurator />
-}
-
-<sctl-auth-card [config]="{ headerConfig: config?.headerConfig }">
+<sctl-auth-card [config]="cardConfig">
   <form [formGroup]="loginForm" body>
     <div class="mb-6">
       <label for="login-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-        {{config?.inputs?.email.label}}
+        {{inputs?.['email'].label}}
       </label>
       <input pInputText class="w-full md:w-120"
         id="login-email" 
         type="text"
         formControlName="email"
-        [placeholder]="config?.inputs?.email.placeholder"
+        [placeholder]="inputs?.['email'].placeholder"
       />
-      <sctl-input-error [config]="config?.formErrors?.email"></sctl-input-error>
+      <sctl-input-error [config]="formErrors?.['email']"></sctl-input-error>
     </div>
 
     <div class="mb-6">
       <label for="login-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
-        {{config?.inputs?.password.label}}
+        {{inputs?.['password'].label}}
       </label>
       <p-password
         id="login-password"
         formControlName="password"
-        [placeholder]="config?.inputs?.password.placeholder"
+        [placeholder]="inputs?.['password'].placeholder"
         [toggleMask]="true"
         [fluid]="true"
         [feedback]="false">
       </p-password>
-      <sctl-input-error [config]="config?.formErrors?.password"></sctl-input-error>
+      <sctl-input-error [config]="formErrors?.['password']"></sctl-input-error>
     </div>
 
-    @if (!config?.inputs?.rememberMe?.disabled) {
+    @if (!inputs?.['rememberMe'].disabled) {
       <div class="flex items-center justify-start mt-2 mb-6 gap-8">
         <div class="flex items-center">
           <p-checkbox binary class="mr-2" id="login-rememberme" formControlName="rememberMe"></p-checkbox>
-          <label for="login-rememberme">{{config?.inputs?.rememberMe.label}}</label>
+          <label for="login-rememberme">{{inputs?.['rememberMe'].label}}</label>
         </div>
       </div>
     }
 
-    @if (config?.links?.length > 0) {
+    @if (links?.length > 0) {
       <div class="flex flex-col items-center justify-center mt-2 mb-6 gap-8">
-        @for(link of config?.links; track link) {
+        @for(link of links; track link) {
           <span class="font-medium no-underline ml-2 text-right text-primary cursor-pointer" (click)="onClickLink(link.linkUrl)">
             {{link.linkLabel}}
           </span>
@@ -52,9 +48,9 @@
     }
 
     <p-button 
-      [label]="config?.buttonLabel"
+      [label]="'AUTH.LOGIN.BUTTON_LABEL' | translate"
       [disabled]="loginForm?.invalid"
-      styleClass="w-full {{ config?.links?.length > 0 ? 'mt-4' : '' }}" 
+      styleClass="w-full {{ links?.length > 0 ? 'mt-4' : '' }}" 
       (click)="onClickButton()"
     ></p-button>
   </form>

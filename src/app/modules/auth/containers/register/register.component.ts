@@ -5,20 +5,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
-import { IRegisterComponent } from '@modules/auth/interfaces';
+import { IAuthCardComponent, IAuthInput, IAuthLink } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
-import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
-import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
+import { InputErrorComponent } from '@shared/components';
+import { REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
-import { ITranslateLiterals, IUser } from '@shared/interfaces';
+import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { passwordMatchValidator } from '@shared/validators';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { RippleModule } from 'primeng/ripple';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -27,24 +25,24 @@ import { finalize } from 'rxjs';
   templateUrl: './register.component.html',
   imports: [
     CommonModule,
-    ButtonModule,
-    CheckboxModule,
-    InputTextModule,
-    PasswordModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
-    RippleModule,
-    FloatingThemeConfigurator,
-    InputErrorComponent,
     TranslateModule,
-    AuthCardComponent
+    ButtonModule,
+    InputTextModule,
+    PasswordModule,
+    AuthCardComponent,
+    InputErrorComponent
   ],
 })
 export class RegisterComponent implements OnInit {
 
-  public config: IRegisterComponent = {};
+  public cardConfig: IAuthCardComponent = {};
   public registerForm: FormGroup;
+  public inputs: { [key: string]: IAuthInput } = {};
+  public links: IAuthLink[] = [];
+  public formErrors: { [key: string]: IInputErrorComponent } = {};
 
   private literals: ITranslateLiterals;
 
@@ -57,22 +55,25 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    
+
     this.translateService.stream('AUTH.REGISTER')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.setCustomConfig();
+        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
+        this.setInputs();
+        this.setLinks();
+        this.setFormErrors();
       });
   }
 
-  onClickLink(url: string): void {
+  public onClickLink(url: string): void {
     if (url) {
       this.router.navigate([url]);
     }
   }
 
-  onClickButton(): void {
+  public onClickButton(): void {
     const email: string = this.registerForm.get('email')?.value ?? '';
     const password: string = this.registerForm.get('password')?.value ?? '';
 
@@ -141,53 +142,82 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  private setCustomConfig(): void {
-    this.config.showConfigurator = false;
-
-    this.config.headerConfig = {
-      showLogo: true,
-      logoUrl: '/assets/images/logo.png',
-      logoText: '',
-      logoRedirect: '',
-      logoCssClass: 'w-32',
-      title: this.literals['TITLE'],
-      subTitle: this.literals['SUB_TITLE']
+  private setInputs(): void {
+    this.inputs = {
+      email: {
+        label: this.literals['EMAIL_LABEL'],
+        placeholder: this.literals['EMAIL_PLACEHOLDER'],
+        disabled: false
+      },
+      password: {
+        label: this.literals['PASSWORD_LABEL'],
+        placeholder: this.literals['PASSWORD_PLACEHOLDER'],
+        disabled: false
+      },
+      confirmPassword: {
+        label: this.literals['CONFIRM_PASSWORD_LABEL'],
+        placeholder: this.literals['CONFIRM_PASSWORD_PLACEHOLDER'],
+        disabled: false
+      }
     };
+  }
 
-    this.config.inputs = {
-      email: { label: this.literals['EMAIL_LABEL'], placeholder: this.literals['EMAIL_PLACEHOLDER'], disabled: false },
-      password: { label: this.literals['PASSWORD_LABEL'], placeholder: this.literals['PASSWORD_PLACEHOLDER'], disabled: false },
-      confirmPassword: { label: this.literals['CONFIRM_PASSWORD_LABEL'], placeholder: this.literals['CONFIRM_PASSWORD_PLACEHOLDER'], disabled: false }
-    };
-
-    this.config.links = [
-      { linkLabel: this.literals['LINK_LABEL'], linkUrl: '/auth/login' },
-      { linkLabel: this.literals['LINK_LABEL_FORGOT_PASSWORD'], linkUrl: '/auth/forgot-password' }
+  private setLinks(): void {
+    this.links = [
+      {
+        linkLabel: this.literals['LINK_LABEL'],
+        linkUrl: '/auth/login'
+      },
+      {
+        linkLabel: this.literals['LINK_LABEL_FORGOT_PASSWORD'],
+        linkUrl: '/auth/forgot-password'
+      }
     ];
+  }
 
-    this.config.buttonLabel = this.literals['BUTTON_LABEL'];
-
-    this.config.formErrors = {
+  private setFormErrors(): void {
+    this.formErrors = {
       email: {
         formControl: this.registerForm.get('email'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['EMAIL'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['EMAIL_INVALID'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['EMAIL']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['EMAIL_INVALID']
+          }
         ]
       },
       password: {
         formControl: this.registerForm.get('password'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['PASSWORD'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['PASSWORD_INVALID'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['PASSWORD']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['PASSWORD_INVALID']
+          }
         ]
       },
       confirmPassword: {
         formControl: this.registerForm.get('confirmPassword'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['CONFIRM_PASSWORD'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['CONFIRM_PASSWORD_INVALID'] },
-          { error: INPUT_ERROR.MISMATCH, message: this.literals['ERROR']['PASSWORDS_NOT_MATCH'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['CONFIRM_PASSWORD']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['CONFIRM_PASSWORD_INVALID']
+          },
+          {
+            error: INPUT_ERROR.MISMATCH,
+            message: this.literals['ERROR']['PASSWORDS_NOT_MATCH']
+          }
         ]
       }
     };

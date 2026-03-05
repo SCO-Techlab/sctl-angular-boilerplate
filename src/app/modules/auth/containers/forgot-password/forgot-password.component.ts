@@ -4,19 +4,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
-import { IForgotPasswordComponent } from '@modules/auth/interfaces';
+import { IAuthCardComponent, IAuthInput, IAuthLink } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
-import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
-import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
+import { InputErrorComponent } from '@shared/components';
+import { REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
-import { ITranslateLiterals } from '@shared/interfaces';
+import { IInputErrorComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { RippleModule } from 'primeng/ripple';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -25,24 +22,23 @@ import { finalize } from 'rxjs';
   templateUrl: './forgot-password.component.html',
   imports: [
     CommonModule,
-    ButtonModule,
-    CheckboxModule,
-    InputTextModule,
-    PasswordModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
-    RippleModule,
-    FloatingThemeConfigurator,
-    InputErrorComponent,
     TranslateModule,
-    AuthCardComponent
+    ButtonModule,
+    InputTextModule,
+    AuthCardComponent,
+    InputErrorComponent
   ],
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  public config: IForgotPasswordComponent = {};
+  public cardConfig: IAuthCardComponent = {};
   public forgotPasswordForm: FormGroup;
+  public inputs: { [key: string]: IAuthInput } = {};
+  public links: IAuthLink[] = [];
+  public formErrors: { [key: string]: IInputErrorComponent } = {};
 
   private literals: ITranslateLiterals;
 
@@ -60,17 +56,20 @@ export class ForgotPasswordComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.setConfig();
+        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
+        this.setInputs();
+        this.setLinks();
+        this.setFormErrors();
       });
   }
 
-  onClickLink(url: string): void {
+  public onClickLink(url: string): void {
     if (url) {
       this.router.navigate([url]);
     }
   }
 
-  onClickButton(): void {
+  public onClickButton(): void {
     const email: string = this.forgotPasswordForm.get('email')?.value;
 
     this.spinnerService.show();
@@ -114,36 +113,42 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  private setConfig(): void {
-    this.config.showConfigurator = false;
-
-    this.config.headerConfig = {
-      showLogo: true,
-      logoUrl: '/assets/images/logo.png',
-      logoText: '',
-      logoRedirect: '',
-      logoCssClass: 'w-32',
-      title: this.literals['TITLE'],
-      subTitle: this.literals['SUB_TITLE']
+  private setInputs(): void {
+    this.inputs = {
+      email: {
+        label: this.literals['EMAIL_LABEL'],
+        placeholder: this.literals['EMAIL_PLACEHOLDER'],
+        disabled: false
+      }
     };
+  }
 
-    this.config.inputs = {
-      email: { label: this.literals['EMAIL_LABEL'], placeholder: this.literals['EMAIL_PLACEHOLDER'], disabled: false }
-    };
-
-    this.config.links = [
-      { linkLabel: this.literals['LINK_LABEL'], linkUrl: '/auth/login' },
-      { linkLabel: this.literals['LINK_REGISTER_LABEL'], linkUrl: '/auth/register' }
+  private setLinks(): void {
+    this.links = [
+      {
+        linkLabel: this.literals['LINK_LABEL'],
+        linkUrl: '/auth/login'
+      },
+      {
+        linkLabel: this.literals['LINK_REGISTER_LABEL'],
+        linkUrl: '/auth/register'
+      }
     ];
+  }
 
-    this.config.buttonLabel = this.literals['BUTTON_LABEL'];
-
-     this.config.formErrors = {
+  private setFormErrors(): void {
+    this.formErrors = {
       email: {
         formControl: this.forgotPasswordForm.get('email'),
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals['ERROR']['EMAIL'] },
-          { error: INPUT_ERROR.PATTERN, message: this.literals['ERROR']['EMAIL_INVALID'] }
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['EMAIL']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['EMAIL_INVALID']
+          }
         ]
       }
     };

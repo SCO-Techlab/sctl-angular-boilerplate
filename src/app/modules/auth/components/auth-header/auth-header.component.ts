@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IAuthHeaderComponent } from '@modules/auth/interfaces';
 
@@ -13,20 +13,19 @@ import { IAuthHeaderComponent } from '@modules/auth/interfaces';
 })
 export class AuthHeaderComponent implements OnInit {
 
-  @Input() config: IAuthHeaderComponent;
+  public config = input<IAuthHeaderComponent>({});
 
   private router = inject(Router);
 
   ngOnInit() {
-    this.config = this.config ?? {};
-    this.config.containerCssClass = this.config.containerCssClass ?? 'text-center mb-8';
+    this.config().containerCssClass = this.config().containerCssClass ?? 'text-center mb-8';
   }
 
   onClickLogo(): void {
-    if (!this.config?.logoRedirect) {
+    if (!this.config()?.logoRedirect) {
       return;
     }
 
-    this.router.navigate([this.config.logoRedirect]);
+    this.router.navigate([this.config().logoRedirect]);
   }
 }

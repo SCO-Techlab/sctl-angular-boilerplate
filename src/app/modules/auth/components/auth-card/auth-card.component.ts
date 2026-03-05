@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { IAuthCardComponent } from '@modules/auth/interfaces';
 import { AuthHeaderComponent } from '../auth-header';
 
@@ -12,5 +12,5 @@ import { AuthHeaderComponent } from '../auth-header';
   ]
 })
 export class AuthCardComponent {
-  @Input() config: IAuthCardComponent;
+  public config = input<IAuthCardComponent>({});
 }
