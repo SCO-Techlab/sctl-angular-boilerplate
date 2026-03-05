@@ -2,12 +2,7 @@ import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { IJwtToken } from "@shared/interfaces";
 import { SetDarkMode, SetRememberUser, SetToken } from "./session-storage.actions";
-
-interface ISessionStorageState {
-  rememberUser: { email: string, password: string } | undefined;
-  darkMode: boolean;
-  token: IJwtToken
-}
+import { ISessionStorageState } from "./session-storage.interface";
 
 @State<ISessionStorageState>({
   name: 'sctlangularboilerplate',
