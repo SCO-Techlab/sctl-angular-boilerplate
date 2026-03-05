@@ -9,11 +9,11 @@ import { NgxsModule } from '@ngxs/store';
 import Aura from '@primeuix/themes/aura';
 import { SessionStorageState } from '@session-storage';
 import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
+import { AuthGuard } from '@shared/guards';
+import { errorHandlerInterceptor } from '@shared/interceptors';
 import { ConfigService, ToastService } from '@shared/services';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
-import { errorHandlerInterceptor } from '@shared/interceptors';
-import { AuthGuard } from '@shared/guards';
 
 export const appConfig: ApplicationConfig = {
   providers: [
