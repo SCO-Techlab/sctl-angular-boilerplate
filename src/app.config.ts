@@ -3,12 +3,11 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angula
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { environment } from '@environment';
-import { authInitializer } from '@modules/auth';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import Aura from '@primeuix/themes/aura';
 import { SessionStorageState } from '@session-storage';
-import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
+import { AuthInitializer, ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
 import { AuthGuard } from '@shared/guards';
 import { errorHandlerInterceptor } from '@shared/interceptors';
 import { ConfigService, ToastService } from '@shared/services';
@@ -57,7 +56,7 @@ export const appConfig: ApplicationConfig = {
     AuthGuard,
     {
       provide: APP_INITIALIZER,
-      useFactory: authInitializer,
+      useFactory: AuthInitializer,
       multi: true
     }
   ]

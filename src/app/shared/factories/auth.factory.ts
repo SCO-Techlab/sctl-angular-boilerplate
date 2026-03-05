@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { SessionStorageState, SetToken } from 'src/app/session-storage';
 import { JwtTokenService } from '@shared/services';
 
-export function authInitializer(): () => void {
+export function AuthInitializer(): () => void {
   return () => {
 
     const store = inject(Store);
