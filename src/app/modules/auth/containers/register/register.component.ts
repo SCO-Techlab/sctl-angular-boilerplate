@@ -9,7 +9,7 @@ import { IAuthCardComponent, IAuthInput, IAuthLinksComponent } from '@modules/au
 import { AuthService } from '@modules/auth/services';
 import { InputErrorComponent } from '@shared/components';
 import { REGEX_PATTERNS } from '@shared/constants';
-import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
+import { INPUT_ERROR } from '@shared/enums';
 import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
@@ -95,20 +95,11 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: (result: boolean) => {
           if (!result) {
-            this.toastService.add({
-              severity: TOAST_SEVERITY.ERROR,
-              summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.literals['REGISTER_KO']
-            });
+            this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['REGISTER_KO'] });
             return;
           }
 
-          this.toastService.add({
-            severity: TOAST_SEVERITY.SUCCESS,
-            summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.literals['REGISTER_OK']
-          });
-
+          this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['REGISTER_OK'] });
           this.router.navigate(['/auth/login']);
         },
         error: (error: HttpErrorResponse) => {
@@ -122,11 +113,7 @@ export class RegisterComponent implements OnInit {
                 ? this.literals['REGISTER_KO_403_EMAIL_NOT_SEND']
                 : this.literals['REGISTER_KO'];
 
-          this.toastService.add({
-            severity: TOAST_SEVERITY.ERROR,
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail
-          });
+          this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
         }
       })
   }

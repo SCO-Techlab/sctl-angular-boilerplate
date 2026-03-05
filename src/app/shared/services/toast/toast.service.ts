@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MAGIC_NUMBERS } from '@shared/constants';
+import { TOAST_SEVERITY } from '@shared/enums';
 import { IToastMessage } from '@shared/interfaces';
 import { BehaviorSubject } from 'rxjs';
 
@@ -19,7 +20,27 @@ export class ToastService {
     this._toastLimit = value;
   }
 
-  public add(message: IToastMessage): void {
+  public success(message: IToastMessage): void {
+    message.severity = message.severity ?? TOAST_SEVERITY.SUCCESS;
+    this.add(message);
+  }
+
+  public error(message: IToastMessage): void {
+    message.severity = message.severity ?? TOAST_SEVERITY.ERROR;
+    this.add(message);
+  }
+
+  public info(message: IToastMessage): void {
+    message.severity = message.severity ?? TOAST_SEVERITY.INFO;
+    this.add(message);
+  }
+
+  public warn(message: IToastMessage): void {
+    message.severity = message.severity ?? TOAST_SEVERITY.WARNING;
+    this.add(message);
+  }
+
+  private add(message: IToastMessage): void {
     message.id = this.genId();
     const msgs = this._messages.getValue();
 

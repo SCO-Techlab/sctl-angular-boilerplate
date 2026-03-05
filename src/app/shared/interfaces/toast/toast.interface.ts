@@ -7,7 +7,7 @@ export interface IToastComponent {
 
 export interface IToastMessage {
   id?: string;
-  severity: TOAST_SEVERITY;
+  severity?: TOAST_SEVERITY;
   summary?: string;
   detail?: string;
   life?: number;

@@ -8,7 +8,7 @@ import { IAuthCardComponent, IAuthInput, IAuthLinksComponent } from '@modules/au
 import { AuthService } from '@modules/auth/services';
 import { InputErrorComponent } from '@shared/components';
 import { REGEX_PATTERNS } from '@shared/constants';
-import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
+import { INPUT_ERROR } from '@shared/enums';
 import { IInputErrorComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
@@ -81,29 +81,14 @@ export class ForgotPasswordComponent implements OnInit {
       .subscribe({
         next: (result: boolean) => {
           if (!result) {
-            this.toastService.add({
-              severity: TOAST_SEVERITY.ERROR,
-              summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.literals['FORGOT_PASSWORD_KO']
-            });
+            this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['FORGOT_PASSWORD_KO'] });
             return;
           }
 
-          this.toastService.add({
-            severity: TOAST_SEVERITY.SUCCESS,
-            summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.literals['FORGOT_PASSWORD_OK']
-          });
-
+          this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['FORGOT_PASSWORD_OK'] });
           this.router.navigate(['/']);
         },
-        error: () => {
-          this.toastService.add({
-            severity: TOAST_SEVERITY.ERROR,
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals['FORGOT_PASSWORD_KO']
-          });
-        }
+        error: () => this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['FORGOT_PASSWORD_KO'] })
       })
   }
 

@@ -13,7 +13,7 @@ import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
 import { IInputErrorComponent, IJwtToken, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { SpinnerService, ToastService, TranslateService } from '@shared/services';
+import { SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private spinnerService = inject(SpinnerService);
   private toastService = inject(ToastService);
+  private userService = inject(UserService);
 
   ngOnInit(): void {
     this.initForm();
@@ -90,29 +91,12 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (jwtToken: IJwtToken) => {
           if (!jwtToken?.accessToken) {
-            this.toastService.add({
-              severity: TOAST_SEVERITY.ERROR,
-              summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.literals['LOGIN_KO_401']
-            });
+            this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['LOGIN_KO_401'] });
             return;
           }
 
-          this.store.dispatch(new SetToken({ token: { ...jwtToken } }));
-
-          this.store.dispatch(new SetRememberUser({
-            rememberUser: !event.rememberMe
-              ? undefined
-              : { email: event.email, password: event.password },
-          }));
-
-          this.toastService.add({
-            severity: TOAST_SEVERITY.SUCCESS,
-            summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.literals['LOGIN_OK']
-          });
-
-          this.router.navigate(['/']);
+          this.userService.login(jwtToken, event);
+          this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['LOGIN_OK'] });
         },
         error: (error: HttpErrorResponse) => {
           const detail: string = error.status === MAGIC_NUMBERS.N_401
@@ -121,11 +105,7 @@ export class LoginComponent implements OnInit {
               ? this.literals['LOGIN_KO_403']
               : this.literals['LOGIN_KO'];
 
-          this.toastService.add({
-            severity: TOAST_SEVERITY.ERROR,
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail
-          });
+          this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
         }
       })
   }
