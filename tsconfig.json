@@ -34,8 +34,8 @@
             "@modules/*": [
                 "src/app/modules/*"
             ],
-            "@persist-storage": [
-                "src/app/persist-storage/index.ts"
+            "@session-storage": [
+                "src/app/session-storage/index.ts"
             ],
             "@shared/*": [
                 "src/app/shared/*"

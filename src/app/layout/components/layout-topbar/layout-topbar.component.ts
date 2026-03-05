@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ILayoutTopbarComponent } from '@layout/interfaces';
 import { Store } from '@ngxs/store';
-import { SetDarkMode } from '@persist-storage';
+import { SetDarkMode } from 'src/app/session-storage';
 import { ThemeConfiguratorComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ConfigService, LayoutService, ScreenService } from '@shared/services';

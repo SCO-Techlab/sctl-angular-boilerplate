@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { SetToken } from '@persist-storage';
+import { SetToken } from 'src/app/session-storage';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
 
       if (error.status === MAGIC_NUMBERS.N_401) {
-        store.dispatch(new SetToken({ token: undefined, delete: true }));
+        store.dispatch(new SetToken({ token: undefined }));
         router.navigate(
           ['/auth/login'],
           {

@@ -1,7 +1,7 @@
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { PersistStorageState } from '@persist-storage';
+import { SessionStorageState } from '@session-storage';
 import { SpinnerComponent, ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
     theme.darkTheme = configTheme.darkTheme ?? theme.darkTheme;
     theme.menuMode = configTheme.menuMode ?? theme.menuMode;
 
-    if (this.store.selectSnapshot(PersistStorageState.darkMode) === true) {
+    if (this.store.selectSnapshot(SessionStorageState.darkMode) === true) {
       theme.darkTheme = true;
     }
 

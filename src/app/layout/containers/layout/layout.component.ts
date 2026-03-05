@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LayoutContentComponent } from '@layout/components';
 import { ILayoutContentComponent } from '@layout/interfaces';
 import { Store } from '@ngxs/store';
-import { SetToken } from '@persist-storage';
+import { SetToken } from 'src/app/session-storage';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ConfigService } from '@shared/services';
 
@@ -68,7 +68,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
             label: 'Logout',
             icon: 'pi pi-sign-out',
             command: (action) => {
-              this.store.dispatch(new SetToken({ token: undefined, delete: true }));
+              this.store.dispatch(new SetToken({ token: undefined }));
               this.router.navigate(
                 ['/auth/login'],
                 {

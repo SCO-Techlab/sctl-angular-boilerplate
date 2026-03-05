@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Router } from '@angular/router';
-import { PersistStorageState, SetToken } from '@persist-storage';
+import { SessionStorageState, SetToken } from 'src/app/session-storage';
 import { JwtTokenService } from '@shared/services';
 
 export function authInitializer(): () => void {
@@ -11,13 +11,13 @@ export function authInitializer(): () => void {
     const router = inject(Router);
     const jwtTokenService = inject(JwtTokenService);
 
-    const token = store.selectSnapshot(PersistStorageState.token);
+    const token = store.selectSnapshot(SessionStorageState.token);
     if (!token?.accessToken) {
       return;
     }
 
     if (jwtTokenService.isTokenExpired(token.accessToken)) {
-      store.dispatch(new SetToken({ token: undefined, delete: true }));
+      store.dispatch(new SetToken({ token: undefined }));
       router.navigate(
         ['/auth/login'],
         {

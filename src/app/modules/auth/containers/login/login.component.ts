@@ -8,7 +8,7 @@ import { AuthCardComponent } from '@modules/auth/components';
 import { ILoginComponent, ILoginComponentEvent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { Store } from '@ngxs/store';
-import { PersistStorageState, SetRememberUser, SetToken } from '@persist-storage';
+import { SessionStorageState, SetRememberUser, SetToken } from 'src/app/session-storage';
 import { FloatingThemeConfigurator, InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
@@ -104,8 +104,9 @@ export class LoginComponent implements OnInit {
           this.store.dispatch(new SetToken({ token: { ...jwtToken } }));
 
           this.store.dispatch(new SetRememberUser({
-            rememberUser: !event.rememberMe ? undefined : { email: event.email, password: event.password },
-            delete: !event.rememberMe
+            rememberUser: !event.rememberMe 
+              ? undefined 
+              : { email: event.email, password: event.password },
           }));
 
           this.toastService.add({
@@ -200,7 +201,7 @@ export class LoginComponent implements OnInit {
 
     this.config.buttonLabel = this.literals['BUTTON_LABEL'];
 
-    const rememberUser: { email: string, password: string } | undefined = this.store.selectSnapshot(PersistStorageState.rememberUser);
+    const rememberUser: { email: string, password: string } | undefined = this.store.selectSnapshot(SessionStorageState.rememberUser);
     this.config.initialValues = {
       email: rememberUser?.email ?? '',
       password: rememberUser?.password ?? '',
