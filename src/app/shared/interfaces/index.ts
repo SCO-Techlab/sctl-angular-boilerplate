@@ -1,7 +1,6 @@
 export * from './access.interface';
 export * from './auth-payload.interface';
 export * from './crud.interface';
-export * from './error.interface';
 export * from './input-error.interface';
 export * from './jwt-token.interface';
 export * from './layout.interface';

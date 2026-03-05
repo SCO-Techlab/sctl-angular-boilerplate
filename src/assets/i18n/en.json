@@ -44,62 +44,62 @@
       },
       "FORGOT_PASSWORD_OK": "Password reset email sent",
       "FORGOT_PASSWORD_KO": "Error trying to reset password"
+    },
+    "REGISTER": {
+      "TITLE": "Create Account",
+      "SUB_TITLE": "Create your account to start using our services",
+      "EMAIL_LABEL": "Email",
+      "EMAIL_PLACEHOLDER": "Email address",
+      "PASSWORD_LABEL": "Password",
+      "PASSWORD_PLACEHOLDER": "Password",
+      "CONFIRM_PASSWORD_LABEL": "Confirm Password",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
+      "LINK_LABEL": "Already have an account?",
+      "LINK_LABEL_FORGOT_PASSWORD": "Forgot password?",
+      "BUTTON_LABEL": "Create Account",
+      "ERROR": {
+        "EMAIL": "Email is required",
+        "EMAIL_INVALID": "Email is invalid",
+        "PASSWORD": "Password is required",
+        "PASSWORD_INVALID": "Password is invalid",
+        "CONFIRM_PASSWORD": "Confirm Password is required",
+        "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
+        "PASSWORDS_NOT_MATCH": "Passwords do not match"
+      },
+      "REGISTER_OK": "Your account has been created successfully",
+      "REGISTER_KO": "Error trying to create account",
+      "REGISTER_KO_403_EMAIL_EXISTS": "Email already exists",
+      "REGISTER_KO_403_ROLE_NOT_FOUND": "Role not found",
+      "REGISTER_KO_403_EMAIL_NOT_SEND": "Error sending email confirmation"
+    },
+    "CONFIRM_EMAIL": {
+      "TITLE": "Confirm User",
+      "SUB_TITLE": "",
+      "BUTTON_LABEL": "Back to Login",
+      "CONFIRM_EMAIL_OK": "Your user account has been confirmed successfully",
+      "CONFIRM_EMAIL_KO": "Error trying to confirm your user account",
+      "ALREADY_CONFIRMED": "Your user account has already been confirmed"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Reset Password",
+      "SUB_TITLE": "Enter a new password to reset your account",
+      "PASSWORD_LABEL": "Password",
+      "PASSWORD_PLACEHOLDER": "Password",
+      "CONFIRM_PASSWORD_LABEL": "Confirm Password",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
+      "BUTTON_LABEL": "Reset Password",
+      "ERROR": {
+        "PASSWORD": "Password is required",
+        "PASSWORD_INVALID": "Password is invalid",
+        "CONFIRM_PASSWORD": "Confirm Password is required",
+        "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
+        "PASSWORDS_NOT_MATCH": "Passwords do not match"
+      },
+      "RESET_PASSWORD_OK": "Password reset successfully",
+      "RESET_PASSWORD_KO": "Error trying to reset password",
+      "RESET_PASSWORD_USER_NOT_FOUND": "User not found",
+      "RESET_PASSWORD_TOKEN_EXPIRED": "Password recovery token expired"
     }
-  },
-  "REGISTER": {
-    "TITLE": "Create Account",
-    "SUB_TITLE": "Create your account to start using our services",
-    "EMAIL_LABEL": "Email",
-    "EMAIL_PLACEHOLDER": "Email address",
-    "PASSWORD_LABEL": "Password",
-    "PASSWORD_PLACEHOLDER": "Password",
-    "CONFIRM_PASSWORD_LABEL": "Confirm Password",
-    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
-    "LINK_LABEL": "Already have an account?",
-    "LINK_LABEL_FORGOT_PASSWORD": "Forgot password?",
-    "BUTTON_LABEL": "Create Account",
-    "ERROR": {
-      "EMAIL": "Email is required",
-      "EMAIL_INVALID": "Email is invalid",
-      "PASSWORD": "Password is required",
-      "PASSWORD_INVALID": "Password is invalid",
-      "CONFIRM_PASSWORD": "Confirm Password is required",
-      "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
-      "PASSWORDS_NOT_MATCH": "Passwords do not match"
-    },
-    "REGISTER_OK": "Your account has been created successfully",
-    "REGISTER_KO": "Error trying to create account",
-    "REGISTER_KO_403_EMAIL_EXISTS": "Email already exists",
-    "REGISTER_KO_403_ROLE_NOT_FOUND": "Role not found",
-    "REGISTER_KO_403_EMAIL_NOT_SEND": "Error sending email confirmation"
-  },
-  "CONFIRM_EMAIL": {
-    "TITLE": "Confirm User",
-    "SUB_TITLE": "",
-    "BUTTON_LABEL": "Back to Login",
-    "CONFIRM_EMAIL_OK": "Your user account has been confirmed successfully",
-    "CONFIRM_EMAIL_KO": "Error trying to confirm your user account",
-    "ALREADY_CONFIRMED": "Your user account has already been confirmed"
-  },
-  "RESET_PASSWORD": {
-    "TITLE": "Reset Password",
-    "SUB_TITLE": "Enter a new password to reset your account",
-    "PASSWORD_LABEL": "Password",
-    "PASSWORD_PLACEHOLDER": "Password",
-    "CONFIRM_PASSWORD_LABEL": "Confirm Password",
-    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
-    "BUTTON_LABEL": "Reset Password",
-    "ERROR": {
-      "PASSWORD": "Password is required",
-      "PASSWORD_INVALID": "Password is invalid",
-      "CONFIRM_PASSWORD": "Confirm Password is required",
-      "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
-      "PASSWORDS_NOT_MATCH": "Passwords do not match"
-    },
-    "RESET_PASSWORD_OK": "Password reset successfully",
-    "RESET_PASSWORD_KO": "Error trying to reset password",
-    "RESET_PASSWORD_USER_NOT_FOUND": "User not found",
-    "RESET_PASSWORD_TOKEN_EXPIRED": "Password recovery token expired"
   },
   "LAYOUT": {
     "MENU": {
@@ -120,6 +120,11 @@
         "PROFILE": "Profile",
         "LOGOUT": "Logout"
       }
+    },
+    "ERROR": {
+      "TITLE": "Error Occured",
+      "MESSAGE": "Requested resource is not available",
+      "BUTTON_LABEL": "Go to Dashboard"
     }
   }
 }

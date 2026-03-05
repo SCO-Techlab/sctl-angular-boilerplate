@@ -120,6 +120,11 @@
         "PROFILE": "Perfil",
         "LOGOUT": "Cerrar sesión"
       }
+    },
+    "ERROR": {
+      "TITLE": "Ocurrió un error",
+      "MESSAGE": "La página solicitada no está disponible",
+      "BUTTON_LABEL": "Volver a inicio"
     }
   }
 }

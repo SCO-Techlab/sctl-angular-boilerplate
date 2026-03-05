@@ -1,6 +1,5 @@
 export * from './access';
 export * from './crud';
-export * from './error';
 export * from './input-error';
 export * from './loader';
 export * from './notfound';
