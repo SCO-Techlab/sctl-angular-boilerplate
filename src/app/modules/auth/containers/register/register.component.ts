@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
 import { IAuthCardComponent, IAuthInput, IAuthLink } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
@@ -25,7 +25,6 @@ import { finalize } from 'rxjs';
   templateUrl: './register.component.html',
   imports: [
     CommonModule,
-    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,

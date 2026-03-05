@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { LayoutMenuItemComponent } from '../layout-menu-item';
 
@@ -10,8 +9,7 @@ import { LayoutMenuItemComponent } from '../layout-menu-item';
   templateUrl: './layout-menu.component.html',
   imports: [
     CommonModule,
-    LayoutMenuItemComponent,
-    RouterModule
+    LayoutMenuItemComponent
   ],
 })
 export class LayoutMenuComponent {

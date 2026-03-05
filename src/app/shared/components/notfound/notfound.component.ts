@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { INotfoundComponent } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
@@ -10,7 +10,6 @@ import { FloatingThemeConfigurator } from '../floating-theme-configurator';
   standalone: true,
   templateUrl: './notfound.component.html',
   imports: [
-    RouterModule,
     FloatingThemeConfigurator,
     ButtonModule
   ]

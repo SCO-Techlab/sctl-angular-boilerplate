@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { ILayoutTopbarComponent } from '@layout/interfaces';
 import { Store } from '@ngxs/store';
 import { SetDarkMode, SetToken } from '@session-storage';
@@ -19,7 +19,6 @@ import { StyleClassModule } from 'primeng/styleclass';
   templateUrl: './layout-topbar.component.html',
   imports: [
     CommonModule,
-    RouterModule,
     StyleClassModule,
     TranslateModule,
     ThemeConfiguratorComponent

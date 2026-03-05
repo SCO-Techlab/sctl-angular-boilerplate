@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
 import { IAuthCardComponent, IAuthEvent, IAuthInput, IAuthLink } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
@@ -27,7 +27,6 @@ import { SessionStorageState, SetRememberUser, SetToken } from 'src/app/session-
   templateUrl: './login.component.html',
   imports: [
     CommonModule,
-    RouterModule,
     ButtonModule,
     FormsModule,
     ReactiveFormsModule,

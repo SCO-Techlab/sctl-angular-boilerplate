@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { IErrorComponent } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { FloatingThemeConfigurator } from '../floating-theme-configurator';
@@ -11,7 +11,6 @@ import { FloatingThemeConfigurator } from '../floating-theme-configurator';
   imports:
     [
       ButtonModule,
-      RouterModule,
       FloatingThemeConfigurator
     ],
 })

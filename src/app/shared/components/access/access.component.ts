@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { IAccessComponent } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { FloatingThemeConfigurator } from '../floating-theme-configurator';
@@ -10,7 +10,6 @@ import { FloatingThemeConfigurator } from '../floating-theme-configurator';
   templateUrl: './access.component.html',
   imports: [
     ButtonModule,
-    RouterModule,
     FloatingThemeConfigurator
   ],
 })

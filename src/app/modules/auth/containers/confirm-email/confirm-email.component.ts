@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
 import { IAuthCardComponent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
@@ -18,7 +18,6 @@ import { finalize } from 'rxjs';
   templateUrl: './confirm-email.component.html',
   imports: [
     CommonModule,
-    RouterModule,
     TranslateModule,
     ButtonModule,
     MessageModule,
