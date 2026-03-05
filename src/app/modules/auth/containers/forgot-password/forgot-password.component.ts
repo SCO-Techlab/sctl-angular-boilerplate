@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components';
-import { IAuthCardComponent, IAuthInput, IAuthLink, IAuthLinksComponent } from '@modules/auth/interfaces';
+import { IAuthCardComponent, IAuthInput, IAuthLinksComponent } from '@modules/auth/interfaces';
 import { AuthService } from '@modules/auth/services';
 import { InputErrorComponent } from '@shared/components';
 import { REGEX_PATTERNS } from '@shared/constants';
