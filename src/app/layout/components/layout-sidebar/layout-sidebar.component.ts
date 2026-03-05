@@ -16,13 +16,7 @@ import { LayoutMenuComponent } from '../layout-menu';
 })
 export class LayoutSidebarComponent {
 
-  public menu = input<MenuItem[]>([
-    {
-      label: 'Home',
-      visible: true,
-      items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'], visible: true }]
-    },
-  ]);
+  public menu = input<MenuItem[]>([]);
 
   public isFloating: boolean = true;
 

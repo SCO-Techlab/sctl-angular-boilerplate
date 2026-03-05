@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { LayoutTopbarComponent, LayoutSidebarComponent, LayoutFooterComponent } from '@layout/components';
-import { Store } from '@ngxs/store';
+import { LayoutFooterComponent, LayoutSidebarComponent, LayoutTopbarComponent } from '@layout/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { LAYOUT_MENU } from '@shared/enums';
 import { ConfigService, LayoutService } from '@shared/services';
@@ -64,7 +63,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public configService = inject(ConfigService);
   private cdRef = inject(ChangeDetectorRef);
 
-   constructor() {
+  constructor() {
     this.isFooterEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.FOOTER_ENABLED);
     this.isSidebarEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.SIDEBAR_ENABLED);
 
@@ -111,9 +110,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     const eventTarget = event.target as Node;
 
     return !(
-      sidebarEl?.isSameNode(eventTarget) || 
-      sidebarEl?.contains(eventTarget) || 
-      topbarEl?.isSameNode(eventTarget) || 
+      sidebarEl?.isSameNode(eventTarget) ||
+      sidebarEl?.contains(eventTarget) ||
+      topbarEl?.isSameNode(eventTarget) ||
       topbarEl?.contains(eventTarget)
     );
   }
@@ -144,6 +143,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private mockMenu() {
-    return [];
+    return [
+      {
+        label: 'Home',
+        visible: true,
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'], visible: true }]
+      },
+    ];
   }
 }
