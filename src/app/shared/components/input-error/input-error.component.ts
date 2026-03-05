@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { IInputErrorComponent } from '@shared/interfaces';
 import { MessageModule } from 'primeng/message';
 
@@ -6,25 +6,26 @@ import { MessageModule } from 'primeng/message';
   selector: 'sctl-input-error',
   standalone: true,
   templateUrl: './input-error.component.html',
-  imports: [MessageModule]
+  imports: [
+    MessageModule
+  ]
 })
 export class InputErrorComponent implements OnInit {
 
-  @Input() config: IInputErrorComponent = {};
+  public config = input<IInputErrorComponent>({});
 
   ngOnInit(): void {
     this.setDefaultConfig();
   }
 
-  showInputError(): boolean {
-    return this.config?.formControl !== undefined && 
-      (this.config?.formControl.invalid && (this.config?.formControl.dirty || this.config?.formControl.touched));
+  public showInputError(): boolean {
+    return this.config()?.formControl !== undefined &&
+      (this.config()?.formControl.invalid && (this.config()?.formControl.dirty || this.config()?.formControl.touched));
   }
 
   private setDefaultConfig(): void {
-    this.config = this.config ?? {};
-    this.config.cssClass = this.config?.cssClass ?? 'mb-8';
-    this.config.formControl = this.config?.formControl ?? undefined;
-    this.config.errorsToShow = this.config?.errorsToShow ?? [];
+    this.config().cssClass = this.config()?.cssClass ?? 'mb-8';
+    this.config().formControl = this.config()?.formControl ?? undefined;
+    this.config().errorsToShow = this.config()?.errorsToShow ?? [];
   }
 }

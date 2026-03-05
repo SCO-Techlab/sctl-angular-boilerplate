@@ -1,12 +1,15 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, PLATFORM_ID, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { $t, updatePreset, updateSurfacePalette } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
-import { LayoutService } from '@shared/services';
+import { ITranslateLiterals } from '@shared/interfaces';
+import { TranslateModule } from '@shared/modules';
+import { LayoutService, TranslateService } from '@shared/services';
 import { PrimeNG } from 'primeng/config';
 import { SelectButtonModule } from 'primeng/selectbutton';
 
@@ -46,36 +49,22 @@ declare type SurfacesType = {
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
     SelectButtonModule
   ],
 })
 export class ThemeConfiguratorComponent {
-  router = inject(Router);
 
-  config: PrimeNG = inject(PrimeNG);
+  private destroyRef$ = inject(DestroyRef);
+  private router = inject(Router);
+  private layoutService: LayoutService = inject(LayoutService);
+  private platformId = inject(PLATFORM_ID);
+  private translateService = inject(TranslateService);
 
-  layoutService: LayoutService = inject(LayoutService);
-
-  platformId = inject(PLATFORM_ID);
-
-  primeng = inject(PrimeNG);
-
-  presets = Object.keys(presets);
-
-  showMenuModeButton = signal(!this.router.url.includes('auth'));
-
-  menuModeOptions = [
-    { label: 'Static', value: 'static' },
-    { label: 'Overlay', value: 'overlay' }
-  ];
-
-  ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.onPresetChange(this.layoutService.layoutConfig().preset);
-    }
-  }
-
-  surfaces: SurfacesType[] = [
+  public presets = Object.keys(presets);
+  public showMenuModeButton = signal(!this.router.url.includes('auth'));
+  public menuModeOptions = [];
+  public surfaces: SurfacesType[] = [
     {
       name: 'slate',
       palette: {
@@ -213,18 +202,11 @@ export class ThemeConfiguratorComponent {
       }
     }
   ];
-
-  selectedPrimaryColor = computed(() => {
-    return this.layoutService.layoutConfig().primary;
-  });
-
-  selectedSurfaceColor = computed(() => this.layoutService.layoutConfig().surface);
-
-  selectedPreset = computed(() => this.layoutService.layoutConfig().preset);
-
-  menuMode = computed(() => this.layoutService.layoutConfig().menuMode);
-
-  primaryColors = computed<SurfacesType[]>(() => {
+  public selectedPrimaryColor = computed(() => { return this.layoutService.layoutConfig().primary });
+  public selectedSurfaceColor = computed(() => this.layoutService.layoutConfig().surface);
+  public selectedPreset = computed(() => this.layoutService.layoutConfig().preset);
+  public menuMode = computed(() => this.layoutService.layoutConfig().menuMode);
+  public primaryColors = computed<SurfacesType[]>(() => {
     const presetPalette = presets[this.layoutService.layoutConfig().preset as KeyOfType<typeof presets>].primitive;
     const colors = ['emerald', 'green', 'lime', 'orange', 'amber', 'yellow', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
     const palettes: SurfacesType[] = [{ name: 'noir', palette: {} }];
@@ -239,7 +221,56 @@ export class ThemeConfiguratorComponent {
     return palettes;
   });
 
-  getPresetExt() {
+  public get darkTheme(): boolean {
+    return this.layoutService.layoutConfig().darkTheme;
+  }
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.onPresetChange(this.layoutService.layoutConfig().preset);
+    }
+
+    this.translateService.stream('LAYOUT.THEME_CONFIGURATOR')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: ITranslateLiterals) => {
+        this.menuModeOptions = [
+          { label: res['MENU_STATIC'], value: 'static' },
+          { label: res['MENU_OVERLAY'], value: 'overlay' }
+        ]
+      });
+  }
+
+  public updateColors(event: any, type: string, color: any): void {
+    if (type === 'primary') {
+      this.layoutService.layoutConfig.update((state) => ({ ...state, primary: color.name }));
+    } else if (type === 'surface') {
+      this.layoutService.layoutConfig.update((state) => ({ ...state, surface: color.name }));
+    }
+    this.applyTheme(type, color);
+
+    event.stopPropagation();
+  }
+
+  public onPresetChange(event: any): void {
+    this.layoutService.layoutConfig.update((state) => ({ ...state, preset: event }));
+    const preset = presets[event as KeyOfType<typeof presets>];
+    const surfacePalette = this.surfaces.find((s) => s.name === this.selectedSurfaceColor())?.palette;
+    $t().preset(preset).preset(this.getPresetExt()).surfacePalette(surfacePalette).use({ useDefaultOptions: true });
+  }
+
+  public onMenuModeChange(event: string): void {
+    this.layoutService.layoutConfig.update((prev) => ({ ...prev, menuMode: event }));
+  }
+
+  private applyTheme(type: string, color: any): void {
+    if (type === 'primary') {
+      updatePreset(this.getPresetExt());
+    } else if (type === 'surface') {
+      updateSurfacePalette(color.palette);
+    }
+  }
+
+  private getPresetExt(): any {
     const color: SurfacesType = this.primaryColors().find((c) => c.name === this.selectedPrimaryColor()) || {};
     const preset = this.layoutService.layoutConfig().preset;
 
@@ -366,35 +397,5 @@ export class ThemeConfiguratorComponent {
         };
       }
     }
-  }
-
-  updateColors(event: any, type: string, color: any) {
-    if (type === 'primary') {
-      this.layoutService.layoutConfig.update((state) => ({ ...state, primary: color.name }));
-    } else if (type === 'surface') {
-      this.layoutService.layoutConfig.update((state) => ({ ...state, surface: color.name }));
-    }
-    this.applyTheme(type, color);
-
-    event.stopPropagation();
-  }
-
-  applyTheme(type: string, color: any) {
-    if (type === 'primary') {
-      updatePreset(this.getPresetExt());
-    } else if (type === 'surface') {
-      updateSurfacePalette(color.palette);
-    }
-  }
-
-  onPresetChange(event: any) {
-    this.layoutService.layoutConfig.update((state) => ({ ...state, preset: event }));
-    const preset = presets[event as KeyOfType<typeof presets>];
-    const surfacePalette = this.surfaces.find((s) => s.name === this.selectedSurfaceColor())?.palette;
-    $t().preset(preset).preset(this.getPresetExt()).surfacePalette(surfacePalette).use({ useDefaultOptions: true });
-  }
-
-  onMenuModeChange(event: string) {
-    this.layoutService.layoutConfig.update((prev) => ({ ...prev, menuMode: event }));
   }
 }

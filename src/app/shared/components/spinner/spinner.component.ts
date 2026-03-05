@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { MAGIC_NUMBERS } from '@shared/constants';
 import { ISpinnerComponent } from '@shared/interfaces';
 import { SpinnerService } from '@shared/services';
 import { LoaderComponent } from '../loader';
@@ -8,20 +9,27 @@ import { LoaderComponent } from '../loader';
   standalone: true,
   styleUrls: ['./spinner.component.scss'],
   templateUrl: './spinner.component.html',
-  imports: [LoaderComponent]
+  imports: [
+    LoaderComponent
+  ]
 })
 
 export class SpinnerComponent {
-  @Input() config: ISpinnerComponent = {
-    pathImg: "../../resources/images/spinner.gif",
-    loaderMode: false,
+
+  public config = input<ISpinnerComponent>({
+    pathImg: '',
+    loaderMode: true,
     loaderConfig: {
       showLoader: true,
-      width: 72,
-      height: 72,
-      borderWidth: 10
+      width: MAGIC_NUMBERS.N_72,
+      height: MAGIC_NUMBERS.N_72,
+      borderWidth: MAGIC_NUMBERS.N_10
     }
-  };
+  });
 
-  constructor(public readonly spinnerService: SpinnerService) { }
+  private spinnerService = inject(SpinnerService);
+
+  public get isShowing(): boolean {
+    return this.spinnerService.isShowing;
+  }
 }

@@ -136,6 +136,14 @@
       "TITLE": "Página no encontrada",
       "MESSAGE": "La página solicitada no está disponible",
       "BUTTON_LABEL": "Volver a inicio"
+    },
+    "THEME_CONFIGURATOR": {
+      "PRIMARY": "Primario",
+      "SURFACE": "Superficie",
+      "PRESET": "Preestablecidos",
+      "MENU_MODE": "Modo de menú",
+      "MENU_STATIC": "Estático",
+      "MENU_OVERLAY": "Overlay"
     }
   }
 }

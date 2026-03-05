@@ -1,13 +1,13 @@
-@if (config.showLoader) {
+@if (config().showLoader) {
   <div
     class="sctl-loader"
     [ngStyle]="{
-      'width': config.width + 'px',
-      'height': config.height + 'px',
+      'width': config().width + 'px',
+      'height': config().height + 'px',
       'border': '5px solid #fffc',
       'border-top-color': 'var(--primary-color)',
       'border-radius': '100%',
-      'border-width': config.borderWidth + 'px'
+      'border-width': config().borderWidth + 'px'
     }"
     role="status"
     aria-live="polite"

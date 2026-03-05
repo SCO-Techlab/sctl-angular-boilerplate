@@ -1,5 +1,5 @@
 import { NgStyle } from '@angular/common';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { ILoaderComponent } from '@shared/interfaces';
 
@@ -13,22 +13,23 @@ import { ILoaderComponent } from '@shared/interfaces';
   ]
 })
 export class LoaderComponent {
-  @Input() config: ILoaderComponent = {
+
+  public config = input<ILoaderComponent>({
     showLoader: false,
     width: MAGIC_NUMBERS.N_36,
     height: MAGIC_NUMBERS.N_36,
     borderWidth: MAGIC_NUMBERS.N_5
-  };
+  });
 
-  constructor(private cdRef: ChangeDetectorRef) { }
+  private cdRef = inject(ChangeDetectorRef);
 
   public show(): void {
-    this.config.showLoader = true;
+    this.config().showLoader = true;
     this.cdRef.detectChanges();
   }
 
   public hide(): void {
-    this.config.showLoader = false;
+    this.config().showLoader = false;
     this.cdRef.detectChanges();
   }
 }

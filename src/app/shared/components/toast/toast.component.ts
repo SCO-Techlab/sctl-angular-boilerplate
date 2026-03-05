@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { TOAST_POSITION } from '@shared/enums';
 import { IToastComponent, IToastMessage } from '@shared/interfaces';
 import { ToastService } from '@shared/services';
@@ -21,29 +21,30 @@ import { Subscription } from 'rxjs';
       ]),
     ]),
   ],
-  imports: [CommonModule]
+  imports: [
+    CommonModule
+  ]
 })
 export class ToastComponent implements OnInit, OnDestroy {
 
-  @Input() config: IToastComponent = {};
+  public config = input<IToastComponent>({});
 
   public readonly TOAST_POSITION = TOAST_POSITION;
+  public messages: IToastMessage[] = [];
+  public sub!: Subscription;
 
-  messages: IToastMessage[] = [];
-  sub!: Subscription;
+  private toastService = inject(ToastService);
 
-  constructor(private toastService: ToastService) { }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.sub = this.toastService.messages$.subscribe(msgs => (this.messages = msgs));
-    this.toastService.toastLimit = this.config?.toastLimit ?? undefined;
+    this.toastService.toastLimit = this.config()?.toastLimit ?? undefined;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-  close(id: string) {
+  close(id: string): void {
     this.toastService.remove(id);
   }
 
@@ -63,12 +64,12 @@ export class ToastComponent implements OnInit, OnDestroy {
   }
 
   getPosition(): string {
-    if (!this.config?.position) {
+    if (!this.config()?.position) {
       return TOAST_POSITION.TOP_RIGHT;
     }
 
-    return Object.values(TOAST_POSITION).includes(this.config?.position)
-      ? this.config?.position
+    return Object.values(TOAST_POSITION).includes(this.config()?.position)
+      ? this.config()?.position
       : TOAST_POSITION.TOP_RIGHT;
   }
 }

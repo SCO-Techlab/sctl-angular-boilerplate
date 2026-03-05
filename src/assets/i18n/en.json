@@ -136,6 +136,14 @@
       "TITLE": "Page not found",
       "MESSAGE": "Requested resource is not available",
       "BUTTON_LABEL": "Go to Dashboard"
+    },
+    "THEME_CONFIGURATOR": {
+      "PRIMARY": "Primary",
+      "SURFACE": "Surface",
+      "PRESET": "Presets",
+      "MENU_MODE": "Menu Mode",
+      "MENU_STATIC": "Static",
+      "MENU_OVERLAY": "Overlay"
     }
   }
 }

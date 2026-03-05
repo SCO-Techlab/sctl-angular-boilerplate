@@ -1,0 +1,22 @@
+<div class="flex gap-4 top-8 right-8" [ngClass]="{'fixed':float()}">
+  <p-button type="button" 
+    severity="secondary" 
+    [rounded]="true"
+    [icon]="isDarkTheme() ? 'pi pi-moon' : 'pi pi-sun'" 
+    (onClick)="toggleDarkMode()" 
+  />
+
+  <div class="relative">
+    <p-button type="button"
+      rounded
+      icon="pi pi-palette" 
+      pStyleClass="@next"
+      enterFromClass="hidden" 
+      enterActiveClass="animate-scalein"
+      leaveToClass="hidden" 
+      leaveActiveClass="animate-fadeout" 
+      [hideOnOutsideClick]="true"  
+    />
+    <sctl-theme-configurator />
+  </div>
+</div>

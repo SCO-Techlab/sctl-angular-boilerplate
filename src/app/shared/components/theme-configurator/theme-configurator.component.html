@@ -1,42 +1,44 @@
 <div class="flex flex-col gap-4">
   <div>
-    <span class="text-sm text-muted-color font-semibold">Primary</span>
+    <span class="text-sm text-muted-color font-semibold">{{'LAYOUT.THEME_CONFIGURATOR.PRIMARY' | translate}}</span>
     <div class="pt-2 flex gap-2 flex-wrap justify-start">
       @for (primaryColor of primaryColors(); track primaryColor.name) {
-        <button type="button" [title]="primaryColor.name" (click)="updateColors($event, 'primary', primaryColor)"
-          [ngClass]="{
-            'outline outline-primary': primaryColor.name === selectedPrimaryColor()
-          }"
-          class="cursor-pointer w-5 h-5 rounded-full flex shrink-0 items-center justify-center outline-offset-1 shadow"
+        <button class="cursor-pointer w-5 h-5 rounded-full flex shrink-0 items-center justify-center outline-offset-1 shadow"
+          type="button"
+          [ngClass]="{'outline outline-primary': primaryColor.name === selectedPrimaryColor()}"
           [style]="{
-            'background-color': primaryColor?.name === 'noir' ? 'var(--text-color)' : primaryColor?.palette?.['500']
-          }">
+            'background-color': primaryColor?.name === 'noir'
+              ? 'var(--text-color)'
+              : primaryColor?.palette?.['500']
+          }"
+          [title]="primaryColor.name"
+          (click)="updateColors($event, 'primary', primaryColor)">
         </button>
       }
     </div>
   </div>
 
   <div>
-    <span class="text-sm text-muted-color font-semibold">Surface</span>
+    <span class="text-sm text-muted-color font-semibold">{{'LAYOUT.THEME_CONFIGURATOR.SURFACE' | translate}}</span>
     <div class="pt-2 flex gap-2 flex-wrap justify-start">
       @for (surface of surfaces; track surface.name) {
-        <button type="button" [title]="surface.name" (click)="updateColors($event, 'surface', surface)"
-          class="cursor-pointer w-5 h-5 rounded-full flex shrink-0 items-center justify-center p-0 outline-offset-1"
+        <button class="cursor-pointer w-5 h-5 rounded-full flex shrink-0 items-center justify-center p-0 outline-offset-1"
+          type="button"
           [ngClass]="{
-            'outline outline-primary': selectedSurfaceColor() 
-              ? selectedSurfaceColor() === surface.name 
-              : layoutService.layoutConfig().darkTheme ? surface.name === 'zinc' : surface.name === 'slate'
-          }" 
-          [style]="{
-            'background-color': surface?.palette?.['500']
+            'outline outline-primary': selectedSurfaceColor()
+              ? selectedSurfaceColor() === surface.name
+              : darkTheme ? surface.name === 'zinc' : surface.name === 'slate'
           }"
+          [style]="{'background-color': surface?.palette?.['500']}"
+          [title]="surface.name"
+          (click)="updateColors($event, 'surface', surface)"
         ></button>
       }
     </div>
   </div>
 
   <div class="flex flex-col gap-2">
-    <span class="text-sm text-muted-color font-semibold">Presets</span>
+    <span class="text-sm text-muted-color font-semibold">{{'LAYOUT.THEME_CONFIGURATOR.PRESET' | translate}}</span>
     <p-selectbutton 
       [options]="presets" 
       [ngModel]="selectedPreset()" 
@@ -44,12 +46,14 @@
       (ngModelChange)="onPresetChange($event)" />
   </div>
 
-  <div *ngIf="showMenuModeButton()" class="flex flex-col gap-2">
-    <span class="text-sm text-muted-color font-semibold">Menu Mode</span>
-    <p-selectbutton 
-      [ngModel]="menuMode()" 
-      [options]="menuModeOptions"
-      [allowEmpty]="false" size="small"
-      (ngModelChange)="onMenuModeChange($event)" />
-  </div>
+  @if (showMenuModeButton()) {
+    <div class="flex flex-col gap-2">
+      <span class="text-sm text-muted-color font-semibold">{{'LAYOUT.THEME_CONFIGURATOR.MENU_MODE' | translate}}</span>
+      <p-selectbutton 
+        [ngModel]="menuMode()" 
+        [options]="menuModeOptions"
+        [allowEmpty]="false" size="small"
+        (ngModelChange)="onMenuModeChange($event)" />
+    </div>
+  }
 </div>
