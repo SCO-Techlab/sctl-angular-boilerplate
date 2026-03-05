@@ -1,15 +1,14 @@
 import { inject } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Router } from '@angular/router';
-import { SessionStorageState, SetToken } from 'src/app/session-storage';
-import { JwtTokenService } from '@shared/services';
+import { JwtTokenService, UserService } from '@shared/services';
+import { SessionStorageState } from 'src/app/session-storage';
 
 export function AuthInitializer(): () => void {
   return () => {
 
     const store = inject(Store);
-    const router = inject(Router);
     const jwtTokenService = inject(JwtTokenService);
+    const userService = inject(UserService);
 
     const token = store.selectSnapshot(SessionStorageState.token);
     if (!token?.accessToken) {
@@ -17,15 +16,7 @@ export function AuthInitializer(): () => void {
     }
 
     if (jwtTokenService.isTokenExpired(token.accessToken)) {
-      store.dispatch(new SetToken({ token: undefined }));
-      router.navigate(
-        ['/auth/login'],
-        {
-          queryParams: {
-            reason: 'expired'
-          }
-        }
-      );
+      userService.logout('expired');
     }
   };
 }

@@ -4,12 +4,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { ILayoutTopbarComponent } from '@layout/interfaces';
 import { Store } from '@ngxs/store';
-import { SetDarkMode, SetToken } from '@session-storage';
+import { SetDarkMode } from '@session-storage';
 import { ThemeConfiguratorComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfigService, LayoutService, ScreenService, TranslateService } from '@shared/services';
+import { ConfigService, LayoutService, ScreenService, TranslateService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { StyleClassModule } from 'primeng/styleclass';
 
@@ -40,6 +40,7 @@ export class LayoutTopbarComponent implements OnInit {
   private router = inject(Router);
   private store = inject(Store);
   private translateService = inject(TranslateService);
+  private userService = inject(UserService);
 
   constructor() {
     this.isSidebarEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.SIDEBAR_ENABLED);
@@ -68,15 +69,7 @@ export class LayoutTopbarComponent implements OnInit {
   }
 
   private userLogOut(): void {
-    this.store.dispatch(new SetToken({ token: undefined }));
-    this.router.navigate(
-      ['/auth/login'],
-      {
-        queryParams: {
-          reason: 'signout'
-        }
-      }
-    );
+    this.userService.logout('signout');
   }
 
   private setConfig(literals: ITranslateLiterals): void {

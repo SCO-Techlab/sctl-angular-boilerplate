@@ -8,5 +8,5 @@ export * from './roles.interface';
 export * from './spinner';
 export * from './toast';
 export * from './translate';
-export * from './user.interface';
+export * from './user';
 

@@ -1,5 +1,5 @@
 import { JWT_TOKEN_TYPE } from "@shared/enums";
-import { IUser } from "../user.interface";
+import { IUser } from "../user";
 
 export interface IJwtToken {
   accessToken: string;
