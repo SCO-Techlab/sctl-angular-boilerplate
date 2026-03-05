@@ -1,4 +1,3 @@
-export * from './access';
 export * from './crud';
 export * from './input-error';
 export * from './loader';

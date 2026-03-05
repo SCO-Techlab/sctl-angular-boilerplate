@@ -1,10 +1,7 @@
 export interface IAccessComponent {
-  showConfigurator?: boolean;
-  showIcon?: boolean;
   icon?: string;
   title?: string;
-  message?: string;
-  showImage?: boolean;
+  messages?: string[];
   image?: string;
   buttonLabel?: string;
   buttonLink?: string;

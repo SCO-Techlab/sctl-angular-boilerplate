@@ -125,6 +125,12 @@
       "TITLE": "Error Occured",
       "MESSAGE": "Requested resource is not available",
       "BUTTON_LABEL": "Go to Dashboard"
+    },
+    "ACCESS": {
+      "TITLE": "Access Denied",
+      "MESSAGE_0": "You do not have the necessary permisions to access this page",
+      "MESSAGE_1": "Please contact with admins",
+      "BUTTON_LABEL": "Go to Dashboard"
     }
   }
 }

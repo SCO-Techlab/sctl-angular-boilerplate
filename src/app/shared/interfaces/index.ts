@@ -1,4 +1,3 @@
-export * from './access.interface';
 export * from './auth-payload.interface';
 export * from './crud.interface';
 export * from './input-error.interface';
