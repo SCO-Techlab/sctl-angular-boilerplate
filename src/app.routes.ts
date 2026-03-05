@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from '@guards';
 import { LayoutComponent } from '@layout/containers';
 import { DashboardComponent } from '@modules/dashboard';
 import { AccessComponent, NotfoundComponent } from '@shared/components';
+import { AuthGuard } from '@shared/guards';
 
 export const appRoutes: Routes = [
   {

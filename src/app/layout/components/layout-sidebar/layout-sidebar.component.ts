@@ -1,8 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, Input } from '@angular/core';
-import { ILayoutSidebarComponent } from '@layout/interfaces';
+import { Component, ElementRef, inject, input } from '@angular/core';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ConfigService } from '@shared/services';
+import { MenuItem } from 'primeng/api';
 import { LayoutMenuComponent } from '../layout-menu';
 
 @Component({
@@ -16,14 +16,20 @@ import { LayoutMenuComponent } from '../layout-menu';
 })
 export class LayoutSidebarComponent {
 
-  @Input() config: ILayoutSidebarComponent;
+  public menu = input<MenuItem[]>([
+    {
+      label: 'Home',
+      visible: true,
+      items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'], visible: true }]
+    },
+  ]);
 
-  public isFloating = true;
+  public isFloating: boolean = true;
 
-  constructor(
-    public el: ElementRef,
-    public configService: ConfigService
-  ) {
+  public el = inject(ElementRef);
+  private configService = inject(ConfigService);
+
+  constructor() {
     this.isFloating = this.configService.get(CONFIG_CONSTANTS.LAYOUT.FLOATING_SIDEBAR);
   }
 }

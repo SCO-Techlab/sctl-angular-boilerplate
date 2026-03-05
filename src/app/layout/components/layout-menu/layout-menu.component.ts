@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ILayoutMenuComponent } from '@layout/interfaces';
+import { MenuItem } from 'primeng/api';
 import { LayoutMenuItemComponent } from '../layout-menu-item';
 
 @Component({
@@ -15,5 +15,5 @@ import { LayoutMenuItemComponent } from '../layout-menu-item';
   ],
 })
 export class LayoutMenuComponent {
-  @Input() config: ILayoutMenuComponent;
+  public menu = input<MenuItem[]>([]);
 }

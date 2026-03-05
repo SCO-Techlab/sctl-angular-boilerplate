@@ -22,12 +22,6 @@
             "@environment": [
                 "src/environments/index.ts"
             ],
-            "@guards": [
-                "src/app/guards/index.ts"
-            ],
-            "@interceptors": [
-                "src/app/interceptors/index.ts"
-            ],
             "@layout/*": [
                 "src/app/layout/*"
             ],

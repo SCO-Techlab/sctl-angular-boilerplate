@@ -1,3 +1,5 @@
 <div class="layout-sidebar" [ngClass]="{'layout-sidebar__no-floating-sidebar': !isFloating}">
-  <sctl-layout-menu [config]="config?.menuConfig"></sctl-layout-menu>
+  <sctl-layout-menu 
+    [menu]="menu()"
+  ></sctl-layout-menu>
 </div>

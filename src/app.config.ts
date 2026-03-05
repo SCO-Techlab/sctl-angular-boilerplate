@@ -3,8 +3,6 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angula
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { environment } from '@environment';
-import { AuthGuard } from '@guards';
-import { errorHandlerInterceptor } from '@interceptors';
 import { authInitializer } from '@modules/auth';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
@@ -14,6 +12,8 @@ import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/fact
 import { ConfigService, ToastService } from '@shared/services';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
+import { errorHandlerInterceptor } from '@shared/interceptors';
+import { AuthGuard } from '@shared/guards';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,7 +40,7 @@ export const appConfig: ApplicationConfig = {
         [SessionStorageState],
         { developmentMode: !environment.production }
       ),
-      NgxsStoragePluginModule.forRoot({ keys: ['persiststorage'] })
+      NgxsStoragePluginModule.forRoot({ keys: ['sctlangularboilerplate'] })
     ),
     {
       provide: APP_INITIALIZER,
