@@ -1,15 +1,51 @@
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-2xl: 1920px;
+
 @mixin focused() {
-    outline-width: var(--focus-ring-width);
-    outline-style: var(--focus-ring-style);
-    outline-color: var(--focus-ring-color);
-    outline-offset: var(--focus-ring-offset);
-    box-shadow: var(--focus-ring-shadow);
-    transition:
-        box-shadow var(--transition-duration),
-        outline-color var(--transition-duration);
+  outline-width: var(--focus-ring-width);
+  outline-style: var(--focus-ring-style);
+  outline-color: var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  box-shadow: var(--focus-ring-shadow);
+  transition:
+    box-shadow var(--transition-duration),
+    outline-color var(--transition-duration);
 }
 
 @mixin focused-inset() {
-    outline-offset: -1px;
-    box-shadow: inset var(--focus-ring-shadow);
+  outline-offset: -1px;
+  box-shadow: inset var(--focus-ring-shadow);
+}
+
+@mixin sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media (min-width: $breakpoint-2xl) {
+    @content;
+  }
 }

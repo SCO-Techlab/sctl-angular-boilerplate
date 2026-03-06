@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { ICardComponent } from '@shared/interfaces';
 
@@ -5,10 +6,15 @@ import { ICardComponent } from '@shared/interfaces';
   selector: 'sctl-card',
   standalone: true,
   templateUrl: './card.component.html',
-  imports: []
+  styleUrls: ['./card.component.scss'],
+  imports: [
+    NgClass
+  ]
 })
 export class CardComponent {
   public config = input<ICardComponent>({
-    title: ''
+    title: '',
+    contrast: true,
+    noPadding: false
   });
 }

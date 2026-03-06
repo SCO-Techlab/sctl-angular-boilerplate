@@ -1,0 +1,9 @@
+.sctl-card {
+  &__contrast {
+    background-color: var(--surface-ground) !important;
+  }
+
+  &__no-padding {
+    padding: 0 !important;
+  }
+}

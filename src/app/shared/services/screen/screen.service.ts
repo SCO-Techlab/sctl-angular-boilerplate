@@ -21,6 +21,10 @@ export class ScreenService {
     return this.size === SCREEN_SIZE.SM;
   }
 
+  public get MD(): boolean {
+    return this.size === SCREEN_SIZE.MD;
+  }
+
   public get LG(): boolean {
     return this.size === SCREEN_SIZE.LG;
   }
@@ -31,6 +35,18 @@ export class ScreenService {
 
   public get XXL(): boolean {
     return this.size === SCREEN_SIZE.XXL;
+  }
+
+  public isMobile(): boolean {
+    return this.size === SCREEN_SIZE.XS || this.size === SCREEN_SIZE.SM;
+  }
+
+  public isTablet(): boolean {
+    return this.size === SCREEN_SIZE.MD || this.size === SCREEN_SIZE.LG;
+  }
+
+  public isDesktop(): boolean {
+    return this.size === SCREEN_SIZE.XL || this.size === SCREEN_SIZE.XXL;
   }
 
   public setSize(width: number): void {
@@ -44,11 +60,13 @@ export class ScreenService {
       this._size = SCREEN_SIZE.LG;
     }
     else if (width >= MAGIC_NUMBERS.N_768) {
+      this._size = SCREEN_SIZE.MD;
+    }
+    else if (width >= MAGIC_NUMBERS.N_576) {
       this._size = SCREEN_SIZE.SM;
     }
     else {
       this._size = SCREEN_SIZE.XS;
     }
   }
-
 }

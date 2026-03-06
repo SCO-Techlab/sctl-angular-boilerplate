@@ -1,4 +1,9 @@
-  <div class="card flex flex-col gap-4">
+  <div class="card flex flex-col gap-4 sctl-card" 
+    [ngClass]="{
+      'sctl-card__contrast': config()?.contrast,
+      'sctl-card__no-padding': config()?.noPadding
+    }"
+  >
     @if (config()?.title) {
       <div class="font-bold text-xl">
         {{ config().title }}
