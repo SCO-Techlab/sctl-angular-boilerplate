@@ -1,4 +1,5 @@
 export * from './config';
+export * from './dates';
 export * from './jwt-token';
 export * from './layout';
 export * from './screen';
