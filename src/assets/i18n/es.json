@@ -145,5 +145,15 @@
       "MENU_STATIC": "Estático",
       "MENU_OVERLAY": "Overlay"
     }
+  },
+  "PROFILE": {
+    "TITLE": "Perfil del usuario",
+    "PERSONAL_INFORMATION": "Información personal",
+    "CHANGE_PASSWORD": "Cambiar contraseña",
+    "CONFIGURATION": "Configuración",
+    "HEADER": {
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo"
+    }
   }
 }

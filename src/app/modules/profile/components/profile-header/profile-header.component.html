@@ -1,0 +1,44 @@
+<sctl-card [config]="cardConfig">
+  <div body class="flex gap-4 p-2" 
+    [ngClass]="{
+      'flex-row': !screenService.XS, 
+      'flex-col': screenService.XS
+    }"
+  >
+
+    <div class="flex p-2" 
+      [ngClass]="{
+        'justify-center': screenService.XS
+      }"
+    >
+      <img class="w-[125px] h-[125px]" [src]="avatarUrl()" alt="Avatar"/>
+    </div>
+    
+    <div class="flex flex-col flex-1" 
+      [ngClass]="{
+        'items-center justify-center pb-2': screenService.XS, 
+        'pt-4 pb-4': !screenService.XS
+      }"
+    >
+      <span class="text-xl font-bold" [ngClass]="{'pt-2': !screenService.XS}">
+        {{ headerUsername }}
+      </span>
+
+      <span class="text-md font-bold text-muted-color">
+        {{ user()?.role?.name.toLowerCase() | titlecase }}
+      </span>
+
+      <span class="text-lg font-semibold pt-3">
+        {{ user()?.email }}
+      </span>
+
+      <span class="flex gap-2 items-center text-md font-bold text-muted-color">
+        <p-message variant="simple">
+          <span class="w-[10px] h-[10px] rounded-[100%] block mt-1" [ngStyle]="{'background-color': userStatusColor}"></span>
+        </p-message>
+        {{ user()?.active ? literals?.['ACTIVE'] : literals?.['INACTIVE'] }}
+      </span>
+    </div>
+
+  </div>
+</sctl-card>
