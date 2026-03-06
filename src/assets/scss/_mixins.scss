@@ -49,3 +49,33 @@ $breakpoint-2xl: 1920px;
     @content;
   }
 }
+
+@mixin mobile {
+  @media (max-width: #{ $breakpoint-md - 1px }) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $breakpoint-md) and (max-width: #{ $breakpoint-xl - 1px }) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin until($breakpoint) {
+  @media (max-width: #{ $breakpoint - 1px }) {
+    @content;
+  }
+}
+
+@mixin from($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
