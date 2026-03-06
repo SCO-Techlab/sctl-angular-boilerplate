@@ -9,6 +9,7 @@ export const appRoutes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: DashboardComponent },
+      { path: 'profile', loadChildren: () => import('./app/modules/profile/profile.routes') },
     ],
     canActivate: [AuthGuard],
   },
