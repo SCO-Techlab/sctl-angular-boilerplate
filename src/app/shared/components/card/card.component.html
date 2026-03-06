@@ -1,0 +1,11 @@
+  <div class="card flex flex-col gap-4">
+    @if (config()?.title) {
+      <div class="font-bold text-xl">
+        {{ config().title }}
+      </div>
+    }
+    
+    <div>
+      <ng-content select="[body]"></ng-content>
+    </div>
+</div>
