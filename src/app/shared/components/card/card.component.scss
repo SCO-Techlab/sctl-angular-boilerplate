@@ -1,6 +1,10 @@
 .sctl-card {
   &__contrast {
-    background-color: var(--surface-ground) !important;
+    background-color: var(--p-surface-100) !important;
+
+    &--dark {
+      background-color: var(--p-surface-800) !important;
+    }
   }
 
   &__no-padding {
