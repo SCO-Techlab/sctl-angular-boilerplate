@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
   ]
 })
 export class ProfileFormComponent {
+  public showSaveButton = input<boolean>(true);
   public saveDisabled = input<boolean>(false);
   
   public save = output<void>();

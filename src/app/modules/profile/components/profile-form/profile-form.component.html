@@ -9,13 +9,15 @@
 
   <ng-content select="[form]"></ng-content>
 
-  <div class="mt-6 w-full flex justify-end items-center">
-    <p-button 
-      [label]="'PROFILE.FORM.SAVE' | translate"
-      severity="primary" 
-      icon="pi pi-save" 
-      [disabled]="lockForm || (!lockForm && saveDisabled)"
-      (click)="onClickSave()"
-    ></p-button>
-  </div>
+  @if (showSaveButton()) {
+    <div class="mt-6 w-full flex justify-end items-center">
+      <p-button 
+        [label]="'PROFILE.FORM.SAVE' | translate"
+        severity="primary" 
+        icon="pi pi-save" 
+        [disabled]="lockForm || (!lockForm && saveDisabled)"
+        (click)="onClickSave()"
+      ></p-button>
+    </div>
+  }
 </div>
