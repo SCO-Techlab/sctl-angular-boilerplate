@@ -168,7 +168,6 @@
         "ROLE": "Rol",
         "CREATED_AT": "Creado en"
       },
-      "SAVE": "Actualizar",
       "REQUEST_KO": "Hubo un error intentando actualizar la información",
       "REQUEST_KO_403": "No tienes permisos para actualizar la información",
       "REQUEST_OK": "La información se ha actualizado correctamente"
@@ -188,7 +187,6 @@
         "CONFIRM_PASSWORD_INVALID": "La confirmación de la contraseña no es válida",
         "PASSWORDS_NOT_MATCH": "Las contraseñas no coinciden"
       },
-      "SAVE": "Actualizar",
       "REQUEST_KO": "Hubo un error intentando actualizar la contraseña",
       "REQUEST_KO_403": "No tienes permisos para actualizar la contraseña",
       "REQUEST_OK": "La contraseña se ha actualizado correctamente"

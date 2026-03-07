@@ -9,9 +9,9 @@ import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfa
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { PasswordMatchValidator } from '@shared/validators';
-import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { finalize } from 'rxjs';
+import { ProfileFormComponent } from '../profile-form';
 
 @Component({
   selector: 'sctl-profile-change-password',
@@ -22,8 +22,8 @@ import { finalize } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     PasswordModule,
-    ButtonModule,
-    InputErrorComponent
+    InputErrorComponent,
+    ProfileFormComponent
   ]
 })
 export class ProfileChangePasswordComponent {

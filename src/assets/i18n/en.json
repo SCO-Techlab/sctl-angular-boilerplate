@@ -168,7 +168,6 @@
         "ROLE": "Role",
         "CREATED_AT": "Created At"
       },
-      "SAVE": "Update",
       "REQUEST_KO": "Error trying to update information",
       "REQUEST_KO_403": "You do not have permissions to update information",
       "REQUEST_OK": "Information updated successfully"
@@ -188,7 +187,6 @@
         "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
         "PASSWORDS_NOT_MATCH": "Passwords do not match"
       },
-      "SAVE": "Update",
       "REQUEST_KO": "Error trying to update password",
       "REQUEST_KO_403": "You do not have permissions to update password",
       "REQUEST_OK": "Password updated successfully"

@@ -8,9 +8,9 @@ import { DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { IJwtToken, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { DatesService, JwtTokenService, SpinnerService, ToastService, TranslateService } from '@shared/services';
-import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { finalize } from 'rxjs';
+import { ProfileFormComponent } from '../profile-form';
 
 @Component({
   selector: 'sctl-profile-personal-information',
@@ -21,7 +21,7 @@ import { finalize } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
-    ButtonModule
+    ProfileFormComponent
   ]
 })
 export class ProfilePersonalInformationComponent implements OnInit {
@@ -53,7 +53,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
   public onClickLockOrUnlockForm(): void {
     this.lockForm = !this.lockForm;
     this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
-    
+
     const formValues: any = this.personalInformationForm.value;
     if (this.lockForm) {
       this.personalInformationForm.setValue(this.lockState);
