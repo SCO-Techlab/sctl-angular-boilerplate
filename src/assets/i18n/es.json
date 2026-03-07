@@ -157,6 +157,9 @@
       "ACTIVE": "Activo",
       "INACTIVE": "Inactivo"
     },
+    "FORM": {
+      "SAVE": "Actualizar"
+    },
     "PERSONAL_INFORMATION": {
       "LABELS": {
         "PERSONAL_NAME": "Nombre y apellidos",

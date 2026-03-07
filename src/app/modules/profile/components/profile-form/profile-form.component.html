@@ -1,0 +1,21 @@
+<div class="flex flex-col ps-4 pe-4">
+  <div class="w-full flex justify-end items-center">
+    <p-button 
+      [severity]="lockForm ? 'danger' : 'secondary'" 
+      [icon]="lockForm ? 'pi pi-lock' : 'pi pi-unlock'"
+      (click)="onClickLockOrUnlockForm()"
+    ></p-button>
+  </div>
+
+  <ng-content select="[form]"></ng-content>
+
+  <div class="mt-6 w-full flex justify-end items-center">
+    <p-button 
+      [label]="'PROFILE.FORM.SAVE' | translate"
+      severity="primary" 
+      icon="pi pi-save" 
+      [disabled]="lockForm || (!lockForm && saveDisabled)"
+      (click)="onClickSave()"
+    ></p-button>
+  </div>
+</div>
