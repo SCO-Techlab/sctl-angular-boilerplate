@@ -52,7 +52,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
 
   public onClickLockOrUnlockForm(): void {
     this.lockForm = !this.lockForm;
-    this.disableOrEnableForm(this.lockForm);
+    this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
     
     const formValues: any = this.personalInformationForm.value;
     if (this.lockForm) {
@@ -86,7 +86,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
           this.fillForm(this.tokenService.decodeToken(token.accessToken)?.user);
           this.lockForm = true;
           this.lockState = undefined;
-          this.disableOrEnableForm(this.lockForm);
+          this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['REQUEST_OK'] });
         },
         error: () => {
@@ -104,7 +104,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
       createdAt: new FormControl(this.datesService.formatDate(DATES.ISO_DATE, this.user()?.createdAt) ?? '')
     });
 
-    this.disableOrEnableForm(this.lockForm);
+    this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
   }
 
   private fillForm(user: IUser): void {
@@ -124,15 +124,5 @@ export class ProfilePersonalInformationComponent implements OnInit {
     }
 
     return role.charAt(MAGIC_NUMBERS.N_0).toUpperCase() + role.slice(MAGIC_NUMBERS.N_1);
-  }
-
-  private disableOrEnableForm(disable: boolean = false): void {
-    const action = {
-      true: 'disable',
-      false: 'enable'
-    };
-
-    const controls: string[] = Object.keys(this.personalInformationForm.controls) || [];
-    controls.forEach((control) => this.personalInformationForm.controls[control][action[`${disable}`]]());
   }
 }

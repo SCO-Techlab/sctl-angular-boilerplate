@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { environment } from '@environment';
 import { IJwtToken, IUser } from '@shared/interfaces';
 import { Observable } from 'rxjs';
@@ -14,5 +15,15 @@ export class ProfileService {
   updateUserInfo(_id: string, user: Partial<IUser>): Observable<IJwtToken> {
     const body = { ...user };
     return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/info/${_id}`, body);
+  }
+
+  disableOrEnableForm(form: FormGroup, disable: boolean = false): void {
+    const action = {
+      true: 'disable',
+      false: 'enable'
+    };
+
+    const controls: string[] = Object.keys(form.controls) || [];
+    controls.forEach((control) => form.controls[control][action[`${disable}`]]());
   }
 }
