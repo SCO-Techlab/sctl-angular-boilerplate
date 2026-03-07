@@ -1,3 +1,14 @@
-<p>
-  profile-configuration works!
-</p>
+<sctl-profile-form [showSaveButton]="false" (lock)="onClickLockOrUnlockForm($event)">
+  <form form [formGroup]="configurationForm">
+    <div class="flex flex-row items-center">
+      <label for="profile-configuration-darkTheme" class="text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+        {{ 'PROFILE.CONFIGURATION.LABELS.DARK_THEME' | translate }}
+      </label>
+      <p-toggleswitch class="ms-8"
+        id="profile-configuration-darkTheme" 
+        formControlName="darkTheme"
+        (onChange)="onChangeDarkTheme()"
+      ></p-toggleswitch>
+    </div>
+  </form>
+</sctl-profile-form>

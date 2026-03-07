@@ -190,6 +190,11 @@
       "REQUEST_KO": "Hubo un error intentando actualizar la contraseña",
       "REQUEST_KO_403": "No tienes permisos para actualizar la contraseña",
       "REQUEST_OK": "La contraseña se ha actualizado correctamente"
+    },
+    "CONFIGURATION": {
+      "LABELS": {
+        "DARK_THEME": "Tema oscuro"
+      }
     }
   }
 }
