@@ -6,16 +6,16 @@
 
       <p-tabs body [value]="currentTab" (valueChange)="onTabChange($event)">
           <p-tablist>
-            <p-tab [value]="PROFILE_TABS.PERSONAL_INFORMATION">{{ 'PROFILE.PERSONAL_INFORMATION' | translate }}</p-tab>
-            <p-tab [value]="PROFILE_TABS.CHANGE_PASSWORD">{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</p-tab>
-            <p-tab [value]="PROFILE_TABS.CONFIGURATION">{{ 'PROFILE.CONFIGURATION' | translate }}</p-tab>
+            <p-tab [value]="PROFILE_TABS.PERSONAL_INFORMATION">{{ 'PROFILE.TABS.PERSONAL_INFORMATION' | translate }}</p-tab>
+            <p-tab [value]="PROFILE_TABS.CHANGE_PASSWORD">{{ 'PROFILE.TABS.CHANGE_PASSWORD' | translate }}</p-tab>
+            <p-tab [value]="PROFILE_TABS.CONFIGURATION">{{ 'PROFILE.TABS.CONFIGURATION' | translate }}</p-tab>
           </p-tablist>
       </p-tabs>
 
       <sctl-card [config]="{ title: '', contrast: false, noPadding: true }">
         <ng-container body [ngTemplateOutlet]="currentTabTemplate"></ng-container>
         <ng-template #personalInformation>
-          <sctl-profile-personal-information></sctl-profile-personal-information>
+          <sctl-profile-personal-information [user]="user"></sctl-profile-personal-information>
         </ng-template>
         <ng-template #changePassword>
           <sctl-profile-change-password></sctl-profile-change-password>

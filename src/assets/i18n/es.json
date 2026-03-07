@@ -148,12 +148,27 @@
   },
   "PROFILE": {
     "TITLE": "Perfil del usuario",
-    "PERSONAL_INFORMATION": "Información personal",
-    "CHANGE_PASSWORD": "Cambiar contraseña",
-    "CONFIGURATION": "Configuración",
+    "TABS": {
+      "PERSONAL_INFORMATION": "Información personal",
+      "CHANGE_PASSWORD": "Cambiar contraseña",
+      "CONFIGURATION": "Configuración"
+    },
     "HEADER": {
       "ACTIVE": "Activo",
       "INACTIVE": "Inactivo"
+    },
+    "PERSONAL_INFORMATION": {
+      "LABELS": {
+        "PERSONAL_NAME": "Nombre y apellidos",
+        "USER_NAME": "Nombre de usuario",
+        "EMAIL": "Correo electrónico",
+        "ROLE": "Rol",
+        "CREATED_AT": "Creado en"
+      },
+      "SAVE": "Actualizar",
+      "REQUEST_KO": "Hubo un error intentando actualizar la información",
+      "REQUEST_KO_403": "No tienes permisos para actualizar la información",
+      "REQUEST_OK": "La información se ha actualizado correctamente"
     }
   }
 }

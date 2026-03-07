@@ -148,12 +148,27 @@
   },
   "PROFILE": {
     "TITLE": "User Profile",
-    "PERSONAL_INFORMATION": "Personal Information",
-    "CHANGE_PASSWORD": "Change Password",
-    "CONFIGURATION": "Configuration",
+    "TABS": {
+      "PERSONAL_INFORMATION": "Personal Information",
+      "CHANGE_PASSWORD": "Change Password",
+      "CONFIGURATION": "Configuration"
+    },
     "HEADER": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive"
+    },
+    "PERSONAL_INFORMATION": {
+      "LABELS": {
+        "PERSONAL_NAME": "Personal Name",
+        "USER_NAME": "User Name",
+        "EMAIL": "Email",
+        "ROLE": "Role",
+        "CREATED_AT": "Created At"
+      },
+      "SAVE": "Update",
+      "REQUEST_KO": "Error trying to update information",
+      "REQUEST_KO_403": "You do not have permissions to update information",
+      "REQUEST_OK": "Information updated successfully"
     }
   }
 }

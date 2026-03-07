@@ -1,3 +1,88 @@
-<p>
-  profile-personal-information works!
-</p>
+
+<form class="flex flex-col ps-4 pe-4" [formGroup]="personalInformationForm">
+  <div class="w-full flex justify-end items-center">
+    <p-button 
+      [severity]="lockForm ? 'danger' : 'secondary'" 
+      [icon]="lockForm ? 'pi pi-lock' : 'pi pi-unlock'"
+      (click)="onClickLockOrUnlockForm()"
+    ></p-button>
+  </div>
+
+  <div>
+    <label for="profile-personal-information-personalName" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+      {{ 'PROFILE.PERSONAL_INFORMATION.LABELS.PERSONAL_NAME' | translate }}
+    </label>
+    <input id="profile-personal-information-personalName" 
+      class="w-full"
+      pInputText
+      type="text"
+      formControlName="personalName"
+    />
+    <sctl-input-error [config]="{}"></sctl-input-error>
+  </div>
+
+  <div class="mt-4">
+    <label for="profile-personal-information-userName" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+      {{ 'PROFILE.PERSONAL_INFORMATION.LABELS.USER_NAME' | translate }}
+    </label>
+    <input id="profile-personal-information-userName" 
+      class="w-full"
+      pInputText
+      type="text"
+      formControlName="userName"
+    />
+    <sctl-input-error [config]="{}"></sctl-input-error>
+  </div>
+
+  <div class="mt-4">
+    <label for="profile-personal-information-email" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+      {{ 'PROFILE.PERSONAL_INFORMATION.LABELS.EMAIL' | translate }}
+    </label>
+    <input id="profile-personal-information-email" 
+      class="w-full"
+      pInputText
+      type="text"
+      formControlName="email"
+      readonly
+    />
+    <sctl-input-error [config]="{}"></sctl-input-error>
+  </div>
+
+  <div class="mt-4">
+    <label for="profile-personal-information-role" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+      {{ 'PROFILE.PERSONAL_INFORMATION.LABELS.ROLE' | translate }}
+    </label>
+    <input id="profile-personal-information-role" 
+      class="w-full"
+      pInputText
+      type="text"
+      formControlName="role"
+      readonly
+    />
+    <sctl-input-error [config]="{}"></sctl-input-error>
+  </div>
+
+  <div class="mt-4">
+    <label for="profile-personal-information-createdAt" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+      {{ 'PROFILE.PERSONAL_INFORMATION.LABELS.CREATED_AT' | translate }}
+    </label>
+    <input id="profile-personal-information-createdAt" 
+      class="w-full"
+      pInputText
+      type="text"
+      formControlName="createdAt"
+      readonly
+    />
+    <sctl-input-error [config]="{}"></sctl-input-error>
+  </div>
+
+  <div class="mt-6 w-full flex justify-end items-center">
+    <p-button 
+      [label]="'PROFILE.PERSONAL_INFORMATION.SAVE' | translate"
+      severity="primary" 
+      icon="pi pi-save" 
+      [disabled]="lockForm"
+      (click)="onClickSave()"
+    ></p-button>
+  </div>
+</form>
