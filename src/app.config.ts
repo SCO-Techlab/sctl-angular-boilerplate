@@ -9,7 +9,7 @@ import Aura from '@primeuix/themes/aura';
 import { SessionStorageState } from '@session-storage';
 import { AuthInitializer, ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
 import { AuthGuard } from '@shared/guards';
-import { ErrorHandlerInterceptor } from '@shared/interceptors';
+import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
 import { ConfigService, ToastService } from '@shared/services';
 import { providePrimeNG } from 'primeng/config';
 import { RippleModule } from 'primeng/ripple';
@@ -24,7 +24,10 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       withFetch(),
-      withInterceptors([ErrorHandlerInterceptor])
+      withInterceptors([
+        ErrorHandlerInterceptor,
+        HeadersInterceptor
+      ])
     ),
     provideAnimationsAsync(),
     providePrimeNG({
