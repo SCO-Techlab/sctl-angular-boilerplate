@@ -193,7 +193,8 @@
     },
     "CONFIGURATION": {
       "LABELS": {
-        "DARK_THEME": "Tema oscuro"
+        "DARK_THEME": "Tema oscuro",
+        "STATIC_MENU": "Menú estático"
       }
     }
   }

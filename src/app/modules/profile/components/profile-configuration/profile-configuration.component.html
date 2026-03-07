@@ -1,13 +1,24 @@
 <sctl-profile-form [showSaveButton]="false" (lock)="onClickLockOrUnlockForm($event)">
   <form form [formGroup]="configurationForm">
     <div class="flex flex-row items-center">
-      <label for="profile-configuration-darkTheme" class="text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+      <label for="profile-configuration-darkTheme" class="text-surface-900 dark:text-surface-0 text-lg font-medium mb-1 min-w-[10rem]">
         {{ 'PROFILE.CONFIGURATION.LABELS.DARK_THEME' | translate }}
       </label>
       <p-toggleswitch class="ms-8"
         id="profile-configuration-darkTheme" 
         formControlName="darkTheme"
         (onChange)="onChangeDarkTheme()"
+      ></p-toggleswitch>
+    </div>
+
+    <div class="mt-4 flex flex-row items-center">
+      <label for="profile-configuration-staticMenu" class="text-surface-900 dark:text-surface-0 text-lg font-medium mb-1 min-w-[10rem]">
+        {{ 'PROFILE.CONFIGURATION.LABELS.STATIC_MENU' | translate }}
+      </label>
+      <p-toggleswitch class="ms-8"
+        id="profile-configuration-staticMenu" 
+        formControlName="staticMenu"
+        (onChange)="onChangeStaticMenu()"
       ></p-toggleswitch>
     </div>
   </form>

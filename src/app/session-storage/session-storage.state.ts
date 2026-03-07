@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { SetAccessToken, SetDarkMode, SetRefreshToken, SetRememberUser } from "./session-storage.actions";
+import { SetAccessToken, SetDarkMode, SetRefreshToken, SetRememberUser, SetStaticMenu } from "./session-storage.actions";
 import { ISessionStorageState } from "./session-storage.interface";
 
 @State<ISessionStorageState>({
@@ -8,6 +8,7 @@ import { ISessionStorageState } from "./session-storage.interface";
   defaults: {
     rememberUser: undefined,
     darkMode: undefined,
+    staticMenu: undefined,
     accessToken: undefined,
     refreshToken: undefined
   }
@@ -23,6 +24,11 @@ export class SessionStorageState {
   @Selector()
   static darkMode(state: ISessionStorageState): boolean {
     return state.darkMode;
+  }
+
+  @Selector()
+  static staticMenu(state: ISessionStorageState): boolean {
+    return state.staticMenu;
   }
 
   @Selector()
@@ -49,6 +55,14 @@ export class SessionStorageState {
     { payload }: SetDarkMode
   ) {
     patchState({ darkMode: payload.darkMode ?? undefined });
+  }
+
+  @Action(SetStaticMenu)
+  public setStaticMenu(
+    { patchState }: StateContext<ISessionStorageState>,
+    { payload }: SetStaticMenu
+  ) {
+    patchState({ staticMenu: payload.staticMenu ?? undefined });
   }
 
   @Action(SetAccessToken)

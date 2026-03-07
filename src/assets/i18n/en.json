@@ -190,6 +190,12 @@
       "REQUEST_KO": "Error trying to update password",
       "REQUEST_KO_403": "You do not have permissions to update password",
       "REQUEST_OK": "Password updated successfully"
+    },
+    "CONFIGURATION": {
+      "LABELS": {
+        "DARK_THEME": "Dark theme",
+        "STATIC_MENU": "Static menu"
+      }
     }
   }
 }

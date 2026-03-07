@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetDarkMode } from '@session-storage';
+import { SessionStorageState, SetDarkMode, SetStaticMenu } from '@session-storage';
 import { TranslateModule } from '@shared/modules';
 import { LayoutService } from '@shared/services';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -43,9 +43,16 @@ export class ProfileConfigurationComponent {
     this.store.dispatch(new SetDarkMode({ darkMode: darkTheme }));
   }
 
+  public onChangeStaticMenu(): void {
+    const staticMenu: boolean = this.configurationForm.value.staticMenu;
+    this.layoutService.layoutConfig.update((state) => ({ ...state, menuMode: staticMenu ? 'static' : 'overlay' }));
+    this.store.dispatch(new SetStaticMenu({ staticMenu: staticMenu }));
+  }
+
   private initForm(): void {
     this.configurationForm = new FormGroup({
       darkTheme: new FormControl(),
+      staticMenu: new FormControl()
     });
 
     this.profileService.disableOrEnableForm(this.configurationForm, true);
@@ -53,6 +60,11 @@ export class ProfileConfigurationComponent {
 
   private fillForm(): void {
     const darkTheme: boolean = this.store.selectSnapshot(SessionStorageState.darkMode);
-    this.configurationForm.setValue({ darkTheme });
+    const staticMenu: boolean = this.store.selectSnapshot(SessionStorageState.staticMenu);
+
+    this.configurationForm.setValue({
+      darkTheme: darkTheme,
+      staticMenu: staticMenu
+    });
   }
 }

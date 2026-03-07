@@ -59,8 +59,14 @@ export class AppComponent implements OnInit {
     theme.darkTheme = configTheme.darkTheme ?? theme.darkTheme;
     theme.menuMode = configTheme.menuMode ?? theme.menuMode;
 
-    if (this.store.selectSnapshot(SessionStorageState.darkMode) === true) {
-      theme.darkTheme = true;
+    if (this.store.selectSnapshot(SessionStorageState.darkMode) !== undefined) {
+      theme.darkTheme = this.store.selectSnapshot(SessionStorageState.darkMode);
+    }
+
+    if (this.store.selectSnapshot(SessionStorageState.staticMenu) !== undefined) {
+      theme.menuMode = this.store.selectSnapshot(SessionStorageState.staticMenu) 
+        ? 'static' 
+        : 'overlay';
     }
 
     this.layoutService.layoutConfig.set(theme);

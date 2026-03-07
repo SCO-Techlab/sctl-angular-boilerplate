@@ -8,6 +8,11 @@ export class SetDarkMode {
   constructor(public payload: { darkMode: boolean }) {}
 }
 
+export class SetStaticMenu {
+  static readonly type = '[Session Storage] Set static menu';
+  constructor(public payload: { staticMenu: boolean }) {}
+}
+
 export class SetAccessToken {
   static readonly type = '[Session Storage] Set token';
   constructor(public payload: { accessToken: string }) {}
