@@ -4,7 +4,6 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
 import { SetAccessToken } from '@session-storage';
-import { InputErrorComponent } from '@shared/components';
 import { DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { IJwtToken, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
@@ -22,8 +21,7 @@ import { finalize } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
-    ButtonModule,
-    InputErrorComponent
+    ButtonModule
   ]
 })
 export class ProfilePersonalInformationComponent implements OnInit {
@@ -31,6 +29,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
 
   public personalInformationForm: FormGroup;
   public lockForm: boolean = true;
+  public lockState: any = undefined;
 
   private literals: ITranslateLiterals;
 
@@ -54,6 +53,13 @@ export class ProfilePersonalInformationComponent implements OnInit {
   public onClickLockOrUnlockForm(): void {
     this.lockForm = !this.lockForm;
     this.disableOrEnableForm(this.lockForm);
+    
+    const formValues: any = this.personalInformationForm.value;
+    if (this.lockForm) {
+      this.personalInformationForm.setValue(this.lockState);
+    } else {
+      this.lockState = formValues;
+    }
   }
 
   public onClickSave(): void {
@@ -79,6 +85,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
           this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
           this.fillForm(this.tokenService.decodeToken(token.accessToken)?.user);
           this.lockForm = true;
+          this.lockState = undefined;
           this.disableOrEnableForm(this.lockForm);
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['REQUEST_OK'] });
         },
