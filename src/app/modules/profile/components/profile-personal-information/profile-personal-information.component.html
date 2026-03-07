@@ -1,5 +1,5 @@
 
-<sctl-profile-form [saveDisabled]="personalInformationForm.invalid" (save)="onClickSave()" (lock)="onClickLockOrUnlockForm()">
+<sctl-profile-form [saveDisabled]="personalInformationForm.invalid" (save)="onClickSave()" (lock)="onClickLockOrUnlockForm($event)">
   <form form [formGroup]="personalInformationForm">
     <div>
       <label for="profile-personal-information-personalName" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">

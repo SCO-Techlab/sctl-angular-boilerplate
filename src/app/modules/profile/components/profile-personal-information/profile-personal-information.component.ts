@@ -28,7 +28,6 @@ export class ProfilePersonalInformationComponent implements OnInit {
   public user = input<IUser>();
 
   public personalInformationForm: FormGroup;
-  public lockForm: boolean = true;
   public lockState: any = undefined;
 
   private literals: ITranslateLiterals;
@@ -50,12 +49,11 @@ export class ProfilePersonalInformationComponent implements OnInit {
       .subscribe((res: ITranslateLiterals) => this.literals = res);
   }
 
-  public onClickLockOrUnlockForm(): void {
-    this.lockForm = !this.lockForm;
-    this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
+  public onClickLockOrUnlockForm($event: boolean): void {
+    this.profileService.disableOrEnableForm(this.personalInformationForm, $event);
 
     const formValues: any = this.personalInformationForm.value;
-    if (this.lockForm) {
+    if ($event) {
       this.personalInformationForm.setValue(this.lockState);
     } else {
       this.lockState = formValues;
@@ -84,9 +82,8 @@ export class ProfilePersonalInformationComponent implements OnInit {
 
           this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
           this.fillForm(this.tokenService.decodeToken(token.accessToken)?.user);
-          this.lockForm = true;
           this.lockState = undefined;
-          this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
+          this.profileService.disableOrEnableForm(this.personalInformationForm, true);
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['REQUEST_OK'] });
         },
         error: () => {
@@ -104,7 +101,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
       createdAt: new FormControl(this.datesService.formatDate(DATES.ISO_DATE, this.user()?.createdAt) ?? '')
     });
 
-    this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
+    this.profileService.disableOrEnableForm(this.personalInformationForm, true);
   }
 
   private fillForm(user: IUser): void {

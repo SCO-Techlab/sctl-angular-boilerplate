@@ -15,7 +15,7 @@
         [label]="'PROFILE.FORM.SAVE' | translate"
         severity="primary" 
         icon="pi pi-save" 
-        [disabled]="lockForm || (!lockForm && saveDisabled)"
+        [disabled]="lockForm || saveDisabled()"
         (click)="onClickSave()"
       ></p-button>
     </div>
