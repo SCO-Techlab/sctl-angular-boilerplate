@@ -17,6 +17,11 @@ export class ProfileService {
     return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/info/${_id}`, body);
   }
 
+  updateUserPassword(_id: string, password: string, newPassword: string): Observable<boolean> {
+    const body = { password, newPassword };
+    return this.http.put<boolean>(`${environment.apiUrl}/profile/update/user/password/${_id}`, body);
+  }
+
   disableOrEnableForm(form: FormGroup, disable: boolean = false): void {
     const action = {
       true: 'disable',

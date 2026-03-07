@@ -169,6 +169,26 @@
       "REQUEST_KO": "Hubo un error intentando actualizar la información",
       "REQUEST_KO_403": "No tienes permisos para actualizar la información",
       "REQUEST_OK": "La información se ha actualizado correctamente"
+    },
+    "CHANGE_PASSWORD": {
+      "LABELS": {
+        "CURRENT_PASSWORD": "Contraseña actual",
+        "NEW_PASSWORD": "Nueva contraseña",
+        "CONFIRM_PASSWORD": "Confirmar contraseña"
+      },
+      "ERROR": {
+        "PASSWORD": "La contraseña es obligatoria",
+        "PASSWORD_INVALID": "La contraseña no es válida",
+        "NEW_PASSWORD": "La nueva contraseña es obligatoria",
+        "NEW_PASSWORD_INVALID": "La nueva contraseña no es válida",
+        "CONFIRM_PASSWORD": "La confirmación de la contraseña es obligatoria",
+        "CONFIRM_PASSWORD_INVALID": "La confirmación de la contraseña no es válida",
+        "PASSWORDS_NOT_MATCH": "Las contraseñas no coinciden"
+      },
+      "SAVE": "Actualizar",
+      "REQUEST_KO": "Hubo un error intentando actualizar la contraseña",
+      "REQUEST_KO_403": "No tienes permisos para actualizar la contraseña",
+      "REQUEST_OK": "La contraseña se ha actualizado correctamente"
     }
   }
 }

@@ -169,6 +169,26 @@
       "REQUEST_KO": "Error trying to update information",
       "REQUEST_KO_403": "You do not have permissions to update information",
       "REQUEST_OK": "Information updated successfully"
+    },
+    "CHANGE_PASSWORD": {
+      "LABELS": {
+        "CURRENT_PASSWORD": "Current Password",
+        "NEW_PASSWORD": "New Password",
+        "CONFIRM_PASSWORD": "Confirm Password"
+      },
+      "ERROR": {
+        "PASSWORD": "Password is required",
+        "PASSWORD_INVALID": "Password is invalid",
+        "NEW_PASSWORD": "New password is required",
+        "NEW_PASSWORD_INVALID": "New password is invalid",
+        "CONFIRM_PASSWORD": "Confirm Password is required",
+        "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
+        "PASSWORDS_NOT_MATCH": "Passwords do not match"
+      },
+      "SAVE": "Update",
+      "REQUEST_KO": "Error trying to update password",
+      "REQUEST_KO_403": "You do not have permissions to update password",
+      "REQUEST_OK": "Password updated successfully"
     }
   }
 }
