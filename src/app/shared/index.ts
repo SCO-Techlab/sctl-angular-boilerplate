@@ -1,5 +1,6 @@
 export * from './components';
 export * from './constants';
+export * from './dialogs';
 export * from './directives';
 export * from './enums';
 export * from './factories';
