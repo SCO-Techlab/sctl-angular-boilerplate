@@ -23,7 +23,7 @@
           class="absolute -bottom-2 -right-2"
           [rounded]="true"
           [text]="true"
-          (click)="onClickEditAvatar()"
+          (click)="showFileUploadDialog = true;"
         ></p-button>
       </div>
     </div>
@@ -58,7 +58,10 @@
 </sctl-card>
 
 <sctl-file-upload-dialog 
-  [visible]="showFileUploadDialog" 
+  [visible]="showFileUploadDialog"
+  [config]="fileUploadDialogConfig"
+  (select)="files = $event;"
+  (clear)="files = $event;"
   (close)="onCloseFileUploadDialog()" 
-  (submit)="onCloseFileUploadDialog()"
+  (submit)="onSubmitFileUploadDialog()"
 ></sctl-file-upload-dialog>

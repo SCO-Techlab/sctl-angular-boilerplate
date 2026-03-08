@@ -155,7 +155,17 @@
     },
     "HEADER": {
       "ACTIVE": "Active",
-      "INACTIVE": "Inactive"
+      "INACTIVE": "Inactive",
+      "AVATAR_MODAL": {
+        "TITLE": "Update Avatar",
+        "SUB_TITLE": "The file must be of type image maximum 1MB",
+        "SELECT": "Select",
+        "CLEAR": "Clear",
+        "CANCEL": "Cancel",
+        "SUBMIT": "Update",
+        "REQUEST_KO": "There was an error trying to update the avatar",
+        "REQUEST_OK": "The avatar has been updated successfully"
+      }
     },
     "FORM": {
       "SAVE": "Update"
