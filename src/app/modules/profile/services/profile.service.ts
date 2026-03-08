@@ -22,10 +22,10 @@ export class ProfileService {
     return this.http.put<boolean>(`${environment.apiUrl}/profile/update/user/password/${_id}`, body);
   }
 
-  updateUserAvatar(_id: string, file: File): Observable<boolean> {
+  updateUserAvatar(_id: string, file: File): Observable<IJwtToken> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.put<boolean>(`${environment.apiUrl}/profile/update/user/avatar/${_id}`, formData);
+    return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/avatar/${_id}`, formData);
   }
 
   disableOrEnableForm(form: FormGroup, disable: boolean = false): void {

@@ -1,13 +1,14 @@
 import { NgClass, NgStyle, TitleCasePipe } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProfileService } from '@modules/profile/services';
-import { CardComponent } from '@shared/components';
+import { Store } from '@ngxs/store';
+import { SetAccessToken } from '@session-storage';
+import { CardComponent, UserAvatarComponent } from '@shared/components';
 import { FILE_SIZES, MAGIC_NUMBERS } from '@shared/constants';
 import { FileUploadDialogComponent } from '@shared/dialogs';
 import { BUTTON_SEVERITY } from '@shared/enums';
-import { ICardComponent, IFileUploadDialogComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
+import { ICardComponent, IFileUploadDialogComponent, IJwtToken, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ScreenService, SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -26,12 +27,12 @@ import { finalize } from 'rxjs';
     ButtonModule,
     MessageModule,
     CardComponent,
-    FileUploadDialogComponent
+    FileUploadDialogComponent,
+    UserAvatarComponent
   ]
 })
 export class ProfileHeaderComponent implements OnInit {
   public user = input<IUser>();
-  public avatarUrl = input<string>('../../../../../assets/images/user-avatar.png');
 
   public cardConfig: ICardComponent = {
     title: '',
@@ -57,6 +58,7 @@ export class ProfileHeaderComponent implements OnInit {
   private profileService = inject(ProfileService);
   private spinnerService = inject(SpinnerService);
   private toastService = inject(ToastService);
+  private store = inject(Store);
 
   ngOnInit(): void {
     this.translateService.stream('PROFILE.HEADER')
@@ -80,8 +82,8 @@ export class ProfileHeaderComponent implements OnInit {
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
-        next: (res: boolean) => {
-          if (!res) {
+        next: (token: IJwtToken) => {
+          if (!token?.accessToken) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
               detail: this.literals?.['AVATAR_MODAL']['REQUEST_KO']
@@ -89,14 +91,15 @@ export class ProfileHeaderComponent implements OnInit {
             return;
           }
 
+          this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
+          this.files = [];
+          this.showFileUploadDialog = false;
           this.toastService.success({
             summary: this.translateService.instant('TOAST.SUCCESS'),
             detail: this.literals?.['AVATAR_MODAL']['REQUEST_OK']
           });
-          this.files = [];
-          this.showFileUploadDialog = false;
         },
-        error: (error: HttpErrorResponse) => {
+        error: () => {
           this.toastService.error({
             summary: this.translateService.instant('TOAST.ERROR'),
             detail: this.literals?.['AVATAR_MODAL']['REQUEST_KO'],

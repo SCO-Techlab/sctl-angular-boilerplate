@@ -12,6 +12,7 @@ export interface IUser {
   role: IRole
   pwdRecoveryToken?: string;
   pwdRecoveryDate?: Date;
+  avatar?: string;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;
