@@ -28,6 +28,10 @@ export class ProfileService {
     return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/avatar/${_id}`, formData);
   }
 
+  deleteUserAccount(_id: string): Observable<boolean> {
+    return this.http.delete<boolean>(`${environment.apiUrl}/profile/delete/user/account/${_id}`);
+  }
+
   disableOrEnableForm(form: FormGroup, disable: boolean = false): void {
     const action = {
       true: 'disable',

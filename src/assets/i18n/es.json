@@ -148,6 +148,9 @@
   },
   "PROFILE": {
     "TITLE": "Perfil del usuario",
+    "DELETE_ACCOUNT": "Eliminar usuario",
+    "DELETE_ACCOUNT_KO": "Hubo un error intentando eliminar la cuenta",
+    "DELETE_ACCOUNT_OK": "La cuenta ha sido eliminada correctamente",
     "TABS": {
       "PERSONAL_INFORMATION": "Información personal",
       "CHANGE_PASSWORD": "Cambiar contraseña",

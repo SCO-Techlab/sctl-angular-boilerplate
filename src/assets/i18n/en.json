@@ -148,6 +148,9 @@
   },
   "PROFILE": {
     "TITLE": "User Profile",
+    "DELETE_ACCOUNT": "Delete user",
+    "DELETE_ACCOUNT_KO": "Error trying to delete account",
+    "DELETE_ACCOUNT_OK": "Account deleted successfully",
     "TABS": {
       "PERSONAL_INFORMATION": "Personal Information",
       "CHANGE_PASSWORD": "Change Password",
