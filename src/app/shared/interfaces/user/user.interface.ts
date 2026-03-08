@@ -12,7 +12,6 @@ export interface IUser {
   role: IRole
   pwdRecoveryToken?: string;
   pwdRecoveryDate?: Date;
-  extension?: any;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;
