@@ -2,9 +2,11 @@ import { NgClass, NgStyle, TitleCasePipe } from '@angular/common';
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardComponent } from '@shared/components';
+import { FileUploadDialogComponent } from '@shared/dialogs';
 import { ICardComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ScreenService, TranslateService } from '@shared/services';
+import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 
 @Component({
@@ -16,8 +18,10 @@ import { MessageModule } from 'primeng/message';
     NgStyle,
     TitleCasePipe,
     TranslateModule,
+    ButtonModule,
     MessageModule,
-    CardComponent
+    CardComponent,
+    FileUploadDialogComponent
   ]
 })
 export class ProfileHeaderComponent implements OnInit {
@@ -30,6 +34,7 @@ export class ProfileHeaderComponent implements OnInit {
     noPadding: true
   };
   public literals: ITranslateLiterals;
+  public showFileUploadDialog: boolean = false;
 
   public get headerUsername(): string {
     return this.user()?.personalName ?? this.user()?.userName ?? 'Usuario';
@@ -47,5 +52,13 @@ export class ProfileHeaderComponent implements OnInit {
     this.translateService.stream('PROFILE.HEADER')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => this.literals = res);
+  }
+
+  public onClickEditAvatar(): void {
+    this.showFileUploadDialog = true;
+  }
+
+  public onCloseFileUploadDialog(): void {
+    this.showFileUploadDialog = false;
   }
 }

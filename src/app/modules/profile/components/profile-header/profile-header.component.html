@@ -11,7 +11,21 @@
         'justify-center': screenService.XS
       }"
     >
-      <img class="w-[125px] h-[125px]" [src]="avatarUrl()" alt="Avatar"/>
+      <div class="relative w-[125px] h-[125px]">
+        <img
+          class="w-[125px] h-[125px] rounded-full object-cover"
+          [src]="avatarUrl()"
+          alt="Avatar"
+        />
+
+        <p-button
+          icon="pi pi-pencil"
+          class="absolute -bottom-2 -right-2"
+          [rounded]="true"
+          [text]="true"
+          (click)="onClickEditAvatar()"
+        ></p-button>
+      </div>
     </div>
     
     <div class="flex flex-col flex-1" 
@@ -42,3 +56,9 @@
 
   </div>
 </sctl-card>
+
+<sctl-file-upload-dialog 
+  [visible]="showFileUploadDialog" 
+  (close)="onCloseFileUploadDialog()" 
+  (submit)="onCloseFileUploadDialog()"
+></sctl-file-upload-dialog>
