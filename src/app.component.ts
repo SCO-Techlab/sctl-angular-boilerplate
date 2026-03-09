@@ -7,6 +7,7 @@ import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
 import { ILayoutConfig, ISpinnerComponent, IToastComponent } from '@shared/interfaces';
 import { ConfigService, LayoutService, ScreenService } from '@shared/services';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import { ConfigService, LayoutService, ScreenService } from '@shared/services';
   imports: [
     RouterModule,
     SpinnerComponent,
-    ToastComponent
+    ToastComponent,
+    ConfirmDialogModule
   ]
 })
 export class AppComponent implements OnInit {

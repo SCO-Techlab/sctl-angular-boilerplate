@@ -151,6 +151,12 @@
     "DELETE_ACCOUNT": "Eliminar usuario",
     "DELETE_ACCOUNT_KO": "Hubo un error intentando eliminar la cuenta",
     "DELETE_ACCOUNT_OK": "La cuenta ha sido eliminada correctamente",
+    "DELETE_ACCOUNT_CONFIRM": {
+      "HEADER": "Eliminar usuario",
+      "MESSAGE": "¿Está seguro de que desea eliminar su cuenta permanentemente?",
+      "ACCEPT": "Eliminar",
+      "REJECT": "Cancelar"
+    },
     "TABS": {
       "PERSONAL_INFORMATION": "Información personal",
       "CHANGE_PASSWORD": "Cambiar contraseña",

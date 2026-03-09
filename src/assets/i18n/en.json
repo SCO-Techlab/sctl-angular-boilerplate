@@ -151,6 +151,12 @@
     "DELETE_ACCOUNT": "Delete user",
     "DELETE_ACCOUNT_KO": "Error trying to delete account",
     "DELETE_ACCOUNT_OK": "Account deleted successfully",
+    "DELETE_ACCOUNT_CONFIRM": {
+      "HEADER": "Delete user",
+      "MESSAGE": "Are you sure you want to permanently delete your account?",
+      "ACCEPT": "Delete",
+      "REJECT": "Cancel"
+    },
     "TABS": {
       "PERSONAL_INFORMATION": "Personal Information",
       "CHANGE_PASSWORD": "Change Password",

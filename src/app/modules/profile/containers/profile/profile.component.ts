@@ -5,9 +5,11 @@ import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileH
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
 import { CardComponent } from '@shared/components';
+import { CONFIRM_DIALOG_ICONS } from '@shared/constants/confirm-dialog/confirm-dialog.constants';
+import { BUTTON_SEVERITY } from '@shared/enums';
 import { IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { finalize } from 'rxjs';
@@ -47,6 +49,7 @@ export class ProfileComponent implements AfterViewInit {
   private profileService = inject(ProfileService);
   private toastService = inject(ToastService);
   private spinnerService = inject(SpinnerService);
+  private confirmDialogService = inject(ConfirmDialogService);
 
   ngAfterViewInit(): void {
     this.setTabTemplate();
@@ -62,34 +65,50 @@ export class ProfileComponent implements AfterViewInit {
   }
 
   public onDeleteAccount(): void {
-    this.spinnerService.show();
-    this.profileService.deleteUserAccount(this.user?._id)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef$),
-        finalize(() => this.spinnerService.hide())
-      )
-      .subscribe({
-        next: (res: boolean) => {
-          if (!res) {
-            this.toastService.error({
-              summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.translateService.instant('PROFILE.DELETE_ACCOUNT_KO')
-            });
-            return;
-          }
+    this.confirmDialogService.confirm({
+      header: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.HEADER'),
+      message: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.MESSAGE'),
+      icon: CONFIRM_DIALOG_ICONS.WARNING,
+      rejectButton: {
+        label: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.REJECT'),
+        severity: BUTTON_SEVERITY.SECONDARY
+      },
+      acceptButton: {
+        label: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.ACCEPT'),
+        severity: BUTTON_SEVERITY.DANGER
+      },
+      accept: () => {
+        this.spinnerService.show();
+        this.profileService.deleteUserAccount(this.user?._id)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
+          .subscribe({
+            next: (res: boolean) => {
+              if (!res) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: this.translateService.instant('PROFILE.DELETE_ACCOUNT_KO')
+                });
+                return;
+              }
 
-          this.toastService.success({
-            summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.translateService.instant('PROFILE.DELETE_ACCOUNT_OK')
+              this.toastService.success({
+                summary: this.translateService.instant('TOAST.SUCCESS'),
+                detail: this.translateService.instant('PROFILE.DELETE_ACCOUNT_OK')
+              });
+              this.userService.logout({ reason: 'delete', deleteRefreshToken: true });
+            },
+            error: () => {
+              this.toastService.error({
+                summary: this.translateService.instant('TOAST.ERROR'),
+                detail: this.translateService.instant('PROFILE.DELETE_ACCOUNT_KO')
+              });
+            }
           });
-        },
-        error: () => {
-          this.toastService.error({
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.translateService.instant('PROFILE.DELETE_ACCOUNT_KO')
-          });
-        }
-      });
+      }
+    });
   }
 
   private setTabTemplate(): void {

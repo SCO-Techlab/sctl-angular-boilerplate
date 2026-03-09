@@ -11,6 +11,7 @@ import { AuthInitializer, ConfigInitializerFactory, TranslateProviderFactory } f
 import { AuthGuard } from '@shared/guards';
 import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
 import { ConfigService, ToastService } from '@shared/services';
+import { ConfirmationService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { RippleModule } from 'primeng/ripple';
 import { appRoutes } from './app.routes';
@@ -63,6 +64,7 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: AuthInitializer,
       multi: true
-    }
+    },
+    ConfirmationService
   ]
 };
