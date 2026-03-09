@@ -1,4 +1,5 @@
-import { Component, inject, input } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, inject, input, output } from '@angular/core';
 import { environment } from '@environment';
 import { IUser } from '@shared/interfaces';
 import { UserService } from '@shared/services';
@@ -6,10 +7,16 @@ import { UserService } from '@shared/services';
 @Component({
   selector: 'sctl-user-avatar',
   standalone: true,
-  templateUrl: './user-avatar.component.html'
+  templateUrl: './user-avatar.component.html',
+  imports: [
+    NgClass
+  ]
 })
 export class UserAvatarComponent {
   public cssClass = input<string>();
+  public canClick = input<boolean>(false);
+
+  public clickAvatar = output<Event>();
 
   public get css(): string {
     return this.cssClass() ?? 'w-[125px] h-[125px]';
@@ -28,4 +35,12 @@ export class UserAvatarComponent {
   }
 
   private userService = inject(UserService);
+
+  public onClickAvatar($event: Event): void {
+    if (!this.canClick()) {
+      return;
+    }
+
+    this.clickAvatar.emit($event);
+  }
 }

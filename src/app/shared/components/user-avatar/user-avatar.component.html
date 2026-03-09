@@ -1,5 +1,7 @@
 <img
   class="{{css}} rounded-full object-cover"
+  [ngClass]="{'cursor-pointer': canClick()}"
   [src]="userAvatar"
   alt="Avatar"
+  (click)="onClickAvatar($event)"
 />

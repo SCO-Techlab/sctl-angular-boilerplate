@@ -1,5 +1,23 @@
 <div class="layout-sidebar" [ngClass]="{'layout-sidebar__no-floating-sidebar': !isFloating}">
-  <sctl-layout-menu 
-    [menu]="menu()"
-  ></sctl-layout-menu>
+  <div class="flex-1 p-8 overflow-auto">
+    <sctl-layout-menu [menu]="menu()"></sctl-layout-menu>
+  </div>
+  @if (isUserAvatarEnabled) {
+    <div class="p-4 flex items-center gap-4">
+      <p-menu #menu [model]="items" [popup]="true" appendTo="body" />
+      <sctl-user-avatar 
+        [cssClass]="'w-[42px] h-[42px]'" 
+        [canClick]="true" 
+        (clickAvatar)="menu.toggle($event);"
+      ></sctl-user-avatar>
+      <div class="flex flex-col">
+        <span class="text-lg font-bold">
+          {{ user?.personalName ?? user?.userName ?? user?.email }}
+        </span>
+        <span class="text-sm font-bold text-muted-color">
+          {{ user?.role?.name.toLowerCase() | titlecase }}
+        </span>
+      </div>
+    </div>
+  }
 </div>
