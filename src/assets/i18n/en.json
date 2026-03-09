@@ -114,12 +114,8 @@
       "TEXT": "Angular Boilerplate by"
     },
     "TOPBAR": {
-      "SWITCH_THEME_DARK_MODE": "Dark mode",
-      "SWITCH_THEME_LIGHT_MODE": "Light mode",
-      "ACTIONS": {
-        "PROFILE": "Profile",
-        "LOGOUT": "Logout"
-      }
+      "PROFILE": "Profile",
+      "LOGOUT": "Logout"
     },
     "ERROR": {
       "TITLE": "Error Occured",

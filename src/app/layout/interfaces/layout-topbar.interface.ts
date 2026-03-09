@@ -6,8 +6,6 @@ export interface ILayoutTopbarComponent {
   logoText?: string;
   logoCssClass?: string;
   actions?: ILayoutTopbarAction[];
-  switchThemeDarkModeLabel?: string;
-  switchThemeLightModeLabel?: string;
 }
 
 export interface ILayoutTopbarAction {

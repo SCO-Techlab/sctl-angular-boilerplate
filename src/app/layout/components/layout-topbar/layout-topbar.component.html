@@ -22,23 +22,21 @@
   </div>
 
   <div class="layout-topbar-actions" style="flex: 1;">
-    @if (isSwitchThemeEnabled || isThemeConfiguratorEnabled) {
+    @if (isThemeConfiguratorEnabled) {
       <div class="layout-config-menu">
-        @if (isThemeConfiguratorEnabled) {
-          <div class="relative">
-            <button class="layout-topbar-action layout-topbar-action-highlight" 
-              pStyleClass="@next" 
-              enterFromClass="hidden"
-              enterActiveClass="animate-scalein" 
-              leaveToClass="hidden" 
-              leaveActiveClass="animate-fadeout"
-              [hideOnOutsideClick]="true"
-            >
-              <i class="pi pi-palette"></i>
-            </button>
-            <sctl-theme-configurator />
-          </div>
-        }
+        <div class="relative">
+          <button class="layout-topbar-action layout-topbar-action-highlight" 
+            pStyleClass="@next" 
+            enterFromClass="hidden"
+            enterActiveClass="animate-scalein" 
+            leaveToClass="hidden" 
+            leaveActiveClass="animate-fadeout"
+            [hideOnOutsideClick]="true"
+          >
+            <i class="pi pi-palette"></i>
+          </button>
+          <sctl-theme-configurator />
+        </div>
       </div>
     }
 
@@ -56,30 +54,14 @@
 
       <div class="layout-topbar-menu hidden lg:block">
         <div class="layout-topbar-menu-content">
-          @if (config?.actions && config?.actions.length > 0) {
-            @if (isSwitchThemeEnabled) {
-              <button class="layout-topbar-action"
-                type="button" 
-                (click)="toggleDarkMode()"
-              >
-                <i [ngClass]="{ 
-                  'pi ': true, 
-                  'pi-moon': layoutService.isDarkTheme(), 
-                  'pi-sun': !layoutService.isDarkTheme() }"
-                ></i>
-                <span>{{ !layoutService.isDarkTheme() ? config?.switchThemeLightModeLabel : config?.switchThemeDarkModeLabel }}</span>
-              </button>
-            }
-
-            @for (action of config?.actions; track action.label) {
-              <button class="layout-topbar-action"
-                type="button" 
-                (click)="action?.command?.(action)"
-              >
-                <i class="{{ action?.icon }}"></i>
-                <span>{{ action?.label }}</span>
-              </button>
-            }
+          @for (action of config?.actions; track action.label) {
+            <button class="layout-topbar-action"
+              type="button" 
+              (click)="action?.command?.(action)"
+            >
+              <i class="{{ action?.icon }}"></i>
+              <span>{{ action?.label }}</span>
+            </button>
           }
         </div>
       </div>

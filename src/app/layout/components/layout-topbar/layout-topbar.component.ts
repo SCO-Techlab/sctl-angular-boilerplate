@@ -29,7 +29,6 @@ export class LayoutTopbarComponent implements OnInit {
   public config: ILayoutTopbarComponent;
   public items!: MenuItem[];
   public isSidebarEnabled = true;
-  public isSwitchThemeEnabled = true;
   public isThemeConfiguratorEnabled = true;
   public areActionsEnabled = true;
 
@@ -44,7 +43,6 @@ export class LayoutTopbarComponent implements OnInit {
 
   constructor() {
     this.isSidebarEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.SIDEBAR_ENABLED);
-    this.isSwitchThemeEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.TOPBAR_SWITCH_THEME_ENABLED);
     this.isThemeConfiguratorEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.TOPBAR_THEME_CONFIGURATOR_ENABLED);
     this.areActionsEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.TOPBAR_ACTIONS_ENABLED);
   }
@@ -82,18 +80,16 @@ export class LayoutTopbarComponent implements OnInit {
       logoCssClass: 'w-20',
       actions: [
         {
-          label: literals['ACTIONS']['PROFILE'],
+          label: literals['PROFILE'],
           icon: 'pi pi-user',
           command: () => this.router.navigate(['/profile'])
         },
         {
-          label: literals['ACTIONS']['LOGOUT'],
+          label: literals['LOGOUT'],
           icon: 'pi pi-sign-out',
           command: () => this.userLogOut()
         }
-      ],
-      switchThemeDarkModeLabel: literals['SWITCH_THEME_DARK_MODE'],
-      switchThemeLightModeLabel: literals['SWITCH_THEME_LIGHT_MODE']
+      ]
     };
   }
 }

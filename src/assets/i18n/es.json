@@ -114,12 +114,8 @@
       "TEXT": "Angular Boilerplate realizado por"
     },
     "TOPBAR": {
-      "SWITCH_THEME_DARK_MODE": "Modo oscuro",
-      "SWITCH_THEME_LIGHT_MODE": "Modo claro",
-      "ACTIONS": {
-        "PROFILE": "Perfil",
-        "LOGOUT": "Cerrar sesión"
-      }
+      "PROFILE": "Perfil",
+      "LOGOUT": "Cerrar sesión"
     },
     "ERROR": {
       "TITLE": "Ocurrió un error",
