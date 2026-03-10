@@ -23,7 +23,7 @@ export class LayoutFooterComponent implements OnInit {
   private translateService = inject(TranslateService);
 
   constructor() {
-    this.footerLinkText = this.configService.get(CONFIG_CONSTANTS.LAYOUT.APP_NAME);
+    this.footerLinkText = this.configService.get(CONFIG_CONSTANTS.APP_NAME);
   }
 
   ngOnInit(): void {

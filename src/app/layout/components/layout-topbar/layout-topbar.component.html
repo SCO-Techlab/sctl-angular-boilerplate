@@ -1,31 +1,19 @@
 <div class="layout-topbar">
-  <div class="layout-topbar-logo-container" style="width: 100%;">
-    @if (isSidebarEnabled) {
-      <div class="flex {{ config?.menuButtonCssClass }}">
-        <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
-          <i class="pi pi-bars" [ngStyle]="{ 'font-size': config?.menuButtonIconSize }"></i>
-        </button>
-      </div>
-    }
-
-    <a class="layout-topbar-logo" (click)="onClickLogo()">
-      <img src="{{ config?.logoUrl }}" alt="{{ config?.logoText }}" class="{{ config?.logoCssClass }}" />
+  <div class="layout-topbar-logo-container">
+    <div class="layout-topbar-logo" (click)="onClickLogo()">
+      <img src="assets/images/logo.png" alt="{{appName}}" class="w-20" />
       
-      @if (config?.logoText) {
-        @if (screenService.XS) {
-          <h5>{{ config.logoText }}</h5>
-        } @else {
-          <h4>{{ config.logoText }}</h4>
-        }
+      @if (appName) {
+        <span class="p-0 m-0">{{ appName }}</span>
       }
-    </a>
+    </div>
   </div>
 
-  <div class="layout-topbar-actions" style="flex: 1;">
+  <div class="layout-topbar-actions" style="width: min-content;">
     @if (isThemeConfiguratorEnabled) {
       <div class="layout-config-menu">
         <div class="relative">
-          <button class="layout-topbar-action layout-topbar-action-highlight" 
+          <button class="layout-topbar-action layout-topbar-action-highlight me-3" 
             pStyleClass="@next" 
             enterFromClass="hidden"
             enterActiveClass="animate-scalein" 
@@ -54,16 +42,39 @@
 
       <div class="layout-topbar-menu hidden lg:block">
         <div class="layout-topbar-menu-content">
-          @for (action of config?.actions; track action.label) {
+          @for (action of actions; track action.label; let i = $index) {
             <button class="layout-topbar-action"
+              [ngClass]="{
+                'me-2': isSidebarEnabled || !isSidebarEnabled && i !== (actions.length - 1), 
+                'me-6':!isSidebarEnabled && i === (actions.length - 1)
+              }"
               type="button" 
-              (click)="action?.command?.(action)"
+              (click)="action?.command?.(null)"
             >
               <i class="{{ action?.icon }}"></i>
               <span>{{ action?.label }}</span>
             </button>
           }
         </div>
+      </div>
+    }
+
+    @if (isSidebarEnabled) {
+      <div class="flex" [ngClass]="{'me-4': !isUserAvatarEnabled, 'me-2': isUserAvatarEnabled}">
+        <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
+          <i class="pi pi-bars" [ngStyle]="{ 'font-size': '1.75rem' }"></i>
+        </button>
+      </div>
+    }
+
+    @if (isUserAvatarEnabled) {
+      <div class="me-8">
+        <p-menu #menu [model]="actions" [popup]="true" appendTo="body" />
+        <sctl-user-avatar 
+          [cssClass]="'w-[38px] h-[38px]'"
+          [canClick]="true" 
+          (clickAvatar)="menu.toggle($event);"
+        ></sctl-user-avatar>
       </div>
     }
   </div>

@@ -110,12 +110,12 @@
         }
       }
     },
-    "FOOTER": {
-      "TEXT": "Angular Boilerplate by"
-    },
-    "TOPBAR": {
+    "ACTIONS": {
       "PROFILE": "Profile",
       "LOGOUT": "Logout"
+    },
+    "FOOTER": {
+      "TEXT": "Angular Boilerplate by"
     },
     "ERROR": {
       "TITLE": "Error Occured",

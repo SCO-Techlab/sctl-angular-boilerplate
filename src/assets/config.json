@@ -1,12 +1,13 @@
 {
+  "APP_NAME": "Sctl Angular Boilerplate",
   "LAYOUT": {
-    "APP_NAME": "Sctl Angular Boilerplate",
     "FOOTER_ENABLED": true,
     "SIDEBAR_ENABLED": true,
-    "FLOATING_SIDEBAR": true,
+    "SIDEBAR_FLOATING": true,
+    "SIDEBAR_USER_AVATAR_ENABLED": true,
     "TOPBAR_THEME_CONFIGURATOR_ENABLED": true,
     "TOPBAR_ACTIONS_ENABLED": true,
-    "SIDEBAR_USER_AVATAR_ENABLED": true,
+    "TOPBAR_USER_AVATAR_ENABLED": true,
     "THEME_PRESET": "Aura",
     "THEME_PRIMARY": "emerald",
     "THEME_SURFACE": null,

@@ -4,7 +4,7 @@
   </div>
   @if (isUserAvatarEnabled) {
     <div class="p-4 flex items-center gap-4">
-      <p-menu #menu [model]="items" [popup]="true" appendTo="body" />
+      <p-menu #menu [model]="actions" [popup]="true" appendTo="body" />
       <sctl-user-avatar 
         [cssClass]="'w-[42px] h-[42px]'" 
         [canClick]="true" 
