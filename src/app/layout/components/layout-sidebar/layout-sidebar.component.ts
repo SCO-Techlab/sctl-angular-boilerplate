@@ -54,10 +54,6 @@ export class LayoutSidebarComponent implements OnInit {
       .subscribe((res: ITranslateLiterals) => this.setActions(res));
   }
 
-  public onClickAvatar(): void {
-    console.log('clicked avatar');
-  }
-
   private setActions(literals: ITranslateLiterals): void {
     this.actions = [
       {
@@ -65,12 +61,12 @@ export class LayoutSidebarComponent implements OnInit {
         items: [
           {
             label: literals['PROFILE'],
-            icon: 'pi pi-refresh',
+            icon: 'pi pi-user',
             command: () => this.router.navigate(['/profile'])
           },
           {
             label: literals['LOGOUT'],
-            icon: 'pi pi-upload',
+            icon: 'pi pi-sign-out',
             command: () => this.userService.logout({ reason: 'signout' })
           }
         ]
