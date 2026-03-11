@@ -1,1 +1,2 @@
-export * from './file-upload-dialog.component';
+export * from './dialog.interface';
+export * from './file-upload-dialog.interface';

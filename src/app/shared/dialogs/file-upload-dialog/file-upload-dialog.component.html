@@ -1,72 +1,23 @@
 @if (showDialog) {
-  <p-dialog [(visible)]="showDialog" 
-    [style]="{ 'width': '40%' }"
-    [contentStyle]="{'overflow':'visible', 'display':'flex', 'flex-direction':'column'}"
-    [header]="''" 
-    [modal]="true"
-    [resizable]="false"
-    [draggable]="false"
-    [closable]="false"
-    (onHide)="onClose()"
+  <sctl-dialog 
+    [visible]="showDialog" 
+    [config]="config()?.dialogConfig" 
+    (close)="onClose()" 
+    (submit)="onSubmit($event)"
   >
-    @if(showHeader) {
-      <ng-template #header>
-        <div class="flex w-full">
-          <div class="flex flex-col gap-1 flex-1">
-            @if (config()?.dialogConfig?.header?.title) {
-              <span class="font-bold text-xl whitespace-nowrap">{{ config().dialogConfig.header.title }}</span>
-            }
-            @if (config()?.dialogConfig?.header?.subTitle) {
-              <span class="text-surface-500 dark:text-surface-400 block">{{ config().dialogConfig.header.subTitle }}</span>
-            }
-          </div>
-          @if (config()?.dialogConfig?.header?.closable) {
-            <div class="flex justify-end">
-              <p-button icon="pi pi-times" severity="secondary" [rounded]="true" [text]="true" (click)="onClose()"></p-button>
-            </div>
-          }
-        </div>
-      </ng-template>
-    }
-    
-    <ng-template #content>
-      <div class="flex flex-col gap-2">
-        <p-fileUpload  name="file-upload-dialog-file" 
-          [mode]="'advanced'"
-          [accept]="config()?.accept"
-          [multiple]="config()?.multiple"
-          [chooseLabel]="config()?.chooseLabel"
-          [cancelLabel]="config()?.cancelLabel"
-          [maxFileSize]="config()?.maxFileSize"
-          [showUploadButton]="false" 
-          (onSelect)="onSelectFiles($event)"
-          (onClear)="onClearFiles()"
-          (onRemove)="onRemoveFile($event)"
-        ></p-fileUpload>
-      </div>
-    </ng-template>
-    
-    @if(showFooter) {
-      <ng-template #footer>
-        <p-button 
-          [label]="config()?.dialogConfig?.footer?.cancelButton?.label"
-          [severity]="config()?.dialogConfig?.footer?.cancelButton?.severity"
-          [outlined]="config()?.dialogConfig?.footer?.cancelButton?.outlined"
-          [text]="config()?.dialogConfig?.footer?.cancelButton?.text"
-          [rounded]="config()?.dialogConfig?.footer?.cancelButton?.rounded"
-          [disabled]="cancelButtonDisabled"
-          (click)="onClose()" 
-        />
-        <p-button 
-          [label]="config()?.dialogConfig?.footer?.submitButton?.label"
-          [severity]="config()?.dialogConfig?.footer?.submitButton?.severity"
-          [outlined]="config()?.dialogConfig?.footer?.submitButton?.outlined"
-          [text]="config()?.dialogConfig?.footer?.submitButton?.text"
-          [rounded]="config()?.dialogConfig?.footer?.submitButton?.rounded"
-          [disabled]="submitButtonDisabled"
-          (click)="onSubmit()" 
-        />
-      </ng-template>
-    }
-  </p-dialog>
+    <div content class="flex flex-col gap-2">
+      <p-fileUpload  name="file-upload-dialog-file" 
+        [mode]="'advanced'"
+        [accept]="config()?.accept"
+        [multiple]="config()?.multiple"
+        [chooseLabel]="config()?.chooseLabel"
+        [cancelLabel]="config()?.cancelLabel"
+        [maxFileSize]="config()?.maxFileSize"
+        [showUploadButton]="false" 
+        (onSelect)="onSelectFiles($event)"
+        (onClear)="onClearFiles()"
+        (onRemove)="onRemoveFile($event)"
+      ></p-fileUpload>
+    </div>
+  </sctl-dialog>
 }

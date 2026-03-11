@@ -1,5 +1,6 @@
 export * from './card';
 export * from './crud';
+export * from './dialog';
 export * from './input-error';
 export * from './loader';
 export * from './spinner';

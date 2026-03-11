@@ -1,9 +1,8 @@
 import { Component, effect, input, OnInit, output } from '@angular/core';
-import { FILE_SIZES, MAGIC_NUMBERS } from '@shared/constants';
+import { DialogComponent } from '@shared/components';
+import { FILE_SIZES } from '@shared/constants';
 import { BUTTON_SEVERITY } from '@shared/enums';
 import { IFileUploadDialogComponent } from '@shared/interfaces';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
 import { FileRemoveEvent, FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 
 @Component({
@@ -12,8 +11,7 @@ import { FileRemoveEvent, FileSelectEvent, FileUploadModule } from 'primeng/file
   templateUrl: './file-upload-dialog.component.html',
   styleUrls: ['./file-upload-dialog.component.scss'],
   imports: [
-    DialogModule,
-    ButtonModule,
+    DialogComponent,
     FileUploadModule
   ]
 })
@@ -64,28 +62,6 @@ export class FileUploadDialogComponent implements OnInit {
   public showDialog: boolean = false;
   public files: File[] = [];
 
-  public get showHeader(): boolean {
-    return this.config()?.dialogConfig?.header?.title?.length > MAGIC_NUMBERS.N_0 ||
-      this.config()?.dialogConfig?.header?.subTitle?.length > MAGIC_NUMBERS.N_0 ||
-      this.config()?.dialogConfig?.header?.closable;
-  }
-
-  public get showFooter(): boolean {
-    return this.config()?.dialogConfig?.footer?.cancelButton?.show || this.config()?.dialogConfig?.footer?.submitButton?.show;
-  }
-
-  public get cancelButtonDisabled(): boolean {
-    return !this.config()?.dialogConfig?.footer?.cancelButton?.disabled
-      ? false
-      : this.config()?.dialogConfig?.footer?.cancelButton?.disabled();
-  }
-
-  public get submitButtonDisabled(): boolean {
-    return !this.config()?.dialogConfig?.footer?.submitButton?.disabled
-      ? false
-      : this.config()?.dialogConfig?.footer?.submitButton?.disabled();
-  }
-
   constructor() {
     effect(() => {
       this.visible;
@@ -98,10 +74,10 @@ export class FileUploadDialogComponent implements OnInit {
   }
 
   public onSelectFiles($event: FileSelectEvent): void {
-    this.files = !$event?.currentFiles?.length 
-      ? [] 
+    this.files = !$event?.currentFiles?.length
+      ? []
       : $event?.currentFiles;
-    
+
     this.select.emit(this.files);
   }
 
@@ -120,8 +96,8 @@ export class FileUploadDialogComponent implements OnInit {
     this.close.emit();
   }
 
-  public onSubmit(): void {
-    if (this.config()?.dialogConfig?.closeOnSubmit) {
+  public onSubmit(closeOnSubmit: boolean): void {
+    if (closeOnSubmit) {
       this.showDialog = false;
     }
 
