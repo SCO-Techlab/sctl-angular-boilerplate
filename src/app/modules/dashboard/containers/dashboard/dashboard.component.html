@@ -1,3 +1,7 @@
-<p>
-  dashboard works!
-</p>
+<sctl-crud 
+  [config]="crudConfig" 
+  [data]="menuFronts"
+  (new)="onNew()"
+  (deleteMultiple)="onDeleteMultiple($event)"
+  (selectAction)="onSelectAction($event)"
+></sctl-crud>
