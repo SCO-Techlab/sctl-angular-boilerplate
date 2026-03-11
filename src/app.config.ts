@@ -47,24 +47,24 @@ export const appConfig: ApplicationConfig = {
       NgxsStoragePluginModule.forRoot({ keys: ['sctlangularboilerplate'] }),
       RippleModule
     ),
+    TranslateProviderFactory({
+      defaultLang: 'en',
+      availableLangs: ['en', 'es'],
+      path: '/assets/i18n'
+    }),
     {
       provide: APP_INITIALIZER,
       useFactory: ConfigInitializerFactory,
       deps: [ConfigService],
       multi: true
     },
-    TranslateProviderFactory({
-      defaultLang: 'en',
-      availableLangs: ['en', 'es'],
-      path: '/assets/i18n'
-    }),
-    ToastService,
-    AuthGuard,
     {
       provide: APP_INITIALIZER,
       useFactory: AuthInitializer,
       multi: true
     },
+    AuthGuard,
+    ToastService,
     ConfirmationService
   ]
 };

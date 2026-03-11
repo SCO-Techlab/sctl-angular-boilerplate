@@ -1,4 +1,5 @@
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, HostListener, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SessionStorageState } from '@session-storage';
@@ -6,7 +7,7 @@ import { SpinnerComponent, ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
 import { ILayoutConfig, ISpinnerComponent, IToastComponent } from '@shared/interfaces';
-import { ConfigService, LayoutService, ScreenService } from '@shared/services';
+import { ConfigService, LayoutService, ScreenService, SpinnerService, TranslateService } from '@shared/services';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
@@ -25,14 +26,22 @@ export class AppComponent implements OnInit {
   public toastConfig: IToastComponent;
   public spinnerConfig: ISpinnerComponent;
 
+  public contentReady: boolean = false;
+  
+  private destroyRef$ = inject(DestroyRef);
   private layoutService = inject(LayoutService);
   private configService = inject(ConfigService);
   private screenService = inject(ScreenService);
+  private spinnerService = inject(SpinnerService);
+  private translateService = inject(TranslateService);
   private store = inject(Store);
 
   constructor() {
     this.setConfigTheme();
+    this.spinnerConfig = this.setConfigSpinner();
+    this.toastConfig = this.setToastConfig();
     this.screenService.setSize(window.innerWidth);
+    this.spinnerService.show();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -41,8 +50,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.spinnerConfig = this.setConfigSpinner();
-    this.toastConfig = this.setToastConfig();
+    this.translateService.stream('')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe(() => {
+        if (this.spinnerService.isShowing) {
+          this.spinnerService.hide();
+        }
+        
+        if (!this.contentReady) {
+          this.contentReady = true;
+        }
+      });
   }
 
   private setConfigTheme(): void {
@@ -66,8 +84,8 @@ export class AppComponent implements OnInit {
     }
 
     if (this.store.selectSnapshot(SessionStorageState.staticMenu) !== undefined) {
-      theme.menuMode = this.store.selectSnapshot(SessionStorageState.staticMenu) 
-        ? 'static' 
+      theme.menuMode = this.store.selectSnapshot(SessionStorageState.staticMenu)
+        ? 'static'
         : 'overlay';
     }
 

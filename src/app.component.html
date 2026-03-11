@@ -8,4 +8,6 @@
 
 <p-confirmdialog [draggable]="false" />
 
-<router-outlet></router-outlet>
+@if (contentReady) {
+  <router-outlet></router-outlet>
+}

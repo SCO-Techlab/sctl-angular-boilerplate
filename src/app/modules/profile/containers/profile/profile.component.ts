@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, inject, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, inject, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileHeaderComponent, ProfilePersonalInformationComponent } from '@modules/profile/components';
 import { PROFILE_TABS } from '@modules/profile/enums';
@@ -50,9 +50,11 @@ export class ProfileComponent implements AfterViewInit {
   private toastService = inject(ToastService);
   private spinnerService = inject(SpinnerService);
   private confirmDialogService = inject(ConfirmDialogService);
+  private cdRef = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
     this.setTabTemplate();
+    this.cdRef.detectChanges();
   }
 
   public onTabChange($event: string | number): void {

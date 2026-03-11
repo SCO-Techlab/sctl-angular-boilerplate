@@ -31,7 +31,7 @@
       }"
     >
       <span class="text-xl font-bold" [ngClass]="{'pt-2': !screenService.XS}">
-        {{ headerUsername }}
+        {{ headerUsername | titlecase }}
       </span>
 
       <span class="text-md font-bold text-muted-color">

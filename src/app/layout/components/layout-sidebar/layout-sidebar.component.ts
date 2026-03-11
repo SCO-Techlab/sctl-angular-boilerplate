@@ -31,6 +31,7 @@ export class LayoutSidebarComponent implements OnInit {
   public isFloating: boolean = true;
   public isUserAvatarEnabled: boolean = true;
   public actions: MenuItem[] = [];
+  public canOpenMenu: boolean = false;
 
   public el = inject(ElementRef);
   private destroyRef$ = inject(DestroyRef);
@@ -54,22 +55,31 @@ export class LayoutSidebarComponent implements OnInit {
       .subscribe((res: ITranslateLiterals) => this.setActions(res));
   }
 
+  public clickMenu($event: any, menu: any): void {
+    if (this.canOpenMenu) {
+      menu.toggle($event);
+      this.canOpenMenu = false;
+    } else {
+      menu.hide();
+    }
+  }
+
+  public clickAvatar(menuContainer: any): void {
+    this.canOpenMenu = true;
+    menuContainer?.nativeElement?.click?.();
+  }
+
   private setActions(literals: ITranslateLiterals): void {
     this.actions = [
       {
-        label: this.user?.personalName ?? this.user?.userName ?? this.user?.email,
-        items: [
-          {
-            label: literals['PROFILE'],
-            icon: 'pi pi-user',
-            command: () => this.router.navigate(['/profile'])
-          },
-          {
-            label: literals['LOGOUT'],
-            icon: 'pi pi-sign-out',
-            command: () => this.userService.logout({ reason: 'signout' })
-          }
-        ]
+        label: literals['PROFILE'],
+        icon: 'pi pi-user',
+        command: () => this.router.navigate(['/profile'])
+      },
+      {
+        label: literals['LOGOUT'],
+        icon: 'pi pi-sign-out',
+        command: () => this.userService.logout({ reason: 'signout' })
       }
     ];
   }
