@@ -11,6 +11,10 @@ export class MenuFrontService {
 
   private http = inject(HttpClient);
 
+  find(filter?: Partial<IMenuFront>): Observable<IMenuFront[]> {
+    return this.http.get<IMenuFront[]>(`${environment.apiUrl}/menu-front`);
+  }
+
   getUserMenuFront(_id: string): Observable<IMenuFront[]> {
     return this.http.get<IMenuFront[]>(`${environment.apiUrl}/profile/get/user/menu-front/${_id}`);
   }
