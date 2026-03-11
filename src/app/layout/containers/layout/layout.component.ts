@@ -18,18 +18,16 @@ import { filter, Subscription } from 'rxjs';
   imports: [
     CommonModule,
     RouterModule,
-    TranslateModule,
     LayoutTopbarComponent,
     LayoutSidebarComponent,
     LayoutFooterComponent,
   ]
 })
-export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LayoutComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(LayoutSidebarComponent) appSidebar!: LayoutSidebarComponent;
   @ViewChild(LayoutTopbarComponent) appTopBar!: LayoutTopbarComponent;
 
-  public menu: MenuItem[] = [];
   public overlayMenuOpenSubscription: Subscription;
   public menuOutsideClickListener: any;
   public isFooterEnabled: boolean = true;
@@ -65,8 +63,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   public renderer = inject(Renderer2);
   public router = inject(Router);
   public configService = inject(ConfigService);
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
   private cdRef = inject(ChangeDetectorRef);
 
   constructor() {
@@ -90,14 +86,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.hideMenu();
     });
-  }
-
-  ngOnInit(): void {
-    this.translateService.stream('LAYOUT.MENU')
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: ITranslateLiterals) => {
-        this.menu = this.mockMenu(res);
-      });
   }
 
   ngAfterViewInit(): void {
@@ -150,20 +138,5 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       document.body.className = document.body.className.replace(new RegExp('(^|\\b)' + 'blocked-scroll'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     }
-  }
-
-  private mockMenu(literals: ITranslateLiterals): MenuItem[] {
-    return [
-      {
-        label: literals['HOME']['LABEL'],
-        items: [
-          {
-            label: literals['HOME']['ITEMS']['DASHBOARD'],
-            icon: 'pi pi-fw pi-home',
-            routerLink: ['/']
-          }
-        ]
-      },
-    ];
   }
 }

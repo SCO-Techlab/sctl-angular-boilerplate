@@ -1,12 +1,12 @@
 import { NgClass, TitleCasePipe } from '@angular/common';
-import { Component, DestroyRef, ElementRef, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { UserAvatarComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
-import { ITranslateLiterals, IUser } from '@shared/interfaces';
+import { IMenuFront, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfigService, TranslateService, UserService } from '@shared/services';
+import { ConfigService, MenuFrontService, TranslateService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { LayoutMenuComponent } from '../layout-menu';
@@ -25,20 +25,19 @@ import { LayoutMenuComponent } from '../layout-menu';
   ]
 })
 export class LayoutSidebarComponent implements OnInit {
-
-  public menu = input<MenuItem[]>([]);
-
   public isFloating: boolean = true;
   public isUserAvatarEnabled: boolean = true;
   public actions: MenuItem[] = [];
   public canOpenMenu: boolean = false;
 
+  public menu: IMenuFront[] = [];
   public el = inject(ElementRef);
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
   private configService = inject(ConfigService);
   private userService = inject(UserService);
   private router = inject(Router);
+  private menuFrontService = inject(MenuFrontService);
 
   public get user(): IUser {
     return this.userService.loggedUser();
@@ -50,9 +49,13 @@ export class LayoutSidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translateService.stream('LAYOUT.ACTIONS')
+    this.translateService.stream('LAYOUT')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => this.setActions(res));
+
+    this.menuFrontService.getUserMenuFront(this.user?._id)
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: IMenuFront[]) => this.menu = res ?? []);
   }
 
   public clickMenu($event: any, menu: any): void {
@@ -72,12 +75,12 @@ export class LayoutSidebarComponent implements OnInit {
   private setActions(literals: ITranslateLiterals): void {
     this.actions = [
       {
-        label: literals['PROFILE'],
+        label: literals['ACTIONS']['PROFILE'],
         icon: 'pi pi-user',
         command: () => this.router.navigate(['/profile'])
       },
       {
-        label: literals['LOGOUT'],
+        label: literals['ACTIONS']['LOGOUT'],
         icon: 'pi pi-sign-out',
         command: () => this.userService.logout({ reason: 'signout' })
       }

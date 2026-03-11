@@ -168,3 +168,9 @@
     overflow: hidden;
     transition: max-height 1s ease-in-out;
 }
+
+.menu-separator {
+    height: 1px;
+    background-color: var(--surface-border);
+    margin: 0.5rem 0;
+}

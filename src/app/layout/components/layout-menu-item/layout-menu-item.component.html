@@ -1,6 +1,6 @@
 <ng-container>
   @if (isRoot && item().visible !== false) {
-    <div class="layout-menuitem-root-text">{{ item().label }}</div>
+    <div class="layout-menuitem-root-text">{{ item().label | translate }}</div>
   }
 
   @if ((!item().routerLink || item().items) && item().visible !== false) {
@@ -12,7 +12,7 @@
       (click)="itemClick($event)"
     >
       <i class="layout-menuitem-icon" [ngClass]="item().icon"></i>
-      <span class="layout-menuitem-text">{{ item().label }}</span>
+      <span class="layout-menuitem-text">{{ item().label | translate }}</span>
       @if (item().items) {
         <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
       }
@@ -37,7 +37,7 @@
       (click)="itemClick($event)"
     >
       <i class="layout-menuitem-icon" [ngClass]="item().icon"></i>
-      <span class="layout-menuitem-text">{{ item().label }}</span>
+      <span class="layout-menuitem-text">{{ item().label | translate }}</span>
       @if (item().items) {
         <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
       }

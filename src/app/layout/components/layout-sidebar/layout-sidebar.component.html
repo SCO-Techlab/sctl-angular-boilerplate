@@ -1,6 +1,6 @@
 <div class="layout-sidebar" [ngClass]="{'layout-sidebar__no-floating-sidebar': !isFloating}">
   <div class="flex-1 ps-6 pe-6 pt-2 overflow-auto">
-    <sctl-layout-menu [menu]="menu()"></sctl-layout-menu>
+    <sctl-layout-menu [menu]="menu"></sctl-layout-menu>
   </div>
   @if (isUserAvatarEnabled) {
     <div #menuContainer class="p-5 flex items-center justify-start" (click)="clickMenu($event, menu)">
