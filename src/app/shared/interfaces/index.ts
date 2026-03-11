@@ -1,5 +1,6 @@
 export * from './card';
 export * from './confirm-dialog';
+export * from './crud';
 export * from './dialogs';
 export * from './input-error';
 export * from './jwt-token';

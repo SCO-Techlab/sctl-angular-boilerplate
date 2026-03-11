@@ -5,6 +5,16 @@
     "INFO": "Información",
     "WARNING": "Advertencia"
   },
+  "CRUD": {
+    "NEW": "Nuevo",
+    "DELETE": "Eliminar",
+    "EXPORT": "Exportar",
+    "PAGE_REPORT": "Mostrando {first} a {last} de {totalRecords} elementos",
+    "TITLE": "Administrar Elementos",
+    "SEARCH": "Buscar...",
+    "BOOLEAN_TRUE": "Sí",
+    "BOOLEAN_FALSE": "No"
+  },
   "AUTH": {
     "LOGIN": {
       "TITLE": "Iniciar sesión",

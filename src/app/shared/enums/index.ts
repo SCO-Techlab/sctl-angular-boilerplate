@@ -5,3 +5,4 @@ export * from './layout';
 export * from './permissions.enum';
 export * from './screen';
 export * from './toast';
+export * from './crud';

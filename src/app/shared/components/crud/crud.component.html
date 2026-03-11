@@ -1,0 +1,147 @@
+@if (config()?.toolbarEnabled && !config()?.onlyTable) {
+  <p-toolbar class="mb-6">
+    <ng-template #start>
+      @if (config()?.newValueButtonEnabled) {
+        <p-button class="mr-2"
+          [label]="'CRUD.NEW' | translate"
+          [icon]="'pi pi-plus'"
+          severity="secondary"
+          (onClick)="onNew()" 
+        />
+      }
+      @if (config()?.multipleDeleteButtonEnabled) {
+        <p-button outlined
+          [label]="'CRUD.DELETE' | translate"
+          [icon]="'pi pi-trash'"
+          severity="secondary"
+          [disabled]="!selectedMultipleData || !selectedMultipleData.length"
+          (onClick)="onDeleteMultiple()"
+        />
+      }
+    </ng-template>
+
+    @if (config()?.exportButtonEnabled) {
+      <ng-template #end>
+        <p-button 
+          [label]="'CRUD.EXPORT' | translate"
+          [icon]="'pi pi-upload'"
+          severity="secondary" 
+          (onClick)="onExportCSV()" 
+        />
+      </ng-template>
+    }
+  </p-toolbar>
+}
+
+<p-table #dt
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [dataKey]="config()?.dataKey"
+  [value]="data()"
+  [(selection)]="selectedMultipleData"
+  [columns]="config()?.cols"
+  [globalFilterFields]="config()?.globalFilterFields"
+  [rows]="config()?.rowsPerPage"
+  [rowsPerPageOptions]="config()?.rowsPerPageOptions"
+  [rowHover]="config()?.rowHover"
+  [paginator]="config()?.paginator"
+  [showCurrentPageReport]="config()?.showCurrentPageReport"
+  [currentPageReportTemplate]="'CRUD.PAGE_REPORT' | translate"
+>
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">{{ 'CRUD.TITLE' | translate }}</h5>
+      @if (config()?.searchInputEnabled) {
+        <p-iconfield>
+          <p-inputicon [class]="'pi pi-search'" />
+          <input pInputText 
+            type="text" 
+            [placeholder]="'CRUD.SEARCH' | translate"
+            (input)="onGlobalFilter(dt, $event)"
+          />
+        </p-iconfield>
+      }
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      @if (config()?.multipleDeleteButtonEnabled) {
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+      }
+
+      @for (col of config()?.cols; track col.field) {
+        <th 
+          [style]="col.headerStyles ? col.headerStyles : 'min-width: 10rem'"
+          [ngStyle]="{
+            'text-align': col.header ?? CRUD_COLUMN_ALIGNMENT.START
+          }"
+          [pSortableColumn]="col.sortable ? col.field : undefined"
+        >
+          {{ col.header }}
+          @if (col.sortable) {
+            <p-sortIcon field="name" />
+          }
+        </th>
+      }
+
+      @if (tableActionsEnabled) {
+        <th style="min-width: 10rem;"></th>
+      }
+    </tr>
+  </ng-template>
+  
+  <ng-template #body let-value>
+    <tr>
+      @if (config()?.multipleDeleteButtonEnabled) {
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="value" />
+        </td>
+      }
+
+      @for (col of config()?.cols; track col.field) {
+        <td 
+          [style]="col.fieldStyles ? col.fieldStyles : 'min-width: 10rem'"
+          [ngStyle]="{
+            'text-align': col.fieldAlign ?? CRUD_COLUMN_ALIGNMENT.START
+          }"
+        >
+          @switch (col.type) {
+            @case (CRUD_COLUMN_TYPE.BOOLEAN) {
+              {{ value[col.field] 
+                ? ('CRUD.BOOLEAN_TRUE' | translate)
+                : ('CRUD.BOOLEAN_FALSE' | translate)
+              }}
+            }
+            @case (CRUD_COLUMN_TYPE.DATE) {
+              {{ formatDate(value[col.field], col) }}
+            }
+            @default {
+              {{ value[col.field] }}
+            }
+          }
+        </td>
+      }
+
+      @if (tableActionsEnabled) {
+        <td class="flex items-center justify-end">
+          @for (action of config()?.tableActions; track action.name; let i = $index) {
+            <p-button 
+              [ngClass]="{'mr-4': i !== (config()?.tableActions.length-1)}"
+              [icon]="action.icon" 
+              [severity]="action.severity"
+              [rounded]="true" 
+              [outlined]="true" 
+              (click)="onSelectAction(action, value)" 
+            />
+          }
+        </td>
+      }
+    </tr>
+  </ng-template>
+</p-table>
+
+@if (!config()?.onlyTable) {
+  <ng-content select="[form]"></ng-content>
+}
