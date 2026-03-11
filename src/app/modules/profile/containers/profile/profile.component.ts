@@ -5,7 +5,7 @@ import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileH
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
 import { CardComponent } from '@shared/components';
-import { CONFIRM_DIALOG_ICONS } from '@shared/constants/confirm-dialog/confirm-dialog.constants';
+import { CONFIRM_DIALOG_ICONS } from '@shared/constants';
 import { BUTTON_SEVERITY } from '@shared/enums';
 import { IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';

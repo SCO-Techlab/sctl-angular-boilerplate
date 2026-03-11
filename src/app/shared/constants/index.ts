@@ -1,4 +1,5 @@
 export * from './config';
+export * from './confirm-dialog';
 export * from './dates.constants';
 export * from './file-sizes.constants';
 export * from './layout';
