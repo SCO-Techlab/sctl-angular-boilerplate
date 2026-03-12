@@ -1,0 +1,16 @@
+@if (showDialog) {
+  <sctl-dialog 
+    [visible]="showDialog" 
+    [config]="config()?.dialogConfig" 
+    (close)="onClose()" 
+    (submit)="onSubmit($event)"
+  >
+    <div content class="flex flex-col gap-2">
+      <sctl-json-editor 
+        [config]="config()?.jsonConfig" 
+        [value]="value()" 
+        (change)="onChange($event)"
+      ></sctl-json-editor>
+    </div>
+  </sctl-dialog>
+}
