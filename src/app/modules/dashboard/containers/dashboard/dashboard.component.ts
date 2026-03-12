@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CrudComponent } from '@shared/components';
-import { CONFIRM_DIALOG_ICONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
+import { CONFIRM_DIALOG_ICONS, CRUD_DEFAULT_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IMenuFront } from '@shared/interfaces';
 import { ConfirmDialogService, MenuFrontService } from '@shared/services';
@@ -32,18 +32,7 @@ export class DashboardComponent implements OnInit {
     this.crudConfig = {
       toolbarEnabled: true,
       onlyTable: false,
-      tableActions: [
-        {
-          name: 'edit',
-          icon: 'pi pi-pencil',
-          severity: BUTTON_SEVERITY.PRIMARY
-        },
-        {
-          name: 'delete',
-          icon: 'pi pi-trash',
-          severity: BUTTON_SEVERITY.DANGER
-        }
-      ],
+      tableActions: [...CRUD_DEFAULT_ACTIONS],
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
       exportButtonEnabled: true,
