@@ -13,7 +13,8 @@
     "TITLE": "Administrar Elementos",
     "SEARCH": "Buscar...",
     "BOOLEAN_TRUE": "Sí",
-    "BOOLEAN_FALSE": "No"
+    "BOOLEAN_FALSE": "No",
+    "JSON_EDITOR_CLOSE": "Cerrar"
   },
   "AUTH": {
     "LOGIN": {

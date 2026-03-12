@@ -13,7 +13,8 @@
     "TITLE": "Manage Elements",
     "SEARCH": "Search...",
     "BOOLEAN_TRUE": "Yes",
-    "BOOLEAN_FALSE": "No"
+    "BOOLEAN_FALSE": "No",
+    "JSON_EDITOR_CLOSE": "Close"
   },
   "AUTH": {
     "LOGIN": {

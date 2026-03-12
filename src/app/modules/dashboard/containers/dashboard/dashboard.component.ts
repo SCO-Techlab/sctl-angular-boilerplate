@@ -4,7 +4,8 @@ import { CrudComponent } from '@shared/components';
 import { CONFIRM_DIALOG_ICONS, CRUD_DEFAULT_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IMenuFront } from '@shared/interfaces';
-import { ConfirmDialogService, MenuFrontService } from '@shared/services';
+import { TranslateModule } from '@shared/modules';
+import { ConfirmDialogService, MenuFrontService, ToastService, TranslateService } from '@shared/services';
 
 @Component({
   selector: 'sctl-dashboard',
@@ -12,6 +13,7 @@ import { ConfirmDialogService, MenuFrontService } from '@shared/services';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   imports: [
+    TranslateModule,
     CrudComponent
   ]
 })
@@ -21,14 +23,13 @@ export class DashboardComponent implements OnInit {
   public crudConfig: ICrudComponent;
 
   private destroyRef$ = inject(DestroyRef);
+  private translateService = inject(TranslateService);
   private menuService = inject(MenuFrontService);
   private confirmDialogService = inject(ConfirmDialogService);
+  private toastService = inject(ToastService);
 
   ngOnInit() {
-    this.menuService.find()
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IMenuFront[]) => this.menuFronts = res ?? []);
-
+    this.getValues();
     this.crudConfig = {
       toolbarEnabled: true,
       onlyTable: false,
@@ -42,10 +43,11 @@ export class DashboardComponent implements OnInit {
         { header: 'Separator', field: 'separator', type: CRUD_COLUMN_TYPE.BOOLEAN },
         { header: 'Icon', field: 'icon', type: CRUD_COLUMN_TYPE.ICON },
         { header: 'Link', field: 'link' },
-        { header: 'Items', field: 'items' },
+        { header: 'Items', field: 'items', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT },
         { header: 'Roles', field: 'roles' },
         { header: 'Order', field: 'order' },
         { header: 'Created At', field: 'createdAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
+        { header: 'Updated At', field: 'updatedAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
       ],
       globalFilterFields: ['label'],
       dataKey: '_id',
@@ -78,6 +80,40 @@ export class DashboardComponent implements OnInit {
         label: 'Eliminar',
         severity: BUTTON_SEVERITY.DANGER
       },
+      accept: () => {
+        this.menuService.deleteMultiple(values)
+          .pipe(takeUntilDestroyed(this.destroyRef$))
+          .subscribe({
+            next: (res: number) => {
+              if (!res) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: 'Hubo un error intentando eliminar los elementos de menú'
+                });
+                return;
+              }
+
+              if (res !== values.length) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: `Hubo un error intentando eliminar los elementos de menú (${res}/${values.length})`
+                });
+              } else {
+                this.toastService.success({
+                  summary: this.translateService.instant('TOAST.SUCCESS'),
+                  detail: 'Los elementos de menú se han eliminado correctamente'
+                });
+              }
+              this.getValues();
+            },
+            error: () => {
+              this.toastService.error({
+                summary: this.translateService.instant('TOAST.ERROR'),
+                detail: 'Hubo un error intentando eliminar los elementos de menú'
+              });
+            }
+          });
+      }
     });
   }
 
@@ -92,6 +128,12 @@ export class DashboardComponent implements OnInit {
     };
 
     actionMethods?.[action.name]?.(action.value);
+  }
+
+  private getValues(): void {
+    this.menuService.find()
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: IMenuFront[]) => this.menuFronts = res ?? []);
   }
 
   private delete(value: IMenuFront): void {
@@ -111,6 +153,33 @@ export class DashboardComponent implements OnInit {
         label: 'Eliminar',
         severity: BUTTON_SEVERITY.DANGER
       },
+      accept: () => {
+        this.menuService.delete(value)
+          .pipe(takeUntilDestroyed(this.destroyRef$))
+          .subscribe({
+            next: (res: boolean) => {
+              if (!res) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: 'Hubo un error intentando eliminar el elemento de menú'
+                });
+                return;
+              }
+
+              this.toastService.success({
+                summary: this.translateService.instant('TOAST.SUCCESS'),
+                detail: 'El elemento de menú se ha eliminado correctamente'
+              });
+              this.getValues();
+            },
+            error: () => {
+              this.toastService.error({
+                summary: this.translateService.instant('TOAST.ERROR'),
+                detail: 'Hubo un error intentando eliminar el elemento de menú'
+              });
+            }
+          });
+      }
     });
   }
 

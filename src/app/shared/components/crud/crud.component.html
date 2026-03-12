@@ -10,7 +10,7 @@
         />
       }
       @if (config()?.multipleDeleteButtonEnabled) {
-        <p-button outlined
+        <p-button
           [label]="'CRUD.DELETE' | translate"
           [icon]="'pi pi-trash'"
           severity="secondary"
@@ -124,6 +124,36 @@
                 <i [class]="value[col.field]" [pTooltip]="value[col.field]" tooltipPosition="top"></i>
               }
             }
+            @case (CRUD_COLUMN_TYPE.OBJECT) {
+              <p-button
+                icon="pi pi-eye"
+                severity="primary"
+                outlined="true"
+                text="false"
+                rounded="true"
+                (click)="openJsonEditorDialog(value, col)"
+              ></p-button>
+            }
+            @case (CRUD_COLUMN_TYPE.ARRAY_OBJECT) {
+              <p-button
+                icon="pi pi-eye"
+                severity="primary"
+                outlined="true"
+                text="false"
+                rounded="true"
+                (click)="openJsonEditorDialog(value, col)"
+              ></p-button>
+            }
+            @case (CRUD_COLUMN_TYPE.ARRAY) {
+              <p-button
+                icon="pi pi-eye"
+                severity="primary"
+                outlined="true"
+                text="false"
+                rounded="true"
+                (click)="openJsonEditorDialog(value, col)"
+              ></p-button>
+            }
             @default {
               {{ value[col.field] }}
             }
@@ -151,4 +181,13 @@
 
 @if (!config()?.onlyTable) {
   <ng-content select="[form]"></ng-content>
+}
+
+@if (jsonEditorValue) {
+  <sctl-json-editor-dialog 
+    [visible]="jsonEditorValue !== undefined"
+    [value]="jsonEditorValue"
+    [config]="jsonEditorDialogConfig"
+    (close)="jsonEditorValue = undefined;"
+  ></sctl-json-editor-dialog>
 }
