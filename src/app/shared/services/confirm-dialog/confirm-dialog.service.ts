@@ -25,8 +25,8 @@ export class ConfirmDialogService {
         severity: confirm?.acceptButton?.severity ?? 'primary',
         text: false
       },
-      accept: () => confirm?.accept(),
-      reject: () => confirm?.reject()
+      accept: () => confirm?.accept?.(),
+      reject: () => confirm?.reject?.()
     });
   }
 }

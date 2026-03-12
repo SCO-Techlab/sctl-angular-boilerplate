@@ -17,12 +17,12 @@ import { ConfirmDialogService, MenuFrontService } from '@shared/services';
 })
 export class DashboardComponent implements OnInit {
 
+  public menuFronts: IMenuFront[] = [];
+  public crudConfig: ICrudComponent;
+
   private destroyRef$ = inject(DestroyRef);
   private menuService = inject(MenuFrontService);
   private confirmDialogService = inject(ConfirmDialogService);
-
-  public menuFronts: IMenuFront[] = [];
-  public crudConfig: ICrudComponent;
 
   ngOnInit() {
     this.menuService.find()
@@ -62,7 +62,23 @@ export class DashboardComponent implements OnInit {
   }
 
   public onDeleteMultiple(values: string[]): void {
-    console.log('onDeleteMultiple', values);
+    if (!values?.length) {
+      return;
+    }
+
+    this.confirmDialogService.confirm({
+      header: 'Eliminar elementos de menú',
+      message: '¿Está seguro de que desea eliminar los elementos de menú seleccionados?',
+      icon: CONFIRM_DIALOG_ICONS.WARNING,
+      rejectButton: {
+        label: 'Cancelar',
+        severity: BUTTON_SEVERITY.SECONDARY
+      },
+      acceptButton: {
+        label: 'Eliminar',
+        severity: BUTTON_SEVERITY.DANGER
+      },
+    });
   }
 
   public onSelectAction(action: ICrudTableAction): void {
@@ -79,6 +95,10 @@ export class DashboardComponent implements OnInit {
   }
 
   private delete(value: IMenuFront): void {
+    if (!value) {
+      return;
+    }
+
     this.confirmDialogService.confirm({
       header: 'Eliminar elemento de menú',
       message: '¿Está seguro de que desea eliminar el elemento menú?',
