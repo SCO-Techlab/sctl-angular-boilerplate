@@ -34,6 +34,9 @@ export interface ICrudColumn {
 export interface ICrudColumnOptions {
   [CRUD_COLUMN_TYPE.DATE]?: {
     format?: string;
+  },
+  [CRUD_COLUMN_TYPE.ICON]?: {
+    hideIconTooltip?: boolean;
   }
 }
 

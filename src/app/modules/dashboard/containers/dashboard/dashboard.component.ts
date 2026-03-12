@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
       cols: [
         { header: 'Label', field: 'label' },
         { header: 'Separator', field: 'separator', type: CRUD_COLUMN_TYPE.BOOLEAN },
-        { header: 'Icon', field: 'icon' },
+        { header: 'Icon', field: 'icon', type: CRUD_COLUMN_TYPE.ICON },
         { header: 'Link', field: 'link' },
         { header: 'Items', field: 'items' },
         { header: 'Roles', field: 'roles' },

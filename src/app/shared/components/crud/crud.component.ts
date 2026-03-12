@@ -11,6 +11,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'sctl-crud',
@@ -24,7 +25,8 @@ import { ToolbarModule } from 'primeng/toolbar';
     ButtonModule,
     InputIconModule,
     IconFieldModule,
-    InputTextModule
+    InputTextModule,
+    TooltipModule
   ]
 })
 export class CrudComponent {

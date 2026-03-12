@@ -10,5 +10,6 @@ export enum CRUD_COLUMN_TYPE {
   BOOLEAN = 'boolean',
   DATE = 'date',
   ARRAY = 'array',
-  OBJECT = 'object'
+  OBJECT = 'object',
+  ICON = 'icon'
 }

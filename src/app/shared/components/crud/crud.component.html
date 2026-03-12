@@ -117,6 +117,13 @@
             @case (CRUD_COLUMN_TYPE.DATE) {
               {{ formatDate(value[col.field], col) }}
             }
+            @case (CRUD_COLUMN_TYPE.ICON) {
+              @if (col?.options?.icon?.hideIconTooltip) {
+                <i [class]="value[col.field]"></i>
+              } @else {
+                <i [class]="value[col.field]" [pTooltip]="value[col.field]" tooltipPosition="top"></i>
+              }
+            }
             @default {
               {{ value[col.field] }}
             }
