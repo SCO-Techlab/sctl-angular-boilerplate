@@ -1,0 +1,13 @@
+.no-actions {
+  ::ng-deep .p-orderlist-controls {
+    display: none !important;
+  }
+
+  ::ng-deep .p-listbox-option {
+    cursor: unset !important;
+  }
+
+  ::ng-deep .p-listbox-option {
+    background: transparent !important;
+  }
+}

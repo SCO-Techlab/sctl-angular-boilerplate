@@ -1,0 +1,21 @@
+@if (showDialog) {
+  <sctl-dialog 
+    [visible]="showDialog" 
+    [config]="config()?.dialogConfig" 
+    (close)="onClose()" 
+    (submit)="onSubmit($event)"
+  >
+    <div content class="flex flex-col gap-2" [ngClass]="{'no-actions': config()?.readonly === true}">
+      <p-orderlist 
+        [value]="values()"
+        [dataKey]="config()?.dataKey"
+        [responsive]="config()?.notResponsive === true ? false : true"
+        (onReorder)="onReorder()"
+      >
+        <ng-template #item let-option>
+          {{ config()?.dataKey ? option[config()?.dataKey] : option }}
+        </ng-template>
+      </p-orderlist>
+    </div>
+  </sctl-dialog>
+}

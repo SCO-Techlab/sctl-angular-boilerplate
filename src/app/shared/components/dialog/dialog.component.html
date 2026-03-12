@@ -35,24 +35,29 @@
     
     @if(showFooter) {
       <ng-template #footer>
-        <p-button 
-          [label]="config()?.footer?.cancelButton?.label"
-          [severity]="config()?.footer?.cancelButton?.severity"
-          [outlined]="config()?.footer?.cancelButton?.outlined"
-          [text]="config()?.footer?.cancelButton?.text"
-          [rounded]="config()?.footer?.cancelButton?.rounded"
-          [disabled]="cancelButtonDisabled"
-          (click)="onClose()" 
-        />
-        <p-button 
-          [label]="config()?.footer?.submitButton?.label"
-          [severity]="config()?.footer?.submitButton?.severity"
-          [outlined]="config()?.footer?.submitButton?.outlined"
-          [text]="config()?.footer?.submitButton?.text"
-          [rounded]="config()?.footer?.submitButton?.rounded"
-          [disabled]="submitButtonDisabled"
-          (click)="onSubmit()" 
-        />
+        @if(config()?.footer?.cancelButton?.show) {
+          <p-button 
+            [label]="config()?.footer?.cancelButton?.label"
+            [severity]="config()?.footer?.cancelButton?.severity"
+            [outlined]="config()?.footer?.cancelButton?.outlined"
+            [text]="config()?.footer?.cancelButton?.text"
+            [rounded]="config()?.footer?.cancelButton?.rounded"
+            [disabled]="cancelButtonDisabled"
+            (click)="onClose()" 
+          />
+        }      
+
+        @if(config()?.footer?.submitButton?.show) {
+          <p-button 
+            [label]="config()?.footer?.submitButton?.label"
+            [severity]="config()?.footer?.submitButton?.severity"
+            [outlined]="config()?.footer?.submitButton?.outlined"
+            [text]="config()?.footer?.submitButton?.text"
+            [rounded]="config()?.footer?.submitButton?.rounded"
+            [disabled]="submitButtonDisabled"
+            (click)="onSubmit()" 
+          />
+        }
       </ng-template>
     }
   </p-dialog>
