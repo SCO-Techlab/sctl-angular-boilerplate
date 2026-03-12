@@ -37,6 +37,7 @@ export class CrudComponent {
 
   public data = input<any[]>([]);
   public config = input<ICrudComponent>({
+    title: '',
     toolbarEnabled: true,
     onlyTable: false,
     tableActions: [],

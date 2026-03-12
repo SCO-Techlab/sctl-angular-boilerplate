@@ -1,6 +1,7 @@
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE } from "@shared/enums";
 
 export interface ICrudComponent {
+  title?: string;
   toolbarEnabled: boolean;
   onlyTable: boolean;
   tableActions: ICrudTableAction[];

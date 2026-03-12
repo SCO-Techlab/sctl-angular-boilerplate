@@ -49,7 +49,7 @@
 >
   <ng-template #caption>
     <div class="flex items-center justify-between">
-      <span class="text-xl font-bold">{{ 'CRUD.TITLE' | translate }}</span>
+      <span class="text-xl font-bold">{{ this.config()?.title ?? ('CRUD.TITLE' | translate) }}</span>
       @if (config()?.searchInputEnabled) {
         <p-iconfield>
           <p-inputicon [class]="'pi pi-search'" />

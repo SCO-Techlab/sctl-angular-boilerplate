@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getValues();
     this.crudConfig = {
+      title: 'Manage front menu',
       toolbarEnabled: true,
       onlyTable: false,
       tableActions: [...CRUD_DEFAULT_ACTIONS],
