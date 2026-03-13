@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  z-index: 1050;
+  z-index: 12000 !important;
 
   &__top-right {
     top: 4.5rem;
@@ -47,6 +47,7 @@
   animation: fadeIn 0.3s ease;
   display: flex;
   flex-direction: column;
+  z-index: 12100 !important;
 }
 
 .toast-content {
@@ -89,31 +90,59 @@
   right: 0;
 }
 
-.success {
+.success-light {
   background-color: var(--p-message-success-background, var(--p-green-50));
   border: 1px solid var(--p-message-success-border-color, var(--p-green-200));
   color: var(--p-message-success-color, var(--p-green-700));
   box-shadow: var(--p-message-success-shadow, none);
 }
 
-.info {
+.success-dark {
+  background-color: var(--p-message-success-background, var(--p-green-900));
+  border: 1px solid var(--p-message-success-border-color, var(--p-green-700));
+  color: var(--p-message-success-color, var(--p-green-200));
+  box-shadow: var(--p-message-success-shadow, none);
+}
+
+.info-light {
   background-color: var(--p-message-info-background, var(--p-blue-50));
   border: 1px solid var(--p-message-info-border-color, var(--p-blue-200));
   color: var(--p-message-info-color, var(--p-blue-700));
   box-shadow: var(--p-message-info-shadow, none);
 }
 
-.warn {
+.info-dark {
+  background-color: var(--p-message-info-background, var(--p-blue-900));
+  border: 1px solid var(--p-message-info-border-color, var(--p-blue-700));
+  color: var(--p-message-info-color, var(--p-blue-200));
+  box-shadow: var(--p-message-info-shadow, none);
+}
+
+.warn-light {
   background-color: var(--p-message-warn-background, var(--p-yellow-50));
   border: 1px solid var(--p-message-warn-border-color, var(--p-yellow-200));
   color: var(--p-message-warn-color, var(--p-yellow-700));
   box-shadow: var(--p-message-warn-shadow, none);
 }
 
-.error {
+.warn-dark {
+  background-color: var(--p-message-warn-background, var(--p-yellow-900));
+  border: 1px solid var(--p-message-warn-border-color, var(--p-yellow-700));
+  color: var(--p-message-warn-color, var(--p-yellow-200));
+  box-shadow: var(--p-message-warn-shadow, none);
+}
+
+.error-light {
   background-color: var(--p-message-error-background, var(--p-red-50));
   border: 1px solid var(--p-message-error-border-color, var(--p-red-200));
   color: var(--p-message-error-color, var(--p-red-700));
+  box-shadow: var(--p-message-error-shadow, none);
+}
+
+.error-dark {
+  background-color: var(--p-message-error-background, var(--p-red-900));
+  border: 1px solid var(--p-message-error-border-color, var(--p-red-700));
+  color: var(--p-message-error-color, var(--p-red-200));
   box-shadow: var(--p-message-error-shadow, none);
 }
 
