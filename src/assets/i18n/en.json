@@ -129,6 +129,7 @@
         "LABEL": "Administrator",
         "ITEMS": {
           "MENU-FRONT": "Menu Front",
+          "REFRESH-TOKENS": "Refresh Tokens",
           "USERS": "Users",
           "ROLES": "Roles",
           "PERMISSIONS": "Permissions"
