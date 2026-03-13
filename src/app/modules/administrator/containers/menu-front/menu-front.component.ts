@@ -29,6 +29,7 @@ export class MenuFrontComponent {
   public formValid: boolean = false;
 
   private literals: ITranslateLiterals;
+  private selectedItemId: string;
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
@@ -65,6 +66,7 @@ export class MenuFrontComponent {
       roles: [],
       order: MAGIC_NUMBERS.N_0,
     };
+    this.selectedItemId = undefined;
     this.crudState = CRUD_STATE.NEW;
   }
 
@@ -109,8 +111,7 @@ export class MenuFrontComponent {
                   detail: this.literals?.['DELETE_MULTIPLE']?.['SUCCESS']
                 });
               }
-              this.getValues();
-              this.crudState = CRUD_STATE.VIEW;
+              this.resetCrud();
             },
             error: () => {
               this.toastService.error({
@@ -131,6 +132,7 @@ export class MenuFrontComponent {
     const actionMethods = {
       edit: () => {
         this.selectedItem = structuredClone(action?.value);
+        this.selectedItemId = action?.value?._id;
         this.crudState = CRUD_STATE.EDIT;
         this.cdRef.detectChanges();
       },
@@ -143,6 +145,7 @@ export class MenuFrontComponent {
   public onCloseFormDialog(isSubmit: boolean): void {
     if (!isSubmit) {
       this.selectedItem = undefined;
+      this.selectedItemId = undefined;
       this.crudState = CRUD_STATE.VIEW;
       this.cdRef.detectChanges();
       return;
@@ -153,7 +156,7 @@ export class MenuFrontComponent {
     if (this.crudState === CRUD_STATE.NEW) {
       this.add(menuFormValue);
     } else {
-      this.edit(this.selectedItem._id, menuFormValue);
+      this.edit(this.selectedItemId, menuFormValue);
     }
   }
 
@@ -180,9 +183,7 @@ export class MenuFrontComponent {
             summary: this.translateService.instant('TOAST.SUCCESS'),
             detail: this.literals?.['ADD']?.['SUCCESS']
           });
-          this.getValues();
-          this.selectedItem = undefined;
-          this.crudState = CRUD_STATE.VIEW;
+          this.resetCrud();
         },
         error: () => {
           this.toastService.error({
@@ -227,8 +228,7 @@ export class MenuFrontComponent {
                 summary: this.translateService.instant('TOAST.SUCCESS'),
                 detail: this.literals?.['DELETE']?.['SUCCESS']
               });
-              this.getValues();
-              this.crudState = CRUD_STATE.VIEW;
+              this.resetCrud();
             },
             error: () => {
               this.toastService.error({
@@ -258,9 +258,7 @@ export class MenuFrontComponent {
             summary: this.translateService.instant('TOAST.SUCCESS'),
             detail: this.literals?.['EDIT']?.['SUCCESS']
           });
-          this.getValues();
-          this.selectedItem = undefined;
-          this.crudState = CRUD_STATE.VIEW;
+          this.resetCrud();
         },
         error: () => {
           this.toastService.error({
@@ -306,5 +304,12 @@ export class MenuFrontComponent {
         FORM_EDIT: this.literals?.['FORM_EDIT']
       }
     };
+  }
+
+  private resetCrud(): void {
+    this.getValues();
+    this.selectedItem = undefined;
+    this.selectedItemId = undefined;
+    this.crudState = CRUD_STATE.VIEW;
   }
 }
