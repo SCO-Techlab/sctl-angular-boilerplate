@@ -1,3 +1,17 @@
-<p>
-  permissions works!
-</p>
+<sctl-crud 
+  [data]="crudValues"
+  [state]="crudState"
+  [config]="crudConfig" 
+  (new)="onNew()"
+  (deleteMultiple)="onDeleteMultiple($event)"
+  (selectAction)="onSelectAction($event)"
+  (closeForm)="onCloseFormDialog($event)"
+>
+  @if (selectedItem) {
+    <sctl-permissions-form form
+      [value]="selectedItem"
+      (valueChange)="selectedItem = $event;"
+      (formValid)="formValid = $event;"
+    ></sctl-permissions-form>
+  }
+</sctl-crud>

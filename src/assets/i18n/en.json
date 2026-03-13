@@ -129,7 +129,6 @@
         "LABEL": "Administrator",
         "ITEMS": {
           "MENU-FRONT": "Menu Front",
-          "REFRESH-TOKENS": "Refresh Tokens",
           "USERS": "Users",
           "ROLES": "Roles",
           "PERMISSIONS": "Permissions"
@@ -286,6 +285,45 @@
       "SUBMIT": "Delete",
       "SUCCESS": "Menu front deleted successfully",
       "ERROR": "Error trying to delete menu front"
+    }
+  },
+  "PERMISSIONS": {
+    "TITLE": "Manage permissions",
+    "FORM_NEW": "New permission",
+    "FORM_EDIT": "Edit permission",
+    "COLS": {
+      "NAME": "Name",
+      "TYPE": "Type",
+      "CREATED_AT": "Created at",
+      "UPDATED_AT": "Updated at"
+    },
+    "ERRORS": {
+      "NAME": "Name is required",
+      "TYPE": "Type is required"
+    },
+    "EDIT": {
+      "SUCCESS": "Permission updated successfully",
+      "ERROR": "Error trying to update permission"
+    },
+    "DELETE": {
+      "HEADER": "Delete permission",
+      "MESSAGE": "Are you sure you want to permanently delete your permission?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Permission deleted successfully",
+      "ERROR": "Error trying to delete permission"
+    },
+    "ADD": {
+      "SUCCESS": "Permission added successfully",
+      "ERROR": "Error trying to add permission"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete permissions",
+      "MESSAGE": "Are you sure you want to permanently delete your permissions?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Permissions deleted successfully",
+      "ERROR": "Error trying to delete permissions"
     }
   }
 }

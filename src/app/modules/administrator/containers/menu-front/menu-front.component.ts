@@ -275,8 +275,8 @@ export class MenuFrontComponent {
       toolbarEnabled: true,
       onlyTable: false,
       tableActions: [
-        { ...CRUD_EDIT_TABLE_ACTION, disabled: this.userIsNotSuperadmin.bind(this) },
-        { ...CRUD_DELETE_TABLE_ACTION, disabled: this.userIsNotSuperadmin.bind(this) }
+        { ...CRUD_EDIT_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;} },
+        { ...CRUD_DELETE_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;} }
       ],
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
@@ -308,12 +308,12 @@ export class MenuFrontComponent {
         FORM_EDIT: this.literals?.['FORM_EDIT']
       },
       disabledButtons: {
-        [CRUD_ACTIONS.NEW]: this.userIsNotSuperadmin.bind(this),
-        [CRUD_ACTIONS.DELETE_MULTIPLE]: this.userIsNotSuperadmin.bind(this),
-        [CRUD_ACTIONS.EXPORT]: this.userIsNotSuperadmin.bind(this),
-        [CRUD_ACTIONS.GLOBAL_FILTER]: this.userIsNotSuperadmin.bind(this),
-        [CRUD_ACTIONS.EDIT]: this.userIsNotSuperadmin.bind(this),
-        [CRUD_ACTIONS.DELETE]: this.userIsNotSuperadmin.bind(this)
+        [CRUD_ACTIONS.NEW]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
+        [CRUD_ACTIONS.EXPORT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
+        [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
+        [CRUD_ACTIONS.EDIT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
+        [CRUD_ACTIONS.DELETE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;}
       }
     };
   }
@@ -323,9 +323,5 @@ export class MenuFrontComponent {
     this.selectedItem = undefined;
     this.selectedItemId = undefined;
     this.crudState = CRUD_STATE.VIEW;
-  }
-
-  private userIsNotSuperadmin(): boolean {
-    return this.userService.loggedUser()?.role?.name !== ROLES.SUPERADMIN;
   }
 }

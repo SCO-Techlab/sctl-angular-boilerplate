@@ -129,7 +129,6 @@
         "LABEL": "Administrador",
         "ITEMS": {
           "MENU-FRONT": "Menu Front",
-          "REFRESH-TOKENS": "Tokens de refresco",
           "USERS": "Usuarios",
           "ROLES": "Roles",
           "PERMISSIONS": "Permisos"
@@ -286,6 +285,45 @@
       "SUBMIT": "Eliminar",
       "SUCCESS": "Los elementos de menú se han eliminado correctamente",
       "ERROR": "Hubo un error intentando eliminar los elementos de menú"
+    }
+  },
+  "PERMISSIONS": {
+    "TITLE": "Administrar permisos",
+    "FORM_NEW": "Nuevo permiso",
+    "FORM_EDIT": "Editar permiso",
+    "COLS": {
+      "NAME": "Nombre",
+      "TYPE": "Tipo",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "NAME": "El nombre es obligatorio",
+      "TYPE": "El tipo es obligatorio"
+    },
+    "EDIT": {
+      "SUCCESS": "El permiso se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar el permiso"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar permiso",
+      "MESSAGE": "¿Está seguro de que desea eliminar el permiso?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "El permiso se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar el permiso"
+    },
+    "ADD": {
+      "SUCCESS": "El permiso se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir el permiso"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar permisos",
+      "MESSAGE": "¿Está seguro de que desea eliminar los permisos seleccionados?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Los permisos se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar los permisos"
     }
   }
 }

@@ -1,0 +1,32 @@
+<form [formGroup]="permissionForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="permissions-form-name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'PERMISSIONS.COLS.NAME' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="permissions-form-name"
+        type="text"
+        formControlName="name"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['name']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="permissions-form-type" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'PERMISSIONS.COLS.TYPE' | translate }}
+      </label>
+       <p-select
+        [appendTo]="'body'"
+        [className]="'w-full'"
+        [inputId]="'permissions-form-type'"
+        [options]="typesOptions" 
+        formControlName="type" 
+        optionLabel="name"  
+        class="w-full md:w-56" 
+      />
+      <sctl-input-error [config]="formErrors?.['type']"></sctl-input-error>
+    </div>
+  </div>
+</form>
