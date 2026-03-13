@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AccessComponent, ErrorComponent, LayoutComponent, NotfoundComponent } from '@layout/containers';
-import { DashboardComponent } from '@modules/dashboard';
 import { AuthGuard } from '@shared/guards';
 
 export const appRoutes: Routes = [
@@ -8,7 +7,7 @@ export const appRoutes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', component: DashboardComponent },
+      { path: '', loadChildren: () => import('./app/modules/home/home.routes') },
       { path: 'profile', loadChildren: () => import('./app/modules/profile/profile.routes') },
       { path: 'administrator', loadChildren: () => import('./app/modules/administrator/administrator.routes') },
     ],
