@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuFrontFormComponent } from '@modules/administrator/components';
 import { CrudComponent } from '@shared/components';
-import { CONFIRM_DIALOG_ICONS, CRUD_DEFAULT_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
+import { CONFIRM_DIALOG_ICONS, CRUD_DEFAULT_TABLE_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IMenuFront, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
@@ -273,7 +273,7 @@ export class MenuFrontComponent {
     this.crudConfig = {
       toolbarEnabled: true,
       onlyTable: false,
-      tableActions: [...CRUD_DEFAULT_ACTIONS],
+      tableActions: [...CRUD_DEFAULT_TABLE_ACTIONS],
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
       exportButtonEnabled: true,
