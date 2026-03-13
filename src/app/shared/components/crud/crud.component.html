@@ -46,6 +46,7 @@
   [paginator]="config()?.paginator"
   [showCurrentPageReport]="config()?.showCurrentPageReport"
   [currentPageReportTemplate]="'CRUD.PAGE_REPORT' | translate"
+  [exportFilename]="exportFilename"
 >
   <ng-template #caption>
     <div class="flex items-center justify-between">
@@ -81,7 +82,7 @@
         >
           {{ col.header }}
           @if (col.sortable) {
-            <p-sortIcon field="name" />
+            <p-sortIcon [field]="col.field" />
           }
         </th>
       }
@@ -179,7 +180,7 @@
   </ng-template>
 </p-table>
 
-@if (!config()?.onlyTable) {
+@if (!config()?.onlyTable && showForm) {
   <ng-content select="[form]"></ng-content>
 }
 

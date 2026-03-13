@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getValues();
     this.crudConfig = {
-      title: 'Manage front menu',
+      title: 'Manage menu front',
       toolbarEnabled: true,
       onlyTable: false,
       tableActions: [...CRUD_DEFAULT_ACTIONS],
@@ -56,7 +56,8 @@ export class DashboardComponent implements OnInit {
       rowsPerPage: MAGIC_NUMBERS.N_5,
       rowHover: true,
       paginator: true,
-      showCurrentPageReport: true
+      showCurrentPageReport: true,
+      exportFilename: 'menu-front'
     };
   }
 

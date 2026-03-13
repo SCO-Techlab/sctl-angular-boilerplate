@@ -17,6 +17,7 @@ export interface ICrudComponent {
   rowHover: boolean;
   paginator: boolean;
   showCurrentPageReport: boolean;
+  exportFilename: string;
 }
 
 export interface ICrudColumn {
@@ -29,6 +30,7 @@ export interface ICrudColumn {
   fieldStyles?: string;
   fieldAlign?: CRUD_COLUMN_ALIGNMENT;
   type?: CRUD_COLUMN_TYPE;
+  exportable?: boolean; 
   options?: ICrudColumnOptions;
 }
 

@@ -14,3 +14,9 @@ export enum CRUD_COLUMN_TYPE {
   OBJECT = 'object',
   ICON = 'icon'
 }
+
+export enum CRUD_STATE {
+  NEW = 'new',
+  EDIT = 'edit',
+  VIEW = 'view'
+}

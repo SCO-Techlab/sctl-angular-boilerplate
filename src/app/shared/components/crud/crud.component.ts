@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { DATES, MAGIC_NUMBERS } from '@shared/constants';
-import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
+import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
 import { ICrudColumn, ICrudComponent, ICrudTableAction, IJsonEditorDialogComponent } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { DatesService, TranslateService } from '@shared/services';
@@ -36,6 +36,7 @@ export class CrudComponent {
   @ViewChild('dt') dt!: Table;
 
   public data = input<any[]>([]);
+  public state = input<CRUD_STATE>(CRUD_STATE.VIEW);
   public config = input<ICrudComponent>({
     title: '',
     toolbarEnabled: true,
@@ -52,7 +53,8 @@ export class CrudComponent {
     rowsPerPage: MAGIC_NUMBERS.N_5,
     rowHover: true,
     paginator: true,
-    showCurrentPageReport: true
+    showCurrentPageReport: true,
+    exportFilename: '',
   });
 
   public new = output<void>();
@@ -71,6 +73,16 @@ export class CrudComponent {
 
   public get tableActionsEnabled(): boolean {
     return this.config()?.tableActions?.length > MAGIC_NUMBERS.N_0;
+  }
+
+  public get exportFilename(): string {
+    const name: string = this.config()?.exportFilename ?? 'csv';
+    const date: string = new Date().toISOString();
+    return `${name}_${this.datesService.formatDate(DATES.ISO_DATE, date)}.csv`;
+  }
+
+  public get showForm(): boolean {
+    return this.state() === CRUD_STATE.NEW || this.state() === CRUD_STATE.EDIT;
   }
 
   private translateService = inject(TranslateService);
