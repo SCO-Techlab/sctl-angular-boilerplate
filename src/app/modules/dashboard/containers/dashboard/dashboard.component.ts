@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CrudComponent, JsonEditorComponent } from '@shared/components';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CrudComponent, InputErrorComponent, JsonEditorComponent } from '@shared/components';
 import { CONFIRM_DIALOG_ICONS, CRUD_DEFAULT_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
-import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
-import { ICrudComponent, ICrudTableAction, IJsonEditorComponent, IMenuFront, IRole } from '@shared/interfaces';
+import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE, INPUT_ERROR, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
+import { ICrudComponent, ICrudTableAction, IInputErrorComponent, IJsonEditorComponent, IMenuFront, IRole, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, MenuFrontService, ToastService, TranslateService } from '@shared/services';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'sctl-dashboard',
@@ -26,7 +26,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     ToggleSwitchModule,
     InputNumberModule,
     MultiSelectModule,
-    JsonEditorComponent
+    JsonEditorComponent,
+    InputErrorComponent
   ]
 })
 export class DashboardComponent implements OnInit {
@@ -38,8 +39,10 @@ export class DashboardComponent implements OnInit {
   public menuFrontForm: FormGroup;
   public roleOptions: { name: string; _id: string }[] = [];
   public jsonEditorConfig: IJsonEditorComponent;
+  public formErrors: { [key: string]: IInputErrorComponent } = {};
 
   private selectedItem: IMenuFront;
+  private literals: ITranslateLiterals;
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
@@ -52,8 +55,14 @@ export class DashboardComponent implements OnInit {
     this.initForm();
     this.getValues();
     this.getRoles();
-    this.setCrudConfig();
-    this.setJsonEditorConfig();
+    this.translateService.stream('MENU_FRONT')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: ITranslateLiterals) => {
+        this.literals = res;
+        this.setCrudConfig();
+        this.setJsonEditorConfig();
+        this.setFormErrors();
+      });
   }
 
   public onNew(): void {
@@ -63,7 +72,15 @@ export class DashboardComponent implements OnInit {
       separator: false,
       icon: '',
       routerLink: '',
-      items: [],
+      items: [{
+        label: '',
+        separator: false,
+        icon: '',
+        routerLink: '',
+        items: [],
+        roles: [],
+        order: MAGIC_NUMBERS.N_0
+      }],
       roles: [],
       order: MAGIC_NUMBERS.N_0,
     });
@@ -76,15 +93,15 @@ export class DashboardComponent implements OnInit {
     }
 
     this.confirmDialogService.confirm({
-      header: 'Eliminar elementos de menú',
-      message: '¿Está seguro de que desea eliminar los elementos de menú seleccionados?',
+      header: this.literals?.['DELETE_MULTIPLE']?.['HEADER'],
+      message: this.literals?.['DELETE_MULTIPLE']?.['MESSAGE'],
       icon: CONFIRM_DIALOG_ICONS.WARNING,
       rejectButton: {
-        label: 'Cancelar',
+        label: this.literals?.['DELETE_MULTIPLE']?.['CANCEL'],
         severity: BUTTON_SEVERITY.SECONDARY
       },
       acceptButton: {
-        label: 'Eliminar',
+        label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'],
         severity: BUTTON_SEVERITY.DANGER
       },
       accept: () => {
@@ -95,7 +112,7 @@ export class DashboardComponent implements OnInit {
               if (!res) {
                 this.toastService.error({
                   summary: this.translateService.instant('TOAST.ERROR'),
-                  detail: 'Hubo un error intentando eliminar los elementos de menú'
+                  detail: this.literals?.['DELETE_MULTIPLE']?.['ERROR']
                 });
                 return;
               }
@@ -103,12 +120,12 @@ export class DashboardComponent implements OnInit {
               if (res !== values.length) {
                 this.toastService.error({
                   summary: this.translateService.instant('TOAST.ERROR'),
-                  detail: `Hubo un error intentando eliminar los elementos de menú (${res}/${values.length})`
+                  detail: `${this.literals?.['DELETE_MULTIPLE']?.['ERROR']} (${res}/${values.length})`
                 });
               } else {
                 this.toastService.success({
                   summary: this.translateService.instant('TOAST.SUCCESS'),
-                  detail: 'Los elementos de menú se han eliminado correctamente'
+                  detail: this.literals?.['DELETE_MULTIPLE']?.['SUCCESS']
                 });
               }
               this.getValues();
@@ -117,7 +134,7 @@ export class DashboardComponent implements OnInit {
             error: () => {
               this.toastService.error({
                 summary: this.translateService.instant('TOAST.ERROR'),
-                detail: 'Hubo un error intentando eliminar los elementos de menú'
+                detail: this.literals?.['DELETE_MULTIPLE']?.['ERROR']
               });
             }
           });
@@ -145,7 +162,6 @@ export class DashboardComponent implements OnInit {
 
   public onCloseFormDialog(isSubmit: boolean): void {
     if (!isSubmit) {
-      console.log(this.selectedItem);
       this.fillForm(this.selectedItem);
       this.selectedItem = undefined;
       this.crudState = CRUD_STATE.VIEW;
@@ -184,14 +200,14 @@ export class DashboardComponent implements OnInit {
           if (!res) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
-              detail: 'Hubo un error intentando añadir el elemento de menú'
+              detail: this.literals?.['ADD']?.['ERROR']
             });
             return;
           }
 
           this.toastService.success({
             summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: 'El elemento de menú se ha añadido correctamente'
+            detail: this.literals?.['ADD']?.['SUCCESS']
           });
           this.getValues();
           this.crudState = CRUD_STATE.VIEW;
@@ -199,7 +215,7 @@ export class DashboardComponent implements OnInit {
         error: () => {
           this.toastService.error({
             summary: this.translateService.instant('TOAST.ERROR'),
-            detail: 'Hubo un error intentando añadir el elemento de menú'
+            detail: this.literals?.['ADD']?.['ERROR']
           });
         }
       });
@@ -211,15 +227,15 @@ export class DashboardComponent implements OnInit {
     }
 
     this.confirmDialogService.confirm({
-      header: 'Eliminar elemento de menú',
-      message: '¿Está seguro de que desea eliminar el elemento menú?',
+      header: this.literals?.['DELETE']?.['HEADER'],
+      message: this.literals?.['DELETE']?.['MESSAGE'],
       icon: CONFIRM_DIALOG_ICONS.WARNING,
       rejectButton: {
-        label: 'Cancelar',
+        label: this.literals?.['DELETE']?.['CANCEL'],
         severity: BUTTON_SEVERITY.SECONDARY
       },
       acceptButton: {
-        label: 'Eliminar',
+        label: this.literals?.['DELETE']?.['SUBMIT'],
         severity: BUTTON_SEVERITY.DANGER
       },
       accept: () => {
@@ -230,14 +246,14 @@ export class DashboardComponent implements OnInit {
               if (!res) {
                 this.toastService.error({
                   summary: this.translateService.instant('TOAST.ERROR'),
-                  detail: 'Hubo un error intentando eliminar el elemento de menú'
+                  detail: this.literals?.['DELETE']?.['ERROR']
                 });
                 return;
               }
 
               this.toastService.success({
                 summary: this.translateService.instant('TOAST.SUCCESS'),
-                detail: 'El elemento de menú se ha eliminado correctamente'
+                detail: this.literals?.['DELETE']?.['SUCCESS']
               });
               this.getValues();
               this.crudState = CRUD_STATE.VIEW;
@@ -245,7 +261,7 @@ export class DashboardComponent implements OnInit {
             error: () => {
               this.toastService.error({
                 summary: this.translateService.instant('TOAST.ERROR'),
-                detail: 'Hubo un error intentando eliminar el elemento de menú'
+                detail: this.literals?.['DELETE']?.['ERROR']
               });
             }
           });
@@ -261,14 +277,14 @@ export class DashboardComponent implements OnInit {
           if (!res) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
-              detail: 'Hubo un error intentando actualizar el elemento de menú'
+              detail: this.literals?.['EDIT']?.['ERROR']
             });
             return;
           }
 
           this.toastService.success({
             summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: 'El elemento de menú se ha actualizado correctamente'
+            detail: this.literals?.['EDIT']?.['SUCCESS']
           });
           this.getValues();
           this.selectedItem = undefined;
@@ -277,7 +293,7 @@ export class DashboardComponent implements OnInit {
         error: () => {
           this.toastService.error({
             summary: this.translateService.instant('TOAST.ERROR'),
-            detail: 'Hubo un error intentando actualizar el elemento de menú'
+            detail: this.literals?.['EDIT']?.['ERROR']
           });
         }
       });
@@ -291,19 +307,19 @@ export class DashboardComponent implements OnInit {
       routerLink: new FormControl<string>(''),
       items: new FormControl<IMenuFront[]>([]),
       roles: new FormControl<IRole[]>([]),
-      order: new FormControl<number>(MAGIC_NUMBERS.N_0)
+      order: new FormControl<number>(MAGIC_NUMBERS.N_0, [Validators.required])
     });
   }
 
   private fillForm(value: IMenuFront): void {
     this.menuFrontForm.setValue({
-      label: value.label ?? '',
-      separator: value.separator ?? false,
-      icon: value.icon ?? '',
-      routerLink: value.routerLink ?? '',
-      items: value.items ?? [],
-      roles: value.roles ? value.roles.map(role => ({ name: role.name, _id: role._id })) : [],
-      order: value.order ?? MAGIC_NUMBERS.N_0
+      label: value?.label ?? '',
+      separator: value?.separator ?? false,
+      icon: value?.icon ?? '',
+      routerLink: value?.routerLink ?? '',
+      items: value?.items ?? [],
+      roles: value?.roles ? value.roles.map(role => ({ name: role.name, _id: role._id })) : [],
+      order: value?.order ?? MAGIC_NUMBERS.N_0
     });
   }
 
@@ -317,15 +333,15 @@ export class DashboardComponent implements OnInit {
       exportButtonEnabled: true,
       searchInputEnabled: true,
       cols: [
-        { header: 'Label', field: 'label' },
-        { header: 'Separator', field: 'separator', type: CRUD_COLUMN_TYPE.BOOLEAN },
-        { header: 'Icon', field: 'icon', type: CRUD_COLUMN_TYPE.ICON },
-        { header: 'Link', field: 'routerLink' },
-        { header: 'Items', field: 'items', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT },
-        { header: 'Roles', field: 'roles', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT },
-        { header: 'Order', field: 'order' },
-        { header: 'Created At', field: 'createdAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
-        { header: 'Updated At', field: 'updatedAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
+        { header: this.literals?.['COLS']['LABEL'], field: 'label' },
+        { header: this.literals?.['COLS']['SEPARATOR'], field: 'separator', type: CRUD_COLUMN_TYPE.BOOLEAN },
+        { header: this.literals?.['COLS']['ICON'], field: 'icon', type: CRUD_COLUMN_TYPE.ICON },
+        { header: this.literals?.['COLS']['LINK'], field: 'routerLink' },
+        { header: this.literals?.['COLS']['ITEMS'], field: 'items', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT, headerStyles: 'max-width: 5rem', fieldStyles: 'max-width: 5rem' },
+        { header: this.literals?.['COLS']['ROLES'], field: 'roles', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT, headerStyles: 'max-width: 5rem', fieldStyles: 'max-width: 5rem' },
+        { header: this.literals?.['COLS']['ORDER'], field: 'order' },
+        { header: this.literals?.['COLS']['CREATED_AT'], field: 'createdAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
+        { header: this.literals?.['COLS']['UPDATED_AT'], field: 'updatedAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
       ],
       globalFilterFields: ['label'],
       dataKey: '_id',
@@ -334,7 +350,13 @@ export class DashboardComponent implements OnInit {
       rowHover: true,
       paginator: true,
       showCurrentPageReport: true,
-      exportFilename: 'menu-front'
+      exportFilename: 'menu-front',
+      disableSubmitButton: () => { return this.menuFrontForm.invalid; },
+      literals: {
+        TITLE: this.literals?.['TITLE'],
+        FORM_NEW: this.literals?.['FORM_NEW'],
+        FORM_EDIT: this.literals?.['FORM_EDIT']
+      }
     };
   }
 
@@ -346,5 +368,17 @@ export class DashboardComponent implements OnInit {
       mode: JSON_EDITOR_MODE.CODE,
       inputId: 'menu-front-items'
     };
+  }
+
+  private setFormErrors(): void {
+    this.formErrors = {
+      order: {
+        formControl: this.menuFrontForm?.get?.('order'),
+        cssClass: 'mb-0',
+        errorsToShow: [
+          { error: INPUT_ERROR.REQUIRED, message: this.literals?.['ERRORS']?.['ORDER'] }
+        ]
+      }
+    }
   }
 }

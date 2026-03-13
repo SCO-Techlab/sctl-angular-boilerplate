@@ -17,6 +17,8 @@ export interface ICrudComponent {
   paginator: boolean;
   showCurrentPageReport: boolean;
   exportFilename: string;
+  disableSubmitButton?: Function;
+  literals?: ICrudLiterals;
 }
 
 export interface ICrudColumn {
@@ -47,4 +49,21 @@ export interface ICrudTableAction {
   icon: string;
   severity: BUTTON_SEVERITY;
   value?: any;
+}
+
+export interface ICrudLiterals {
+  NEW?: string;
+  DELETE?: string;
+  EXPORT?: string;
+  PAGE_REPORT?: string;
+  TITLE?: string;
+  SEARCH?: string;
+  BOOLEAN_TRUE?: string;
+  BOOLEAN_FALSE?: string;
+  JSON_EDITOR_CLOSE?: string;
+  FORM_NEW?: string;
+  FORM_EDIT?: string;
+  FORM_CLOSE?: string;
+  FORM_SAVE?: string;
+  FORM_UPDATE?: string;
 }

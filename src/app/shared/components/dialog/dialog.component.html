@@ -1,7 +1,7 @@
 @if (showDialog) {
   <p-dialog [(visible)]="showDialog" 
     [appendTo]="'body'"
-    [style]="{ 'width': '40%', 'max-height': '90%' }"
+    [style]="{ 'width': '50%', 'max-height': '90%' }"
     [breakpoints]="getBreakpoints()"
     [contentStyle]="{'overflow':'auto', 'display':'flex', 'flex-direction':'column'}"
     [header]="''" 
@@ -14,7 +14,7 @@
     @if(showHeader) {
       <ng-template #header>
         <div class="flex w-full">
-          <div class="flex flex-col gap-1 flex-1">
+          <div class="flex flex-col gap-1 flex-1 overflow-auto">
             @if (config()?.header?.title) {
               <span class="font-bold text-xl whitespace-nowrap">{{ config().header.title }}</span>
             }

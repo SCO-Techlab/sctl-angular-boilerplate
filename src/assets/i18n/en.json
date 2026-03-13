@@ -228,5 +228,48 @@
         "STATIC_MENU": "Static menu"
       }
     }
+  },
+  "MENU_FRONT": {
+    "TITLE": "Manage Menu Front",
+    "FORM_NEW": "New menu front",
+    "FORM_EDIT": "Edit menu front",
+    "COLS": {
+      "LABEL": "Label",
+      "SEPARATOR": "Separator",
+      "ICON": "Icon",
+      "LINK": "Link",
+      "ITEMS": "Items",
+      "ROLES": "Roles",
+      "ORDER": "Order",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At"
+    },
+    "ERRORS": {
+      "ORDER": "Order is required"
+    },
+    "EDIT": {
+      "SUCCESS": "Menu front updated successfully",
+      "ERROR": "Error trying to update menu front"
+    },
+    "DELETE": {
+      "HEADER": "Delete menu front",
+      "MESSAGE": "Are you sure you want to permanently delete your menu front?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Menu front deleted successfully",
+      "ERROR": "Error trying to delete menu front"
+    },
+    "ADD": {
+      "SUCCESS": "Menu front added successfully",
+      "ERROR": "Error trying to add menu front"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete menu front",
+      "MESSAGE": "Are you sure you want to permanently delete your menu front?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Menu front deleted successfully",
+      "ERROR": "Error trying to delete menu front"
+    }
   }
 }

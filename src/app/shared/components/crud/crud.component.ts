@@ -57,6 +57,23 @@ export class CrudComponent implements OnInit {
     paginator: true,
     showCurrentPageReport: true,
     exportFilename: '',
+    disableSubmitButton: () => { return false; },
+    literals: {
+      NEW: null,
+      DELETE: null,
+      EXPORT: null,
+      PAGE_REPORT: null,
+      TITLE: null,
+      SEARCH: null,
+      BOOLEAN_TRUE: null,
+      BOOLEAN_FALSE: null,
+      JSON_EDITOR_CLOSE: null,
+      FORM_NEW: null,
+      FORM_EDIT: null,
+      FORM_CLOSE: null,
+      FORM_SAVE: null,
+      FORM_UPDATE: null
+    }
   });
 
   public new = output<void>();
@@ -110,7 +127,7 @@ export class CrudComponent implements OnInit {
   public get exportFilename(): string {
     const name: string = this.config()?.exportFilename ?? 'csv';
     const date: string = new Date().toISOString();
-    return `${name}_${this.datesService.formatDate(DATES.ISO_DATE, date)}.csv`;
+    return `${name}_${this.datesService.formatDate(DATES.ISO_DATE, date)}`;
   }
 
   public get showForm(): boolean {
@@ -118,6 +135,7 @@ export class CrudComponent implements OnInit {
   }
 
   private literals: ITranslateLiterals;
+  private selectedValue: any;
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
@@ -127,27 +145,31 @@ export class CrudComponent implements OnInit {
     effect(() => {
       this.state;
       if (this.state() === CRUD_STATE.NEW) {
-        this.formDialogConfig.header.title = this.literals?.['FORM_NEW'];
-        this.formDialogConfig.footer.submitButton.label = this.literals?.['FORM_SAVE'];
+        this.formDialogConfig.header.title = this.config()?.literals?.FORM_NEW ?? this.literals?.['FORM_NEW'];
+        this.formDialogConfig.footer.submitButton.label = this.config()?.literals?.FORM_SAVE ?? this.literals?.['FORM_SAVE'];
       } else if (this.state() === CRUD_STATE.EDIT) {
-        this.formDialogConfig.header.title = this.literals?.['FORM_EDIT'];
-        this.formDialogConfig.footer.submitButton.label = this.literals?.['FORM_UPDATE'];
+        this.formDialogConfig.header.title = this.config()?.literals?.FORM_EDIT 
+          ? `${this.config()?.literals?.FORM_EDIT}: ${this.selectedValue?.[this.config().dataKey] ?? ''}`
+          : this.literals?.['FORM_EDIT'];
+        this.formDialogConfig.footer.submitButton.label = this.config()?.literals?.FORM_UPDATE ?? this.literals?.['FORM_UPDATE'];
       }
     })
   }
 
   ngOnInit(): void {
+    this.formDialogConfig.footer.submitButton.disabled = this.config()?.disableSubmitButton ?? (() => { return false; })
     this.translateService.stream('CRUD')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.formDialogConfig.header.title = this.literals?.['FORM_NEW'];
-        this.formDialogConfig.footer.submitButton.label = this.literals?.['FORM_SAVE'];
-        this.formDialogConfig.footer.cancelButton.label = this.literals?.['FORM_CLOSE'];
+        this.formDialogConfig.header.title = this.config()?.literals?.FORM_NEW ?? this.literals?.['FORM_NEW'];
+        this.formDialogConfig.footer.submitButton.label = this.config()?.literals?.FORM_SAVE ?? this.literals?.['FORM_SAVE'];
+        this.formDialogConfig.footer.cancelButton.label = this.config()?.literals?.FORM_CLOSE ?? this.literals?.['FORM_CLOSE'];
       });
   }
 
   public onNew(): void {
+    this.selectedValue = undefined;
     this.new.emit();
   }
 
@@ -179,6 +201,7 @@ export class CrudComponent implements OnInit {
   }
 
   public onSelectAction(action: ICrudTableAction, value: any): void {
+    this.selectedValue = value;
     this.selectAction.emit({ ...action, value });
   }
 
@@ -203,7 +226,7 @@ export class CrudComponent implements OnInit {
         footer: {
           cancelButton: {
             show: true,
-            label: this.translateService.instant('CRUD.JSON_EDITOR_CLOSE'),
+            label: this.config()?.literals?.JSON_EDITOR_CLOSE ?? this.literals?.['JSON_EDITOR_CLOSE'],
             severity: BUTTON_SEVERITY.SECONDARY,
             outlined: true,
             text: false,

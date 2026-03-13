@@ -3,7 +3,7 @@
     <ng-template #start>
       @if (config()?.newValueButtonEnabled) {
         <p-button class="mr-2"
-          [label]="'CRUD.NEW' | translate"
+          [label]="this.config()?.literals?.NEW ?? ('CRUD.NEW' | translate)"
           [icon]="'pi pi-plus'"
           severity="secondary"
           (onClick)="onNew()" 
@@ -11,7 +11,7 @@
       }
       @if (config()?.multipleDeleteButtonEnabled) {
         <p-button
-          [label]="'CRUD.DELETE' | translate"
+          [label]="this.config()?.literals?.DELETE ?? ('CRUD.DELETE' | translate)"
           [icon]="'pi pi-trash'"
           severity="secondary"
           [disabled]="!selectedMultipleData || !selectedMultipleData.length"
@@ -23,7 +23,7 @@
     @if (config()?.exportButtonEnabled) {
       <ng-template #end>
         <p-button 
-          [label]="'CRUD.EXPORT' | translate"
+          [label]="this.config()?.literals?.EXPORT ?? ('CRUD.EXPORT' | translate)"
           [icon]="'pi pi-upload'"
           severity="secondary" 
           (onClick)="onExportCSV()" 
@@ -45,18 +45,18 @@
   [rowHover]="config()?.rowHover"
   [paginator]="config()?.paginator"
   [showCurrentPageReport]="config()?.showCurrentPageReport"
-  [currentPageReportTemplate]="'CRUD.PAGE_REPORT' | translate"
+  [currentPageReportTemplate]="this.config()?.literals?.PAGE_REPORT ?? ('CRUD.PAGE_REPORT' | translate)"
   [exportFilename]="exportFilename"
 >
   <ng-template #caption>
     <div class="flex items-center justify-between">
-      <span class="text-xl font-bold">{{ 'CRUD.TITLE' | translate }}</span>
+      <span class="text-xl font-bold">{{ this.config()?.literals?.TITLE ?? ('CRUD.TITLE' | translate) }}</span>
       @if (config()?.searchInputEnabled) {
         <p-iconfield>
           <p-inputicon [class]="'pi pi-search'" />
           <input pInputText 
             type="text" 
-            [placeholder]="'CRUD.SEARCH' | translate"
+            [placeholder]="this.config()?.literals?.SEARCH ?? ('CRUD.SEARCH' | translate)"
             (input)="onGlobalFilter(dt, $event)"
           />
         </p-iconfield>
@@ -111,8 +111,8 @@
           @switch (col.type) {
             @case (CRUD_COLUMN_TYPE.BOOLEAN) {
               {{ value[col.field] 
-                ? ('CRUD.BOOLEAN_TRUE' | translate)
-                : ('CRUD.BOOLEAN_FALSE' | translate)
+                ? this.config()?.literals?.BOOLEAN_TRUE ?? ('CRUD.BOOLEAN_TRUE' | translate)
+                : this.config()?.literals?.BOOLEAN_FALSE ?? ('CRUD.BOOLEAN_FALSE' | translate)
               }}
             }
             @case (CRUD_COLUMN_TYPE.DATE) {

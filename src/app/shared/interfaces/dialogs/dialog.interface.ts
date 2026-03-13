@@ -15,7 +15,7 @@ export interface IDialogComponent {
       outlined: boolean;
       text: boolean;
       rounded: boolean;
-      disabled?: () => boolean;
+      disabled?: Function;
     };
     submitButton: {
       show: boolean;
@@ -24,7 +24,7 @@ export interface IDialogComponent {
       outlined: boolean;
       text: boolean;
       rounded: boolean;
-      disabled?: () => boolean;
+      disabled?: Function;
     };
   };
 }

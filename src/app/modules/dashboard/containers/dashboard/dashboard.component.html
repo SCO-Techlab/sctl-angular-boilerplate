@@ -12,7 +12,7 @@
       <div class="flex flex-col md:flex-row gap-0 md:gap-8">
         <div class="mb-6 md:w-100">
           <label for="menu-front-label" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-            {{'Label'}}
+            {{ 'MENU_FRONT.COLS.LABEL' | translate }}
           </label>
           <input pInputText class="w-full"
             id="menu-front-label"
@@ -23,7 +23,7 @@
         </div>
         <div class="mb-6 md:w-100">
           <label for="menu-front-separator" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-            {{'Separator'}}
+            {{ 'MENU_FRONT.COLS.SEPARATOR' | translate }}
           </label>
           <div class="ps-1">
             <p-toggleswitch inputId="menu-front-separator" formControlName="separator" />
@@ -33,7 +33,7 @@
       <div class="flex flex-col md:flex-row gap-0 md:gap-8">
         <div class="mb-6 w-full md:w-100">
           <label for="menu-front-icon" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-            {{'Icon'}}
+            {{ 'MENU_FRONT.COLS.ICON' | translate }}
           </label>
           <input pInputText class="w-full"
             id="menu-front-icon"
@@ -44,7 +44,7 @@
         </div>
         <div class="mb-6 md:w-100">
           <label for="menu-front-routerLink" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-            {{'Link'}}
+            {{ 'MENU_FRONT.COLS.LINK' | translate }}
           </label>
           <input pInputText class="w-full"
             id="menu-front-routerLink"
@@ -57,7 +57,7 @@
       <div class="flex flex-col md:flex-row gap-0 md:gap-8">
         <div class="mb-6 md:w-100">
           <label for="menu-front-roles" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-            {{'Roles'}}
+            {{ 'MENU_FRONT.COLS.ROLES' | translate }}
           </label>
           <p-multiselect class="w-full"
             inputId="menu-front-roles"
@@ -72,7 +72,7 @@
         </div>
         <div class="mb-6 md:w-100">
           <label for="menu-front-order" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-            {{'Order'}}
+            {{ 'MENU_FRONT.COLS.ORDER' | translate }}
           </label>
           <p-inputnumber class="w-full"
             inputId="menu-front-order" 
@@ -80,11 +80,12 @@
             [min]="0" 
             [maxlength]="5" 
           />
+          <sctl-input-error [config]="formErrors?.['order']"></sctl-input-error>
         </div>
       </div>
       <div class="mb-6">
         <label for="menu-front-items" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-          {{'Items'}}
+          {{ 'MENU_FRONT.COLS.ITEMS' | translate }}
         </label>
         <sctl-json-editor appendTo="body"
           [config]="jsonEditorConfig" 

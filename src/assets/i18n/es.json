@@ -228,5 +228,48 @@
         "STATIC_MENU": "Menú estático"
       }
     }
+  },
+  "MENU_FRONT": {
+    "TITLE": "Administrar menu front",
+    "FORM_NEW": "Nuevo menu front",
+    "FORM_EDIT": "Editar menu front",
+    "COLS": {
+      "LABEL": "Label",
+      "SEPARATOR": "Separador",
+      "ICON": "Icono",
+      "LINK": "Enlace",
+      "ITEMS": "Hijos",
+      "ROLES": "Roles",
+      "ORDER": "Orden",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "ORDER": "El orden es obligatorio"
+    },
+    "EDIT": {
+      "SUCCESS": "El menu front se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar el menu front"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar menu front",
+      "MESSAGE": "¿Está seguro de que desea eliminar el menu front?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "El menu front se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar el menu front"
+    },
+    "ADD": {
+      "SUCCESS": "El menu front se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir el menu front"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar elementos de menú",
+      "MESSAGE": "¿Está seguro de que desea eliminar los elementos de menú seleccionados?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Los elementos de menú se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar los elementos de menú"
+    }
   }
 }

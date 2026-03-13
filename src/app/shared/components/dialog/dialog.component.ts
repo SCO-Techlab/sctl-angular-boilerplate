@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, DestroyRef, effect, inject, input, OnInit, output } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, input, OnInit, output } from '@angular/core';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY } from '@shared/enums';
 import { IDialogComponent } from '@shared/interfaces';
@@ -66,13 +65,13 @@ export class DialogComponent implements OnInit {
   public get cancelButtonDisabled(): boolean {
     return !this.config()?.footer?.cancelButton?.disabled
       ? false
-      : this.config()?.footer?.cancelButton?.disabled();
+      : this.config()?.footer?.cancelButton?.disabled?.();
   }
 
   public get submitButtonDisabled(): boolean {
     return !this.config()?.footer?.submitButton?.disabled
       ? false
-      : this.config()?.footer?.submitButton?.disabled();
+      : this.config()?.footer?.submitButton?.disabled?.();
   }
 
   private screenService = inject(ScreenService);
