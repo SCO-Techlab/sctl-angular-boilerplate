@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, effect, inject, input, OnInit, output, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DATES, MAGIC_NUMBERS } from '@shared/constants';
+import { CRUD_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
 import { ICrudColumn, ICrudComponent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
@@ -73,6 +73,14 @@ export class CrudComponent implements OnInit {
       FORM_CLOSE: null,
       FORM_SAVE: null,
       FORM_UPDATE: null
+    },
+    disabledButtons: {
+      [CRUD_ACTIONS.NEW]: () => { return false; },
+      [CRUD_ACTIONS.DELETE_MULTIPLE]: () => { return false; },
+      [CRUD_ACTIONS.EXPORT]: () => { return false; },
+      [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return false; },
+      [CRUD_ACTIONS.EDIT]: () => { return false; },
+      [CRUD_ACTIONS.DELETE]: () => { return false; }
     }
   });
 
@@ -86,6 +94,7 @@ export class CrudComponent implements OnInit {
   public readonly CRUD_COLUMN_ALIGNMENT = CRUD_COLUMN_ALIGNMENT;
   public readonly CRUD_COLUMN_TYPE = CRUD_COLUMN_TYPE;
   public readonly DATES = DATES;
+  public readonly CRUD_ACTIONS = CRUD_ACTIONS;
   public selectedMultipleData: any[] = [];
 
   public jsonEditorDialogConfig: IJsonEditorDialogComponent;
@@ -256,5 +265,21 @@ export class CrudComponent implements OnInit {
     this.jsonEditorValue = value[col.field] 
       ? value[col.field]
       : col.type === CRUD_COLUMN_TYPE.OBJECT ? {} : [];
+  }
+
+  public isButtonDisabled(action: string): boolean {
+    const actions: string[] = Object.values(CRUD_ACTIONS);
+    if (!actions?.length) {
+      return false;
+    }
+
+    const existAction: string = actions.find(a => a === action);
+    if (!existAction) {
+      return false;
+    }
+
+    return this.config()?.disabledButtons?.[existAction]
+      ? this.config()?.disabledButtons?.[existAction]()
+      : false;
   }
 }

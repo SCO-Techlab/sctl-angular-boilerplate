@@ -6,6 +6,7 @@
           [label]="this.config()?.literals?.NEW ?? ('CRUD.NEW' | translate)"
           [icon]="'pi pi-plus'"
           severity="secondary"
+          [disabled]="isButtonDisabled(CRUD_ACTIONS.NEW)"
           (onClick)="onNew()" 
         />
       }
@@ -14,7 +15,7 @@
           [label]="this.config()?.literals?.DELETE ?? ('CRUD.DELETE' | translate)"
           [icon]="'pi pi-trash'"
           severity="secondary"
-          [disabled]="!selectedMultipleData || !selectedMultipleData.length"
+          [disabled]="(!selectedMultipleData || !selectedMultipleData.length) || isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)"
           (onClick)="onDeleteMultiple()"
         />
       }
@@ -26,6 +27,7 @@
           [label]="this.config()?.literals?.EXPORT ?? ('CRUD.EXPORT' | translate)"
           [icon]="'pi pi-upload'"
           severity="secondary" 
+          [disabled]="isButtonDisabled(CRUD_ACTIONS.EXPORT)"
           (onClick)="onExportCSV()" 
         />
       </ng-template>
@@ -57,6 +59,7 @@
           <input pInputText 
             type="text" 
             [placeholder]="this.config()?.literals?.SEARCH ?? ('CRUD.SEARCH' | translate)"
+            [disabled]="isButtonDisabled(CRUD_ACTIONS.GLOBAL_FILTER)"
             (input)="onGlobalFilter(dt, $event)"
           />
         </p-iconfield>
@@ -68,7 +71,7 @@
     <tr>
       @if (config()?.multipleDeleteButtonEnabled) {
         <th style="width: 3rem">
-          <p-tableHeaderCheckbox />
+          <p-tableHeaderCheckbox [disabled]="isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)" />
         </th>
       }
 
@@ -97,7 +100,7 @@
     <tr>
       @if (config()?.multipleDeleteButtonEnabled) {
         <td style="width: 3rem">
-          <p-tableCheckbox [value]="value" />
+          <p-tableCheckbox [value]="value" [disabled]="isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)" />
         </td>
       }
 
@@ -170,7 +173,8 @@
               [icon]="action.icon" 
               [severity]="action.severity"
               [rounded]="true" 
-              [outlined]="true" 
+              [outlined]="true"
+              [disabled]="(action?.disabled ? action.disabled(value) : false) || isButtonDisabled(action.name)"
               (click)="onSelectAction(action, value)" 
             />
           }

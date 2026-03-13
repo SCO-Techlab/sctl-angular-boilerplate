@@ -3,11 +3,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuFrontFormComponent } from '@modules/administrator/components';
 import { CrudComponent } from '@shared/components';
-import { CONFIRM_DIALOG_ICONS, CRUD_ACTIONS, CRUD_DEFAULT_TABLE_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
+import { CONFIRM_DIALOG_ICONS, CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, ROLES } from '@shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IMenuFront, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, MenuFrontService, ToastService, TranslateService } from '@shared/services';
+import { ConfirmDialogService, MenuFrontService, ToastService, TranslateService, UserService } from '@shared/services';
 
 @Component({
   selector: 'sctl-menu-front',
@@ -36,6 +36,7 @@ export class MenuFrontComponent {
   private menuService = inject(MenuFrontService);
   private confirmDialogService = inject(ConfirmDialogService);
   private toastService = inject(ToastService);
+  private userService = inject(UserService);
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
@@ -273,7 +274,10 @@ export class MenuFrontComponent {
     this.crudConfig = {
       toolbarEnabled: true,
       onlyTable: false,
-      tableActions: [...CRUD_DEFAULT_TABLE_ACTIONS],
+      tableActions: [
+        { ...CRUD_EDIT_TABLE_ACTION, disabled: this.userIsNotSuperadmin.bind(this) },
+        { ...CRUD_DELETE_TABLE_ACTION, disabled: this.userIsNotSuperadmin.bind(this) }
+      ],
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
       exportButtonEnabled: true,
@@ -302,6 +306,14 @@ export class MenuFrontComponent {
         TITLE: this.literals?.['TITLE'],
         FORM_NEW: this.literals?.['FORM_NEW'],
         FORM_EDIT: this.literals?.['FORM_EDIT']
+      },
+      disabledButtons: {
+        [CRUD_ACTIONS.NEW]: this.userIsNotSuperadmin.bind(this),
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: this.userIsNotSuperadmin.bind(this),
+        [CRUD_ACTIONS.EXPORT]: this.userIsNotSuperadmin.bind(this),
+        [CRUD_ACTIONS.GLOBAL_FILTER]: this.userIsNotSuperadmin.bind(this),
+        [CRUD_ACTIONS.EDIT]: this.userIsNotSuperadmin.bind(this),
+        [CRUD_ACTIONS.DELETE]: this.userIsNotSuperadmin.bind(this)
       }
     };
   }
@@ -311,5 +323,9 @@ export class MenuFrontComponent {
     this.selectedItem = undefined;
     this.selectedItemId = undefined;
     this.crudState = CRUD_STATE.VIEW;
+  }
+
+  private userIsNotSuperadmin(): boolean {
+    return this.userService.loggedUser()?.role?.name !== ROLES.SUPERADMIN;
   }
 }

@@ -1,3 +1,4 @@
+import { CRUD_ACTIONS } from "@shared/constants";
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE } from "@shared/enums";
 
 export interface ICrudComponent {
@@ -19,6 +20,14 @@ export interface ICrudComponent {
   exportFilename: string;
   disableSubmitButton?: Function;
   literals?: ICrudLiterals;
+  disabledButtons?: {
+    [CRUD_ACTIONS.NEW]?: Function;
+    [CRUD_ACTIONS.DELETE_MULTIPLE]?: Function;
+    [CRUD_ACTIONS.EXPORT]?: Function;
+    [CRUD_ACTIONS.GLOBAL_FILTER]?: Function;
+    [CRUD_ACTIONS.EDIT]?: Function;
+    [CRUD_ACTIONS.DELETE]?: Function;
+  }
 }
 
 export interface ICrudColumn {
@@ -49,6 +58,7 @@ export interface ICrudTableAction {
   icon: string;
   severity: BUTTON_SEVERITY;
   value?: any;
+  disabled?: Function;
 }
 
 export interface ICrudLiterals {
