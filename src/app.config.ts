@@ -8,7 +8,7 @@ import { NgxsModule } from '@ngxs/store';
 import Aura from '@primeuix/themes/aura';
 import { SessionStorageState } from '@session-storage';
 import { AuthInitializer, ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
-import { AuthGuard } from '@shared/guards';
+import { AdminGuard, AuthGuard } from '@shared/guards';
 import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
 import { ConfigService, ScreenService, ToastService } from '@shared/services';
 import { ConfirmationService } from 'primeng/api';
@@ -64,6 +64,7 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
     AuthGuard,
+    AdminGuard,
     ScreenService,
     ToastService,
     ConfirmationService

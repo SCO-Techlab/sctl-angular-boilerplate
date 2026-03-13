@@ -124,6 +124,12 @@
         "ITEMS": {
           "DASHBOARD": "Dashboard"
         }
+      },
+      "ADMINISTRATOR": {
+        "LABEL": "Administrador",
+        "ITEMS": {
+          "MENU-FRONT": "Menu Front"
+        }
       }
     },
     "ACTIONS": {
