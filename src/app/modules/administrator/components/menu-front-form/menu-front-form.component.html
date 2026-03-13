@@ -1,0 +1,86 @@
+<form [formGroup]="menuFrontForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 md:w-100">
+      <label for="menu-front-form-label" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'MENU_FRONT.COLS.LABEL' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="menu-front-form-label"
+        type="text"
+        formControlName="label"
+        [placeholder]="''"
+      />
+    </div>
+    <div class="mb-6 md:w-100">
+      <label for="menu-front-form-separator" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'MENU_FRONT.COLS.SEPARATOR' | translate }}
+      </label>
+      <div class="ps-1">
+        <p-toggleswitch inputId="menu-front-form-separator" formControlName="separator" />
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full md:w-100">
+      <label for="menu-front-form-icon" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'MENU_FRONT.COLS.ICON' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="menu-front-form-icon"
+        type="text"
+        formControlName="icon"
+        [placeholder]="''"
+      />
+    </div>
+    <div class="mb-6 md:w-100">
+      <label for="menu-front-form-routerLink" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'MENU_FRONT.COLS.LINK' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="menu-front-form-routerLink"
+        type="text"
+        formControlName="routerLink"
+        [placeholder]="''"
+      />
+    </div>
+  </div>
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 md:w-100">
+      <label for="menu-front-form-roles" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'MENU_FRONT.COLS.ROLES' | translate }}
+      </label>
+      <p-multiselect class="w-full"
+        inputId="menu-front-form-roles"
+        [options]="roleOptions" 
+        optionLabel="name"
+        formControlName="roles" 
+        placeholder=""
+        [filter]="false" 
+        [showToggleAll]="false"
+        [maxSelectedLabels]="6"
+      />
+    </div>
+    <div class="mb-6 md:w-100">
+      <label for="menu-front-form-order" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'MENU_FRONT.COLS.ORDER' | translate }}
+      </label>
+      <p-inputnumber class="w-full"
+        inputId="menu-front-form-order" 
+        formControlName="order" 
+        [min]="0" 
+        [maxlength]="5" 
+      />
+      <sctl-input-error [config]="formErrors?.['order']"></sctl-input-error>
+    </div>
+  </div>
+  <div class="mb-6">
+    <label for="menu-front-form-items" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+      {{ 'MENU_FRONT.COLS.ITEMS' | translate }}
+    </label>
+    <sctl-json-editor appendTo="body"
+      [config]="jsonEditorConfig" 
+      [value]="menuFrontForm?.get?.('items')?.value"
+      (valueChange)="menuFrontForm?.get?.('items')?.setValue($event)"
+    ></sctl-json-editor>
+  </div>
+</form>

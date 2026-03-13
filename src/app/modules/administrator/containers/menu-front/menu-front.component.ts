@@ -1,16 +1,13 @@
 import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CrudComponent, InputErrorComponent, JsonEditorComponent } from '@shared/components';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MenuFrontFormComponent } from '@modules/administrator/components';
+import { CrudComponent } from '@shared/components';
 import { CONFIRM_DIALOG_ICONS, CRUD_DEFAULT_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
-import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE, INPUT_ERROR, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
-import { ICrudComponent, ICrudTableAction, IInputErrorComponent, IJsonEditorComponent, IMenuFront, IRole, ITranslateLiterals } from '@shared/interfaces';
+import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
+import { ICrudComponent, ICrudTableAction, IMenuFront, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, MenuFrontService, ToastService, TranslateService } from '@shared/services';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'sctl-menu-front',
@@ -21,25 +18,16 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     ReactiveFormsModule,
     TranslateModule,
     CrudComponent,
-    InputTextModule,
-    ToggleSwitchModule,
-    InputNumberModule,
-    MultiSelectModule,
-    JsonEditorComponent,
-    InputErrorComponent
+    MenuFrontFormComponent
   ]
 })
 export class MenuFrontComponent {
-  public readonly VIEW_STATE = CRUD_STATE.VIEW;
-  public menuFronts: IMenuFront[] = [];
+  public crudValues: IMenuFront[] = [];
   public crudState: CRUD_STATE = CRUD_STATE.VIEW;
   public crudConfig: ICrudComponent;
-  public menuFrontForm: FormGroup;
-  public roleOptions: { name: string; _id: string }[] = [];
-  public jsonEditorConfig: IJsonEditorComponent;
-  public formErrors: { [key: string]: IInputErrorComponent } = {};
+  public selectedItem: IMenuFront;
+  public formValid: boolean = false;
 
-  private selectedItem: IMenuFront;
   private literals: ITranslateLiterals;
 
   private destroyRef$ = inject(DestroyRef);
@@ -50,22 +38,17 @@ export class MenuFrontComponent {
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    this.initForm();
     this.getValues();
-    this.getRoles();
     this.translateService.stream('MENU_FRONT')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
         this.setCrudConfig();
-        this.setJsonEditorConfig();
-        this.setFormErrors();
       });
   }
 
   public onNew(): void {
-    this.selectedItem = undefined;
-    this.menuFrontForm.reset({
+    this.selectedItem = {
       label: '',
       separator: false,
       icon: '',
@@ -81,7 +64,7 @@ export class MenuFrontComponent {
       }],
       roles: [],
       order: MAGIC_NUMBERS.N_0,
-    });
+    };
     this.crudState = CRUD_STATE.NEW;
   }
 
@@ -148,7 +131,6 @@ export class MenuFrontComponent {
     const actionMethods = {
       edit: () => {
         this.selectedItem = structuredClone(action?.value);
-        this.fillForm(this.selectedItem);
         this.crudState = CRUD_STATE.EDIT;
         this.cdRef.detectChanges();
       },
@@ -160,14 +142,13 @@ export class MenuFrontComponent {
 
   public onCloseFormDialog(isSubmit: boolean): void {
     if (!isSubmit) {
-      this.fillForm(this.selectedItem);
       this.selectedItem = undefined;
       this.crudState = CRUD_STATE.VIEW;
       this.cdRef.detectChanges();
       return;
     }
 
-    const menuFormValue: IMenuFront = this.menuFrontForm.value;
+    const menuFormValue: IMenuFront = structuredClone(this.selectedItem);
     menuFormValue.roles = menuFormValue.roles?.map(role => role._id) ?? [];
     if (this.crudState === CRUD_STATE.NEW) {
       this.add(menuFormValue);
@@ -179,15 +160,7 @@ export class MenuFrontComponent {
   private getValues(): void {
     this.menuService.find()
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IMenuFront[]) => this.menuFronts = res ?? []);
-  }
-
-  private getRoles(): void {
-    this.menuService.findMenuRoles()
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IRole[]) => {
-        this.roleOptions = res?.map(role => ({ name: role.name, _id: role._id })) ?? [];
-      });
+      .subscribe((res: IMenuFront[]) => this.crudValues = res ?? []);
   }
 
   private add(value: IMenuFront): void {
@@ -208,6 +181,7 @@ export class MenuFrontComponent {
             detail: this.literals?.['ADD']?.['SUCCESS']
           });
           this.getValues();
+          this.selectedItem = undefined;
           this.crudState = CRUD_STATE.VIEW;
         },
         error: () => {
@@ -297,30 +271,6 @@ export class MenuFrontComponent {
       });
   }
 
-  private initForm(): void {
-    this.menuFrontForm = new FormGroup({
-      label: new FormControl<string>(''),
-      separator: new FormControl<boolean>(false),
-      icon: new FormControl<string>(''),
-      routerLink: new FormControl<string>(''),
-      items: new FormControl<IMenuFront[]>([]),
-      roles: new FormControl<IRole[]>([]),
-      order: new FormControl<number>(MAGIC_NUMBERS.N_0, [Validators.required])
-    });
-  }
-
-  private fillForm(value: IMenuFront): void {
-    this.menuFrontForm.setValue({
-      label: value?.label ?? '',
-      separator: value?.separator ?? false,
-      icon: value?.icon ?? '',
-      routerLink: value?.routerLink ?? '',
-      items: value?.items ?? [],
-      roles: value?.roles ? value.roles.map(role => ({ name: role.name, _id: role._id })) : [],
-      order: value?.order ?? MAGIC_NUMBERS.N_0
-    });
-  }
-
   private setCrudConfig(): void {
     this.crudConfig = {
       toolbarEnabled: true,
@@ -349,34 +299,12 @@ export class MenuFrontComponent {
       paginator: true,
       showCurrentPageReport: true,
       exportFilename: 'menu-front',
-      disableSubmitButton: () => { return this.menuFrontForm.invalid; },
+      disableSubmitButton: () => { return !this.formValid; },
       literals: {
         TITLE: this.literals?.['TITLE'],
         FORM_NEW: this.literals?.['FORM_NEW'],
         FORM_EDIT: this.literals?.['FORM_EDIT']
       }
     };
-  }
-
-  private setJsonEditorConfig(): void {
-    this.jsonEditorConfig = {
-      height: MAGIC_NUMBERS.N_400,
-      heightUnit: JSON_EDITOR_HEIGHT_UNIT.PIXELS,
-      type: JSON_EDITOR_TYPE.ARRAY_OBJECT,
-      mode: JSON_EDITOR_MODE.CODE,
-      inputId: 'menu-front-items'
-    };
-  }
-
-  private setFormErrors(): void {
-    this.formErrors = {
-      order: {
-        formControl: this.menuFrontForm?.get?.('order'),
-        cssClass: 'mb-0',
-        errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals?.['ERRORS']?.['ORDER'] }
-        ]
-      }
-    }
   }
 }
