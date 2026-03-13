@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, output, ViewChild } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, OnInit, output, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
-import { ICrudColumn, ICrudComponent, ICrudTableAction, IJsonEditorDialogComponent } from '@shared/interfaces';
+import { ICrudColumn, ICrudComponent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { DatesService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +13,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
+import { DialogComponent } from '../dialog';
 import { JsonEditorDialogComponent } from '../json-editor-dialog';
 
 @Component({
@@ -29,16 +31,16 @@ import { JsonEditorDialogComponent } from '../json-editor-dialog';
     InputTextModule,
     TooltipModule,
     JsonEditorDialogComponent,
+    DialogComponent,
   ]
 })
-export class CrudComponent {
+export class CrudComponent implements OnInit {
 
   @ViewChild('dt') dt!: Table;
 
   public data = input<any[]>([]);
   public state = input<CRUD_STATE>(CRUD_STATE.VIEW);
   public config = input<ICrudComponent>({
-    title: '',
     toolbarEnabled: true,
     onlyTable: false,
     tableActions: [],
@@ -62,6 +64,7 @@ export class CrudComponent {
   public export = output<boolean>();
   public globalFilter = output<string>();
   public selectAction = output<ICrudTableAction>();
+  public closeForm = output<boolean>();
 
   public readonly CRUD_COLUMN_ALIGNMENT = CRUD_COLUMN_ALIGNMENT;
   public readonly CRUD_COLUMN_TYPE = CRUD_COLUMN_TYPE;
@@ -70,6 +73,35 @@ export class CrudComponent {
 
   public jsonEditorDialogConfig: IJsonEditorDialogComponent;
   public jsonEditorValue: any;
+
+  public formDialogConfig: IDialogComponent = {
+    closeOnSubmit: false,
+    header: {
+      closable: true,
+      title: 'New element',
+      subTitle: ''
+    },
+    footer: {
+      cancelButton: {
+        show: true,
+        label: 'Close',
+        severity: BUTTON_SEVERITY.SECONDARY,
+        outlined: true,
+        text: false,
+        rounded: false,
+        disabled: undefined
+      },
+      submitButton: {
+        show: true,
+        label: 'Save',
+        severity: BUTTON_SEVERITY.PRIMARY,
+        outlined: true,
+        text: false,
+        rounded: false,
+        disabled: undefined
+      }
+    }
+  };
 
   public get tableActionsEnabled(): boolean {
     return this.config()?.tableActions?.length > MAGIC_NUMBERS.N_0;
@@ -85,8 +117,35 @@ export class CrudComponent {
     return this.state() === CRUD_STATE.NEW || this.state() === CRUD_STATE.EDIT;
   }
 
+  private literals: ITranslateLiterals;
+
+  private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
   private datesService = inject(DatesService);
+
+  constructor() {
+    effect(() => {
+      this.state;
+      if (this.state() === CRUD_STATE.NEW) {
+        this.formDialogConfig.header.title = this.literals?.['FORM_NEW'];
+        this.formDialogConfig.footer.submitButton.label = this.literals?.['FORM_SAVE'];
+      } else if (this.state() === CRUD_STATE.EDIT) {
+        this.formDialogConfig.header.title = this.literals?.['FORM_EDIT'];
+        this.formDialogConfig.footer.submitButton.label = this.literals?.['FORM_UPDATE'];
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.translateService.stream('CRUD')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: ITranslateLiterals) => {
+        this.literals = res;
+        this.formDialogConfig.header.title = this.literals?.['FORM_NEW'];
+        this.formDialogConfig.footer.submitButton.label = this.literals?.['FORM_SAVE'];
+        this.formDialogConfig.footer.cancelButton.label = this.literals?.['FORM_CLOSE'];
+      });
+  }
 
   public onNew(): void {
     this.new.emit();
@@ -163,12 +222,16 @@ export class CrudComponent {
         }
       },
       jsonConfig: {
-        height: MAGIC_NUMBERS.N_400,
+        height: MAGIC_NUMBERS.N_600,
         heightUnit: JSON_EDITOR_HEIGHT_UNIT.PIXELS,
         type: col.type as unknown as JSON_EDITOR_TYPE,
-        mode: JSON_EDITOR_MODE.VIEW
+        mode: JSON_EDITOR_MODE.VIEW,
+        inputId: `crud-json-editor-${col.field}-${value[this.config().dataKey ?? '_id']}`
       }
     };
-    this.jsonEditorValue = value[col.field] ?? undefined;
+
+    this.jsonEditorValue = value[col.field] 
+      ? value[col.field]
+      : col.type === CRUD_COLUMN_TYPE.OBJECT ? {} : [];
   }
 }

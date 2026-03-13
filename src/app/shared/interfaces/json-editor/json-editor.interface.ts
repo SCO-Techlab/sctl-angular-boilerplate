@@ -5,4 +5,5 @@ export interface IJsonEditorComponent {
   height: number;
   heightUnit: JSON_EDITOR_HEIGHT_UNIT;
   type: JSON_EDITOR_TYPE;
+  inputId?: string;
 }

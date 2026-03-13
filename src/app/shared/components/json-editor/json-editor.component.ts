@@ -9,6 +9,7 @@ import JSONEditor from 'jsoneditor';
   selector: 'sctl-json-editor',
   standalone: true,
   templateUrl: './json-editor.component.html',
+  styleUrls: ['./json-editor.component.scss'],
   imports: [
     NgStyle
   ]
@@ -21,11 +22,12 @@ export class JsonEditorComponent implements OnInit {
     mode: JSON_EDITOR_MODE.CODE,
     height: MAGIC_NUMBERS.N_600,
     heightUnit: JSON_EDITOR_HEIGHT_UNIT.PIXELS,
-    type: JSON_EDITOR_TYPE.OBJECT
+    type: JSON_EDITOR_TYPE.OBJECT,
+    inputId: ''
   });
   public value = input<any>({});
 
-  public change = output<any>();
+  public valueChange = output<any>();
 
   public get unit(): string {
     return this.config()?.heightUnit ?? JSON_EDITOR_HEIGHT_UNIT.PIXELS;
@@ -54,6 +56,10 @@ export class JsonEditorComponent implements OnInit {
       : this.config()?.type === JSON_EDITOR_TYPE.OBJECT ? {} : [];
 
     this.editor.set(set_value);
+
+    if (this.config()?.mode === JSON_EDITOR_MODE.VIEW || this.config()?.mode === JSON_EDITOR_MODE.TREE) {
+      this.editor.expandAll();
+    }
   }
 
   private getEditorOptions(): any {
@@ -61,8 +67,12 @@ export class JsonEditorComponent implements OnInit {
       mode: this.config()?.mode ?? JSON_EDITOR_MODE.CODE,
       onChange: () => {
         if (this.editor) {
-          const updatedJson = this.editor.get();
-          this.change.emit(this.parseJson(updatedJson));
+          const updatedJson = this.editor?.getText?.();
+          if (updatedJson) {
+            this.valueChange.emit(this.parseJson(updatedJson));
+          } else {
+            this.valueChange.emit(this.config()?.type === JSON_EDITOR_TYPE.OBJECT ? {} : []);
+          }
         }
       }
     };
@@ -73,7 +83,7 @@ export class JsonEditorComponent implements OnInit {
     try {
       parsed = JSON.parse(value);
     } catch {
-      parsed = {};
+      parsed = this.config()?.type === JSON_EDITOR_TYPE.OBJECT ? {} : [];
     }
     return parsed;
   }

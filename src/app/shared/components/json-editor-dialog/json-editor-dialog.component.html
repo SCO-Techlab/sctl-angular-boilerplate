@@ -9,7 +9,7 @@
       <sctl-json-editor 
         [config]="config()?.jsonConfig" 
         [value]="value()" 
-        (change)="onChange($event)"
+        (valueChange)="onChange($event)"
       ></sctl-json-editor>
     </div>
   </sctl-dialog>

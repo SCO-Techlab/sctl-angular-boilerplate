@@ -1,7 +1,97 @@
 <sctl-crud 
-  [config]="crudConfig" 
   [data]="menuFronts"
+  [state]="crudState"
+  [config]="crudConfig" 
   (new)="onNew()"
   (deleteMultiple)="onDeleteMultiple($event)"
   (selectAction)="onSelectAction($event)"
-></sctl-crud>
+  (closeForm)="onCloseFormDialog($event)"
+>
+  @if (crudState !== VIEW_STATE) {
+    <form form [formGroup]="menuFrontForm">
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 md:w-100">
+          <label for="menu-front-label" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{'Label'}}
+          </label>
+          <input pInputText class="w-full"
+            id="menu-front-label"
+            type="text"
+            formControlName="label"
+            [placeholder]="''"
+          />
+        </div>
+        <div class="mb-6 md:w-100">
+          <label for="menu-front-separator" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{'Separator'}}
+          </label>
+          <div class="ps-1">
+            <p-toggleswitch inputId="menu-front-separator" formControlName="separator" />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 w-full md:w-100">
+          <label for="menu-front-icon" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{'Icon'}}
+          </label>
+          <input pInputText class="w-full"
+            id="menu-front-icon"
+            type="text"
+            formControlName="icon"
+            [placeholder]="''"
+          />
+        </div>
+        <div class="mb-6 md:w-100">
+          <label for="menu-front-routerLink" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{'Link'}}
+          </label>
+          <input pInputText class="w-full"
+            id="menu-front-routerLink"
+            type="text"
+            formControlName="routerLink"
+            [placeholder]="''"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 md:w-100">
+          <label for="menu-front-roles" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{'Roles'}}
+          </label>
+          <p-multiselect class="w-full"
+            inputId="menu-front-roles"
+            [options]="roleOptions" 
+            optionLabel="name"
+            formControlName="roles" 
+            placeholder=""
+            [filter]="false" 
+            [showToggleAll]="false"
+            [maxSelectedLabels]="6"
+          />
+        </div>
+        <div class="mb-6 md:w-100">
+          <label for="menu-front-order" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{'Order'}}
+          </label>
+          <p-inputnumber class="w-full"
+            inputId="menu-front-order" 
+            formControlName="order" 
+            [min]="0" 
+            [maxlength]="5" 
+          />
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="menu-front-items" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+          {{'Items'}}
+        </label>
+        <sctl-json-editor appendTo="body"
+          [config]="jsonEditorConfig" 
+          [value]="menuFrontForm?.get?.('items')?.value"
+          (valueChange)="menuFrontForm?.get?.('items')?.setValue($event)"
+        ></sctl-json-editor>
+      </div>
+    </form>
+  }
+</sctl-crud>

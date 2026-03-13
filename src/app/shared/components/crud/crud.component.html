@@ -50,7 +50,7 @@
 >
   <ng-template #caption>
     <div class="flex items-center justify-between">
-      <span class="text-xl font-bold">{{ this.config()?.title ?? ('CRUD.TITLE' | translate) }}</span>
+      <span class="text-xl font-bold">{{ 'CRUD.TITLE' | translate }}</span>
       @if (config()?.searchInputEnabled) {
         <p-iconfield>
           <p-inputicon [class]="'pi pi-search'" />
@@ -181,7 +181,16 @@
 </p-table>
 
 @if (!config()?.onlyTable && showForm) {
-  <ng-content select="[form]"></ng-content>
+  <sctl-dialog 
+    [visible]="showForm"
+    [config]="formDialogConfig"
+    (close)="closeForm.emit(false)"
+    (submit)="closeForm.emit(true)"
+  >
+    <div content>
+      <ng-content select="[form]"></ng-content>
+    </div>
+  </sctl-dialog>
 }
 
 @if (jsonEditorValue) {

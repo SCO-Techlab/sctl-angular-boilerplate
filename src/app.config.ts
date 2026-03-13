@@ -10,7 +10,7 @@ import { SessionStorageState } from '@session-storage';
 import { AuthInitializer, ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
 import { AuthGuard } from '@shared/guards';
 import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
-import { ConfigService, ToastService } from '@shared/services';
+import { ConfigService, ScreenService, ToastService } from '@shared/services';
 import { ConfirmationService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { RippleModule } from 'primeng/ripple';
@@ -64,6 +64,7 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
     AuthGuard,
+    ScreenService,
     ToastService,
     ConfirmationService
   ]

@@ -1,7 +1,9 @@
-import { Component, effect, input, OnInit, output } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, effect, inject, input, OnInit, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY } from '@shared/enums';
 import { IDialogComponent } from '@shared/interfaces';
+import { ScreenService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
@@ -73,6 +75,8 @@ export class DialogComponent implements OnInit {
       : this.config()?.footer?.submitButton?.disabled();
   }
 
+  private screenService = inject(ScreenService);
+
   constructor() {
     effect(() => {
       this.visible;
@@ -90,5 +94,14 @@ export class DialogComponent implements OnInit {
 
   public onSubmit(): void {
     this.submit.emit(this.config()?.closeOnSubmit);
+  }
+
+  public getBreakpoints(): any {
+    return {
+      [`${this.screenService.XL_BREAKPOINT}px`]: '60%',
+      [`${this.screenService.LG_BREAKPOINT}px`]: '70%',
+      [`${this.screenService.MD_BREAKPOINT}px`]: '80%',
+      [`${this.screenService.SM_BREAKPOINT}px`]: '90%'
+    };
   }
 }

@@ -8,7 +8,6 @@ import { IJsonEditorDialogComponent } from '@shared/interfaces';
   selector: 'sctl-json-editor-dialog',
   standalone: true,
   templateUrl: './json-editor-dialog.component.html',
-  styleUrls: ['./json-editor-dialog.component.scss'],
   imports: [
     DialogComponent,
     JsonEditorComponent
@@ -51,13 +50,14 @@ export class JsonEditorDialogComponent implements OnInit {
       height: MAGIC_NUMBERS.N_400,
       heightUnit: JSON_EDITOR_HEIGHT_UNIT.PIXELS,
       type: JSON_EDITOR_TYPE.OBJECT,
-      mode: JSON_EDITOR_MODE.CODE
+      mode: JSON_EDITOR_MODE.CODE,
+      inputId: ''
     }
   });
 
   public submit = output<void>();
   public close = output<void>();
-  public change = output<any>();
+  public valueChange = output<any>();
 
   public showDialog: boolean = false;
 
@@ -86,6 +86,6 @@ export class JsonEditorDialogComponent implements OnInit {
   }
 
   public onChange(value: any): void {
-    this.change.emit(value);
+    this.valueChange.emit(value);
   }
 }

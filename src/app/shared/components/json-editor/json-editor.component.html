@@ -1,4 +1,5 @@
 <div #jsonEditor 
+  [id]="config()?.inputId ?? null" 
   [ngStyle]="{
     'min-height': this.config()?.height + unit, 
     'height': this.config()?.height + unit

@@ -14,7 +14,12 @@
     "SEARCH": "Buscar...",
     "BOOLEAN_TRUE": "Sí",
     "BOOLEAN_FALSE": "No",
-    "JSON_EDITOR_CLOSE": "Cerrar"
+    "JSON_EDITOR_CLOSE": "Cerrar",
+    "FORM_NEW": "Nuevo elemento",
+    "FORM_EDIT": "Editar elemento",
+    "FORM_CLOSE": "Cerrar",
+    "FORM_SAVE": "Añadir",
+    "FORM_UPDATE": "Actualizar"
   },
   "AUTH": {
     "LOGIN": {

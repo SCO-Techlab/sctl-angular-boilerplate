@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environment';
-import { IMenuFront } from '@shared/interfaces';
+import { IMenuFront, IRole } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,8 +19,8 @@ export class MenuFrontService {
     return this.http.post<IMenuFront>(`${environment.apiUrl}/menu-front`, menuFront);
   }
 
-  update(menuFront: IMenuFront): Observable<IMenuFront> {
-    return this.http.put<IMenuFront>(`${environment.apiUrl}/menu-front/${menuFront._id}`, menuFront);
+  update(_id: string, menuFront: IMenuFront): Observable<IMenuFront> {
+    return this.http.put<IMenuFront>(`${environment.apiUrl}/menu-front/${_id}`, menuFront);
   }
 
   delete(menuFront: IMenuFront): Observable<boolean> {
@@ -34,5 +34,9 @@ export class MenuFrontService {
 
   getUserMenuFront(_id: string): Observable<IMenuFront[]> {
     return this.http.get<IMenuFront[]>(`${environment.apiUrl}/profile/get/user/menu-front/${_id}`);
+  }
+
+  findMenuRoles(): Observable<IRole[]> {
+    return this.http.get<IRole[]>(`${environment.apiUrl}/roles`);
   }
 }

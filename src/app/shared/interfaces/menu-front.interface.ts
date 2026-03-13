@@ -5,9 +5,9 @@ export interface IMenuFront {
   label?: string;
   separator?: boolean;
   icon?: string;
-  link?: string;
+  routerLink?: string;
   items?: IMenuFront[];
-  roles?: IRole[];
+  roles?: IRole[] | string[];
   order: number;
   createdAt?: Date;
   updatedAt?: Date;

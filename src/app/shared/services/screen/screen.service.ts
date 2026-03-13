@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { SCREEN_SIZE } from '@shared/enums';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,17 +38,25 @@ export class ScreenService {
     return this.size === SCREEN_SIZE.XXL;
   }
 
-  public isMobile(): boolean {
+  public get isMobile(): boolean {
     return this.size === SCREEN_SIZE.XS || this.size === SCREEN_SIZE.SM;
   }
 
-  public isTablet(): boolean {
+  public get isTablet(): boolean {
     return this.size === SCREEN_SIZE.MD || this.size === SCREEN_SIZE.LG;
   }
 
-  public isDesktop(): boolean {
+  public get isDesktop(): boolean {
     return this.size === SCREEN_SIZE.XL || this.size === SCREEN_SIZE.XXL;
   }
+
+  public onSizeChange = new Subject<{ size: string; width: number }>();
+
+  public readonly SM_BREAKPOINT = MAGIC_NUMBERS.N_576;
+  public readonly MD_BREAKPOINT = MAGIC_NUMBERS.N_768;
+  public readonly LG_BREAKPOINT = MAGIC_NUMBERS.N_992;
+  public readonly XL_BREAKPOINT = MAGIC_NUMBERS.N_1200;
+  public readonly XXL_BREAKPOINT = MAGIC_NUMBERS.N_1920;
 
   public setSize(width: number): void {
     if (width >= MAGIC_NUMBERS.N_1920) {
@@ -68,5 +77,7 @@ export class ScreenService {
     else {
       this._size = SCREEN_SIZE.XS;
     }
+    
+    this.onSizeChange.next({ size: this._size, width });
   }
 }
