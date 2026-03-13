@@ -55,7 +55,12 @@ export class LayoutSidebarComponent implements OnInit {
 
     this.menuFrontService.getUserMenuFront(this.user?._id)
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IMenuFront[]) => this.menu = res ?? []);
+      .subscribe((res: IMenuFront[]) => {
+        this.menu = res ?? [];
+        this.menu?.forEach((menuElement: IMenuFront, index: number) => {
+          this.menu[index].items = this.menuFrontService.filterMenuItems(menuElement.items, this.user?.role?.name ?? '');
+        });
+      });
   }
 
   public clickMenu($event: any, menu: any): void {

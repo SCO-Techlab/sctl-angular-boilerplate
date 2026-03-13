@@ -128,7 +128,10 @@
       "ADMINISTRATOR": {
         "LABEL": "Administrator",
         "ITEMS": {
-          "MENU-FRONT": "Menu Front"
+          "MENU-FRONT": "Menu Front",
+          "USERS": "Users",
+          "ROLES": "Roles",
+          "PERMISSIONS": "Permissions"
         }
       }
     },

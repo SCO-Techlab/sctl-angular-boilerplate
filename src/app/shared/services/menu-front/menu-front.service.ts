@@ -39,4 +39,28 @@ export class MenuFrontService {
   findMenuRoles(): Observable<IRole[]> {
     return this.http.get<IRole[]>(`${environment.apiUrl}/roles`);
   }
+
+  filterMenuItems(items: IMenuFront[], userRole: string): IMenuFront[] {
+    if (!items?.length) {
+      return null;
+    }
+
+    return items
+      .filter(item => {
+        if (!item.roles || !item.roles.length) {
+          return true;
+        }
+        
+        const upperRoles: string[] = (item.roles as string[]).map((role: string) => role.toUpperCase());
+        if (!upperRoles.length) {
+          return true;
+        }
+
+        return upperRoles.includes(userRole);
+      })
+      .map(item => ({
+        ...item,
+        items: this.filterMenuItems(item.items, userRole)
+      }));
+  }
 }

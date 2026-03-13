@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { ROLES } from '@shared/constants';
+import { MAGIC_NUMBERS, ROLES } from '@shared/constants';
 import { UserService } from '@shared/services';
 
 @Injectable()
@@ -15,8 +15,13 @@ export class AdminGuard implements CanActivate {
       return false;
     }
 
-    const adminRoles = [ROLES.ADMIN, ROLES.SUPERADMIN];
-    if (!adminRoles.includes(this.userService.loggedUser().role.name)) {
+    const allowedRoles: string[] = route.data?.['roles'] ?? [];
+    if (!allowedRoles || allowedRoles.length === MAGIC_NUMBERS.N_0) {
+      allowedRoles.push(ROLES.ADMIN);
+      allowedRoles.push(ROLES.SUPERADMIN);
+    }
+
+    if (!allowedRoles.includes(this.userService.loggedUser().role.name)) {
       this.router.navigate(['/']);
       return false;
     }
