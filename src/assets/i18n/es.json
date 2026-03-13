@@ -134,6 +134,12 @@
           "ROLES": "Roles",
           "PERMISSIONS": "Permisos"
         }
+      },
+      "PAGES": {
+        "LABEL": "Páginas",
+        "ITEMS": {
+          "DEFAULT-PAGE": "Página por defecto"
+        }
       }
     },
     "ACTIONS": {

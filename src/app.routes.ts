@@ -10,6 +10,7 @@ export const appRoutes: Routes = [
       { path: '', loadChildren: () => import('./app/modules/home/home.routes') },
       { path: 'profile', loadChildren: () => import('./app/modules/profile/profile.routes') },
       { path: 'administrator', loadChildren: () => import('./app/modules/administrator/administrator.routes') },
+      { path: 'pages', loadChildren: () => import('./app/modules/pages/pages.routes') },
     ],
     canActivate: [AuthGuard],
   },
