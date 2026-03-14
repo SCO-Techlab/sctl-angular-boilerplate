@@ -303,7 +303,8 @@
     },
     "EDIT": {
       "SUCCESS": "El permiso se ha actualizado correctamente",
-      "ERROR": "Hubo un error intentando actualizar el permiso"
+      "ERROR": "Hubo un error intentando actualizar el permiso",
+      "DUPLICATE": "El permiso ya existe"
     },
     "DELETE": {
       "HEADER": "Eliminar permiso",
@@ -315,7 +316,8 @@
     },
     "ADD": {
       "SUCCESS": "El permiso se ha añadido correctamente",
-      "ERROR": "Hubo un error intentando añadir el permiso"
+      "ERROR": "Hubo un error intentando añadir el permiso",
+      "DUPLICATE": "El permiso ya existe"
     },
     "DELETE_MULTIPLE": {
       "HEADER": "Eliminar permisos",

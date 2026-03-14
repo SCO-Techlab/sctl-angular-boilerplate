@@ -303,7 +303,8 @@
     },
     "EDIT": {
       "SUCCESS": "Permission updated successfully",
-      "ERROR": "Error trying to update permission"
+      "ERROR": "Error trying to update permission",
+      "DUPLICATE": "Permission already exists"
     },
     "DELETE": {
       "HEADER": "Delete permission",
@@ -315,7 +316,8 @@
     },
     "ADD": {
       "SUCCESS": "Permission added successfully",
-      "ERROR": "Error trying to add permission"
+      "ERROR": "Error trying to add permission",
+      "DUPLICATE": "Permission already exists"
     },
     "DELETE_MULTIPLE": {
       "HEADER": "Delete permissions",

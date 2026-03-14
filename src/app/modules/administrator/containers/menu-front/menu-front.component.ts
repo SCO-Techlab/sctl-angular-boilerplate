@@ -7,7 +7,8 @@ import { CONFIRM_DIALOG_ICONS, CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IMenuFront, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, MenuFrontService, ToastService, TranslateService, UserService } from '@shared/services';
+import { ConfirmDialogService, MenuFrontService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'sctl-menu-front',
@@ -37,6 +38,7 @@ export class MenuFrontComponent {
   private confirmDialogService = inject(ConfirmDialogService);
   private toastService = inject(ToastService);
   private userService = inject(UserService);
+  private spinnerService = inject(SpinnerService);
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
@@ -89,8 +91,12 @@ export class MenuFrontComponent {
         severity: BUTTON_SEVERITY.DANGER
       },
       accept: () => {
+        this.spinnerService.show();
         this.menuService.deleteMultiple(values)
-          .pipe(takeUntilDestroyed(this.destroyRef$))
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
           .subscribe({
             next: (res: number) => {
               if (!res) {
@@ -168,8 +174,12 @@ export class MenuFrontComponent {
   }
 
   private add(value: IMenuFront): void {
+    this.spinnerService.show();
     this.menuService.save(value)
-      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
       .subscribe({
         next: (res: IMenuFront) => {
           if (!res) {
@@ -213,8 +223,12 @@ export class MenuFrontComponent {
         severity: BUTTON_SEVERITY.DANGER
       },
       accept: () => {
+        this.spinnerService.show();
         this.menuService.delete(value)
-          .pipe(takeUntilDestroyed(this.destroyRef$))
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
           .subscribe({
             next: (res: boolean) => {
               if (!res) {
@@ -243,8 +257,12 @@ export class MenuFrontComponent {
   }
 
   private edit(_id: string, value: IMenuFront): void {
+    this.spinnerService.show();
     this.menuService.update(_id, value)
-      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
       .subscribe({
         next: (res: IMenuFront) => {
           if (!res) {
@@ -275,8 +293,8 @@ export class MenuFrontComponent {
       toolbarEnabled: true,
       onlyTable: false,
       tableActions: [
-        { ...CRUD_EDIT_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;} },
-        { ...CRUD_DELETE_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;} }
+        { ...CRUD_EDIT_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } },
+        { ...CRUD_DELETE_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } }
       ],
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
@@ -308,12 +326,12 @@ export class MenuFrontComponent {
         FORM_EDIT: this.literals?.['FORM_EDIT']
       },
       disabledButtons: {
-        [CRUD_ACTIONS.NEW]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
-        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
-        [CRUD_ACTIONS.EXPORT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
-        [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
-        [CRUD_ACTIONS.EDIT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;},
-        [CRUD_ACTIONS.DELETE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;}
+        [CRUD_ACTIONS.NEW]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.EXPORT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.EDIT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.DELETE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; }
       }
     };
   }

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +9,8 @@ import { CONFIRM_DIALOG_ICONS, CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT
 import { BUTTON_SEVERITY, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IPermission, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, ToastService, TranslateService, UserService } from '@shared/services';
+import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'sctl-permissions',
@@ -38,6 +40,7 @@ export class PermissionsComponent {
   private confirmDialogService = inject(ConfirmDialogService);
   private toastService = inject(ToastService);
   private userService = inject(UserService);
+  private spinnerService = inject(SpinnerService);
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
@@ -77,8 +80,12 @@ export class PermissionsComponent {
         severity: BUTTON_SEVERITY.DANGER
       },
       accept: () => {
+        this.spinnerService.show();
         this.permissionsService.deleteMultiple(values)
-          .pipe(takeUntilDestroyed(this.destroyRef$))
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
           .subscribe({
             next: (res: number) => {
               if (!res) {
@@ -156,8 +163,12 @@ export class PermissionsComponent {
   }
 
   private add(value: IPermission): void {
+    this.spinnerService.show();
     this.permissionsService.save(value)
-      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
       .subscribe({
         next: (res: IPermission) => {
           if (!res) {
@@ -174,12 +185,7 @@ export class PermissionsComponent {
           });
           this.resetCrud();
         },
-        error: () => {
-          this.toastService.error({
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals?.['ADD']?.['ERROR']
-          });
-        }
+        error: (error: HttpErrorResponse) => this.errorAddOrEdit(error, false)
       });
   }
 
@@ -201,8 +207,12 @@ export class PermissionsComponent {
         severity: BUTTON_SEVERITY.DANGER
       },
       accept: () => {
+        this.spinnerService.show();
         this.permissionsService.delete(value)
-          .pipe(takeUntilDestroyed(this.destroyRef$))
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
           .subscribe({
             next: (res: boolean) => {
               if (!res) {
@@ -231,8 +241,12 @@ export class PermissionsComponent {
   }
 
   private edit(_id: string, value: IPermission): void {
+    this.spinnerService.show();
     this.permissionsService.update(_id, value)
-      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
       .subscribe({
         next: (res: IPermission) => {
           if (!res) {
@@ -249,12 +263,7 @@ export class PermissionsComponent {
           });
           this.resetCrud();
         },
-        error: () => {
-          this.toastService.error({
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals?.['EDIT']?.['ERROR']
-          });
-        }
+        error: (error: HttpErrorResponse) => this.errorAddOrEdit(error, true)
       });
   }
 
@@ -304,5 +313,19 @@ export class PermissionsComponent {
     this.selectedItem = undefined;
     this.selectedItemId = undefined;
     this.crudState = CRUD_STATE.VIEW;
+  }
+
+  private errorAddOrEdit(error: HttpErrorResponse, isEdit: boolean): void {
+    const translateBlock: string = isEdit ? 'EDIT' : 'ADD';
+    const errorMessage: string = (error.error?.message as string);
+    const duplicatedKeyError: string = 'Duplicate key error collection';
+    let detail: string = this.literals?.[translateBlock]?.['ERROR'];
+
+    if (errorMessage?.startsWith(duplicatedKeyError)) {
+      const split: string[] = errorMessage?.split(duplicatedKeyError);
+      detail = `${this.literals?.[translateBlock]?.['DUPLICATE']} ${split?.[MAGIC_NUMBERS.N_1]}`;
+    }
+
+    this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
   }
 }
