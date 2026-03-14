@@ -1,0 +1,34 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '@environment';
+import { IRole } from '@shared/interfaces';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RolesService {
+
+  private http = inject(HttpClient);
+
+  find(filter?: Partial<IRole>): Observable<IRole[]> {
+    return this.http.get<IRole[]>(`${environment.apiUrl}/roles`);
+  }
+
+  save(role: IRole): Observable<IRole> {
+    return this.http.post<IRole>(`${environment.apiUrl}/roles`, role);
+  }
+
+  update(_id: string, role: IRole): Observable<IRole> {
+    return this.http.put<IRole>(`${environment.apiUrl}/roles/${_id}`, role);
+  }
+
+  delete(role: IRole): Observable<boolean> {
+    return this.http.delete<boolean>(`${environment.apiUrl}/roles/${role._id}`);
+  }
+
+  deleteMultiple(_ids: string[]): Observable<number> {
+    const body = { _ids };
+    return this.http.delete<number>(`${environment.apiUrl}/roles/delete/bulk`, { body });
+  }
+}

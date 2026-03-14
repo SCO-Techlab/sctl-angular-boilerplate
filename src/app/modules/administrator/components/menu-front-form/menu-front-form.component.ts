@@ -1,12 +1,13 @@
-import { Component, DestroyRef, effect, inject, input, OnInit, output } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RolesService } from '@modules/administrator/services';
 import { InputErrorComponent, JsonEditorComponent } from '@shared/components';
 import { MAGIC_NUMBERS } from '@shared/constants';
 import { INPUT_ERROR, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
 import { IInputErrorComponent, IJsonEditorComponent, IMenuFront, IRole, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { MenuFrontService, TranslateService } from '@shared/services';
+import { TranslateService } from '@shared/services';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -45,7 +46,7 @@ export class MenuFrontFormComponent implements OnInit {
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
-  private menuService = inject(MenuFrontService);
+  private rolesService = inject(RolesService);
 
   ngOnInit(): void {
     this.firstChange = true;
@@ -62,7 +63,7 @@ export class MenuFrontFormComponent implements OnInit {
   }
 
   private getRoles(): void {
-    this.menuService.findMenuRoles()
+    this.rolesService.find()
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: IRole[]) => this.roleOptions = res?.map(role => ({ name: role.name, _id: role._id })) ?? []);
   }
@@ -87,7 +88,7 @@ export class MenuFrontFormComponent implements OnInit {
       if (!this.menuFrontForm.valid) {
         return;
       }
-      
+
       this.valueChange.emit(value);
     });
 

@@ -36,10 +36,6 @@ export class MenuFrontService {
     return this.http.get<IMenuFront[]>(`${environment.apiUrl}/profile/get/user/menu-front/${_id}`);
   }
 
-  findMenuRoles(): Observable<IRole[]> {
-    return this.http.get<IRole[]>(`${environment.apiUrl}/roles`);
-  }
-
   filterMenuItems(items: IMenuFront[], userRole: string): IMenuFront[] {
     if (!items?.length) {
       return null;
