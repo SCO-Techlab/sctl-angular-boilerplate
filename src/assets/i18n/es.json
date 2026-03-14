@@ -327,5 +327,45 @@
       "SUCCESS": "Los permisos se han eliminado correctamente",
       "ERROR": "Hubo un error intentando eliminar los permisos"
     }
+  },
+  "ROLES": {
+    "TITLE": "Administrar roles",
+    "FORM_NEW": "Nuevo rol",
+    "FORM_EDIT": "Editar rol",
+    "COLS": {
+      "NAME": "Nombre",
+      "PERMISSIONS": "Permisos",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "NAME": "El nombre es obligatorio"
+    },
+    "EDIT": {
+      "SUCCESS": "El rol se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar el rol",
+      "DUPLICATE": "El rol ya existe"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar rol",
+      "MESSAGE": "¿Está seguro de que desea eliminar el rol?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "El rol se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar el rol"
+    },
+    "ADD": {
+      "SUCCESS": "El rol se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir el rol",
+      "DUPLICATE": "El rol ya existe"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar roles",
+      "MESSAGE": "¿Está seguro de que desea eliminar los roles seleccionados?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Los roles se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar los roles"
+    }
   }
 }

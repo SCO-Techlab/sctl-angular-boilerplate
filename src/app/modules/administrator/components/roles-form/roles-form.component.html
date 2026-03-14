@@ -1,0 +1,33 @@
+<form [formGroup]="rolesForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="roles-form-name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'ROLES.COLS.NAME' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="roles-form-name"
+        type="text"
+        formControlName="name"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['name']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="roles-form-permissions" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'ROLES.COLS.PERMISSIONS' | translate }}
+      </label>
+      <p-multiselect class="w-full"
+        [appendTo]="'body'"
+        inputId="roles-form-permissions"
+        [options]="permissionsOptions" 
+        optionLabel="name"
+        formControlName="permissions"
+        placeholder=""
+        [filter]="true" 
+        [showToggleAll]="true"
+        [maxSelectedLabels]="3"
+      />
+    </div>
+  </div>
+</form>

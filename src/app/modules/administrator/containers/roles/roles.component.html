@@ -1,3 +1,17 @@
-<p>
-  roles works!
-</p>
+<sctl-crud 
+  [data]="crudValues"
+  [state]="crudState"
+  [config]="crudConfig" 
+  (new)="onNew()"
+  (deleteMultiple)="onDeleteMultiple($event)"
+  (selectAction)="onSelectAction($event)"
+  (closeForm)="onCloseFormDialog($event)"
+>
+  @if (selectedItem) {
+    <sctl-roles-form form
+      [value]="selectedItem"
+      (valueChange)="selectedItem = $event;"
+      (formValid)="formValid = $event;"
+    ></sctl-roles-form>
+  }
+</sctl-crud>

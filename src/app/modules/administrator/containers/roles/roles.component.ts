@@ -1,11 +1,331 @@
-import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RolesFormComponent } from '@modules/administrator/components';
+import { RolesService } from '@modules/administrator/services';
+import { CrudComponent } from '@shared/components';
+import { CONFIRM_DIALOG_ICONS, CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, MAGIC_NUMBERS, ROLES } from '@shared/constants';
+import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
+import { ICrudComponent, ICrudTableAction, IPermission, IRole, ITranslateLiterals } from '@shared/interfaces';
+import { TranslateModule } from '@shared/modules';
+import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'sctl-roles',
   standalone: true,
   templateUrl: './roles.component.html',
-  imports: []
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    CrudComponent,
+    RolesFormComponent
+  ]
 })
 export class RolesComponent {
+  public crudValues: IRole[] = [];
+  public crudState: CRUD_STATE = CRUD_STATE.VIEW;
+  public crudConfig: ICrudComponent;
+  public selectedItem: IRole;
+  public formValid: boolean = false;
 
+  private literals: ITranslateLiterals;
+  private selectedItemId: string;
+
+  private destroyRef$ = inject(DestroyRef);
+  private translateService = inject(TranslateService);
+  private rolesService = inject(RolesService);
+  private confirmDialogService = inject(ConfirmDialogService);
+  private toastService = inject(ToastService);
+  private userService = inject(UserService);
+  private spinnerService = inject(SpinnerService);
+  private cdRef = inject(ChangeDetectorRef);
+
+  ngOnInit() {
+    this.getValues();
+    this.translateService.stream('ROLES')
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: ITranslateLiterals) => {
+        this.literals = res;
+        this.setCrudConfig();
+      });
+  }
+
+  public onNew(): void {
+    this.selectedItem = {
+      name: '',
+      permissions: [],
+    };
+    this.selectedItemId = undefined;
+    this.crudState = CRUD_STATE.NEW;
+  }
+
+  public onDeleteMultiple(values: string[]): void {
+    if (!values?.length) {
+      return;
+    }
+
+    this.confirmDialogService.confirm({
+      header: this.literals?.['DELETE_MULTIPLE']?.['HEADER'],
+      message: this.literals?.['DELETE_MULTIPLE']?.['MESSAGE'],
+      icon: CONFIRM_DIALOG_ICONS.WARNING,
+      rejectButton: {
+        label: this.literals?.['DELETE_MULTIPLE']?.['CANCEL'],
+        severity: BUTTON_SEVERITY.SECONDARY
+      },
+      acceptButton: {
+        label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'],
+        severity: BUTTON_SEVERITY.DANGER
+      },
+      accept: () => {
+        this.spinnerService.show();
+        this.rolesService.deleteMultiple(values)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
+          .subscribe({
+            next: (res: number) => {
+              if (!res) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: this.literals?.['DELETE_MULTIPLE']?.['ERROR']
+                });
+                return;
+              }
+
+              if (res !== values.length) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: `${this.literals?.['DELETE_MULTIPLE']?.['ERROR']} (${res}/${values.length})`
+                });
+              } else {
+                this.toastService.success({
+                  summary: this.translateService.instant('TOAST.SUCCESS'),
+                  detail: this.literals?.['DELETE_MULTIPLE']?.['SUCCESS']
+                });
+              }
+              this.resetCrud();
+            },
+            error: () => {
+              this.toastService.error({
+                summary: this.translateService.instant('TOAST.ERROR'),
+                detail: this.literals?.['DELETE_MULTIPLE']?.['ERROR']
+              });
+            }
+          });
+      }
+    });
+  }
+
+  public onSelectAction(action: ICrudTableAction): void {
+    if (!action?.name) {
+      return;
+    }
+
+    const actionMethods = {
+      [CRUD_ACTIONS.EDIT]: () => {
+        this.selectedItem = structuredClone(action?.value);
+        this.selectedItemId = action?.value?._id;
+        this.crudState = CRUD_STATE.EDIT;
+        this.cdRef.detectChanges();
+      },
+      [CRUD_ACTIONS.DELETE]: this.delete.bind(this)
+    };
+
+    actionMethods?.[action.name]?.(action.value);
+  }
+
+  public onCloseFormDialog(isSubmit: boolean): void {
+    if (!isSubmit) {
+      this.selectedItem = undefined;
+      this.selectedItemId = undefined;
+      this.crudState = CRUD_STATE.VIEW;
+      this.cdRef.detectChanges();
+      return;
+    }
+
+    const roleFormValue: IRole = structuredClone(this.selectedItem);
+    roleFormValue.permissions = roleFormValue.permissions?.map(permission => permission._id) ?? [];
+    if (this.crudState === CRUD_STATE.NEW) {
+      this.add(roleFormValue);
+    } else {
+      this.edit(this.selectedItemId, roleFormValue);
+    }
+  }
+
+  private getValues(): void {
+    this.rolesService.find()
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((res: IRole[]) => this.crudValues = res ?? []);
+  }
+
+  private add(value: IRole): void {
+    this.spinnerService.show();
+    this.rolesService.save(value)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
+      .subscribe({
+        next: (res: IRole) => {
+          if (!res) {
+            this.toastService.error({
+              summary: this.translateService.instant('TOAST.ERROR'),
+              detail: this.literals?.['ADD']?.['ERROR']
+            });
+            return;
+          }
+
+          this.toastService.success({
+            summary: this.translateService.instant('TOAST.SUCCESS'),
+            detail: this.literals?.['ADD']?.['SUCCESS']
+          });
+          this.resetCrud();
+        },
+        error: (error: HttpErrorResponse) => this.errorAddOrEdit(error, false)
+      });
+  }
+
+  private delete(value: IPermission): void {
+    if (!value) {
+      return;
+    }
+
+    this.confirmDialogService.confirm({
+      header: this.literals?.['DELETE']?.['HEADER'],
+      message: this.literals?.['DELETE']?.['MESSAGE'],
+      icon: CONFIRM_DIALOG_ICONS.WARNING,
+      rejectButton: {
+        label: this.literals?.['DELETE']?.['CANCEL'],
+        severity: BUTTON_SEVERITY.SECONDARY
+      },
+      acceptButton: {
+        label: this.literals?.['DELETE']?.['SUBMIT'],
+        severity: BUTTON_SEVERITY.DANGER
+      },
+      accept: () => {
+        this.spinnerService.show();
+        this.rolesService.delete(value)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
+          .subscribe({
+            next: (res: boolean) => {
+              if (!res) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: this.literals?.['DELETE']?.['ERROR']
+                });
+                return;
+              }
+
+              this.toastService.success({
+                summary: this.translateService.instant('TOAST.SUCCESS'),
+                detail: this.literals?.['DELETE']?.['SUCCESS']
+              });
+              this.resetCrud();
+            },
+            error: () => {
+              this.toastService.error({
+                summary: this.translateService.instant('TOAST.ERROR'),
+                detail: this.literals?.['DELETE']?.['ERROR']
+              });
+            }
+          });
+      }
+    });
+  }
+
+  private edit(_id: string, value: IRole): void {
+    this.spinnerService.show();
+    this.rolesService.update(_id, value)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
+      .subscribe({
+        next: (res: IPermission) => {
+          if (!res) {
+            this.toastService.error({
+              summary: this.translateService.instant('TOAST.ERROR'),
+              detail: this.literals?.['EDIT']?.['ERROR']
+            });
+            return;
+          }
+
+          this.toastService.success({
+            summary: this.translateService.instant('TOAST.SUCCESS'),
+            detail: this.literals?.['EDIT']?.['SUCCESS']
+          });
+          this.resetCrud();
+        },
+        error: (error: HttpErrorResponse) => this.errorAddOrEdit(error, true)
+      });
+  }
+
+  private setCrudConfig(): void {
+    this.crudConfig = {
+      toolbarEnabled: true,
+      onlyTable: false,
+      tableActions: [
+        { ...CRUD_EDIT_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } },
+        { ...CRUD_DELETE_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } }
+      ],
+      newValueButtonEnabled: true,
+      multipleDeleteButtonEnabled: true,
+      exportButtonEnabled: true,
+      searchInputEnabled: true,
+      cols: [
+        { header: this.literals?.['COLS']['NAME'], field: 'name' },
+        { header: this.literals?.['COLS']['PERMISSIONS'], field: 'permissions', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT, headerStyles: 'max-width: 5rem', fieldStyles: 'max-width: 5rem' },
+      ],
+      globalFilterFields: ['name'],
+      dataKey: '_id',
+      rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
+      rowsPerPage: MAGIC_NUMBERS.N_5,
+      rowHover: true,
+      paginator: true,
+      showCurrentPageReport: true,
+      exportFilename: 'roles',
+      disableSubmitButton: () => { return !this.formValid; },
+      literals: {
+        TITLE: this.literals?.['TITLE'],
+        FORM_NEW: this.literals?.['FORM_NEW'],
+        FORM_EDIT: this.literals?.['FORM_EDIT']
+      },
+      disabledButtons: {
+        [CRUD_ACTIONS.NEW]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.EXPORT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.EDIT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
+        [CRUD_ACTIONS.DELETE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; }
+      }
+    };
+  }
+
+  private resetCrud(): void {
+    this.getValues();
+    this.selectedItem = undefined;
+    this.selectedItemId = undefined;
+    this.crudState = CRUD_STATE.VIEW;
+  }
+
+  private errorAddOrEdit(error: HttpErrorResponse, isEdit: boolean): void {
+    const translateBlock: string = isEdit ? 'EDIT' : 'ADD';
+    const errorMessage: string = (error.error?.message as string);
+    const duplicatedKeyError: string = 'Duplicate key error collection';
+    let detail: string = this.literals?.[translateBlock]?.['ERROR'];
+
+    if (errorMessage?.startsWith(duplicatedKeyError)) {
+      const split: string[] = errorMessage?.split(duplicatedKeyError);
+      detail = `${this.literals?.[translateBlock]?.['DUPLICATE']} ${split?.[MAGIC_NUMBERS.N_1]}`;
+    }
+
+    this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
+  }
 }

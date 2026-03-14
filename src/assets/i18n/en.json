@@ -327,5 +327,45 @@
       "SUCCESS": "Permissions deleted successfully",
       "ERROR": "Error trying to delete permissions"
     }
+  },
+  "ROLES": {
+    "TITLE": "Manage roles",
+    "FORM_NEW": "New role",
+    "FORM_EDIT": "Edit role",
+    "COLS": {
+      "NAME": "Name",
+      "PERMISSIONS": "Permissions",
+      "CREATED_AT": "Created at",
+      "UPDATED_AT": "Updated at"
+    },
+    "ERRORS": {
+      "NAME": "Name is required"
+    },
+    "EDIT": {
+      "SUCCESS": "Role updated successfully",
+      "ERROR": "Error trying to update role",
+      "DUPLICATE": "Role already exists"
+    },
+    "DELETE": {
+      "HEADER": "Delete role",
+      "MESSAGE": "Are you sure you want to permanently delete your role?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Role deleted successfully",
+      "ERROR": "Error trying to delete role"
+    },
+    "ADD": {
+      "SUCCESS": "Role added successfully",
+      "ERROR": "Error trying to add role",
+      "DUPLICATE": "Role already exists"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete roles",
+      "MESSAGE": "Are you sure you want to permanently delete your roles?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Roles deleted successfully",
+      "ERROR": "Error trying to delete roles"
+    }
   }
 }
