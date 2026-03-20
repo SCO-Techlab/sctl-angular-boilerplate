@@ -1,20 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, effect, inject, input, OnInit, output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, input, OnInit, output, QueryList, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CRUD_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
+import { CrudTemplateDirective } from '@shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
-import { ICrudColumn, ICrudComponent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, ITranslateLiterals } from '@shared/interfaces';
+import { ICrudColumn, ICrudComponent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { DatesService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
 import { Table, TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogComponent } from '../dialog';
 import { JsonEditorDialogComponent } from '../json-editor-dialog';
+import { OrderListDialogComponent } from '../order-list-dialog';
 
 @Component({
   selector: 'sctl-crud',
@@ -29,14 +32,17 @@ import { JsonEditorDialogComponent } from '../json-editor-dialog';
     InputIconModule,
     IconFieldModule,
     InputTextModule,
+    MessageModule,
     TooltipModule,
     JsonEditorDialogComponent,
     DialogComponent,
+    OrderListDialogComponent
   ]
 })
-export class CrudComponent implements OnInit {
+export class CrudComponent implements OnInit, AfterViewInit {
 
   @ViewChild('dt') dt!: Table;
+  @ContentChildren(CrudTemplateDirective) templates!: QueryList<CrudTemplateDirective>;
 
   public data = input<any[]>([]);
   public state = input<CRUD_STATE>(CRUD_STATE.VIEW);
@@ -51,6 +57,7 @@ export class CrudComponent implements OnInit {
     cols: [],
     globalFilterFields: [],
     dataKey: '_id',
+    titleKeys: [],
     rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
     rowsPerPage: MAGIC_NUMBERS.N_5,
     rowHover: true,
@@ -72,7 +79,8 @@ export class CrudComponent implements OnInit {
       FORM_EDIT: null,
       FORM_CLOSE: null,
       FORM_SAVE: null,
-      FORM_UPDATE: null
+      FORM_UPDATE: null,
+      ORDER_LIST_CLOSE: null
     },
     disabledButtons: {
       [CRUD_ACTIONS.NEW]: () => { return false; },
@@ -99,6 +107,9 @@ export class CrudComponent implements OnInit {
 
   public jsonEditorDialogConfig: IJsonEditorDialogComponent;
   public jsonEditorValue: any;
+
+  public orderListDialogConfig: IOrderListDialogComponent;
+  public orderListValues: any[];
 
   public formDialogConfig: IDialogComponent = {
     closeOnSubmit: false,
@@ -143,6 +154,7 @@ export class CrudComponent implements OnInit {
     return this.state() === CRUD_STATE.NEW || this.state() === CRUD_STATE.EDIT;
   }
 
+  private templateMap = new Map<string, TemplateRef<any>>();
   private literals: ITranslateLiterals;
   private selectedValue: any;
 
@@ -155,11 +167,11 @@ export class CrudComponent implements OnInit {
       this.state;
       if (this.state() === CRUD_STATE.NEW) {
         this.formDialogConfig.header.title = this.config()?.literals?.FORM_NEW ?? this.literals?.['FORM_NEW'];
+        this.formDialogConfig.header.subTitle = '';
         this.formDialogConfig.footer.submitButton.label = this.config()?.literals?.FORM_SAVE ?? this.literals?.['FORM_SAVE'];
       } else if (this.state() === CRUD_STATE.EDIT) {
-        this.formDialogConfig.header.title = this.config()?.literals?.FORM_EDIT 
-          ? `${this.config()?.literals?.FORM_EDIT}: ${this.selectedValue?.[this.config().dataKey] ?? ''}`
-          : this.literals?.['FORM_EDIT'];
+        this.formDialogConfig.header.title = this.config()?.literals?.FORM_EDIT ? this.config()?.literals?.FORM_EDIT : this.literals?.['FORM_EDIT'];
+        this.formDialogConfig.header.subTitle = this.getModalTitle(this.selectedValue);
         this.formDialogConfig.footer.submitButton.label = this.config()?.literals?.FORM_UPDATE ?? this.literals?.['FORM_UPDATE'];
       }
     })
@@ -175,6 +187,12 @@ export class CrudComponent implements OnInit {
         this.formDialogConfig.footer.submitButton.label = this.config()?.literals?.FORM_SAVE ?? this.literals?.['FORM_SAVE'];
         this.formDialogConfig.footer.cancelButton.label = this.config()?.literals?.FORM_CLOSE ?? this.literals?.['FORM_CLOSE'];
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.templates?.forEach((template: CrudTemplateDirective) => {
+      this.templateMap.set(template.name, template.template);
+    });
   }
 
   public onNew(): void {
@@ -229,8 +247,8 @@ export class CrudComponent implements OnInit {
         closeOnSubmit: false,
         header: {
           closable: true,
-          title: `${col.header} - ${value[this.config().dataKey ?? '_id']}`,
-          subTitle: ''
+          title: col.header,
+          subTitle: this.getModalTitle(value)
         },
         footer: {
           cancelButton: {
@@ -262,9 +280,48 @@ export class CrudComponent implements OnInit {
       }
     };
 
-    this.jsonEditorValue = value[col.field] 
+    this.jsonEditorValue = value[col.field]
       ? value[col.field]
       : col.type === CRUD_COLUMN_TYPE.OBJECT ? {} : [];
+  }
+
+  public openOrderListDialog(value: any, col: ICrudColumn): void {
+    this.orderListDialogConfig = {
+      dialogConfig: {
+        closeOnSubmit: false,
+        header: {
+          closable: true,
+          title: col.header,
+          subTitle: this.getModalTitle(value)
+        },
+        footer: {
+          cancelButton: {
+            show: true,
+            label: this.config()?.literals?.ORDER_LIST_CLOSE ?? this.literals?.['ORDER_LIST_CLOSE'],
+            severity: BUTTON_SEVERITY.SECONDARY,
+            outlined: true,
+            text: false,
+            rounded: false,
+            disabled: undefined
+          },
+          submitButton: {
+            show: false,
+            label: '',
+            severity: BUTTON_SEVERITY.PRIMARY,
+            outlined: true,
+            text: false,
+            rounded: false,
+            disabled: undefined
+          }
+        }
+      },
+      dataKey: col.options?.array?.dataKey ?? null,
+      titleKeys: col.options?.array?.titleKeys ?? [],
+      notResponsive: true,
+      readonly: true
+    };
+
+    this.orderListValues = value[col.field]?.length ? value[col.field] : [];
   }
 
   public isButtonDisabled(action: string): boolean {
@@ -281,5 +338,17 @@ export class CrudComponent implements OnInit {
     return this.config()?.disabledButtons?.[existAction]
       ? this.config()?.disabledButtons?.[existAction]()
       : false;
+  }
+
+  public getTemplate(field: string): TemplateRef<any> | null {
+    return this.templateMap.get(field) ?? null;
+  }
+
+  private getModalTitle(value: any): string {
+    if (!this.config()?.titleKeys?.length) {
+      return value[this.config().dataKey ?? '_id'];
+    }
+
+    return this.config()?.titleKeys.map(key => value[key]).join(' - ');
   }
 }

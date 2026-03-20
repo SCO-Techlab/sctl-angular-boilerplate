@@ -13,7 +13,7 @@
         (onReorder)="onReorder()"
       >
         <ng-template #item let-option>
-          {{ config()?.dataKey ? option[config()?.dataKey] : option }}
+          {{ getOptionLabel(option) }}
         </ng-template>
       </p-orderlist>
     </div>

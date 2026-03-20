@@ -12,6 +12,7 @@ export interface ICrudComponent {
   cols: ICrudColumn[];
   globalFilterFields: string[];
   dataKey: string;
+  titleKeys: string[];
   rowsPerPageOptions: number[];
   rowsPerPage: number;
   rowHover: boolean;
@@ -50,6 +51,16 @@ export interface ICrudColumnOptions {
   },
   [CRUD_COLUMN_TYPE.ICON]?: {
     hideIconTooltip?: boolean;
+  },
+  [CRUD_COLUMN_TYPE.ARRAY]?: {
+    dataKey?: string;
+    titleKeys?: string[];
+  },
+  [CRUD_COLUMN_TYPE.CALLBACK]?: {
+    fn?: Function;
+  },
+  [CRUD_COLUMN_TYPE.BOOLEAN]?: {
+    booleanStatus?: boolean;
   }
 }
 
@@ -76,4 +87,5 @@ export interface ICrudLiterals {
   FORM_CLOSE?: string;
   FORM_SAVE?: string;
   FORM_UPDATE?: string;
+  ORDER_LIST_CLOSE?: string;
 }

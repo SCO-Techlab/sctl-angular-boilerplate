@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { IAuthEvent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
 import { SessionStorageState, SetAccessToken, SetRefreshToken, SetRememberUser } from '@session-storage';
-import { IJwtPayload, IJwtToken, IUser } from '@shared/interfaces';
+import { PERMISSION_TYPE } from '@shared/enums';
+import { IJwtPayload, IJwtToken, IPermission, IUser } from '@shared/interfaces';
 import { JwtTokenService } from '../jwt-token';
 
 @Injectable({
@@ -17,9 +18,10 @@ export class UserService {
 
   public login(jwtToken: IJwtToken, event: IAuthEvent): void {
     this.store.dispatch(new SetAccessToken({ accessToken: jwtToken?.accessToken }));
-    this.store.dispatch(new SetRefreshToken({ refreshToken: jwtToken?.refreshToken && event?.rememberMe
-      ? jwtToken?.refreshToken 
-      : undefined 
+    this.store.dispatch(new SetRefreshToken({
+      refreshToken: jwtToken?.refreshToken && event?.rememberMe
+        ? jwtToken?.refreshToken
+        : undefined
     }));
     this.store.dispatch(new SetRememberUser({ rememberUser: event?.rememberMe ? event?.email : undefined }));
     this.router.navigate(['/']);
@@ -44,6 +46,24 @@ export class UserService {
 
   public loggedUser(): IUser {
     return this.getUser();
+  }
+
+  public hasPermission(name: string, type: PERMISSION_TYPE): boolean {
+    const user: IUser = this.getUser();
+    if (!user) {
+      return false;
+    }
+
+    if (!user.role?.permissions?.length) {
+      return false;
+    }
+
+    const permission: IPermission | string = user.role.permissions.find((p: IPermission) => p.name === name && p.type === type);
+    if (!permission) {
+      return false;
+    }
+
+    return true;
   }
 
   private getUser(): IUser {

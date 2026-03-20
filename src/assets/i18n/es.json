@@ -19,7 +19,8 @@
     "FORM_EDIT": "Editar elemento",
     "FORM_CLOSE": "Cerrar",
     "FORM_SAVE": "Añadir",
-    "FORM_UPDATE": "Actualizar"
+    "FORM_UPDATE": "Actualizar",
+    "ORDER_LIST_CLOSE": "Cerrar"
   },
   "AUTH": {
     "LOGIN": {
@@ -366,6 +367,78 @@
       "SUBMIT": "Eliminar",
       "SUCCESS": "Los roles se han eliminado correctamente",
       "ERROR": "Hubo un error intentando eliminar los roles"
+    }
+  },
+  "USERS": {
+    "TITLE": "Administrar usuarios",
+    "FORM_NEW": "Nuevo usuario",
+    "FORM_EDIT": "Editar usuario",
+    "COLS": {
+      "EMAIL": "Correo electrónico",
+      "PASSWORD": "Contraseña",
+      "CONFIRM_PASSWORD": "Confirmar contraseña",
+      "USER_NAME": "Nombre de usuario",
+      "PERSONAL_NAME": "Nombre y apellidos",
+      "ACTIVE": "Activo",
+      "EMAIL_CONFIRMED": "Confirmado",
+      "EMAIL_CONFIRMED_AT": "Confirmado en",
+      "ROLE": "Rol",
+      "AVATAR": "Avatar",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "EMAIL": "El correo electrónico es obligatorio",
+      "EMAIL_INVALID": "El correo electrónico no es válido",
+      "PASSWORD": "La contraseña es obligatoria",
+      "PASSWORD_INVALID": "La contraseña no es válida",
+      "CONFIRM_PASSWORD": "La confirmación de la contraseña es obligatoria",
+      "CONFIRM_PASSWORD_INVALID": "La confirmación de la contraseña no es válida",
+      "PASSWORDS_NOT_MATCH": "Las contraseñas no coinciden",
+      "USER_NAME": "El nombre de usuario es obligatorio",
+      "PERSONAL_NAME": "El nombre y apellidos es obligatorio",
+      "ROLE": "El rol es obligatorio"
+    },
+    "EDIT": {
+      "SUCCESS": "El usuario se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar el usuario",
+      "DUPLICATE": "El usuario ya existe"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar usuario",
+      "MESSAGE": "¿Está seguro de que desea eliminar el usuario?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "El usuario se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar el usuario"
+    },
+    "ADD": {
+      "SUCCESS": "El usuario se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir el usuario",
+      "DUPLICATE": "El usuario ya existe"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar usuarios",
+      "MESSAGE": "¿Está seguro de que desea eliminar los usuarios seleccionados?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Los usuarios se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar los usuarios"
+    },
+    "EDIT_PASSWORD": {
+      "TITLE": "Cambiar contraseña",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Actualizar",
+      "SUCCESS": "La contraseña se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar la contraseña"
+    },
+    "WELCOME_EMAIL": {
+      "SUCCESS": "El email de bienvenida ha sido enviado correctamente",
+      "ERROR": "Hubo un error intentando enviar el email de bienvenida",
+      "HEADER": "Enviar email de bienvenida",
+      "MESSAGE": "¿Está seguro de que desea enviar el email de bienvenida al usuario?",
+      "ACCEPT": "Enviar",
+      "REJECT": "Cancelar"
     }
   }
 }

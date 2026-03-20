@@ -4,6 +4,7 @@ export * from './crud';
 export * from './dates.constants';
 export * from './file-sizes.constants';
 export * from './layout';
+export * from './permissions';
 export * from './roles';
 export * from './magic-numbers.constants';
 export * from './reggex-patterns.constants';

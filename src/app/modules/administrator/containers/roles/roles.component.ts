@@ -5,8 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RolesFormComponent } from '@modules/administrator/components';
 import { RolesService } from '@modules/administrator/services';
 import { CrudComponent } from '@shared/components';
-import { CONFIRM_DIALOG_ICONS, CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, MAGIC_NUMBERS, ROLES } from '@shared/constants';
-import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
+import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, PERMISSIONS } from '@shared/constants';
+import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IPermission, IRole, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
@@ -70,15 +70,8 @@ export class RolesComponent {
     this.confirmDialogService.confirm({
       header: this.literals?.['DELETE_MULTIPLE']?.['HEADER'],
       message: this.literals?.['DELETE_MULTIPLE']?.['MESSAGE'],
-      icon: CONFIRM_DIALOG_ICONS.WARNING,
-      rejectButton: {
-        label: this.literals?.['DELETE_MULTIPLE']?.['CANCEL'],
-        severity: BUTTON_SEVERITY.SECONDARY
-      },
-      acceptButton: {
-        label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'],
-        severity: BUTTON_SEVERITY.DANGER
-      },
+      rejectButton: { label: this.literals?.['DELETE_MULTIPLE']?.['CANCEL'] },
+      acceptButton: { label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
         this.rolesService.deleteMultiple(values)
@@ -196,16 +189,9 @@ export class RolesComponent {
 
     this.confirmDialogService.confirm({
       header: this.literals?.['DELETE']?.['HEADER'],
-      message: this.literals?.['DELETE']?.['MESSAGE'],
-      icon: CONFIRM_DIALOG_ICONS.WARNING,
-      rejectButton: {
-        label: this.literals?.['DELETE']?.['CANCEL'],
-        severity: BUTTON_SEVERITY.SECONDARY
-      },
-      acceptButton: {
-        label: this.literals?.['DELETE']?.['SUBMIT'],
-        severity: BUTTON_SEVERITY.DANGER
-      },
+      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${value.name}</center>`,
+      rejectButton: { label: this.literals?.['DELETE']?.['CANCEL'] },
+      acceptButton: { label: this.literals?.['DELETE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
         this.rolesService.delete(value)
@@ -272,38 +258,63 @@ export class RolesComponent {
       toolbarEnabled: true,
       onlyTable: false,
       tableActions: [
-        { ...CRUD_EDIT_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } },
-        { ...CRUD_DELETE_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } }
+        { ...CRUD_EDIT_TABLE_ACTION },
+        { ...CRUD_DELETE_TABLE_ACTION }
       ],
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
       exportButtonEnabled: true,
       searchInputEnabled: true,
       cols: [
-        { header: this.literals?.['COLS']['NAME'], field: 'name' },
-        { header: this.literals?.['COLS']['PERMISSIONS'], field: 'permissions', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT, headerStyles: 'max-width: 5rem', fieldStyles: 'max-width: 5rem' },
+        {
+          header: this.literals?.['COLS']['NAME'],
+          field: 'name'
+        },
+        {
+          header: this.literals?.['COLS']['PERMISSIONS'],
+          field: 'permissions',
+          type: CRUD_COLUMN_TYPE.ARRAY,
+          options: { array: { dataKey: 'name', titleKeys: ['name', 'type'] } },
+          headerStyles: 'max-width: 5rem',
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          fieldStyles: 'max-width: 5rem',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER
+        },
+        {
+          header: this.literals?.['COLS']['CREATED_AT'],
+          field: 'createdAt',
+          type: CRUD_COLUMN_TYPE.DATE,
+          options: { date: { format: DATES.ISO_DATETIME } }
+        },
+        {
+          header: this.literals?.['COLS']['UPDATED_AT'],
+          field: 'updatedAt',
+          type: CRUD_COLUMN_TYPE.DATE,
+          options: { date: { format: DATES.ISO_DATETIME } }
+        },
       ],
       globalFilterFields: ['name'],
       dataKey: '_id',
+      titleKeys: ['name'],
       rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
       rowsPerPage: MAGIC_NUMBERS.N_5,
       rowHover: true,
       paginator: true,
       showCurrentPageReport: true,
       exportFilename: 'roles',
-      disableSubmitButton: () => { return !this.formValid; },
+      disableSubmitButton: () => !this.formValid,
       literals: {
         TITLE: this.literals?.['TITLE'],
         FORM_NEW: this.literals?.['FORM_NEW'],
         FORM_EDIT: this.literals?.['FORM_EDIT']
       },
       disabledButtons: {
-        [CRUD_ACTIONS.NEW]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.EXPORT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.EDIT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.DELETE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; }
+        [CRUD_ACTIONS.NEW]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.CREATE),
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.DELETE_BULK),
+        [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.EDIT]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.UPDATE),
+        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.DELETE)
       }
     };
   }

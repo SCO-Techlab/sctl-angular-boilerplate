@@ -79,7 +79,7 @@
         <th 
           [style]="col.headerStyles ? col.headerStyles : 'min-width: 10rem'"
           [ngStyle]="{
-            'text-align': col.header ?? CRUD_COLUMN_ALIGNMENT.START
+            'text-align': col.headerAlign ?? CRUD_COLUMN_ALIGNMENT.START
           }"
           [pSortableColumn]="col.sortable ? col.field : undefined"
         >
@@ -113,10 +113,26 @@
         >
           @switch (col.type) {
             @case (CRUD_COLUMN_TYPE.BOOLEAN) {
-              {{ value[col.field] 
-                ? this.config()?.literals?.BOOLEAN_TRUE ?? ('CRUD.BOOLEAN_TRUE' | translate)
-                : this.config()?.literals?.BOOLEAN_FALSE ?? ('CRUD.BOOLEAN_FALSE' | translate)
-              }}
+              @if (col?.options?.boolean?.booleanStatus) {
+                <div class="flex items-center" 
+                  [ngClass]="{
+                    'justify-start': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.START || !col.fieldAlign,
+                    'justify-center': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.CENTER,
+                    'justify-end': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.END
+                  }"
+                >
+                  <p-message variant="simple">
+                    <span class="w-[20px] h-[20px] rounded-[100%] block" 
+                      [ngStyle]="{'background-color': value[col.field] ? 'var(--p-message-success-color)' : 'var(--p-message-error-color)'}"
+                    ></span>
+                  </p-message>
+                </div>
+              } @else {
+                {{ value[col.field] 
+                  ? this.config()?.literals?.BOOLEAN_TRUE ?? ('CRUD.BOOLEAN_TRUE' | translate)
+                  : this.config()?.literals?.BOOLEAN_FALSE ?? ('CRUD.BOOLEAN_FALSE' | translate)
+                }}
+              }
             }
             @case (CRUD_COLUMN_TYPE.DATE) {
               {{ formatDate(value[col.field], col) }}
@@ -135,6 +151,7 @@
                 outlined="true"
                 text="false"
                 rounded="true"
+                [disabled]="!value[col.field]"
                 (click)="openJsonEditorDialog(value, col)"
               ></p-button>
             }
@@ -145,6 +162,7 @@
                 outlined="true"
                 text="false"
                 rounded="true"
+                [disabled]="!value[col.field]?.length"
                 (click)="openJsonEditorDialog(value, col)"
               ></p-button>
             }
@@ -155,8 +173,21 @@
                 outlined="true"
                 text="false"
                 rounded="true"
-                (click)="openJsonEditorDialog(value, col)"
+                [disabled]="!value[col.field]?.length"
+                (click)="openOrderListDialog(value, col)"
               ></p-button>
+            }
+            @case (CRUD_COLUMN_TYPE.CALLBACK) {
+              {{ col.options?.callback?.fn?.(value, col) ?? value[col.field] }}
+            }
+            @case (CRUD_COLUMN_TYPE.HTML) {
+              @if (getTemplate(col.field)) {
+                <ng-container
+                  *ngTemplateOutlet="getTemplate(col.field); context: { $implicit: value, col: col }">
+                </ng-container>
+              } @else {
+                {{ value[col.field] }}
+              }
             }
             @default {
               {{ value[col.field] }}
@@ -204,4 +235,13 @@
     [config]="jsonEditorDialogConfig"
     (close)="jsonEditorValue = undefined;"
   ></sctl-json-editor-dialog>
+}
+
+@if (orderListValues) {
+  <sctl-order-list-dialog 
+    [visible]="orderListValues !== undefined"
+    [values]="orderListValues"
+    [config]="orderListDialogConfig"
+    (close)="orderListValues = undefined;"
+  ></sctl-order-list-dialog>
 }

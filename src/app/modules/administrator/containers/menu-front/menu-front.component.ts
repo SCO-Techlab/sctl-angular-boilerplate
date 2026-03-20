@@ -3,8 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuFrontFormComponent } from '@modules/administrator/components';
 import { CrudComponent } from '@shared/components';
-import { CONFIRM_DIALOG_ICONS, CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, ROLES } from '@shared/constants';
-import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
+import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, PERMISSIONS } from '@shared/constants';
+import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { ICrudComponent, ICrudTableAction, IMenuFront, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, MenuFrontService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
@@ -81,15 +81,8 @@ export class MenuFrontComponent {
     this.confirmDialogService.confirm({
       header: this.literals?.['DELETE_MULTIPLE']?.['HEADER'],
       message: this.literals?.['DELETE_MULTIPLE']?.['MESSAGE'],
-      icon: CONFIRM_DIALOG_ICONS.WARNING,
-      rejectButton: {
-        label: this.literals?.['DELETE_MULTIPLE']?.['CANCEL'],
-        severity: BUTTON_SEVERITY.SECONDARY
-      },
-      acceptButton: {
-        label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'],
-        severity: BUTTON_SEVERITY.DANGER
-      },
+      rejectButton: { label: this.literals?.['DELETE_MULTIPLE']?.['CANCEL'] },
+      acceptButton: { label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
         this.menuService.deleteMultiple(values)
@@ -212,16 +205,9 @@ export class MenuFrontComponent {
 
     this.confirmDialogService.confirm({
       header: this.literals?.['DELETE']?.['HEADER'],
-      message: this.literals?.['DELETE']?.['MESSAGE'],
-      icon: CONFIRM_DIALOG_ICONS.WARNING,
-      rejectButton: {
-        label: this.literals?.['DELETE']?.['CANCEL'],
-        severity: BUTTON_SEVERITY.SECONDARY
-      },
-      acceptButton: {
-        label: this.literals?.['DELETE']?.['SUBMIT'],
-        severity: BUTTON_SEVERITY.DANGER
-      },
+      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${value.label}</center>`,
+      rejectButton: { label: this.literals?.['DELETE']?.['CANCEL'] },
+      acceptButton: { label: this.literals?.['DELETE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
         this.menuService.delete(value)
@@ -293,45 +279,103 @@ export class MenuFrontComponent {
       toolbarEnabled: true,
       onlyTable: false,
       tableActions: [
-        { ...CRUD_EDIT_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } },
-        { ...CRUD_DELETE_TABLE_ACTION, disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } }
+        { ...CRUD_EDIT_TABLE_ACTION },
+        { ...CRUD_DELETE_TABLE_ACTION }
       ],
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
       exportButtonEnabled: true,
       searchInputEnabled: true,
       cols: [
-        { header: this.literals?.['COLS']['LABEL'], field: 'label' },
-        { header: this.literals?.['COLS']['SEPARATOR'], field: 'separator', type: CRUD_COLUMN_TYPE.BOOLEAN },
-        { header: this.literals?.['COLS']['ICON'], field: 'icon', type: CRUD_COLUMN_TYPE.ICON },
-        { header: this.literals?.['COLS']['LINK'], field: 'routerLink' },
-        { header: this.literals?.['COLS']['ITEMS'], field: 'items', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT, headerStyles: 'max-width: 5rem', fieldStyles: 'max-width: 5rem' },
-        { header: this.literals?.['COLS']['ROLES'], field: 'roles', type: CRUD_COLUMN_TYPE.ARRAY_OBJECT, headerStyles: 'max-width: 5rem', fieldStyles: 'max-width: 5rem' },
-        { header: this.literals?.['COLS']['ORDER'], field: 'order' },
-        { header: this.literals?.['COLS']['CREATED_AT'], field: 'createdAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
-        { header: this.literals?.['COLS']['UPDATED_AT'], field: 'updatedAt', type: CRUD_COLUMN_TYPE.DATE, options: { date: { format: DATES.ISO_DATE } } },
+        {
+          header: this.literals?.['COLS']['LABEL'],
+          field: 'label'
+        },
+        {
+          header: this.literals?.['COLS']['SEPARATOR'],
+          field: 'separator',
+          type: CRUD_COLUMN_TYPE.BOOLEAN,
+          options: { boolean: { booleanStatus: true } },
+          headerStyles: 'max-width: 6rem',
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          fieldStyles: 'max-width: 6rem',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER
+        },
+        {
+          header: this.literals?.['COLS']['ICON'],
+          field: 'icon',
+          type: CRUD_COLUMN_TYPE.ICON,
+          headerStyles: 'max-width: 5rem',
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          fieldStyles: 'max-width: 5rem',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER
+        },
+        {
+          header: this.literals?.['COLS']['LINK'],
+          field: 'routerLink'
+        },
+        {
+          header: this.literals?.['COLS']['ITEMS'],
+          field: 'items',
+          type: CRUD_COLUMN_TYPE.ARRAY_OBJECT,
+          headerStyles: 'max-width: 5rem',
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          fieldStyles: 'max-width: 5rem',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER
+        },
+        {
+          header: this.literals?.['COLS']['ROLES'],
+          field: 'roles',
+          type: CRUD_COLUMN_TYPE.ARRAY,
+          options: { array: { dataKey: 'name' } },
+          headerStyles: 'max-width: 5rem',
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          fieldStyles: 'max-width: 5rem',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER
+        },
+        {
+          header: this.literals?.['COLS']['ORDER'],
+          field: 'order',
+          headerStyles: 'max-width: 5rem',
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          fieldStyles: 'max-width: 5rem',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER
+        },
+        {
+          header: this.literals?.['COLS']['CREATED_AT'],
+          field: 'createdAt',
+          type: CRUD_COLUMN_TYPE.DATE,
+          options: { date: { format: DATES.ISO_DATETIME } }
+        },
+        {
+          header: this.literals?.['COLS']['UPDATED_AT'],
+          field: 'updatedAt',
+          type: CRUD_COLUMN_TYPE.DATE,
+          options: { date: { format: DATES.ISO_DATETIME } }
+        },
       ],
       globalFilterFields: ['label'],
       dataKey: '_id',
+      titleKeys: ['label'],
       rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
       rowsPerPage: MAGIC_NUMBERS.N_5,
       rowHover: true,
       paginator: true,
       showCurrentPageReport: true,
       exportFilename: 'menu-front',
-      disableSubmitButton: () => { return !this.formValid; },
+      disableSubmitButton: () => !this.formValid,
       literals: {
         TITLE: this.literals?.['TITLE'],
         FORM_NEW: this.literals?.['FORM_NEW'],
         FORM_EDIT: this.literals?.['FORM_EDIT']
       },
       disabledButtons: {
-        [CRUD_ACTIONS.NEW]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.EXPORT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.EDIT]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; },
-        [CRUD_ACTIONS.DELETE]: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; }
+        [CRUD_ACTIONS.NEW]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.CREATE),
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.DELETE_BULK),
+        [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.EDIT]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.UPDATE),
+        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.DELETE)
       }
     };
   }

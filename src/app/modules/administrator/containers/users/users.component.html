@@ -1,3 +1,35 @@
-<p>
-  users works!
-</p>
+<sctl-crud 
+  [data]="crudValues"
+  [state]="crudState"
+  [config]="crudConfig" 
+  (new)="onNew()"
+  (deleteMultiple)="onDeleteMultiple($event)"
+  (selectAction)="onSelectAction($event)"
+  (closeForm)="onCloseFormDialog($event)"
+>
+  @if (selectedItem) {
+    <sctl-users-form form
+      [value]="selectedItem"
+      (valueChange)="selectedItem = $event;"
+      (formValid)="formValid = $event;"
+    ></sctl-users-form>
+  }
+
+  <ng-template [crudTemplate]="'avatar'" let-user let-col="col">
+    <sctl-user-avatar
+      [user]="user"
+      [cssClass]="'w-[32px] h-[32px]'" 
+      [canClick]="false" 
+    ></sctl-user-avatar>
+  </ng-template>
+</sctl-crud>
+
+@if (editPasswordVisible) {
+  <sctl-edit-password-dialog 
+    [visible]="editPasswordVisible" 
+    [dialogConfig]="editPasswordConfig" 
+    (close)="editPasswordVisible = false;"
+    (formValid)="editPasswordFormValid = $event;"
+    (submit)="onEditPassword($event)"
+  ></sctl-edit-password-dialog>
+}

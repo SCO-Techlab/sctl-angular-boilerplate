@@ -6,7 +6,8 @@
     <div #menuContainer class="p-5 flex items-center justify-start" (click)="clickMenu($event, menu)">
       <p-menu #menu [model]="actions" [popup]="true" appendTo="body" [style]="{ 'width': '20rem' }" />
       <div class="flex gap-4 cursor-pointer" (click)="clickAvatar(menuContainer)">
-        <sctl-user-avatar 
+        <sctl-user-avatar
+          [user]="user"
           [cssClass]="'w-[42px] h-[42px]'" 
           [canClick]="false" 
           (clickAvatar)="undefined"

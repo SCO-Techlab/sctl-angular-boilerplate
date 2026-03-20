@@ -19,7 +19,8 @@
     "FORM_EDIT": "Edit element",
     "FORM_CLOSE": "Close",
     "FORM_SAVE": "Add",
-    "FORM_UPDATE": "Update"
+    "FORM_UPDATE": "Update",
+    "ORDER_LIST_CLOSE": "Close"
   },
   "AUTH": {
     "LOGIN": {
@@ -366,6 +367,78 @@
       "SUBMIT": "Delete",
       "SUCCESS": "Roles deleted successfully",
       "ERROR": "Error trying to delete roles"
+    }
+  },
+  "USERS": {
+    "TITLE": "Manage Users",
+    "FORM_NEW": "New User",
+    "FORM_EDIT": "Edit User",
+    "COLS": {
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "USER_NAME": "User Name",
+      "PERSONAL_NAME": "Personal Name",
+      "ACTIVE": "Active",
+      "EMAIL_CONFIRMED": "Confirmed",
+      "EMAIL_CONFIRMED_AT": "Confirmed At",
+      "ROLE": "Role",
+      "AVATAR": "Avatar",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At"
+    },
+    "ERRORS": {
+      "EMAIL": "Email is required",
+      "EMAIL_INVALID": "Email is invalid",
+      "PASSWORD": "Password is required",
+      "PASSWORD_INVALID": "Password is invalid",
+      "CONFIRM_PASSWORD": "Confirm Password is required",
+      "CONFIRM_PASSWORD_INVALID": "Confirm Password is invalid",
+      "PASSWORDS_NOT_MATCH": "Passwords do not match",
+      "USER_NAME": "User Name is required",
+      "PERSONAL_NAME": "Personal Name is required",
+      "ROLE": "Role is required"
+    },
+    "EDIT": {
+      "SUCCESS": "User updated successfully",
+      "ERROR": "Error trying to update user",
+      "DUPLICATE": "User already exists"
+    },
+    "DELETE": {
+      "HEADER": "Delete User",
+      "MESSAGE": "Are you sure you want to permanently delete your user?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "User deleted successfully",
+      "ERROR": "Error trying to delete user"
+    },
+    "ADD": {
+      "SUCCESS": "User added successfully",
+      "ERROR": "Error trying to add user",
+      "DUPLICATE": "User already exists"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete Users",
+      "MESSAGE": "Are you sure you want to permanently delete your users?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Users deleted successfully",
+      "ERROR": "Error trying to delete users"
+    },
+    "EDIT_PASSWORD": {
+      "TITLE": "Change Password",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Update",
+      "SUCCESS": "Password updated successfully",
+      "ERROR": "Error trying to update password"
+    },
+    "WELCOME_EMAIL": {
+      "SUCCESS": "Welcome email sent successfully",
+      "ERROR": "Error trying to send welcome email",
+      "HEADER": "Send Welcome Email",
+      "MESSAGE": "Are you sure you want to send the welcome email to the user?",
+      "ACCEPT": "Send",
+      "REJECT": "Cancel"
     }
   }
 }

@@ -6,7 +6,7 @@
   <sctl-toast [config]="toastConfig"></sctl-toast>
 }
 
-<p-confirmdialog [draggable]="false" />
+<p-confirmdialog [draggable]="false" [style]="{'max-width': '90%'}" />
 
 @if (contentReady) {
   <router-outlet></router-outlet>

@@ -50,6 +50,7 @@ export class OrderListDialogComponent implements OnInit {
       }
     },
     dataKey: '',
+    titleKeys: [],
     notResponsive: false,
     readonly: false
   });
@@ -90,5 +91,17 @@ export class OrderListDialogComponent implements OnInit {
     }
 
     this.reorder.emit();
+  }
+
+  public getOptionLabel(option: any): string {
+    if (!this.config()?.titleKeys?.length && !this.config()?.dataKey) {
+      return option;
+    }
+
+    if (this.config()?.titleKeys?.length) {
+      return this.config()?.titleKeys.map(key => option[key]).join(' - ');
+    }
+
+    return option[this.config()?.dataKey];
   }
 }

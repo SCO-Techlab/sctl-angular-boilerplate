@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { CONFIRM_DIALOG_ICONS } from '@shared/constants';
 import { IConfirmDialog } from '@shared/interfaces';
 import { ConfirmationService } from 'primeng/api';
 
@@ -13,7 +14,7 @@ export class ConfirmDialogService {
     this.confirmationService.confirm({
       header: confirm.header,
       message: confirm.message,
-      icon: confirm.icon,
+      icon: confirm.icon ?? CONFIRM_DIALOG_ICONS.WARNING,
       closable: true,
       rejectButtonProps: {
         label: confirm?.rejectButton?.label ?? 'Cancel',
@@ -22,7 +23,7 @@ export class ConfirmDialogService {
       },
       acceptButtonProps: {
         label: confirm?.acceptButton?.label ?? 'Continue',
-        severity: confirm?.acceptButton?.severity ?? 'primary',
+        severity: confirm?.acceptButton?.severity ?? 'danger',
         text: false
       },
       accept: () => confirm?.accept?.(),

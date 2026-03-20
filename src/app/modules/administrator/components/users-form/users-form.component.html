@@ -1,0 +1,116 @@
+<form [formGroup]="usersForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="users-form-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'USERS.COLS.EMAIL' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="users-form-email"
+        type="text"
+        formControlName="email"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['email']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="users-form-userName" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'USERS.COLS.USER_NAME' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="users-form-userName"
+        type="text"
+        formControlName="userName"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['userName']"></sctl-input-error>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="users-form-personalName" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'USERS.COLS.PERSONAL_NAME' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="users-form-personalName"
+        type="text"
+        formControlName="personalName"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['personalName']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="users-form-role" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'USERS.COLS.ROLE' | translate }}
+      </label>
+      <p-select
+        [appendTo]="'body'"
+        [className]="'w-full'"
+        [inputId]="'users-form-role'"
+        [options]="rolesOptions" 
+        formControlName="role"
+        optionLabel="name"  
+        class="w-full md:w-56" 
+      />
+      <sctl-input-error [config]="formErrors?.['role']"></sctl-input-error>
+    </div>
+  </div>
+
+  @if (!isEdit) {
+    <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+      <div class="mb-6 w-full">
+        <label for="users-form-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
+          {{ 'USERS.COLS.PASSWORD' | translate }}
+        </label>
+        <p-password
+          id="users-form-password"
+          formControlName="password"
+          [placeholder]="''"
+          [toggleMask]="true"
+          [fluid]="true"
+          [feedback]="false">
+        </p-password>
+        <sctl-input-error [config]="formErrors?.['password']"></sctl-input-error>
+      </div>
+
+      <div class="mb-6 w-full">
+        <label for="users-form-confirm-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
+          {{ 'USERS.COLS.CONFIRM_PASSWORD' | translate }}
+        </label>
+        <p-password
+          id="users-form-confirm-password"
+          formControlName="confirmPassword"
+          [placeholder]="''"
+          [toggleMask]="true"
+          [fluid]="true"
+          [feedback]="false">
+        </p-password>
+        <sctl-input-error [config]="formErrors?.['confirmPassword']"></sctl-input-error>
+      </div>
+    </div>
+  }
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="users-form-active" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'USERS.COLS.ACTIVE' | translate }}
+      </label>
+      <p-toggleswitch 
+        inputId="users-form-active" 
+        formControlName="active" 
+      />
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="users-form-emailConfirmed" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'USERS.COLS.EMAIL_CONFIRMED' | translate }}
+      </label>
+      <p-toggleswitch 
+        inputId="users-form-emailConfirmed" 
+        formControlName="emailConfirmed" 
+      />
+    </div>
+  </div>
+</form>

@@ -12,7 +12,9 @@ export enum CRUD_COLUMN_TYPE {
   ARRAY = 'array',
   ARRAY_OBJECT = 'array_object',
   OBJECT = 'object',
-  ICON = 'icon'
+  ICON = 'icon',
+  CALLBACK = 'callback',
+  HTML = 'html',
 }
 
 export enum CRUD_STATE {

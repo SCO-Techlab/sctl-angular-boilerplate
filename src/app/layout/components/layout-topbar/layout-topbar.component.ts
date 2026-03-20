@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { ThemeConfiguratorComponent, UserAvatarComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
-import { ITranslateLiterals } from '@shared/interfaces';
+import { ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfigService, LayoutService, TranslateService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
@@ -32,6 +32,7 @@ export class LayoutTopbarComponent implements OnInit {
   public areActionsEnabled = true;
   public isUserAvatarEnabled = true;
   public appName: string = '';
+  public user: IUser;
 
   public layoutService = inject(LayoutService);
   private destroyRef$ = inject(DestroyRef);
@@ -46,6 +47,7 @@ export class LayoutTopbarComponent implements OnInit {
     this.areActionsEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.TOPBAR_ACTIONS_ENABLED);
     this.isUserAvatarEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.TOPBAR_USER_AVATAR_ENABLED);
     this.appName = this.configService.get(CONFIG_CONSTANTS.APP_NAME) ?? '';
+    this.user = this.userService.loggedUser();
   }
 
   ngOnInit(): void {

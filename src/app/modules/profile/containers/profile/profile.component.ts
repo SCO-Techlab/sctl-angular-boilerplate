@@ -5,8 +5,6 @@ import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileH
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
 import { CardComponent } from '@shared/components';
-import { CONFIRM_DIALOG_ICONS } from '@shared/constants';
-import { BUTTON_SEVERITY } from '@shared/enums';
 import { IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
@@ -70,15 +68,8 @@ export class ProfileComponent implements AfterViewInit {
     this.confirmDialogService.confirm({
       header: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.HEADER'),
       message: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.MESSAGE'),
-      icon: CONFIRM_DIALOG_ICONS.WARNING,
-      rejectButton: {
-        label: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.REJECT'),
-        severity: BUTTON_SEVERITY.SECONDARY
-      },
-      acceptButton: {
-        label: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.ACCEPT'),
-        severity: BUTTON_SEVERITY.DANGER
-      },
+      rejectButton: { label: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.REJECT') },
+      acceptButton: { label: this.translateService.instant('PROFILE.DELETE_ACCOUNT_CONFIRM.ACCEPT') },
       accept: () => {
         this.spinnerService.show();
         this.profileService.deleteUserAccount(this.user?._id)

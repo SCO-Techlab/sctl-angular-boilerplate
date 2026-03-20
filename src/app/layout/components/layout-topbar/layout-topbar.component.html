@@ -70,7 +70,8 @@
     @if (isUserAvatarEnabled) {
       <div class="me-8">
         <p-menu #menu [model]="actions" [popup]="true" appendTo="body" />
-        <sctl-user-avatar 
+        <sctl-user-avatar
+          [user]="user"
           [cssClass]="'w-[38px] h-[38px]'"
           [canClick]="true" 
           (clickAvatar)="menu.toggle($event);"
