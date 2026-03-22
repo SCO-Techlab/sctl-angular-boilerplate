@@ -1,4 +1,8 @@
-<sctl-profile-form [showSaveButton]="false" (lock)="onClickLockOrUnlockForm($event)">
+<sctl-profile-form 
+  [lockForm]="lockForm"
+  [showSaveButton]="false" 
+  (lock)="onClickLockOrUnlockForm()"
+>
   <form form [formGroup]="configurationForm">
     <div class="flex flex-row items-center">
       <label for="profile-configuration-darkTheme" class="text-surface-900 dark:text-surface-0 text-lg font-medium mb-1 min-w-[10rem]">

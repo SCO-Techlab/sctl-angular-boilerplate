@@ -1,5 +1,10 @@
 
-<sctl-profile-form [saveDisabled]="personalInformationForm.invalid" (save)="onClickSave()" (lock)="onClickLockOrUnlockForm($event)">
+<sctl-profile-form 
+  [lockForm]="lockForm"
+  [saveDisabled]="personalInformationForm.invalid" 
+  (save)="onClickSave()" 
+  (lock)="onClickLockOrUnlockForm()"
+>
   <form form [formGroup]="personalInformationForm">
     <div>
       <label for="profile-personal-information-personalName" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
@@ -11,6 +16,7 @@
         type="text"
         formControlName="personalName"
       />
+      <sctl-input-error [config]="formErrors?.['personalName']"></sctl-input-error>
     </div>
 
     <div class="mt-4">
@@ -23,6 +29,7 @@
         type="text"
         formControlName="userName"
       />
+      <sctl-input-error [config]="formErrors?.['userName']"></sctl-input-error>
     </div>
 
     <div class="mt-4">
@@ -36,6 +43,7 @@
         formControlName="email"
         readonly
       />
+      <sctl-input-error [config]="formErrors?.['email']"></sctl-input-error>
     </div>
 
     <div class="mt-4">

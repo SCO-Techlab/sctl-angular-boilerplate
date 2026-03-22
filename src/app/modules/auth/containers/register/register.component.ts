@@ -74,12 +74,13 @@ export class RegisterComponent implements OnInit {
   }
 
   public onClickButton(): void {
-    const email: string = this.registerForm.get('email')?.value ?? '';
-    const password: string = this.registerForm.get('password')?.value ?? '';
+    const formValue: Partial<IUser> = this.registerForm.value;
 
     const user: Partial<IUser> = {
-      email: email,
-      password: password,
+      email: formValue.email,
+      userName: formValue.userName,
+      personalName: formValue.personalName,
+      password: formValue.password,
       active: false,
       role: {
         name: 'USER'
@@ -105,13 +106,15 @@ export class RegisterComponent implements OnInit {
         error: (error: HttpErrorResponse) => {
           let detail: string = this.literals['REGISTER_KO'];
 
-          detail = error.error.message === 'User with email already exists'
-            ? this.literals['REGISTER_KO_403_EMAIL_EXISTS']
-            : error.error.message === 'Role not found'
-              ? this.literals['REGISTER_KO_403_ROLE_NOT_FOUND']
-              : error.error.message === 'Error sending registration email'
-                ? this.literals['REGISTER_KO_403_EMAIL_NOT_SEND']
-                : this.literals['REGISTER_KO'];
+          if (error.error.message === 'User with email already exists') {
+            detail = this.literals['REGISTER_KO_403_EMAIL_EXISTS'];
+          } else if (error.error.message === 'User with userName already exists') {
+            detail = this.literals['REGISTER_KO_403_USERNAME_EXISTS'];
+          } else if (error.error.message === 'Role not found') {
+            detail = this.literals['REGISTER_KO_403_ROLE_NOT_FOUND'];
+          } else if (error.error.message === 'Error sending registration email') {
+            detail = this.literals['REGISTER_KO_403_EMAIL_NOT_SEND'];
+          }
 
           this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
         }
@@ -122,6 +125,8 @@ export class RegisterComponent implements OnInit {
     this.registerForm = new FormGroup(
       {
         email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
+        userName: new FormControl('', [Validators.required]),
+        personalName: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
         confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)])
       },
@@ -134,6 +139,16 @@ export class RegisterComponent implements OnInit {
       email: {
         label: this.literals['EMAIL_LABEL'],
         placeholder: this.literals['EMAIL_PLACEHOLDER'],
+        disabled: false
+      },
+      userName: {
+        label: this.literals['USERNAME_LABEL'],
+        placeholder: this.literals['USERNAME_PLACEHOLDER'],
+        disabled: false
+      },
+      personalName: {
+        label: this.literals['PERSONAL_NAME_LABEL'],
+        placeholder: this.literals['PERSONAL_NAME_PLACEHOLDER'],
         disabled: false
       },
       password: {
@@ -176,6 +191,24 @@ export class RegisterComponent implements OnInit {
           {
             error: INPUT_ERROR.PATTERN,
             message: this.literals['ERROR']['EMAIL_INVALID']
+          }
+        ]
+      },
+      userName: {
+        formControl: this.registerForm.get('username'),
+        errorsToShow: [
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['USERNAME']
+          }
+        ]
+      },
+      personalName: {
+        formControl: this.registerForm.get('personalName'),
+        errorsToShow: [
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['PERSONAL_NAME']
           }
         ]
       },

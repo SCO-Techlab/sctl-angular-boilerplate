@@ -12,20 +12,19 @@ import { ButtonModule } from 'primeng/button';
   ]
 })
 export class ProfileFormComponent {
+  
+  public lockForm = input<boolean>(true);
   public showSaveButton = input<boolean>(true);
   public saveDisabled = input<boolean>(false);
   
   public save = output<void>();
-  public lock = output<boolean>();
-
-  public lockForm: boolean = true;
+  public lock = output<void>();
 
   public onClickSave(): void {
     this.save.emit();
   }
 
   public onClickLockOrUnlockForm(): void {
-    this.lockForm = !this.lockForm;
-    this.lock.emit(this.lockForm);
+    this.lock.emit();
   }
 }

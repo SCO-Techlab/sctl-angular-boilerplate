@@ -1,8 +1,8 @@
 <div class="flex flex-col ps-4 pe-4">
   <div class="w-full flex justify-end items-center">
     <p-button 
-      [severity]="lockForm ? 'danger' : 'success'" 
-      [icon]="lockForm ? 'pi pi-lock' : 'pi pi-unlock'"
+      [severity]="lockForm() ? 'danger' : 'success'" 
+      [icon]="lockForm() ? 'pi pi-lock' : 'pi pi-unlock'"
       (click)="onClickLockOrUnlockForm()"
     ></p-button>
   </div>
@@ -15,7 +15,7 @@
         [label]="'PROFILE.FORM.SAVE' | translate"
         severity="primary" 
         icon="pi pi-save" 
-        [disabled]="lockForm || saveDisabled()"
+        [disabled]="lockForm() || saveDisabled()"
         (click)="onClickSave()"
       ></p-button>
     </div>

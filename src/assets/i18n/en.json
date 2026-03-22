@@ -67,6 +67,10 @@
       "SUB_TITLE": "Create your account to start using our services",
       "EMAIL_LABEL": "Email",
       "EMAIL_PLACEHOLDER": "Email address",
+      "USERNAME_LABEL": "Username",
+      "USERNAME_PLACEHOLDER": "Username",
+      "PERSONAL_NAME_LABEL": "Personal Name",
+      "PERSONAL_NAME_PLACEHOLDER": "Personal Name",
       "PASSWORD_LABEL": "Password",
       "PASSWORD_PLACEHOLDER": "Password",
       "CONFIRM_PASSWORD_LABEL": "Confirm Password",
@@ -77,6 +81,8 @@
       "ERROR": {
         "EMAIL": "Email is required",
         "EMAIL_INVALID": "Email is invalid",
+        "USERNAME": "Username is required",
+        "PERSONAL_NAME": "Personal Name is required",
         "PASSWORD": "Password is required",
         "PASSWORD_INVALID": "Password is invalid",
         "CONFIRM_PASSWORD": "Confirm Password is required",
@@ -86,6 +92,7 @@
       "REGISTER_OK": "Your account has been created successfully",
       "REGISTER_KO": "Error trying to create account",
       "REGISTER_KO_403_EMAIL_EXISTS": "Email already exists",
+      "REGISTER_KO_403_USERNAME_EXISTS": "Username already exists",
       "REGISTER_KO_403_ROLE_NOT_FOUND": "Role not found",
       "REGISTER_KO_403_EMAIL_NOT_SEND": "Error sending email confirmation"
     },
@@ -215,9 +222,17 @@
         "ROLE": "Role",
         "CREATED_AT": "Created At"
       },
+      "ERROR": {
+        "PERSONAL_NAME": "Personal Name is required",
+        "USER_NAME": "User Name is required",
+        "EMAIL": "Email is required",
+        "EMAIL_INVALID": "Email is invalid"
+      },
       "REQUEST_KO": "Error trying to update information",
       "REQUEST_KO_403": "You do not have permissions to update information",
-      "REQUEST_OK": "Information updated successfully"
+      "REQUEST_OK": "Information updated successfully",
+      "REQUEST_KO_USERNAME_EXISTS": "Username already exists",
+      "REQUEST_KO_EMAIL_EXISTS": "Email already exists"
     },
     "CHANGE_PASSWORD": {
       "LABELS": {

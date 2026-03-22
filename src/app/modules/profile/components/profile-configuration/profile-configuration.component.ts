@@ -22,6 +22,7 @@ import { ProfileFormComponent } from '../profile-form';
 })
 export class ProfileConfigurationComponent {
 
+  public lockForm: boolean = true;
   public configurationForm: FormGroup;
 
   private store = inject(Store);
@@ -33,8 +34,9 @@ export class ProfileConfigurationComponent {
     this.fillForm();
   }
 
-  public onClickLockOrUnlockForm($event: boolean): void {
-    this.profileService.disableOrEnableForm(this.configurationForm, $event);
+  public onClickLockOrUnlockForm(): void {
+    this.lockForm = !this.lockForm;
+    this.profileService.disableOrEnableForm(this.configurationForm, this.lockForm);
   }
 
   public onChangeDarkTheme(): void {

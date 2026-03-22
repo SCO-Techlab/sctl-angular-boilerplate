@@ -1,11 +1,14 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
 import { SetAccessToken } from '@session-storage';
-import { DATES, MAGIC_NUMBERS } from '@shared/constants';
-import { IJwtToken, ITranslateLiterals, IUser } from '@shared/interfaces';
+import { InputErrorComponent } from '@shared/components';
+import { DATES, MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
+import { INPUT_ERROR } from '@shared/enums';
+import { IInputErrorComponent, IJwtToken, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { DatesService, JwtTokenService, SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,14 +24,17 @@ import { ProfileFormComponent } from '../profile-form';
     ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
-    ProfileFormComponent
+    ProfileFormComponent,
+    InputErrorComponent
   ]
 })
 export class ProfilePersonalInformationComponent implements OnInit {
   public user = input<IUser>();
 
   public personalInformationForm: FormGroup;
+  public lockForm: boolean = true;
   public lockState: any = undefined;
+  public formErrors: { [key: string]: IInputErrorComponent } = {};
 
   private literals: ITranslateLiterals;
 
@@ -46,15 +52,19 @@ export class ProfilePersonalInformationComponent implements OnInit {
 
     this.translateService.stream('PROFILE.PERSONAL_INFORMATION')
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: ITranslateLiterals) => this.literals = res);
+      .subscribe((res: ITranslateLiterals) => {
+        this.literals = res;
+        this.setFormErrors();
+      });
   }
 
-  public onClickLockOrUnlockForm($event: boolean): void {
-    this.profileService.disableOrEnableForm(this.personalInformationForm, $event);
+  public onClickLockOrUnlockForm(): void {
+    this.lockForm = !this.lockForm;
+    this.profileService.disableOrEnableForm(this.personalInformationForm, this.lockForm);
 
     const formValues: any = this.personalInformationForm.value;
-    if ($event) {
-      this.personalInformationForm.setValue(this.lockState);
+    if (this.lockForm) {
+      this.personalInformationForm.setValue({...this.lockState});
     } else {
       this.lockState = formValues;
     }
@@ -82,21 +92,30 @@ export class ProfilePersonalInformationComponent implements OnInit {
 
           this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
           this.fillForm(this.tokenService.decodeToken(token.accessToken)?.user);
-          this.lockState = undefined;
+          this.lockForm = true;
+          this.lockState = true;
           this.profileService.disableOrEnableForm(this.personalInformationForm, true);
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['REQUEST_OK'] });
         },
-        error: () => {
-          this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['REQUEST_KO'] });
+        error: (error: HttpErrorResponse) => {
+          let detail: string = this.literals['REQUEST_KO'];
+
+          if (error.error.message === 'Duplicate key error collection (userName -> user)') {
+            detail = this.literals['REQUEST_KO_USERNAME_EXISTS'];
+          } else if (error.error.message === 'Duplicate key error collection (email -> user)') {
+            detail = this.literals['REQUEST_KO_EMAIL_EXISTS'];
+          }
+
+          this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
         }
       });
   }
 
   private initForm(): void {
     this.personalInformationForm = new FormGroup({
-      personalName: new FormControl(this.user()?.personalName ?? ''),
-      userName: new FormControl(this.user()?.userName ?? ''),
-      email: new FormControl(this.user()?.email ?? ''),
+      personalName: new FormControl(this.user()?.personalName ?? '', [Validators.required]),
+      userName: new FormControl(this.user()?.userName ?? '', [Validators.required]),
+      email: new FormControl(this.user()?.email ?? '', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
       role: new FormControl(this.formatRoleName() ?? ''),
       createdAt: new FormControl(this.datesService.formatDate(DATES.ISO_DATE, this.user()?.createdAt) ?? '')
     });
@@ -121,5 +140,44 @@ export class ProfilePersonalInformationComponent implements OnInit {
     }
 
     return role.charAt(MAGIC_NUMBERS.N_0).toUpperCase() + role.slice(MAGIC_NUMBERS.N_1);
+  }
+
+  private setFormErrors(): void {
+    this.formErrors = {
+      personalName: {
+        formControl: this.personalInformationForm.get('personalName'),
+        cssClass: 'mb-0',
+        errorsToShow: [
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['PERSONAL_NAME']
+          }
+        ]
+      },
+      userName: {
+        formControl: this.personalInformationForm.get('userName'),
+        cssClass: 'mb-0',
+        errorsToShow: [
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['USER_NAME']
+          }
+        ]
+      },
+      email: {
+        formControl: this.personalInformationForm.get('email'),
+        cssClass: 'mb-0',
+        errorsToShow: [
+          {
+            error: INPUT_ERROR.REQUIRED,
+            message: this.literals['ERROR']['EMAIL']
+          },
+          {
+            error: INPUT_ERROR.PATTERN,
+            message: this.literals['ERROR']['EMAIL_INVALID']
+          }
+        ]
+      }
+    };
   }
 }

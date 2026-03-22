@@ -14,6 +14,32 @@
     </div>
 
     <div class="mb-6">
+      <label for="register-userName" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{inputs?.['userName']?.label}}
+      </label>
+      <input pInputText class="w-full md:w-120"
+        id="register-userName" 
+        type="text"
+        formControlName="userName"
+        [placeholder]="inputs?.['userName']?.placeholder"
+      />
+      <sctl-input-error [config]="formErrors?.['userName']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6">
+      <label for="register-personalName" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{inputs?.['personalName']?.label}}
+      </label>
+      <input pInputText class="w-full md:w-120"
+        id="register-personalName" 
+        type="text"
+        formControlName="personalName"
+        [placeholder]="inputs?.['personalName']?.placeholder"
+      />
+      <sctl-input-error [config]="formErrors?.['personalName']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6">
       <label for="register-password" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">
         {{inputs?.['password']?.label}}
       </label>

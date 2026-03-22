@@ -29,6 +29,7 @@ import { ProfileFormComponent } from '../profile-form';
 export class ProfileChangePasswordComponent {
   public user = input<IUser>();
 
+  public lockForm: boolean = true;
   public changePasswordForm: FormGroup;
   public formErrors: { [key: string]: IInputErrorComponent } = {};
 
@@ -51,10 +52,11 @@ export class ProfileChangePasswordComponent {
       });
   }
 
-  public onClickLockOrUnlockForm($event: boolean): void {
-    this.profileService.disableOrEnableForm(this.changePasswordForm, $event);
+  public onClickLockOrUnlockForm(): void {
+    this.lockForm = !this.lockForm;
+    this.profileService.disableOrEnableForm(this.changePasswordForm, this.lockForm);
 
-    if ($event) {
+    if (this.lockForm) {
       this.changePasswordForm.setValue({
         currentPassword: '',
         password: '',
@@ -81,7 +83,8 @@ export class ProfileChangePasswordComponent {
             return;
           }
 
-          this.onClickLockOrUnlockForm(true);
+          this.lockForm = true;
+          this.onClickLockOrUnlockForm();
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['REQUEST_OK'] });
         },
         error: () => {
