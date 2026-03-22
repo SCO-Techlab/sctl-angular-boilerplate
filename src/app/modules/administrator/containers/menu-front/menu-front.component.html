@@ -1,4 +1,5 @@
 <sctl-crud 
+  [showTable]="showTable"
   [data]="crudValues"
   [state]="crudState"
   [config]="crudConfig" 
@@ -6,6 +7,7 @@
   (deleteMultiple)="onDeleteMultiple($event)"
   (selectAction)="onSelectAction($event)"
   (closeForm)="onCloseFormDialog($event)"
+  (pagination)="onPagination($event)"
 >
   @if (selectedItem) {
     <sctl-menu-front-form form

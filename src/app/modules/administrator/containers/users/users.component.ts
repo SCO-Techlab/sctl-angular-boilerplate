@@ -8,7 +8,7 @@ import { CrudComponent, UserAvatarComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, PERMISSIONS, ROLES } from '@shared/constants';
 import { CrudTemplateDirective } from '@shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
-import { ICrudColumn, ICrudComponent, ICrudTableAction, IDialogComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
+import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
 import { finalize } from 'rxjs';
@@ -29,6 +29,7 @@ import { finalize } from 'rxjs';
   ]
 })
 export class UsersComponent {
+  public showTable = false;
   public crudValues: IUser[] = [];
   public crudState: CRUD_STATE = CRUD_STATE.VIEW;
   public crudConfig: ICrudComponent;
@@ -40,6 +41,7 @@ export class UsersComponent {
 
   private literals: ITranslateLiterals;
   private selectedItemId: string;
+  private paginationQuery: IPaginationQuery = { page: MAGIC_NUMBERS.N_1, limit: MAGIC_NUMBERS.N_5 };
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
@@ -51,13 +53,13 @@ export class UsersComponent {
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    this.getValues();
     this.translateService.stream('USERS')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
         this.setCrudConfig();
         this.setEditPasswordDialog();
+        this.getValues();
       });
   }
 
@@ -214,10 +216,25 @@ export class UsersComponent {
       });
   }
 
+  public onPagination(paginationEvent: ICrudPaginationEvent): void {
+    this.paginationQuery.page = paginationEvent.page;
+    this.paginationQuery.limit = paginationEvent.limit;
+    this.getValues();
+  }
+
   private getValues(): void {
-    this.usersService.find()
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IUser[]) => this.crudValues = res ?? []);
+    this.showTable = false;
+    this.usersService.find(null, this.paginationQuery)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.showTable = true)
+      )
+      .subscribe((res: IPaginationResponse<IUser>) => {
+        this.crudValues = res?.data ?? [];
+        this.crudConfig.pagination.totalRecords = res?.totalRecords;
+        this.crudConfig.pagination.first = res?.first;
+        this.crudConfig.pagination.rows = res?.limit;
+      });
   }
 
   private add(value: IUser): void {
@@ -425,11 +442,16 @@ export class UsersComponent {
       globalFilterFields: ['email', 'userName', 'personalName'],
       dataKey: '_id',
       titleKeys: ['email'],
-      rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
-      rowsPerPage: MAGIC_NUMBERS.N_5,
       rowHover: true,
       paginator: true,
       showCurrentPageReport: true,
+      pagination: {
+        ajaxPagination: true,
+        rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
+        rows: MAGIC_NUMBERS.N_5,
+        totalRecords: null,
+        first: null
+      },
       exportFilename: 'users',
       disableSubmitButton: () => !this.formValid,
       literals: {

@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CRUD_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
 import { CrudTemplateDirective } from '@shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
-import { ICrudColumn, ICrudComponent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@shared/interfaces';
+import { ICrudColumn, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { DatesService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -17,6 +17,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogComponent } from '../dialog';
 import { JsonEditorDialogComponent } from '../json-editor-dialog';
+import { LoaderComponent } from '../loader';
 import { OrderListDialogComponent } from '../order-list-dialog';
 
 @Component({
@@ -36,7 +37,8 @@ import { OrderListDialogComponent } from '../order-list-dialog';
     TooltipModule,
     JsonEditorDialogComponent,
     DialogComponent,
-    OrderListDialogComponent
+    OrderListDialogComponent,
+    LoaderComponent
   ]
 })
 export class CrudComponent implements OnInit, AfterViewInit {
@@ -44,6 +46,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
   @ViewChild('dt') dt!: Table;
   @ContentChildren(CrudTemplateDirective) templates!: QueryList<CrudTemplateDirective>;
 
+  public showTable = input<boolean>(true);
   public data = input<any[]>([]);
   public state = input<CRUD_STATE>(CRUD_STATE.VIEW);
   public config = input<ICrudComponent>({
@@ -58,11 +61,16 @@ export class CrudComponent implements OnInit, AfterViewInit {
     globalFilterFields: [],
     dataKey: '_id',
     titleKeys: [],
-    rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
-    rowsPerPage: MAGIC_NUMBERS.N_5,
     rowHover: true,
     paginator: true,
     showCurrentPageReport: true,
+    pagination: {
+      ajaxPagination: false,
+      rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
+      rows: MAGIC_NUMBERS.N_5,
+      totalRecords: null,
+      first: null
+    },
     exportFilename: '',
     disableSubmitButton: () => { return false; },
     literals: {
@@ -98,6 +106,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
   public globalFilter = output<string>();
   public selectAction = output<ICrudTableAction>();
   public closeForm = output<boolean>();
+  public pagination = output<ICrudPaginationEvent>();
 
   public readonly CRUD_COLUMN_ALIGNMENT = CRUD_COLUMN_ALIGNMENT;
   public readonly CRUD_COLUMN_TYPE = CRUD_COLUMN_TYPE;
@@ -154,9 +163,30 @@ export class CrudComponent implements OnInit, AfterViewInit {
     return this.state() === CRUD_STATE.NEW || this.state() === CRUD_STATE.EDIT;
   }
 
+  public get totalRecords(): number {
+    return this.config()?.pagination?.ajaxPagination
+      ? this.config()?.pagination?.totalRecords ?? MAGIC_NUMBERS.N_0
+      : this.data()?.length ?? MAGIC_NUMBERS.N_0;
+  }
+
+  public get first(): number {
+    return this.config()?.pagination?.ajaxPagination
+      ? this.config()?.pagination?.first ?? MAGIC_NUMBERS.N_0
+      : this.paginationEvent?.first ?? MAGIC_NUMBERS.N_0;
+  }
+
+  public get lazy(): boolean {
+    return this.config().pagination?.ajaxPagination ?? false;
+  }
+
+  public get rows(): number {
+    return this.config()?.pagination?.rows ?? MAGIC_NUMBERS.N_5;
+  }
+
   private templateMap = new Map<string, TemplateRef<any>>();
   private literals: ITranslateLiterals;
   private selectedValue: any;
+  private paginationEvent: ICrudPaginationEvent;
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
@@ -174,7 +204,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
         this.formDialogConfig.header.subTitle = this.getModalTitle(this.selectedValue);
         this.formDialogConfig.footer.submitButton.label = this.config()?.literals?.FORM_UPDATE ?? this.literals?.['FORM_UPDATE'];
       }
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -342,6 +372,12 @@ export class CrudComponent implements OnInit, AfterViewInit {
 
   public getTemplate(field: string): TemplateRef<any> | null {
     return this.templateMap.get(field) ?? null;
+  }
+
+  public onPageChange($event: any): void {
+    const page = ($event.first / $event.rows) + MAGIC_NUMBERS.N_1;
+    this.paginationEvent = { first: $event.first, limit: $event.rows, page };
+    this.pagination.emit(this.paginationEvent);
   }
 
   private getModalTitle(value: any): string {

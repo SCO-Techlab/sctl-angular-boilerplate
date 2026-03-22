@@ -63,7 +63,7 @@ export class UsersFormComponent implements OnInit {
   }
 
   private getRoles(): void {
-    this.rolesService.find()
+    this.rolesService.find(null)
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: IRole[]) => this.rolesOptions = res?.map(role => ({ name: role.name, _id: role._id })) ?? []);
   }

@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environment';
-import { IRole } from '@shared/interfaces';
+import { fillHttpParams } from '@shared/helpers';
+import { IPaginationQuery, IPaginationResponse, IRole } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,8 +12,10 @@ export class RolesService {
 
   private http = inject(HttpClient);
 
-  find(filter?: Partial<IRole>): Observable<IRole[]> {
-    return this.http.get<IRole[]>(`${environment.apiUrl}/roles`);
+  find(filter: Partial<IRole>, pagination?: IPaginationQuery): Observable<IRole[] | IPaginationResponse<IRole>> {
+    const httpParams: HttpParams = fillHttpParams(filter, pagination);
+    return this.http
+      .get<IRole[] | IPaginationResponse<IRole>>(`${environment.apiUrl}/roles`, { params: httpParams });
   }
 
   save(role: IRole): Observable<IRole> {

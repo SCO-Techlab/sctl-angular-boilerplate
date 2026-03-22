@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environment';
-import { IPermission } from '@shared/interfaces';
+import { fillHttpParams } from '@shared/helpers';
+import { IPaginationQuery, IPaginationResponse, IPermission } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,8 +12,10 @@ export class PermissionsService {
 
   private http = inject(HttpClient);
 
-  find(filter?: Partial<IPermission>): Observable<IPermission[]> {
-    return this.http.get<IPermission[]>(`${environment.apiUrl}/permissions`);
+  find(filter: Partial<IPermission>, pagination?: IPaginationQuery): Observable<IPermission[] | IPaginationResponse<IPermission>> {
+    const httpParams: HttpParams = fillHttpParams(filter, pagination);
+    return this.http
+      .get<IPermission[] | IPaginationResponse<IPermission>>(`${environment.apiUrl}/permissions`, { params: httpParams });
   }
 
   save(permission: IPermission): Observable<IPermission> {

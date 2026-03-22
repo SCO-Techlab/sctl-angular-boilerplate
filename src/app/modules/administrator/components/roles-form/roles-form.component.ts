@@ -55,9 +55,9 @@ export class RolesFormComponent implements OnInit {
   }
 
   private getPermissions(): void {
-    this.permissionsService.find()
+    this.permissionsService.find(null)
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IPermission[]) => this.permissionsOptions = res?.map(permission => ({ name: `${permission.name}_${permission.type}`, _id: permission._id })) ?? []);
+      .subscribe((res: IPermission[]) => this.permissionsOptions = res?.map(permission => ({ name: `${permission.name}-${permission.type}`, _id: permission._id })) ?? []);
   }
 
   private initForm(): void {
@@ -87,7 +87,7 @@ export class RolesFormComponent implements OnInit {
   private fillForm(value: IRole): void {
     this.rolesForm.setValue({
       name: value?.name ?? '',
-      permissions: value?.permissions ? value.permissions.map(permission => ({ name: `${permission.name}_${permission.type}`, _id: permission._id })) : [],
+      permissions: value?.permissions ? value.permissions.map(permission => ({ name: `${permission.name}-${permission.type}`, _id: permission._id })) : [],
     });
   }
 

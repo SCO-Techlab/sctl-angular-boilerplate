@@ -7,7 +7,7 @@ import { PermissionsService } from '@modules/administrator/services';
 import { CrudComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, PERMISSIONS } from '@shared/constants';
 import { CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
-import { ICrudComponent, ICrudTableAction, IPermission, ITranslateLiterals } from '@shared/interfaces';
+import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, IPermission, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
 import { finalize } from 'rxjs';
@@ -25,6 +25,7 @@ import { finalize } from 'rxjs';
   ]
 })
 export class PermissionsComponent {
+  public showTable = false;
   public crudValues: IPermission[] = [];
   public crudState: CRUD_STATE = CRUD_STATE.VIEW;
   public crudConfig: ICrudComponent;
@@ -33,6 +34,7 @@ export class PermissionsComponent {
 
   private literals: ITranslateLiterals;
   private selectedItemId: string;
+  private paginationQuery: IPaginationQuery = { page: MAGIC_NUMBERS.N_1, limit: MAGIC_NUMBERS.N_5 };
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
@@ -44,12 +46,12 @@ export class PermissionsComponent {
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    this.getValues();
     this.translateService.stream('PERMISSIONS')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
         this.setCrudConfig();
+        this.getValues();
       });
   }
 
@@ -149,10 +151,25 @@ export class PermissionsComponent {
     }
   }
 
+  public onPagination(paginationEvent: ICrudPaginationEvent): void {
+    this.paginationQuery.page = paginationEvent.page;
+    this.paginationQuery.limit = paginationEvent.limit;
+    this.getValues();
+  }
+
   private getValues(): void {
-    this.permissionsService.find()
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IPermission[]) => this.crudValues = res ?? []);
+    this.showTable = false;
+    this.permissionsService.find(null, this.paginationQuery)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.showTable = true)
+      )
+      .subscribe((res: IPaginationResponse<IPermission>) => {
+        this.crudValues = res?.data ?? [];
+        this.crudConfig.pagination.totalRecords = res?.totalRecords;
+        this.crudConfig.pagination.first = res?.first;
+        this.crudConfig.pagination.rows = res?.limit;
+      });
   }
 
   private add(value: IPermission): void {
@@ -290,11 +307,16 @@ export class PermissionsComponent {
       globalFilterFields: ['name', 'type'],
       dataKey: '_id',
       titleKeys: ['name', 'type'],
-      rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
-      rowsPerPage: MAGIC_NUMBERS.N_5,
       rowHover: true,
       paginator: true,
       showCurrentPageReport: true,
+      pagination: {
+        ajaxPagination: true,
+        rowsPerPageOptions: [MAGIC_NUMBERS.N_5, MAGIC_NUMBERS.N_10, MAGIC_NUMBERS.N_20, MAGIC_NUMBERS.N_30],
+        rows: MAGIC_NUMBERS.N_5,
+        totalRecords: null,
+        first: null
+      },
       exportFilename: 'permissions',
       disableSubmitButton: () => !this.formValid,
       literals: {

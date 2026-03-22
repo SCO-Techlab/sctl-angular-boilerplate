@@ -63,7 +63,7 @@ export class MenuFrontFormComponent implements OnInit {
   }
 
   private getRoles(): void {
-    this.rolesService.find()
+    this.rolesService.find(null)
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: IRole[]) => this.roleOptions = res?.map(role => ({ name: role.name, _id: role._id })) ?? []);
   }

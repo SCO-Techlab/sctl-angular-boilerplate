@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environment';
-import { IUser } from '@shared/interfaces';
+import { fillHttpParams } from '@shared/helpers';
+import { IPaginationQuery, IPaginationResponse, IUser } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,8 +12,10 @@ export class UsersService {
 
   private http = inject(HttpClient);
 
-  find(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(`${environment.apiUrl}/users`);
+  find(filter: Partial<IUser>, pagination?: IPaginationQuery): Observable<IUser[] | IPaginationResponse<IUser>> {
+    const httpParams: HttpParams = fillHttpParams(filter, pagination);
+    return this.http
+      .get<IUser[] | IPaginationResponse<IUser>>(`${environment.apiUrl}/users`, { params: httpParams });
   }
 
   save(user: IUser): Observable<IUser> {

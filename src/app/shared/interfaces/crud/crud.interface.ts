@@ -13,11 +13,16 @@ export interface ICrudComponent {
   globalFilterFields: string[];
   dataKey: string;
   titleKeys: string[];
-  rowsPerPageOptions: number[];
-  rowsPerPage: number;
   rowHover: boolean;
   paginator: boolean;
   showCurrentPageReport: boolean;
+  pagination: {
+    ajaxPagination: boolean;
+    rowsPerPageOptions: number[];
+    rows: number;
+    totalRecords?: number;
+    first?: number;
+  };
   exportFilename: string;
   disableSubmitButton?: Function;
   literals?: ICrudLiterals;
@@ -88,4 +93,10 @@ export interface ICrudLiterals {
   FORM_SAVE?: string;
   FORM_UPDATE?: string;
   ORDER_LIST_CLOSE?: string;
+}
+
+export interface ICrudPaginationEvent {
+  first: number;
+  limit: number;
+  page: number;
 }

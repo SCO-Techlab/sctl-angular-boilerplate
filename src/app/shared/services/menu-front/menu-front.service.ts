@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environment';
-import { IMenuFront, IRole } from '@shared/interfaces';
+import { fillHttpParams } from '@shared/helpers';
+import { IMenuFront, IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,8 +12,10 @@ export class MenuFrontService {
 
   private http = inject(HttpClient);
 
-  find(filter?: Partial<IMenuFront>): Observable<IMenuFront[]> {
-    return this.http.get<IMenuFront[]>(`${environment.apiUrl}/menu-front`);
+  find(filter: Partial<IMenuFront>, pagination?: IPaginationQuery): Observable<IMenuFront[] | IPaginationResponse<IMenuFront>> {
+    const httpParams: HttpParams = fillHttpParams(filter, pagination);
+    return this.http
+      .get<IMenuFront[] | IPaginationResponse<IMenuFront>>(`${environment.apiUrl}/menu-front`, { params: httpParams });
   }
 
   save(menuFront: IMenuFront): Observable<IMenuFront> {
@@ -46,7 +49,7 @@ export class MenuFrontService {
         if (!item.roles || !item.roles.length) {
           return true;
         }
-        
+
         const upperRoles: string[] = (item.roles as string[]).map((role: string) => role.toUpperCase());
         if (!upperRoles.length) {
           return true;

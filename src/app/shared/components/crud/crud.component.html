@@ -3,7 +3,7 @@
     <ng-template #start>
       @if (config()?.newValueButtonEnabled) {
         <p-button class="mr-2"
-          [label]="this.config()?.literals?.NEW ?? ('CRUD.NEW' | translate)"
+          [label]="config()?.literals?.NEW ?? ('CRUD.NEW' | translate)"
           [icon]="'pi pi-plus'"
           severity="secondary"
           [disabled]="isButtonDisabled(CRUD_ACTIONS.NEW)"
@@ -12,7 +12,7 @@
       }
       @if (config()?.multipleDeleteButtonEnabled) {
         <p-button
-          [label]="this.config()?.literals?.DELETE ?? ('CRUD.DELETE' | translate)"
+          [label]="config()?.literals?.DELETE ?? ('CRUD.DELETE' | translate)"
           [icon]="'pi pi-trash'"
           severity="secondary"
           [disabled]="(!selectedMultipleData || !selectedMultipleData.length) || isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)"
@@ -24,7 +24,7 @@
     @if (config()?.exportButtonEnabled) {
       <ng-template #end>
         <p-button 
-          [label]="this.config()?.literals?.EXPORT ?? ('CRUD.EXPORT' | translate)"
+          [label]="config()?.literals?.EXPORT ?? ('CRUD.EXPORT' | translate)"
           [icon]="'pi pi-upload'"
           severity="secondary" 
           [disabled]="isButtonDisabled(CRUD_ACTIONS.EXPORT)"
@@ -35,185 +35,195 @@
   </p-toolbar>
 }
 
-<p-table #dt
-  [tableStyle]="{ 'min-width': '75rem' }"
-  [dataKey]="config()?.dataKey"
-  [value]="data()"
-  [(selection)]="selectedMultipleData"
-  [columns]="config()?.cols"
-  [globalFilterFields]="config()?.globalFilterFields"
-  [rows]="config()?.rowsPerPage"
-  [rowsPerPageOptions]="config()?.rowsPerPageOptions"
-  [rowHover]="config()?.rowHover"
-  [paginator]="config()?.paginator"
-  [showCurrentPageReport]="config()?.showCurrentPageReport"
-  [currentPageReportTemplate]="this.config()?.literals?.PAGE_REPORT ?? ('CRUD.PAGE_REPORT' | translate)"
-  [exportFilename]="exportFilename"
->
-  <ng-template #caption>
-    <div class="flex items-center justify-between">
-      <span class="text-xl font-bold">{{ this.config()?.literals?.TITLE ?? ('CRUD.TITLE' | translate) }}</span>
-      @if (config()?.searchInputEnabled) {
-        <p-iconfield>
-          <p-inputicon [class]="'pi pi-search'" />
-          <input pInputText 
-            type="text" 
-            [placeholder]="this.config()?.literals?.SEARCH ?? ('CRUD.SEARCH' | translate)"
-            [disabled]="isButtonDisabled(CRUD_ACTIONS.GLOBAL_FILTER)"
-            (input)="onGlobalFilter(dt, $event)"
-          />
-        </p-iconfield>
-      }
-    </div>
-  </ng-template>
+@if (showTable()) {
+  <p-table #dt
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [lazy]="lazy"
+    [dataKey]="config()?.dataKey"
+    [value]="data()"
+    [(selection)]="selectedMultipleData"
+    [columns]="config()?.cols"
+    [globalFilterFields]="config()?.globalFilterFields"
+    [rows]="rows"
+    [rowsPerPageOptions]="config()?.pagination?.rowsPerPageOptions"
+    [rowHover]="config()?.rowHover"
+    [paginator]="config()?.paginator"
+    [showCurrentPageReport]="config()?.showCurrentPageReport"
+    [totalRecords]="totalRecords"
+    [first]="first"
+    [currentPageReportTemplate]="config()?.literals?.PAGE_REPORT ?? ('CRUD.PAGE_REPORT' | translate)"
+    [exportFilename]="exportFilename"
+    (onPage)="onPageChange($event)"
+  >
+    <ng-template #caption>
+      <div class="flex items-center justify-between">
+        <span class="text-xl font-bold">{{ config()?.literals?.TITLE ?? ('CRUD.TITLE' | translate) }}</span>
+        @if (config()?.searchInputEnabled) {
+          <p-iconfield>
+            <p-inputicon [class]="'pi pi-search'" />
+            <input pInputText 
+              type="text" 
+              [placeholder]="config()?.literals?.SEARCH ?? ('CRUD.SEARCH' | translate)"
+              [disabled]="isButtonDisabled(CRUD_ACTIONS.GLOBAL_FILTER)"
+              (input)="onGlobalFilter(dt, $event)"
+            />
+          </p-iconfield>
+        }
+      </div>
+    </ng-template>
 
-  <ng-template #header>
-    <tr>
-      @if (config()?.multipleDeleteButtonEnabled) {
-        <th style="width: 3rem">
-          <p-tableHeaderCheckbox [disabled]="isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)" />
-        </th>
-      }
+    <ng-template #header>
+      <tr>
+        @if (config()?.multipleDeleteButtonEnabled) {
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox [disabled]="isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)" />
+          </th>
+        }
 
-      @for (col of config()?.cols; track col.field) {
-        <th 
-          [style]="col.headerStyles ? col.headerStyles : 'min-width: 10rem'"
-          [ngStyle]="{
-            'text-align': col.headerAlign ?? CRUD_COLUMN_ALIGNMENT.START
-          }"
-          [pSortableColumn]="col.sortable ? col.field : undefined"
-        >
-          {{ col.header }}
-          @if (col.sortable) {
-            <p-sortIcon [field]="col.field" />
-          }
-        </th>
-      }
+        @for (col of config()?.cols; track col.field) {
+          <th 
+            [style]="col.headerStyles ? col.headerStyles : 'min-width: 10rem'"
+            [ngStyle]="{
+              'text-align': col.headerAlign ?? CRUD_COLUMN_ALIGNMENT.START
+            }"
+            [pSortableColumn]="col.sortable ? col.field : undefined"
+          >
+            {{ col.header }}
+            @if (col.sortable) {
+              <p-sortIcon [field]="col.field" />
+            }
+          </th>
+        }
 
-      @if (tableActionsEnabled) {
-        <th style="min-width: 10rem;"></th>
-      }
-    </tr>
-  </ng-template>
-  
-  <ng-template #body let-value>
-    <tr>
-      @if (config()?.multipleDeleteButtonEnabled) {
-        <td style="width: 3rem">
-          <p-tableCheckbox [value]="value" [disabled]="isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)" />
-        </td>
-      }
+        @if (tableActionsEnabled) {
+          <th style="min-width: 10rem;"></th>
+        }
+      </tr>
+    </ng-template>
+    
+    <ng-template #body let-value>
+      <tr>
+        @if (config()?.multipleDeleteButtonEnabled) {
+          <td style="width: 3rem">
+            <p-tableCheckbox [value]="value" [disabled]="isButtonDisabled(CRUD_ACTIONS.DELETE_MULTIPLE)" />
+          </td>
+        }
 
-      @for (col of config()?.cols; track col.field) {
-        <td 
-          [style]="col.fieldStyles ? col.fieldStyles : 'min-width: 10rem'"
-          [ngStyle]="{
-            'text-align': col.fieldAlign ?? CRUD_COLUMN_ALIGNMENT.START
-          }"
-        >
-          @switch (col.type) {
-            @case (CRUD_COLUMN_TYPE.BOOLEAN) {
-              @if (col?.options?.boolean?.booleanStatus) {
-                <div class="flex items-center" 
-                  [ngClass]="{
-                    'justify-start': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.START || !col.fieldAlign,
-                    'justify-center': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.CENTER,
-                    'justify-end': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.END
-                  }"
-                >
-                  <p-message variant="simple">
-                    <span class="w-[20px] h-[20px] rounded-[100%] block" 
-                      [ngStyle]="{'background-color': value[col.field] ? 'var(--p-message-success-color)' : 'var(--p-message-error-color)'}"
-                    ></span>
-                  </p-message>
-                </div>
-              } @else {
-                {{ value[col.field] 
-                  ? this.config()?.literals?.BOOLEAN_TRUE ?? ('CRUD.BOOLEAN_TRUE' | translate)
-                  : this.config()?.literals?.BOOLEAN_FALSE ?? ('CRUD.BOOLEAN_FALSE' | translate)
-                }}
+        @for (col of config()?.cols; track col.field) {
+          <td 
+            [style]="col.fieldStyles ? col.fieldStyles : 'min-width: 10rem'"
+            [ngStyle]="{
+              'text-align': col.fieldAlign ?? CRUD_COLUMN_ALIGNMENT.START
+            }"
+          >
+            @switch (col.type) {
+              @case (CRUD_COLUMN_TYPE.BOOLEAN) {
+                @if (col?.options?.boolean?.booleanStatus) {
+                  <div class="flex items-center" 
+                    [ngClass]="{
+                      'justify-start': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.START || !col.fieldAlign,
+                      'justify-center': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.CENTER,
+                      'justify-end': col.fieldAlign === CRUD_COLUMN_ALIGNMENT.END
+                    }"
+                  >
+                    <p-message variant="simple">
+                      <span class="w-[20px] h-[20px] rounded-[100%] block" 
+                        [ngStyle]="{'background-color': value[col.field] ? 'var(--p-message-success-color)' : 'var(--p-message-error-color)'}"
+                      ></span>
+                    </p-message>
+                  </div>
+                } @else {
+                  {{ value[col.field] 
+                    ? config()?.literals?.BOOLEAN_TRUE ?? ('CRUD.BOOLEAN_TRUE' | translate)
+                    : config()?.literals?.BOOLEAN_FALSE ?? ('CRUD.BOOLEAN_FALSE' | translate)
+                  }}
+                }
               }
-            }
-            @case (CRUD_COLUMN_TYPE.DATE) {
-              {{ formatDate(value[col.field], col) }}
-            }
-            @case (CRUD_COLUMN_TYPE.ICON) {
-              @if (col?.options?.icon?.hideIconTooltip) {
-                <i [class]="value[col.field]"></i>
-              } @else {
-                <i [class]="value[col.field]" [pTooltip]="value[col.field]" tooltipPosition="top"></i>
+              @case (CRUD_COLUMN_TYPE.DATE) {
+                {{ formatDate(value[col.field], col) }}
               }
-            }
-            @case (CRUD_COLUMN_TYPE.OBJECT) {
-              <p-button
-                icon="pi pi-eye"
-                severity="primary"
-                outlined="true"
-                text="false"
-                rounded="true"
-                [disabled]="!value[col.field]"
-                (click)="openJsonEditorDialog(value, col)"
-              ></p-button>
-            }
-            @case (CRUD_COLUMN_TYPE.ARRAY_OBJECT) {
-              <p-button
-                icon="pi pi-eye"
-                severity="primary"
-                outlined="true"
-                text="false"
-                rounded="true"
-                [disabled]="!value[col.field]?.length"
-                (click)="openJsonEditorDialog(value, col)"
-              ></p-button>
-            }
-            @case (CRUD_COLUMN_TYPE.ARRAY) {
-              <p-button
-                icon="pi pi-eye"
-                severity="primary"
-                outlined="true"
-                text="false"
-                rounded="true"
-                [disabled]="!value[col.field]?.length"
-                (click)="openOrderListDialog(value, col)"
-              ></p-button>
-            }
-            @case (CRUD_COLUMN_TYPE.CALLBACK) {
-              {{ col.options?.callback?.fn?.(value, col) ?? value[col.field] }}
-            }
-            @case (CRUD_COLUMN_TYPE.HTML) {
-              @if (getTemplate(col.field)) {
-                <ng-container
-                  *ngTemplateOutlet="getTemplate(col.field); context: { $implicit: value, col: col }">
-                </ng-container>
-              } @else {
+              @case (CRUD_COLUMN_TYPE.ICON) {
+                @if (col?.options?.icon?.hideIconTooltip) {
+                  <i [class]="value[col.field]"></i>
+                } @else {
+                  <i [class]="value[col.field]" [pTooltip]="value[col.field]" tooltipPosition="top"></i>
+                }
+              }
+              @case (CRUD_COLUMN_TYPE.OBJECT) {
+                <p-button
+                  icon="pi pi-eye"
+                  severity="primary"
+                  outlined="true"
+                  text="false"
+                  rounded="true"
+                  [disabled]="!value[col.field]"
+                  (click)="openJsonEditorDialog(value, col)"
+                ></p-button>
+              }
+              @case (CRUD_COLUMN_TYPE.ARRAY_OBJECT) {
+                <p-button
+                  icon="pi pi-eye"
+                  severity="primary"
+                  outlined="true"
+                  text="false"
+                  rounded="true"
+                  [disabled]="!value[col.field]?.length"
+                  (click)="openJsonEditorDialog(value, col)"
+                ></p-button>
+              }
+              @case (CRUD_COLUMN_TYPE.ARRAY) {
+                <p-button
+                  icon="pi pi-eye"
+                  severity="primary"
+                  outlined="true"
+                  text="false"
+                  rounded="true"
+                  [disabled]="!value[col.field]?.length"
+                  (click)="openOrderListDialog(value, col)"
+                ></p-button>
+              }
+              @case (CRUD_COLUMN_TYPE.CALLBACK) {
+                {{ col.options?.callback?.fn?.(value, col) ?? value[col.field] }}
+              }
+              @case (CRUD_COLUMN_TYPE.HTML) {
+                @if (getTemplate(col.field)) {
+                  <ng-container
+                    *ngTemplateOutlet="getTemplate(col.field); context: { $implicit: value, col: col }">
+                  </ng-container>
+                } @else {
+                  {{ value[col.field] }}
+                }
+              }
+              @default {
                 {{ value[col.field] }}
               }
             }
-            @default {
-              {{ value[col.field] }}
-            }
-          }
-        </td>
-      }
+          </td>
+        }
 
-      @if (tableActionsEnabled) {
-        <td class="flex items-center justify-end">
-          @for (action of config()?.tableActions; track action.name; let i = $index) {
-            <p-button 
-              [ngClass]="{'mr-4': i !== (config()?.tableActions.length-1)}"
-              [icon]="action.icon" 
-              [severity]="action.severity"
-              [rounded]="true" 
-              [outlined]="true"
-              [disabled]="(action?.disabled ? action.disabled(value) : false) || isButtonDisabled(action.name)"
-              (click)="onSelectAction(action, value)" 
-            />
-          }
-        </td>
-      }
-    </tr>
-  </ng-template>
-</p-table>
+        @if (tableActionsEnabled) {
+          <td class="flex items-center justify-end">
+            @for (action of config()?.tableActions; track action.name; let i = $index) {
+              <p-button 
+                [ngClass]="{'mr-4': i !== (config()?.tableActions.length-1)}"
+                [icon]="action.icon" 
+                [severity]="action.severity"
+                [rounded]="true" 
+                [outlined]="true"
+                [disabled]="(action?.disabled ? action.disabled(value) : false) || isButtonDisabled(action.name)"
+                (click)="onSelectAction(action, value)" 
+              />
+            }
+          </td>
+        }
+      </tr>
+    </ng-template>
+  </p-table>
+} @else {
+  <div class="flex items-center justify-center min-h-[60vh]">
+    <sctl-loader [config]="{ showLoader: true, width: 72, height: 72, borderWidth: 7 }"></sctl-loader>
+  </div>
+}
 
 @if (!config()?.onlyTable && showForm) {
   <sctl-dialog 
