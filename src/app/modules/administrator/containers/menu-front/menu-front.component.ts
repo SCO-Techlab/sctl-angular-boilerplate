@@ -302,7 +302,7 @@ export class MenuFrontComponent {
       newValueButtonEnabled: true,
       multipleDeleteButtonEnabled: true,
       exportButtonEnabled: true,
-      searchInputEnabled: true,
+      searchInputEnabled: false,
       cols: [
         {
           header: this.literals?.['COLS']['LABEL'],
