@@ -134,6 +134,7 @@ export class UsersComponent {
     }
 
     const actionMethods = {
+      ['avatar']: this.deleteAvatar(action?.value),
       ['password']: () => {
         this.selectedItem = structuredClone(action?.value);
         this.editPasswordConfig.header.subTitle = this.selectedItem.email;
@@ -358,13 +359,79 @@ export class UsersComponent {
       });
   }
 
+  private deleteAvatar(value: IUser): void {
+    if (!value) {
+      return;
+    }
+
+    this.confirmDialogService.confirm({
+      header: this.literals?.['DELETE_AVATAR']?.['HEADER'],
+      message: `${this.literals?.['DELETE_AVATAR']?.['MESSAGE']}<br><br><center>${value.email}</center>`,
+      rejectButton: { label: this.literals?.['DELETE_AVATAR']?.['REJECT'] },
+      acceptButton: { label: this.literals?.['DELETE_AVATAR']?.['ACCEPT'] },
+      accept: () => {
+        this.spinnerService.show();
+        this.usersService.deleteAvatar(value?._id)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
+          .subscribe({
+            next: (res: boolean) => {
+              if (!res) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: this.literals?.['DELETE_AVATAR']?.['ERROR']
+                });
+                return;
+              }
+
+              this.toastService.success({
+                summary: this.translateService.instant('TOAST.SUCCESS'),
+                detail: this.literals?.['DELETE_AVATAR']?.['SUCCESS']
+              });
+              this.resetCrud();
+            },
+            error: () => {
+              this.toastService.error({
+                summary: this.translateService.instant('TOAST.ERROR'),
+                detail: this.literals?.['DELETE_AVATAR']?.['ERROR']
+              });
+            }
+          });
+      }
+    });
+  }
+
   private setCrudConfig(): void {
     this.crudConfig = {
       toolbarEnabled: true,
       onlyTable: false,
       tableActions: [
-        { ...CRUD_DEFAULT_TABLE_ACTION, name: 'password', icon: 'pi pi-key', disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } },
-        { ...CRUD_DEFAULT_TABLE_ACTION, name: 'welcome', icon: 'pi pi-envelope', disabled: () => { return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN; } },
+        {
+          ...CRUD_DEFAULT_TABLE_ACTION,
+          name: 'avatar',
+          icon: 'pi pi-image',
+          disabled: (value: IUser) => {
+            return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN || !value?.avatar;
+          }
+        },
+        {
+          ...CRUD_DEFAULT_TABLE_ACTION,
+          name: 'password',
+          icon: 'pi pi-key',
+          disabled: () => {
+            return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;
+          }
+        },
+        {
+          ...CRUD_DEFAULT_TABLE_ACTION,
+          name: 'welcome',
+          icon: 'pi pi-envelope',
+          disabled: () => {
+            return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN;
+          }
+        },
         { ...CRUD_EDIT_TABLE_ACTION },
         { ...CRUD_DELETE_TABLE_ACTION }
       ],

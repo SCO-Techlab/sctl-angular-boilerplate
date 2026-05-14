@@ -460,6 +460,14 @@
       "MESSAGE": "¿Está seguro de que desea enviar el email de bienvenida al usuario?",
       "ACCEPT": "Enviar",
       "REJECT": "Cancelar"
+    },
+    "DELETE_AVATAR": {
+      "HEADER": "Eliminar avatar",
+      "MESSAGE": "¿Está seguro de que desea eliminar el avatar del usuario?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "El avatar se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar el avatar"
     }
   },
   "SESSIONS": {

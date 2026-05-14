@@ -31,6 +31,10 @@ export class UsersService {
     return this.http.put<boolean>(`${environment.apiUrl}/users/password/${_id}`, body);
   }
 
+  deleteAvatar(_id: string): Observable<boolean> {
+    return this.http.put<boolean>(`${environment.apiUrl}/users/delete/avatar/${_id}`, {});
+  }
+
   delete(user: IUser): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.apiUrl}/users/${user._id}`);
   }
