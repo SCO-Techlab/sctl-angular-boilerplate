@@ -27,14 +27,16 @@
 
       <hr>
 
-      <div class="flex items-center justify-end">
-        <p-button 
-          [label]="'PROFILE.DELETE_ACCOUNT' | translate"
-          severity="danger"
-          icon="pi pi-exclamation-triangle" 
-          (click)="onDeleteAccount()"
-        ></p-button>
-      </div>
+      @if (currentTab === PROFILE_TABS.PERSONAL_INFORMATION) {
+        <div class="flex items-center justify-end">
+          <p-button 
+            [label]="'PROFILE.DELETE_ACCOUNT' | translate"
+            severity="danger"
+            icon="pi pi-exclamation-triangle" 
+            (click)="onDeleteAccount()"
+          ></p-button>
+        </div>
+      }
     </div>
   </sctl-card>
 </div>
