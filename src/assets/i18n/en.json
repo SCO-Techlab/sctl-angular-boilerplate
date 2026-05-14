@@ -150,7 +150,8 @@
         "ITEMS": {
           "MENU-FRONT": "Menu Front",
           "ROLES": "Roles",
-          "PERMISSIONS": "Permissions"
+          "PERMISSIONS": "Permissions",
+          "SESSIONS": "Sessions"
         }
       }
     },
@@ -459,6 +460,47 @@
       "MESSAGE": "Are you sure you want to send the welcome email to the user?",
       "ACCEPT": "Send",
       "REJECT": "Cancel"
+    }
+  },
+  "SESSIONS": {
+    "TITLE": "Manage sessions",
+    "REFRESH_TITLE": "Manage refresh sessions",
+    "TABS": {
+      "SESSIONS": "Sessions",
+      "REFRESH_SESSIONS": "Refresh Sessions"
+    },
+    "COLS": {
+      "USER": "User",
+      "JTI": "Jti",
+      "EXPIRES_AT": "Expires at",
+      "IS_REVOKED": "Revoked",
+      "REVOKED_AT": "Revoked at",
+      "CREATED_AT": "Created at",
+      "UPDATED_AT": "Updated at"
+    },
+    "DELETE": {
+      "HEADER": "Delete session",
+      "MESSAGE": "Are you sure you want to delete the session?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "The session has been deleted successfully",
+      "ERROR": "There was an error trying to delete the session"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete sessions",
+      "MESSAGE": "Are you sure you want to delete the selected sessions?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "The sessions have been deleted successfully",
+      "ERROR": "There was an error trying to delete the sessions"
+    },
+    "REVOKE": {
+      "HEADER": "Revoke session",
+      "MESSAGE": "Are you sure you want to revoke the session?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Revoke",
+      "SUCCESS": "The session has been revoked successfully",
+      "ERROR": "There was an error trying to revoke the session"
     }
   }
 }

@@ -1,0 +1,21 @@
+<p-tabs body [value]="currentTab" (valueChange)="onTabChange($event)">
+  <p-tablist>
+    <p-tab [value]="SESSIONS_TABS.SESSIONS">{{ 'SESSIONS.TABS.SESSIONS' | translate }}</p-tab>
+    <p-tab [value]="SESSIONS_TABS.REFRESH_SESSIONS">{{ 'SESSIONS.TABS.REFRESH_SESSIONS' | translate }}</p-tab>
+  </p-tablist>
+</p-tabs>
+
+<div class="mt-2">
+  <sctl-crud
+    [showTable]="showTable"
+    [data]="crudValues"
+    [state]="crudState"
+    [config]="crudConfig" 
+    (new)="undefined"
+    (deleteMultiple)="onDeleteMultiple($event)"
+    (selectAction)="onSelectAction($event)"
+    (closeForm)="undefined"
+    (pagination)="onPagination($event)"
+  >
+  </sctl-crud>
+</div>

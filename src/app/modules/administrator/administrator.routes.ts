@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { ROLES } from '@shared/constants';
 import { AdminGuard } from '@shared/guards';
-import { MenuFrontComponent, PermissionsComponent, RolesComponent, UsersComponent } from './containers';
+import { MenuFrontComponent, PermissionsComponent, RolesComponent, SessionsComponent, UsersComponent } from './containers';
 
 export default [
   {
@@ -27,5 +27,11 @@ export default [
     component: UsersComponent,
     canActivate: [AdminGuard],
     data: { roles: [ROLES.SUPERADMIN, ROLES.ADMIN] }
+  },
+  {
+    path: 'sessions',
+    component: SessionsComponent,
+    canActivate: [AdminGuard],
+    data: { roles: [ROLES.SUPERADMIN] }
   }
 ] as Routes;

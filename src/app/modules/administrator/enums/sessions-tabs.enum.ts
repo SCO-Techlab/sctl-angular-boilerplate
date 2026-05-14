@@ -1,0 +1,4 @@
+export enum SESSIONS_TABS {
+  SESSIONS,
+  REFRESH_SESSIONS
+}

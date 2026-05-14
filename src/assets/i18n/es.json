@@ -150,7 +150,8 @@
         "ITEMS": {
           "MENU-FRONT": "Menu Front",
           "ROLES": "Roles",
-          "PERMISSIONS": "Permisos"
+          "PERMISSIONS": "Permisos",
+          "SESSIONS": "Sesiones"
         }
       }
     },
@@ -459,6 +460,47 @@
       "MESSAGE": "¿Está seguro de que desea enviar el email de bienvenida al usuario?",
       "ACCEPT": "Enviar",
       "REJECT": "Cancelar"
+    }
+  },
+  "SESSIONS": {
+    "TITLE": "Administrar sesiones",
+    "REFRESH_TITLE": "Administrar sesiones de refresco",
+    "TABS": {
+      "SESSIONS": "Sesiones",
+      "REFRESH_SESSIONS": "Sesiones de refresco"
+    },
+    "COLS": {
+      "USER": "Usuario",
+      "JTI": "Jti",
+      "EXPIRES_AT": "Expira en",
+      "IS_REVOKED": "Revocada",
+      "REVOKED_AT": "Revocada en",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar sesión",
+      "MESSAGE": "¿Está seguro de que desea eliminar la sesión?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "La sesión se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar la sesión"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar sesiones",
+      "MESSAGE": "¿Está seguro de que desea eliminar las sesiones seleccionadas?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Las sesiones se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar las sesiones"
+    },
+    "REVOKE": {
+      "HEADER": "Revocar sesión",
+      "MESSAGE": "¿Está seguro de que desea revocar la sesión?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Revocar",
+      "SUCCESS": "La sesión se ha revocado correctamente",
+      "ERROR": "Hubo un error intentando revocar la sesión"
     }
   }
 }
