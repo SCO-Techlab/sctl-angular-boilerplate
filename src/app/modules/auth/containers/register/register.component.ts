@@ -5,14 +5,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components';
+import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent, IAuthInput, IAuthLinksComponent } from '@modules/auth/interfaces';
-import { AuthService } from '@modules/auth/services';
 import { InputErrorComponent } from '@shared/components';
 import { REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR } from '@shared/enums';
 import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { SpinnerService, ToastService, TranslateService } from '@shared/services';
+import { AuthService, SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { PasswordMatchValidator } from '@shared/validators';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
+        this.cardConfig = setAuthCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
         this.setInputs();
         this.setLinks();
         this.setFormErrors();

@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class JwtTokenService {
 
-  public decodeToken(token?: string): IJwtPayload {
+  public decodeToken(token: string): IJwtPayload {
     if (!token) {
       return undefined;
     }
@@ -16,19 +16,4 @@ export class JwtTokenService {
     const decoded = jwtDecode<IJwtPayload>(token);
     return decoded ?? undefined;
   }
-
-  public isTokenExpired(token?: string): boolean {
-    if (!token) {
-      return true;
-    }
-
-    const decoded = this.decodeToken(token);
-    if (!decoded || decoded.exp === undefined) {
-      return true;
-    }
-
-    const now = Date.now() / MAGIC_NUMBERS.N_1000;
-    return decoded.exp < now;
-  }
-
 }

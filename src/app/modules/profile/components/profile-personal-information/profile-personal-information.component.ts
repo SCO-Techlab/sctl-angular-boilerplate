@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
-import { SetAccessToken } from '@session-storage';
+import { SessionStorageState, SetAccessToken, SetRefreshToken } from '@session-storage';
 import { InputErrorComponent } from '@shared/components';
 import { DATES, MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR } from '@shared/enums';
@@ -64,7 +64,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
 
     const formValues: any = this.personalInformationForm.value;
     if (this.lockForm) {
-      this.personalInformationForm.setValue({...this.lockState});
+      this.personalInformationForm.setValue({ ...this.lockState });
     } else {
       this.lockState = formValues;
     }

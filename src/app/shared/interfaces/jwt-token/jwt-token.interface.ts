@@ -9,6 +9,8 @@ export interface IJwtToken {
 
 export interface IJwtPayload {
   _id: string;
+  jti: string;
+  isRefreshToken: boolean;
   user: IUser;
   exp?: number;
   iat?: number;

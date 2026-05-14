@@ -7,7 +7,7 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import Aura from '@primeuix/themes/aura';
 import { SessionStorageState } from '@session-storage';
-import { AuthInitializer, ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
+import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
 import { AdminGuard, AuthGuard } from '@shared/guards';
 import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
 import { ConfigService, ScreenService, ToastService } from '@shared/services';
@@ -56,11 +56,6 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: ConfigInitializerFactory,
       deps: [ConfigService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: AuthInitializer,
       multi: true
     },
     AuthGuard,

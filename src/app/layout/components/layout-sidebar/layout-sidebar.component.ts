@@ -6,7 +6,7 @@ import { UserAvatarComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { IMenuFront, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfigService, MenuFrontService, TranslateService, UserService } from '@shared/services';
+import { AuthService, ConfigService, MenuFrontService, TranslateService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { LayoutMenuComponent } from '../layout-menu';
@@ -35,6 +35,7 @@ export class LayoutSidebarComponent implements OnInit {
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
   private configService = inject(ConfigService);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private router = inject(Router);
   private menuFrontService = inject(MenuFrontService);
@@ -87,7 +88,11 @@ export class LayoutSidebarComponent implements OnInit {
       {
         label: literals['ACTIONS']['LOGOUT'],
         icon: 'pi pi-sign-out',
-        command: () => this.userService.logout({ reason: 'signout' })
+        command: () => {
+          this.authService.logOut()
+            .pipe(takeUntilDestroyed(this.destroyRef$))
+            .subscribe(() => this.userService.logout({ reason: 'signout' }));
+        }
       }
     ];
   }

@@ -133,19 +133,24 @@
           "DASHBOARD": "Dashboard"
         }
       },
-      "ADMINISTRATOR": {
-        "LABEL": "Administrador",
-        "ITEMS": {
-          "MENU-FRONT": "Menu Front",
-          "USERS": "Usuarios",
-          "ROLES": "Roles",
-          "PERMISSIONS": "Permisos"
-        }
-      },
       "PAGES": {
         "LABEL": "Páginas",
         "ITEMS": {
           "DEFAULT-PAGE": "Página por defecto"
+        }
+      },
+      "ADMINISTRATOR": {
+        "LABEL": "Administrador",
+        "ITEMS": {
+          "USERS": "Usuarios"
+        }
+      },
+      "SUPERADMINISTRATOR": {
+        "LABEL": "Super Administrador",
+        "ITEMS": {
+          "MENU-FRONT": "Menu Front",
+          "ROLES": "Roles",
+          "PERMISSIONS": "Permisos"
         }
       }
     },

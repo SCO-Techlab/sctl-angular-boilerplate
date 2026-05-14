@@ -3,11 +3,11 @@ import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angul
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthCardComponent } from '@modules/auth/components';
+import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent } from '@modules/auth/interfaces';
-import { AuthService } from '@modules/auth/services';
 import { ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { SpinnerService, TranslateService } from '@shared/services';
+import { AuthService, SpinnerService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { finalize } from 'rxjs';
@@ -45,7 +45,7 @@ export class ConfirmEmailComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
+        this.cardConfig = setAuthCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
         this.subscribeToQueryParams();
       });
   }

@@ -5,16 +5,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components';
+import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent, IAuthEvent, IAuthInput, IAuthLinksComponent } from '@modules/auth/interfaces';
-import { AuthService } from '@modules/auth/services';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetRefreshToken, SetRememberUser } from '@session-storage';
+import { SessionStorageState, SetRefreshToken } from '@session-storage';
 import { InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
-import { IInputErrorComponent, IJwtToken, ITranslateLiterals } from '@shared/interfaces';
+import { IInputErrorComponent, IJwtPayload, IJwtToken, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { AuthService, JwtTokenService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
   private spinnerService = inject(SpinnerService);
   private toastService = inject(ToastService);
   private userService = inject(UserService);
+  private jwtTokenService = inject(JwtTokenService);
 
   ngOnInit(): void {
     this.initForm();
@@ -67,7 +68,7 @@ export class LoginComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
-        this.cardConfig = this.authService.setCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
+        this.cardConfig = setAuthCardConfig(this.literals['TITLE'], this.literals['SUB_TITLE']);
         this.subscribeToQueryParams();
         this.setInputs();
         this.setLinks();
@@ -89,7 +90,7 @@ export class LoginComponent implements OnInit {
     };
 
     this.spinnerService.show();
-    this.authService.logIn(event)
+    this.authService.logIn(event.email, event.password, event.rememberMe)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
@@ -229,13 +230,13 @@ export class LoginComponent implements OnInit {
   }
 
   private fillForm(): void {
-    const rememberUser: string = this.store.selectSnapshot(SessionStorageState.rememberUser);
     const refreshToken: string = this.store.selectSnapshot(SessionStorageState.refreshToken);
-    if (rememberUser && refreshToken) {
+    const refreshUser: IJwtPayload = this.jwtTokenService.decodeToken(refreshToken);
+    if (refreshUser?.user?.email && refreshToken) {
       this.loginForm.setValue({
-        email: rememberUser,
-        password: rememberUser,
-        rememberMe: rememberUser !== undefined
+        email: refreshUser.user.email,
+        password: refreshUser.user.email,
+        rememberMe: refreshUser?.user?.email !== undefined
       });
 
       this.doAutoLogin = true;
@@ -248,38 +249,38 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.doAutoLogin = false;
-    const rememberUser: string = this.store.selectSnapshot(SessionStorageState.rememberUser);
-    const refreshToken: string = this.store.selectSnapshot(SessionStorageState.refreshToken);
-
     this.spinnerService.show();
-    this.authService.tokenValidation(rememberUser, refreshToken, false)
+    this.authService.refreshLogIn(this.loginForm.get('email')?.value, this.store.selectSnapshot(SessionStorageState.refreshToken))
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
-        finalize(() => this.spinnerService.hide())
+        finalize(() => {
+          this.doAutoLogin = false;
+          this.spinnerService.hide();
+        })
       )
       .subscribe({
         next: (jwtToken: IJwtToken) => {
-          if (!jwtToken?.accessToken) {
+           if (!jwtToken?.accessToken) {
             this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['LOGIN_KO_401'] });
-            this.clearRememberLogin();
             return;
           }
 
-          this.userService.login(jwtToken, { email: rememberUser, password: '', rememberMe: this.loginForm.controls['rememberMe'].value });
+          const authEvent: IAuthEvent = {
+            email: this.loginForm.get('email')?.value,
+            password: this.loginForm.get('password')?.value,
+            rememberMe: this.loginForm.get('rememberMe')?.value
+          };
+          this.userService.login(jwtToken, authEvent);
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['LOGIN_OK'] });
         },
-        error: () => {
-          this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['LOGIN_KO'] });
-          this.clearRememberLogin();
-        }
-      })
+        error: () => this.clearRememberLogin()
+      });
   }
 
   private clearRememberLogin(): void {
     this.loginForm.controls['password'].enable();
     this.loginForm.controls['password'].setValue('');
-    this.store.dispatch(new SetRememberUser({ rememberUser: undefined }));
+    this.loginForm.controls['rememberMe'].setValue(false);
     this.store.dispatch(new SetRefreshToken({ refreshToken: undefined }));
   }
 }

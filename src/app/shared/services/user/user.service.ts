@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { IAuthEvent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetAccessToken, SetRefreshToken, SetRememberUser } from '@session-storage';
+import { SessionStorageState, SetAccessToken, SetRefreshToken } from '@session-storage';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { IJwtPayload, IJwtToken, IPermission, IUser } from '@shared/interfaces';
 import { JwtTokenService } from '../jwt-token';
@@ -23,7 +23,6 @@ export class UserService {
         ? jwtToken?.refreshToken
         : undefined
     }));
-    this.store.dispatch(new SetRememberUser({ rememberUser: event?.rememberMe ? event?.email : undefined }));
     this.router.navigate(['/']);
   }
 

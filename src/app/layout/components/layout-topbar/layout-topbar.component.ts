@@ -6,7 +6,7 @@ import { ThemeConfiguratorComponent, UserAvatarComponent } from '@shared/compone
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfigService, LayoutService, TranslateService, UserService } from '@shared/services';
+import { AuthService, ConfigService, LayoutService, TranslateService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -39,6 +39,7 @@ export class LayoutTopbarComponent implements OnInit {
   private configService = inject(ConfigService);
   private router = inject(Router);
   private translateService = inject(TranslateService);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
 
   constructor() {
@@ -70,7 +71,11 @@ export class LayoutTopbarComponent implements OnInit {
       {
         label: literals['LOGOUT'],
         icon: 'pi pi-sign-out',
-        command: () => this.userService.logout({ reason: 'signout' })
+        command: () => {
+          this.authService.logOut()
+            .pipe(takeUntilDestroyed(this.destroyRef$))
+            .subscribe(() => this.userService.logout({ reason: 'signout' }));
+        }
       }
     ];
   }

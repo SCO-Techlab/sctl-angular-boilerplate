@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
-import { SetAccessToken } from '@session-storage';
+import { SessionStorageState, SetAccessToken, SetRefreshToken } from '@session-storage';
 import { CardComponent, FileUploadDialogComponent, UserAvatarComponent } from '@shared/components';
 import { FILE_SIZES, MAGIC_NUMBERS } from '@shared/constants';
 import { BUTTON_SEVERITY } from '@shared/enums';

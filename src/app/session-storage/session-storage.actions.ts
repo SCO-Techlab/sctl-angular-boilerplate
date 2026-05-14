@@ -1,8 +1,3 @@
-export class SetRememberUser {
-  static readonly type = '[Session Storage] Set auto login';
-  constructor(public payload: { rememberUser: string }) {}
-}
-
 export class SetDarkMode {
   static readonly type = '[Session Storage] Set dark mode';
   constructor(public payload: { darkMode: boolean }) {}

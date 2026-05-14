@@ -7,7 +7,7 @@ import { ProfileService } from '@modules/profile/services';
 import { CardComponent } from '@shared/components';
 import { IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { AuthService, ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { finalize } from 'rxjs';
@@ -43,6 +43,7 @@ export class ProfileComponent implements AfterViewInit {
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
+  private authService = inject(AuthService);
   private userService = inject(UserService);
   private profileService = inject(ProfileService);
   private toastService = inject(ToastService);
@@ -91,7 +92,9 @@ export class ProfileComponent implements AfterViewInit {
                 summary: this.translateService.instant('TOAST.SUCCESS'),
                 detail: this.translateService.instant('PROFILE.DELETE_ACCOUNT_OK')
               });
-              this.userService.logout({ reason: 'delete', deleteRefreshToken: true });
+              this.authService.logOut()
+                .pipe(takeUntilDestroyed(this.destroyRef$))
+                .subscribe(() => this.userService.logout({ reason: 'delete', deleteRefreshToken: true }));
             },
             error: () => {
               this.toastService.error({
