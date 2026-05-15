@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MenuFrontFormComponent } from '@modules/administrator/components';
+import { MenuFrontFiltersFormComponent, MenuFrontFormComponent } from '@modules/administrator/components';
 import { CrudComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, PERMISSIONS } from '@shared/constants';
 import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
+import { cleanObject } from '@shared/helpers';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IMenuFront, IPaginationQuery, IPaginationResponse, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, MenuFrontService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
@@ -15,20 +15,22 @@ import { finalize } from 'rxjs';
   standalone: true,
   templateUrl: './menu-front.component.html',
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     TranslateModule,
     CrudComponent,
-    MenuFrontFormComponent
+    MenuFrontFormComponent,
+    MenuFrontFiltersFormComponent,
   ]
 })
 export class MenuFrontComponent {
+  @ViewChild('filtersForm', { static: false }) filtersForm!: MenuFrontFiltersFormComponent;
+
   public showTable = false;
   public crudValues: IMenuFront[] = [];
   public crudState: CRUD_STATE = CRUD_STATE.VIEW;
   public crudConfig: ICrudComponent;
   public selectedItem: IMenuFront;
   public formValid: boolean = false;
+  public filtersValue: Partial<IMenuFront> = {};
 
   private literals: ITranslateLiterals;
   private selectedItemId: string;
@@ -168,9 +170,22 @@ export class MenuFrontComponent {
     this.getValues();
   }
 
+  public onClearFilters(): void {
+    this.filtersValue = {};
+    this.filtersForm?.clearForm();
+    this.getValues();
+  }
+
+  public onSearchFilters(): void {
+    this.getValues();
+  }
+
   private getValues(): void {
     this.showTable = false;
-    this.menuService.find(null, this.paginationQuery)
+    const filter: Partial<IMenuFront> = Object.values(cleanObject(this.filtersValue))?.length
+      ? this.filtersValue
+      : null;
+    this.menuService.find(filter, this.paginationQuery)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.showTable = true)
@@ -294,7 +309,7 @@ export class MenuFrontComponent {
   private setCrudConfig(): void {
     this.crudConfig = {
       toolbarEnabled: true,
-      filtersEnabled: false,
+      filtersEnabled: true,
       onlyTable: false,
       tableActions: [
         { ...CRUD_EDIT_TABLE_ACTION },
@@ -398,7 +413,14 @@ export class MenuFrontComponent {
         [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.READ),
         [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.READ),
         [CRUD_ACTIONS.EDIT]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.UPDATE),
-        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.DELETE)
+        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.MENU_FRONT, PERMISSION_TYPE.DELETE),
+        [CRUD_ACTIONS.CLEAR_FILTERS]: () => {
+          return (
+            !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
+            Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
+          );
+        },
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
       }
     };
   }

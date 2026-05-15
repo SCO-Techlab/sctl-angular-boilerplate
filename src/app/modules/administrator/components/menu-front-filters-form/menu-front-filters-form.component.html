@@ -1,0 +1,58 @@
+<form class="contents" filtersForm [formGroup]="form">
+  <div>
+    <label for="menu-front-label-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+    {{ 'MENU_FRONT.COLS.LABEL' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="menu-front-label-filter"
+      type="text"
+      [formControlName]="'label'"
+    />
+  </div>
+  <div>
+    <label for="menu-front-separator-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'MENU_FRONT.COLS.SEPARATOR' | translate }}
+    </label>
+    <p-select
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [inputId]="'menu-front-separator-filter'"
+      [options]="booleanOptions" 
+      formControlName="separator"
+      [optionLabel]="'name'"
+      [optionValue]="'value'"
+      class="w-full md:w-56" 
+    />
+  </div>
+  <div>
+    <label for="menu-front-icon-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+    {{ 'MENU_FRONT.COLS.ICON' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="menu-front-icon-filter"
+      type="text"
+      [formControlName]="'icon'"
+    />
+  </div>
+  <div>
+    <label for="menu-front-routerLink-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+    {{ 'MENU_FRONT.COLS.LINK' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="menu-front-routerLink-filter"
+      type="text"
+      [formControlName]="'routerLink'"
+    />
+  </div>
+  <div>
+    <label for="menu-front-order-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+    {{ 'MENU_FRONT.COLS.ORDER' | translate }}
+    </label>
+    <p-inputnumber class="w-full"
+      inputId="menu-front-order-filter" 
+      formControlName="order" 
+      [min]="0" 
+      [maxlength]="5" 
+    />
+  </div>
+</form>
