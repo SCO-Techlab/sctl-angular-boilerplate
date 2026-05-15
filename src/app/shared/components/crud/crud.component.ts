@@ -91,7 +91,9 @@ export class CrudComponent implements OnInit, AfterViewInit {
       FORM_UPDATE: null,
       ORDER_LIST_CLOSE: null,
       CLEAR_FILTERS: null,
-      SEARCH_FILTERS: null
+      SEARCH_FILTERS: null,
+      HIDE_FILTERS: null,
+      SHOW_FILTERS: null
     },
     disabledButtons: {
       [CRUD_ACTIONS.NEW]: () => { return false; },
@@ -120,6 +122,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
   public readonly DATES = DATES;
   public readonly CRUD_ACTIONS = CRUD_ACTIONS;
   public selectedMultipleData: any[] = [];
+  public showFilters = true;
 
   public jsonEditorDialogConfig: IJsonEditorDialogComponent;
   public jsonEditorValue: any;

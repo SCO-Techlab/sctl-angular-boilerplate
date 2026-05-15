@@ -27,7 +27,9 @@
     "FORM_UPDATE": "Actualizar",
     "ORDER_LIST_CLOSE": "Cerrar",
     "CLEAR_FILTERS": "Limpiar",
-    "SEARCH_FILTERS": "Buscar"
+    "SEARCH_FILTERS": "Buscar",
+    "HIDE_FILTERS": "Ocultar filtros",
+    "SHOW_FILTERS": "Ver filtros"
   },
   "AUTH": {
     "LOGIN": {

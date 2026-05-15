@@ -27,7 +27,9 @@
     "FORM_UPDATE": "Update",
     "ORDER_LIST_CLOSE": "Close",
     "CLEAR_FILTERS": "Clear",
-    "SEARCH_FILTERS": "Search"
+    "SEARCH_FILTERS": "Search",
+    "HIDE_FILTERS": "Hide filters",
+    "SHOW_FILTERS": "Show filters"
   },
   "AUTH": {
     "LOGIN": {

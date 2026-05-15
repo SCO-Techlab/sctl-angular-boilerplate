@@ -96,6 +96,8 @@ export interface ICrudLiterals {
   ORDER_LIST_CLOSE?: string;
   CLEAR_FILTERS?: string;
   SEARCH_FILTERS?: string;
+  HIDE_FILTERS?: string;
+  SHOW_FILTERS?: string;
 }
 
 export interface ICrudPaginationEvent {
