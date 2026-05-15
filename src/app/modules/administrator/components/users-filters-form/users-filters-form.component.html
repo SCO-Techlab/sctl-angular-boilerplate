@@ -5,4 +5,15 @@
     [formControlName]="'email'"
     [placeholder]="'USERS.COLS.EMAIL' | translate"
   />
+  <p-select
+    [appendTo]="'body'"
+    [className]="'w-full'"
+    [inputId]="'users-role-filter'"
+    [options]="rolesOptions" 
+    formControlName="role"
+    [optionLabel]="'name'"
+    [optionValue]="'value'"
+    [placeholder]="'USERS.COLS.ROLE' | translate"
+    class="w-full md:w-56" 
+  />
 </form>
