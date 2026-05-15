@@ -8,7 +8,15 @@
   (selectAction)="onSelectAction($event)"
   (closeForm)="onCloseFormDialog($event)"
   (pagination)="onPagination($event)"
+  (clearFilters)="onClearFilters()"
+  (searchFilters)="onSearchFilters()"
 >
+  <sctl-users-filters-form class="contents"
+    filtersForm 
+    #filtersForm
+    (valueChange)="filtersValue=$event;"
+  ></sctl-users-filters-form>
+
   @if (selectedItem) {
     <sctl-users-form form
       [value]="selectedItem"
