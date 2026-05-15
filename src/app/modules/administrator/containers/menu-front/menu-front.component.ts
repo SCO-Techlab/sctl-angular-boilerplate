@@ -294,6 +294,7 @@ export class MenuFrontComponent {
   private setCrudConfig(): void {
     this.crudConfig = {
       toolbarEnabled: true,
+      filtersEnabled: false,
       onlyTable: false,
       tableActions: [
         { ...CRUD_EDIT_TABLE_ACTION },

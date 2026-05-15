@@ -20,7 +20,9 @@
     "FORM_CLOSE": "Close",
     "FORM_SAVE": "Add",
     "FORM_UPDATE": "Update",
-    "ORDER_LIST_CLOSE": "Close"
+    "ORDER_LIST_CLOSE": "Close",
+    "CLEAR_FILTERS": "Clear",
+    "SEARCH_FILTERS": "Search"
   },
   "AUTH": {
     "LOGIN": {

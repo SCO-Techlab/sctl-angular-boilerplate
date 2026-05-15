@@ -8,6 +8,8 @@ export const CRUD_ACTIONS = {
   GLOBAL_FILTER: 'globalFilter',
   EDIT: 'edit',
   DELETE: 'delete',
+  CLEAR_FILTERS: 'clearFilters',
+  SEARCH_FILTERS: 'searchFilters',
 }
 
 export const CRUD_EDIT_TABLE_ACTION: ICrudTableAction = {

@@ -3,6 +3,7 @@ import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE } from "@share
 
 export interface ICrudComponent {
   toolbarEnabled: boolean;
+  filtersEnabled: boolean;
   onlyTable: boolean;
   tableActions: ICrudTableAction[];
   newValueButtonEnabled: boolean;
@@ -46,7 +47,7 @@ export interface ICrudColumn {
   fieldStyles?: string;
   fieldAlign?: CRUD_COLUMN_ALIGNMENT;
   type?: CRUD_COLUMN_TYPE;
-  exportable?: boolean; 
+  exportable?: boolean;
   options?: ICrudColumnOptions;
 }
 
@@ -93,6 +94,8 @@ export interface ICrudLiterals {
   FORM_SAVE?: string;
   FORM_UPDATE?: string;
   ORDER_LIST_CLOSE?: string;
+  CLEAR_FILTERS?: string;
+  SEARCH_FILTERS?: string;
 }
 
 export interface ICrudPaginationEvent {

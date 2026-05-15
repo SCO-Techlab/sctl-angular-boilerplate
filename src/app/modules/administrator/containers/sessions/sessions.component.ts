@@ -245,6 +245,7 @@ export class SessionsComponent {
   private setCrudConfig(): void {
     this.crudConfig = {
       toolbarEnabled: true,
+      filtersEnabled: false,
       onlyTable: false,
       tableActions: [
         {

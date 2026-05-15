@@ -6,7 +6,7 @@ import { CrudTemplateDirective } from '@shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
 import { ICrudColumn, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { DatesService, TranslateService } from '@shared/services';
+import { DatesService, ScreenService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -51,6 +51,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
   public state = input<CRUD_STATE>(CRUD_STATE.VIEW);
   public config = input<ICrudComponent>({
     toolbarEnabled: true,
+    filtersEnabled: false,
     onlyTable: false,
     tableActions: [],
     newValueButtonEnabled: true,
@@ -88,7 +89,9 @@ export class CrudComponent implements OnInit, AfterViewInit {
       FORM_CLOSE: null,
       FORM_SAVE: null,
       FORM_UPDATE: null,
-      ORDER_LIST_CLOSE: null
+      ORDER_LIST_CLOSE: null,
+      CLEAR_FILTERS: null,
+      SEARCH_FILTERS: null
     },
     disabledButtons: {
       [CRUD_ACTIONS.NEW]: () => { return false; },
@@ -96,7 +99,9 @@ export class CrudComponent implements OnInit, AfterViewInit {
       [CRUD_ACTIONS.EXPORT]: () => { return false; },
       [CRUD_ACTIONS.GLOBAL_FILTER]: () => { return false; },
       [CRUD_ACTIONS.EDIT]: () => { return false; },
-      [CRUD_ACTIONS.DELETE]: () => { return false; }
+      [CRUD_ACTIONS.DELETE]: () => { return false; },
+      [CRUD_ACTIONS.CLEAR_FILTERS]: () => { return false; },
+      [CRUD_ACTIONS.SEARCH_FILTERS]: () => { return false; }
     }
   });
 
@@ -107,6 +112,8 @@ export class CrudComponent implements OnInit, AfterViewInit {
   public selectAction = output<ICrudTableAction>();
   public closeForm = output<boolean>();
   public pagination = output<ICrudPaginationEvent>();
+  public clearFilters = output<void>();
+  public searchFilters = output<void>();
 
   public readonly CRUD_COLUMN_ALIGNMENT = CRUD_COLUMN_ALIGNMENT;
   public readonly CRUD_COLUMN_TYPE = CRUD_COLUMN_TYPE;
@@ -183,6 +190,18 @@ export class CrudComponent implements OnInit, AfterViewInit {
     return this.config()?.pagination?.rows ?? MAGIC_NUMBERS.N_5;
   }
 
+  public get isMobile(): boolean {
+    return this.screenService.isMobile;
+  }
+
+  public get isTablet(): boolean {
+    return this.screenService.isTablet;
+  }
+
+  public get isDesktop(): boolean {
+    return this.screenService.isDesktop;
+  }
+
   private templateMap = new Map<string, TemplateRef<any>>();
   private literals: ITranslateLiterals;
   private selectedValue: any;
@@ -191,6 +210,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
   private datesService = inject(DatesService);
+  private screenService = inject(ScreenService);
 
   constructor() {
     effect(() => {
@@ -378,6 +398,14 @@ export class CrudComponent implements OnInit, AfterViewInit {
     const page = ($event.first / $event.rows) + MAGIC_NUMBERS.N_1;
     this.paginationEvent = { first: $event.first, limit: $event.rows, page };
     this.pagination.emit(this.paginationEvent);
+  }
+
+  public onClearFilters(): void {
+    this.clearFilters.emit();
+  }
+
+  public onSearchFilters(): void {
+    this.searchFilters.emit();
   }
 
   private getModalTitle(value: any): string {

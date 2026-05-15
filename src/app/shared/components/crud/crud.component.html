@@ -70,6 +70,37 @@
           </p-iconfield>
         }
       </div>
+
+      @if (config()?.filtersEnabled) {
+        <div class="w-full pt-4 pb-4 ps-4 pe-4" [ngClass]="{'ps-8 pe-8': isDesktop}">
+          <div class="grid gap-4"
+            [ngClass]="{
+              'grid-cols-4': isDesktop,
+              'grid-cols-3': isTablet,
+              'grid-cols-2': isMobile
+            }"
+          >
+            <ng-content select="[filtersForm]"></ng-content>
+          </div>
+          <div class="w-full pt-4 flex items-center justify-end">
+            <p-button class="mr-4"
+              [label]="config()?.literals?.CLEAR_FILTERS ?? ('CRUD.CLEAR_FILTERS' | translate)"
+              [icon]="'pi pi-trash'"
+              severity="secondary"
+              [disabled]="isButtonDisabled(CRUD_ACTIONS.CLEAR_FILTERS)"
+              (onClick)="onClearFilters()" 
+            />
+
+            <p-button
+              [label]="config()?.literals?.SEARCH_FILTERS ?? ('CRUD.SEARCH_FILTERS' | translate)"
+              [icon]="'pi pi-search'"
+              severity="secondary"
+              [disabled]="isButtonDisabled(CRUD_ACTIONS.SEARCH_FILTERS)"
+              (onClick)="onSearchFilters()" 
+            />
+          </div>
+        </div>
+      }
     </ng-template>
 
     <ng-template #header>
