@@ -557,12 +557,7 @@ export class UsersComponent {
             Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
           );
         },
-        [CRUD_ACTIONS.SEARCH_FILTERS]: () => {
-          return (
-            !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
-            Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
-          );
-        },
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
       }
     };
   }
