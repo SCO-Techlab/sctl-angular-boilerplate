@@ -16,4 +16,15 @@
     [placeholder]="'USERS.COLS.ROLE' | translate"
     class="w-full md:w-56" 
   />
+  <p-select
+    [appendTo]="'body'"
+    [className]="'w-full'"
+    [inputId]="'users-active-filter'"
+    [options]="activeOptions" 
+    formControlName="active"
+    [optionLabel]="'name'"
+    [optionValue]="'value'"
+    [placeholder]="'USERS.COLS.ACTIVE' | translate"
+    class="w-full md:w-56" 
+  />
 </form>

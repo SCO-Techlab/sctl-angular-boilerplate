@@ -1,4 +1,9 @@
 {
+  "COMMON": {
+    "YES": "Sí",
+    "NO": "No",
+    "NONE": "Ninguno"
+  },
   "TOAST": {
     "ERROR": "Error",
     "SUCCESS": "Éxito",

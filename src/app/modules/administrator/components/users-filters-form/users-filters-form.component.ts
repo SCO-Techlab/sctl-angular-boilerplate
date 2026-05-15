@@ -4,6 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { RolesService } from '@modules/administrator/services';
 import { IRole, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
+import { TranslateService } from '@shared/services';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 
@@ -26,13 +27,16 @@ export class UsersFiltersFormComponent implements OnInit {
 
   public form: FormGroup;
   public rolesOptions: { name: string; value: string }[] = [];
+  public activeOptions: { name: string; value: string }[] = [];
 
   private destroyRef$ = inject(DestroyRef);
+  private translateService = inject(TranslateService);
   private rolesService = inject(RolesService);
 
   ngOnInit(): void {
     this.initForm();
     this.getRoles();
+    this.getActiveOptions();
   }
 
   public clearForm(): void {
@@ -42,7 +46,8 @@ export class UsersFiltersFormComponent implements OnInit {
   private initForm(): void {
     this.form = new FormGroup({
       email: new FormControl(null),
-      role: new FormControl(null)
+      role: new FormControl(null),
+      active: new FormControl(null)
     });
 
     this.form.valueChanges
@@ -53,6 +58,23 @@ export class UsersFiltersFormComponent implements OnInit {
   private getRoles(): void {
     this.rolesService.find(null)
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: IRole[]) => this.rolesOptions = res?.map(role => ({ name: role.name, value: role._id })) ?? []);
+      .subscribe((res: IRole[]) => {
+        const options = res?.map(role => ({ name: role.name, value: role._id })) ?? [];
+        if (options?.length) {
+          this.rolesOptions = [
+            { name: this.translateService.instant('COMMON.NONE'), value: null },
+            ...options
+          ];
+        }
+      });
   }
+
+  private getActiveOptions(): void {
+    this.activeOptions = [
+      { name: this.translateService.instant('COMMON.NONE'), value: null },
+      { name: this.translateService.instant('COMMON.YES'), value: 'true' },
+      { name: this.translateService.instant('COMMON.NO'), value: 'false' }
+    ];
+  }
+
 }
