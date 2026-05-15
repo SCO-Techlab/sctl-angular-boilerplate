@@ -1,6 +1,6 @@
 <form class="contents" filtersForm [formGroup]="form">
   <div>
-    <label for="users-email-filter" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+    <label for="users-email-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
     {{ 'USERS.COLS.EMAIL' | translate }}
     </label>
     <input pInputText class="w-full"
@@ -10,7 +10,7 @@
     />
   </div>
   <div>
-    <label for="users-role-filter" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+    <label for="users-role-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
       {{ 'USERS.COLS.ROLE' | translate }}
     </label>
     <p-select
@@ -25,15 +25,50 @@
     />
   </div>
   <div>
-    <label for="users-email-filter" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+    <label for="users-active-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
     {{ 'USERS.COLS.ACTIVE' | translate }}
     </label>
     <p-select
       [appendTo]="'body'"
       [className]="'w-full'"
       [inputId]="'users-active-filter'"
-      [options]="activeOptions" 
+      [options]="booleanOptions" 
       formControlName="active"
+      [optionLabel]="'name'"
+      [optionValue]="'value'"
+      class="w-full md:w-56" 
+    />
+  </div>
+  <div>
+    <label for="users-userName-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+    {{ 'USERS.COLS.USER_NAME' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="users-userName-filter"
+      type="text"
+      [formControlName]="'userName'"
+    />
+  </div>
+  <div>
+    <label for="users-personalName-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+    {{ 'USERS.COLS.PERSONAL_NAME' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="users-personalName-filter"
+      type="text"
+      [formControlName]="'personalName'"
+    />
+  </div>
+  <div>
+    <label for="users-emailConfirmed-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+    {{ 'USERS.COLS.EMAIL_CONFIRMED' | translate }}
+    </label>
+    <p-select
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [inputId]="'users-emailConfirmed-filter'"
+      [options]="booleanOptions" 
+      formControlName="emailConfirmed"
       [optionLabel]="'name'"
       [optionValue]="'value'"
       class="w-full md:w-56" 

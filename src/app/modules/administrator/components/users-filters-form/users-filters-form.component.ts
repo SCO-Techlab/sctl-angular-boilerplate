@@ -27,7 +27,7 @@ export class UsersFiltersFormComponent implements OnInit {
 
   public form: FormGroup;
   public rolesOptions: { name: string; value: string }[] = [];
-  public activeOptions: { name: string; value: string }[] = [];
+  public booleanOptions: { name: string; value: string }[] = [];
 
   private destroyRef$ = inject(DestroyRef);
   private translateService = inject(TranslateService);
@@ -36,7 +36,7 @@ export class UsersFiltersFormComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getRoles();
-    this.getActiveOptions();
+    this.getBooleanOptions();
   }
 
   public clearForm(): void {
@@ -47,7 +47,10 @@ export class UsersFiltersFormComponent implements OnInit {
     this.form = new FormGroup({
       email: new FormControl(null),
       role: new FormControl(null),
-      active: new FormControl(null)
+      active: new FormControl(null),
+      userName: new FormControl(null),
+      personalName: new FormControl(null),
+      emailConfirmed: new FormControl(null)
     });
 
     this.form.valueChanges
@@ -69,8 +72,8 @@ export class UsersFiltersFormComponent implements OnInit {
       });
   }
 
-  private getActiveOptions(): void {
-    this.activeOptions = [
+  private getBooleanOptions(): void {
+    this.booleanOptions = [
       { name: this.translateService.instant('COMMON.NONE'), value: null },
       { name: this.translateService.instant('COMMON.YES'), value: 'true' },
       { name: this.translateService.instant('COMMON.NO'), value: 'false' }
