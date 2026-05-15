@@ -1,30 +1,42 @@
 <form class="contents" filtersForm [formGroup]="form">
-  <input pInputText class="w-full"
-    id="users-email-filter"
-    type="text"
-    [formControlName]="'email'"
-    [placeholder]="'USERS.COLS.EMAIL' | translate"
-  />
-  <p-select
-    [appendTo]="'body'"
-    [className]="'w-full'"
-    [inputId]="'users-role-filter'"
-    [options]="rolesOptions" 
-    formControlName="role"
-    [optionLabel]="'name'"
-    [optionValue]="'value'"
-    [placeholder]="'USERS.COLS.ROLE' | translate"
-    class="w-full md:w-56" 
-  />
-  <p-select
-    [appendTo]="'body'"
-    [className]="'w-full'"
-    [inputId]="'users-active-filter'"
-    [options]="activeOptions" 
-    formControlName="active"
-    [optionLabel]="'name'"
-    [optionValue]="'value'"
-    [placeholder]="'USERS.COLS.ACTIVE' | translate"
-    class="w-full md:w-56" 
-  />
+  <div>
+    <label for="users-email-filter" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+    {{ 'USERS.COLS.EMAIL' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="users-email-filter"
+      type="text"
+      [formControlName]="'email'"
+    />
+  </div>
+  <div>
+    <label for="users-role-filter" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+      {{ 'USERS.COLS.ROLE' | translate }}
+    </label>
+    <p-select
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [inputId]="'users-role-filter'"
+      [options]="rolesOptions" 
+      formControlName="role"
+      [optionLabel]="'name'"
+      [optionValue]="'value'"
+      class="w-full md:w-56" 
+    />
+  </div>
+  <div>
+    <label for="users-email-filter" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+    {{ 'USERS.COLS.ACTIVE' | translate }}
+    </label>
+    <p-select
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [inputId]="'users-active-filter'"
+      [options]="activeOptions" 
+      formControlName="active"
+      [optionLabel]="'name'"
+      [optionValue]="'value'"
+      class="w-full md:w-56" 
+    />
+  </div>
 </form>
