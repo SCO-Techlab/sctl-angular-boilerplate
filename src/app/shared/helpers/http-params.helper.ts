@@ -12,7 +12,7 @@ export const fillHttpParams = (filter?: any, pagination?: IPaginationQuery): Htt
   if (filter && Object.values(filter)?.length) {
     Object.keys(filter).forEach((key: string) => {
       if (filter[key]) {
-        httpParams.append(key, filter[key].toString());
+        httpParams = httpParams.append(key, filter[key].toString());
       }
     });
   }
