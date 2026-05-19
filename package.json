@@ -27,6 +27,7 @@
         "@tailwindcss/postcss": "^4.1.11",
         "chart.js": "4.4.2",
         "date-fns": "^4.1.0",
+        "file-saver": "^2.0.5",
         "jsoneditor": "^10.4.2",
         "jwt-decode": "^4.0.0",
         "primeclt": "^0.1.5",
@@ -35,6 +36,7 @@
         "rxjs": "~7.8.2",
         "tailwindcss-primeui": "^0.6.1",
         "tslib": "^2.8.1",
+        "xlsx": "^0.18.5",
         "zone.js": "~0.15.1"
     },
     "devDependencies": {
