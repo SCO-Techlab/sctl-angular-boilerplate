@@ -42,6 +42,10 @@
         {{ user()?.email }}
       </span>
 
+      <span class="text-md font-bold text-muted-color pb-1">
+        {{ user()?.userName }}
+      </span>
+
       <span class="flex gap-2 items-center text-md font-bold text-muted-color">
         <p-message variant="simple">
           <span class="w-[10px] h-[10px] rounded-[100%] block mt-1" [ngStyle]="{'background-color': userStatusColor}"></span>
