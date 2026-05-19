@@ -21,15 +21,30 @@
       }
     </ng-template>
 
-    @if (config()?.exportButtonEnabled) {
+    @if (config()?.exportButtonEnabled || config()?.filtersEnabled) {
       <ng-template #end>
-        <p-button 
-          [label]="config()?.literals?.EXPORT ?? ('CRUD.EXPORT' | translate)"
-          [icon]="'pi pi-upload'"
-          severity="secondary" 
-          [disabled]="isButtonDisabled(CRUD_ACTIONS.EXPORT)"
-          (onClick)="onExportCSV()" 
-        />
+         @if (config()?.exportButtonEnabled) {
+          <p-button 
+            [label]="config()?.literals?.EXPORT ?? ('CRUD.EXPORT' | translate)"
+            [icon]="'pi pi-upload'"
+            severity="secondary" 
+            [disabled]="isButtonDisabled(CRUD_ACTIONS.EXPORT)"
+            (onClick)="onExportCSV()" 
+          />
+        }
+
+        @if (config()?.filtersEnabled) {
+          <p-button
+            [ngClass]="{'ml-4': config()?.filtersEnabled}"
+            [label]="showFilters 
+              ? config()?.literals?.HIDE_FILTERS ?? ('CRUD.HIDE_FILTERS' | translate) 
+              : config()?.literals?.SHOW_FILTERS ?? ('CRUD.SHOW_FILTERS' | translate)
+            "
+            [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-eye'"
+            severity="secondary"
+            (onClick)="showFilters = !showFilters" 
+          />
+        }
       </ng-template>
     }
   </p-toolbar>
@@ -73,17 +88,6 @@
 
       @if (config()?.filtersEnabled) {
         <div class="w-full p-4">
-          <div class="pb-2 flex items-center justify-end">
-            <p-button
-              [label]="showFilters 
-                ? config()?.literals?.HIDE_FILTERS ?? ('CRUD.HIDE_FILTERS' | translate) 
-                : config()?.literals?.SHOW_FILTERS ?? ('CRUD.SHOW_FILTERS' | translate)
-              "
-              [icon]="showFilters ? 'pi pi-eye-slash' : 'pi pi-eye'"
-              severity="secondary"
-              (onClick)="showFilters = !showFilters" 
-            />
-          </div>
           @if (showFilters) {
             <div class="grid gap-4"
               [ngClass]="{
