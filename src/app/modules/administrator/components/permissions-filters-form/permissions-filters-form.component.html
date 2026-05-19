@@ -1,0 +1,27 @@
+<form class="contents" filtersForm [formGroup]="form">
+  <div>
+    <label for="permissions-name-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'PERMISSIONS.COLS.NAME' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="permissions-name-filter"
+      type="text"
+      [formControlName]="'name'"
+    />
+  </div>
+  <div>
+    <label for="permissions-type-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'PERMISSIONS.COLS.TYPE' | translate }}
+    </label>
+    <p-select
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [inputId]="'permissions-type-filter'"
+      [options]="typeOptions" 
+      formControlName="type" 
+      [optionLabel]="'name'"
+      [optionValue]="'type'"
+      class="w-full md:w-56" 
+    />
+  </div>
+</form>
