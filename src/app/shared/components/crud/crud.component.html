@@ -72,8 +72,8 @@
       </div>
 
       @if (config()?.filtersEnabled) {
-        <div class="w-full pt-4 pb-4 ps-4 pe-4" [ngClass]="{'ps-8 pe-8': isDesktop}">
-          <div class="pb-4 flex items-center justify-end">
+        <div class="w-full p-4">
+          <div class="pb-2 flex items-center justify-end">
             <p-button
               [label]="showFilters 
                 ? config()?.literals?.HIDE_FILTERS ?? ('CRUD.HIDE_FILTERS' | translate) 
@@ -94,7 +94,7 @@
             >
               <ng-content select="[filtersForm]"></ng-content>
             </div>
-            <div class="w-full pt-4 flex items-center justify-end">
+            <div class="w-full pt-2 flex items-center justify-end">
               <p-button class="mr-4"
                 [label]="config()?.literals?.CLEAR_FILTERS ?? ('CRUD.CLEAR_FILTERS' | translate)"
                 [icon]="'pi pi-trash'"
