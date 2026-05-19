@@ -2,7 +2,8 @@
   "COMMON": {
     "YES": "Yes",
     "NO": "No",
-    "NONE": "None"
+    "NONE": "None",
+    "NO_EXPORT_DATA": "No data to export"
   },
   "TOAST": {
     "ERROR": "Error",
@@ -279,6 +280,7 @@
     "TITLE": "Manage Menu Front",
     "FORM_NEW": "New menu front",
     "FORM_EDIT": "Edit menu front",
+    "FILENAME": "menu_front",
     "COLS": {
       "LABEL": "Label",
       "SEPARATOR": "Separator",
@@ -322,6 +324,7 @@
     "TITLE": "Manage permissions",
     "FORM_NEW": "New permission",
     "FORM_EDIT": "Edit permission",
+    "FILENAME": "permissions",
     "COLS": {
       "NAME": "Name",
       "TYPE": "Type",
@@ -363,6 +366,7 @@
     "TITLE": "Manage roles",
     "FORM_NEW": "New role",
     "FORM_EDIT": "Edit role",
+    "FILENAME": "roles",
     "COLS": {
       "NAME": "Name",
       "PERMISSIONS": "Permissions",
@@ -403,6 +407,7 @@
     "TITLE": "Manage Users",
     "FORM_NEW": "New User",
     "FORM_EDIT": "Edit User",
+    "FILENAME": "users",
     "COLS": {
       "EMAIL": "Email",
       "PASSWORD": "Password",
@@ -486,6 +491,8 @@
       "SESSIONS": "Sessions",
       "REFRESH_SESSIONS": "Refresh Sessions"
     },
+    "FILENAME": "sessions",
+    "REFRESH_FILENAME": "refresh_sessions",
     "COLS": {
       "USER": "User",
       "JTI": "Jti",

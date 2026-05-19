@@ -9,7 +9,7 @@ import { CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers/objets.helper';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, IPermission, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -45,6 +45,8 @@ export class PermissionsComponent {
   private toastService = inject(ToastService);
   private userService = inject(UserService);
   private spinnerService = inject(SpinnerService);
+  private xlsxService = inject(XlsxService);
+  private datesService = inject(DatesService);
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
@@ -115,6 +117,41 @@ export class PermissionsComponent {
           });
       }
     });
+  }
+
+  public async onExportData(): Promise<void> {
+    const values = await new Promise<IPermission[]>((resolve) => {
+      this.permissionsService.find(null)
+        .pipe(takeUntilDestroyed(this.destroyRef$))
+        .subscribe({
+          next: (res: IPermission[]) => resolve(res ?? []),
+          error: () => resolve([])
+        })
+    });
+
+    if (!values?.length) {
+      this.toastService.info({
+        summary: this.translateService.instant('TOAST.INFO'),
+        detail: this.translateService.instant('COMMON.NO_EXPORT_DATA')
+      });
+      return;
+    }
+
+    const formatData = values.map((item: IPermission) => {
+      return {
+        ['_id']: item._id,
+        [this.literals?.['COLS']['NAME']]: item.name,
+        [this.literals?.['COLS']['TYPE']]: item.type,
+        [this.literals?.['COLS']['CREATED_AT']]: item.createdAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.createdAt) : '',
+        [this.literals?.['COLS']['UPDATED_AT']]: item.updatedAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.updatedAt) : ''
+      }
+    });
+
+    this.xlsxService.exportAsExcel(
+      formatData,
+      this.literals?.['FILENAME'],
+      this.xlsxService.createStandardColsInfo(formatData)
+    );
   }
 
   public onSelectAction(action: ICrudTableAction): void {
@@ -333,7 +370,6 @@ export class PermissionsComponent {
         totalRecords: null,
         first: null
       },
-      exportFilename: 'permissions',
       disableSubmitButton: () => !this.formValid,
       literals: {
         TITLE: this.literals?.['TITLE'],

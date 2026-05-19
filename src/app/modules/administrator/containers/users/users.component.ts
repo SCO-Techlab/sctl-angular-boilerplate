@@ -10,7 +10,7 @@ import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, P
 import { cleanObject } from '@shared/helpers';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -52,6 +52,8 @@ export class UsersComponent {
   private toastService = inject(ToastService);
   private userService = inject(UserService);
   private spinnerService = inject(SpinnerService);
+  private xlsxService = inject(XlsxService);
+  private datesService = inject(DatesService);
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
@@ -128,6 +130,49 @@ export class UsersComponent {
           });
       }
     });
+  }
+
+  public async onExportData(): Promise<void> {
+    const values = await new Promise<IUser[]>((resolve) => {
+      this.usersService.find(null)
+        .pipe(takeUntilDestroyed(this.destroyRef$))
+        .subscribe({
+          next: (res: IUser[]) => resolve(res ?? []),
+          error: () => resolve([])
+        })
+    });
+
+    if (!values?.length) {
+      this.toastService.info({
+        summary: this.translateService.instant('TOAST.INFO'),
+        detail: this.translateService.instant('COMMON.NO_EXPORT_DATA')
+      });
+      return;
+    }
+
+    const yes = this.translateService.instant('COMMON.YES');
+    const no = this.translateService.instant('COMMON.NO');
+    const formatData = values.map((item: IUser) => {
+      return {
+        ['_id']: item._id,
+        [this.literals?.['COLS']['EMAIL']]: item.email,
+        [this.literals?.['COLS']['USER_NAME']]: item.userName,
+        [this.literals?.['COLS']['PERSONAL_NAME']]: item.personalName,
+        [this.literals?.['COLS']['ACTIVE']]: item.active ? yes : no,
+        [this.literals?.['COLS']['EMAIL_CONFIRMED']]: item.emailConfirmed ? yes : no,
+        [this.literals?.['COLS']['EMAIL_CONFIRMED_AT']]: item.emailConfirmedAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.emailConfirmedAt) : '',
+        [this.literals?.['COLS']['ROLE']]: item?.role?.name,
+        [this.literals?.['COLS']['AVATAR']]: item?.avatar,
+        [this.literals?.['COLS']['CREATED_AT']]: item.createdAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.createdAt) : '',
+        [this.literals?.['COLS']['UPDATED_AT']]: item.updatedAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.updatedAt) : ''
+      }
+    });
+
+    this.xlsxService.exportAsExcel(
+      formatData,
+      this.literals?.['FILENAME'],
+      this.xlsxService.createStandardColsInfo(formatData)
+    );
   }
 
   public onSelectAction(action: ICrudTableAction): void {
@@ -537,7 +582,6 @@ export class UsersComponent {
         totalRecords: null,
         first: null
       },
-      exportFilename: 'users',
       disableSubmitButton: () => !this.formValid,
       literals: {
         TITLE: this.literals?.['TITLE'],

@@ -7,7 +7,7 @@ import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } 
 import { cleanObject } from '@shared/helpers';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IMenuFront, IPaginationQuery, IPaginationResponse, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, MenuFrontService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
+import { ConfirmDialogService, DatesService, MenuFrontService, SpinnerService, ToastService, TranslateService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -43,6 +43,8 @@ export class MenuFrontComponent {
   private toastService = inject(ToastService);
   private userService = inject(UserService);
   private spinnerService = inject(SpinnerService);
+  private xlsxService = inject(XlsxService);
+  private datesService = inject(DatesService);
   private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
@@ -126,6 +128,48 @@ export class MenuFrontComponent {
           });
       }
     });
+  }
+
+  public async onExportData(): Promise<void> {
+    const values = await new Promise<IMenuFront[]>((resolve) => {
+      this.menuService.find(null)
+        .pipe(takeUntilDestroyed(this.destroyRef$))
+        .subscribe({
+          next: (res: IMenuFront[]) => resolve(res ?? []),
+          error: () => resolve([])
+        })
+    });
+
+    if (!values?.length) {
+      this.toastService.info({
+        summary: this.translateService.instant('TOAST.INFO'),
+        detail: this.translateService.instant('COMMON.NO_EXPORT_DATA')
+      });
+      return;
+    }
+
+    const yes = this.translateService.instant('COMMON.YES');
+    const no = this.translateService.instant('COMMON.NO');
+    const formatData = values.map((item: IMenuFront) => {
+      return {
+        ['_id']: item._id,
+        [this.literals?.['COLS']['LABEL']]: item.label,
+        [this.literals?.['COLS']['SEPARATOR']]: item.separator ? yes : no,
+        [this.literals?.['COLS']['ICON']]: item.icon,
+        [this.literals?.['COLS']['LINK']]: item.routerLink,
+        [this.literals?.['COLS']['ITEMS']]: item?.items?.map((item) => item.label).join(', ') ?? '',
+        [this.literals?.['COLS']['ROLES']]: item.roles ? item.roles?.map(role => role.name ?? role)?.join(', ') : '',
+        [this.literals?.['COLS']['ORDER']]: item.order,
+        [this.literals?.['COLS']['CREATED_AT']]: item.createdAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.createdAt) : '',
+        [this.literals?.['COLS']['UPDATED_AT']]: item.updatedAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.updatedAt) : ''
+      }
+    });
+
+    this.xlsxService.exportAsExcel(
+      formatData,
+      this.literals?.['FILENAME'],
+      this.xlsxService.createStandardColsInfo(formatData)
+    );
   }
 
   public onSelectAction(action: ICrudTableAction): void {
@@ -400,7 +444,6 @@ export class MenuFrontComponent {
         totalRecords: null,
         first: null
       },
-      exportFilename: 'menu-front',
       disableSubmitButton: () => !this.formValid,
       literals: {
         TITLE: this.literals?.['TITLE'],
