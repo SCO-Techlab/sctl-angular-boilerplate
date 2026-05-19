@@ -24,7 +24,6 @@ export interface ICrudComponent {
     totalRecords?: number;
     first?: number;
   };
-  exportFilename: string;
   disableSubmitButton?: Function;
   literals?: ICrudLiterals;
   disabledButtons?: {

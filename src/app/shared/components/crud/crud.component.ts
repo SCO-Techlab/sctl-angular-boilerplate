@@ -72,7 +72,6 @@ export class CrudComponent implements OnInit, AfterViewInit {
       totalRecords: null,
       first: null
     },
-    exportFilename: '',
     disableSubmitButton: () => { return false; },
     literals: {
       NEW: null,
@@ -109,7 +108,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
 
   public new = output<void>();
   public deleteMultiple = output<string[]>();
-  public export = output<boolean>();
+  public export = output<void>();
   public globalFilter = output<string>();
   public selectAction = output<ICrudTableAction>();
   public closeForm = output<boolean>();
@@ -161,12 +160,6 @@ export class CrudComponent implements OnInit, AfterViewInit {
 
   public get tableActionsEnabled(): boolean {
     return this.config()?.tableActions?.length > MAGIC_NUMBERS.N_0;
-  }
-
-  public get exportFilename(): string {
-    const name: string = this.config()?.exportFilename ?? 'csv';
-    const date: string = new Date().toISOString();
-    return `${name}_${this.datesService.formatDate(DATES.ISO_DATE, date)}`;
   }
 
   public get showForm(): boolean {
@@ -264,15 +257,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
   }
 
   public onExportCSV(): void {
-    let exportSuccess: boolean = true;
-
-    try {
-      this.dt.exportCSV();
-    } catch {
-      exportSuccess = false;
-    }
-
-    this.export.emit(exportSuccess);
+    this.export.emit();
   }
 
   public onGlobalFilter(table: Table, event: Event): void {

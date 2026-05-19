@@ -67,7 +67,6 @@
     [totalRecords]="totalRecords"
     [first]="first"
     [currentPageReportTemplate]="config()?.literals?.PAGE_REPORT ?? ('CRUD.PAGE_REPORT' | translate)"
-    [exportFilename]="exportFilename"
     (onPage)="onPageChange($event)"
   >
     <ng-template #caption>
