@@ -16,6 +16,13 @@
     (selectAction)="onSelectAction($event)"
     (closeForm)="undefined"
     (pagination)="onPagination($event)"
+    (clearFilters)="onClearFilters()"
+    (searchFilters)="onSearchFilters()"
   >
+    <sctl-sessions-filters-form class="contents"
+      filtersForm 
+      #filtersForm
+      (valueChange)="filtersValue=$event;"
+    ></sctl-sessions-filters-form>
   </sctl-crud>
 </div>

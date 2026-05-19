@@ -1,0 +1,46 @@
+<form class="contents" filtersForm [formGroup]="form">
+  <div>
+    <label for="sessions-user-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'SESSIONS.COLS.USER' | translate }}
+    </label>
+    <p-select
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [inputId]="'sessions-user-filter'"
+      [options]="userOptions" 
+      formControlName="user" 
+      [optionLabel]="'name'"
+      [optionValue]="'value'"
+      class="w-full md:w-56"
+      [filter]="true" 
+      [filterBy]="'name'"
+      [showClear]="true"
+    />
+  </div>
+  <div>
+    <label for="sessions-jti-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'SESSIONS.COLS.JTI' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="sessions-jti-filter"
+      type="text"
+      [formControlName]="'jti'"
+    />
+  </div>
+  <div>
+    <label for="sessions-isRevoked-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'SESSIONS.COLS.IS_REVOKED' | translate }}
+    </label>
+    <p-select
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [inputId]="'sessions-isRevoked-filter'"
+      [options]="booleanOptions" 
+      formControlName="isRevoked"
+      [optionLabel]="'name'"
+      [optionValue]="'value'"
+      class="w-full md:w-56" 
+      [showClear]="true"
+    />
+  </div>
+</form>

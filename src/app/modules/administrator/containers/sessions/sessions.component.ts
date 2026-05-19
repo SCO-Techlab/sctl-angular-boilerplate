@@ -1,12 +1,13 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SessionsFiltersFormComponent } from '@modules/administrator/components';
 import { SESSIONS_TABS } from '@modules/administrator/enums';
 import { ISession } from '@modules/administrator/interfaces';
 import { SessionsService } from '@modules/administrator/services';
 import { CrudComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, DATES, MAGIC_NUMBERS, PERMISSIONS } from '@shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
+import { cleanObject } from '@shared/helpers';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
@@ -18,14 +19,15 @@ import { finalize } from 'rxjs';
   standalone: true,
   templateUrl: './sessions.component.html',
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     TranslateModule,
     CrudComponent,
     TabsModule,
+    SessionsFiltersFormComponent
   ]
 })
 export class SessionsComponent {
+  @ViewChild('filtersForm', { static: false }) filtersForm!: SessionsFiltersFormComponent;
+
   public readonly SESSIONS_TABS = SESSIONS_TABS;
   public currentTab: SESSIONS_TABS;
   public isRefresh: boolean;
@@ -34,6 +36,7 @@ export class SessionsComponent {
   public crudValues: ISession[] = [];
   public crudState: CRUD_STATE = CRUD_STATE.VIEW;
   public crudConfig: ICrudComponent;
+  public filtersValue: Partial<ISession> = {};
 
   private literals: ITranslateLiterals;
   private paginationQuery: IPaginationQuery = { page: MAGIC_NUMBERS.N_1, limit: MAGIC_NUMBERS.N_5 };
@@ -65,6 +68,7 @@ export class SessionsComponent {
 
     this.currentTab = $event as SESSIONS_TABS;
     this.isRefresh = this.currentTab === SESSIONS_TABS.REFRESH_SESSIONS;
+    this.onClearFilters();
     this.setCrudConfig();
     this.getValues();
   }
@@ -139,9 +143,22 @@ export class SessionsComponent {
     this.getValues();
   }
 
+  public onClearFilters(): void {
+    this.filtersValue = {};
+    this.filtersForm?.clearForm();
+    this.getValues();
+  }
+
+  public onSearchFilters(): void {
+    this.getValues();
+  }
+
   private getValues(): void {
     this.showTable = false;
-    this.sessionsService.find(null, this.isRefresh, this.paginationQuery)
+    const filter: any = Object.values(cleanObject(this.filtersValue))?.length
+      ? this.filtersValue
+      : null;
+    this.sessionsService.find(filter, this.isRefresh, this.paginationQuery)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.showTable = true)
@@ -245,7 +262,7 @@ export class SessionsComponent {
   private setCrudConfig(): void {
     this.crudConfig = {
       toolbarEnabled: true,
-      filtersEnabled: false,
+      filtersEnabled: true,
       onlyTable: false,
       tableActions: [
         {
@@ -323,6 +340,13 @@ export class SessionsComponent {
         [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.READ),
         [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.DELETE),
         [CRUD_ACTIONS.DELETE_MULTIPLE]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.DELETE_BULK),
+        [CRUD_ACTIONS.CLEAR_FILTERS]: () => {
+          return (
+            !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
+            Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
+          );
+        },
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
       }
     };
   }
