@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RolesFormComponent } from '@modules/administrator/components';
+import { RolesFiltersFormComponent, RolesFormComponent } from '@modules/administrator/components';
 import { RolesService } from '@modules/administrator/services';
 import { CrudComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS, PERMISSIONS } from '@shared/constants';
 import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
+import { cleanObject } from '@shared/helpers';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, IPermission, IRole, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
@@ -17,20 +17,22 @@ import { finalize } from 'rxjs';
   standalone: true,
   templateUrl: './roles.component.html',
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     TranslateModule,
     CrudComponent,
-    RolesFormComponent
+    RolesFormComponent,
+    RolesFiltersFormComponent
   ]
 })
 export class RolesComponent {
+  @ViewChild('filtersForm', { static: false }) filtersForm!: RolesFiltersFormComponent;
+
   public showTable = false;
   public crudValues: IRole[] = [];
   public crudState: CRUD_STATE = CRUD_STATE.VIEW;
   public crudConfig: ICrudComponent;
   public selectedItem: IRole;
   public formValid: boolean = false;
+  public filtersValue: Partial<IRole> = {};
 
   private literals: ITranslateLiterals;
   private selectedItemId: string;
@@ -157,9 +159,22 @@ export class RolesComponent {
     this.getValues();
   }
 
+  public onClearFilters(): void {
+    this.filtersValue = {};
+    this.filtersForm?.clearForm();
+    this.getValues();
+  }
+
+  public onSearchFilters(): void {
+    this.getValues();
+  }
+
   private getValues(): void {
     this.showTable = false;
-    this.rolesService.find(null, this.paginationQuery)
+    const filter: Partial<IPermission> = Object.values(cleanObject(this.filtersValue))?.length
+      ? this.filtersValue
+      : null;
+    this.rolesService.find(filter, this.paginationQuery)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.showTable = true)
@@ -273,7 +288,7 @@ export class RolesComponent {
   private setCrudConfig(): void {
     this.crudConfig = {
       toolbarEnabled: true,
-      filtersEnabled: false,
+      filtersEnabled: true,
       onlyTable: false,
       tableActions: [
         { ...CRUD_EDIT_TABLE_ACTION },
@@ -337,7 +352,14 @@ export class RolesComponent {
         [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.READ),
         [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.READ),
         [CRUD_ACTIONS.EDIT]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.UPDATE),
-        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.DELETE)
+        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.DELETE),
+        [CRUD_ACTIONS.CLEAR_FILTERS]: () => {
+          return (
+            !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
+            Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
+          );
+        },
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
       }
     };
   }

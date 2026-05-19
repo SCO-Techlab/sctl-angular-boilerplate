@@ -8,7 +8,15 @@
   (selectAction)="onSelectAction($event)"
   (closeForm)="onCloseFormDialog($event)"
   (pagination)="onPagination($event)"
+  (clearFilters)="onClearFilters()"
+  (searchFilters)="onSearchFilters()"
 >
+  <sctl-roles-filters-form class="contents"
+    filtersForm 
+    #filtersForm
+    (valueChange)="filtersValue=$event;"
+  ></sctl-roles-filters-form>
+
   @if (selectedItem) {
     <sctl-roles-form form
       [value]="selectedItem"
