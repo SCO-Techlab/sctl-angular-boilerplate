@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { XLSX_CONSTANTS } from '@shared/constants';
+import { MAGIC_NUMBERS, XLSX_CONSTANTS } from '@shared/constants';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
@@ -7,6 +7,23 @@ import * as XLSX from 'xlsx';
   providedIn: 'root'
 })
 export class XlsxService {
+
+  public createStandardColsInfo(json: any[]): XLSX.ColInfo[] {
+    if (!json?.length) {
+      return [];
+    }
+
+    const keys: string[] = Object.keys(json[MAGIC_NUMBERS.N_0]);
+    if (!keys?.length) {
+      return [];
+    }
+
+    const colsInfo = keys.map(key => {
+      return { wch: Math.max(...json.map(item => item[key]?.toString()?.length ?? MAGIC_NUMBERS.N_0), key.length) + MAGIC_NUMBERS.N_2 }
+    });
+
+    return colsInfo ?? [];
+  }
 
   public exportAsExcel(json: any[], excelFileName: string, colsInfo?: XLSX.ColInfo[]): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
