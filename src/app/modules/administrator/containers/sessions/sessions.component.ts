@@ -1,7 +1,6 @@
 import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SessionsFiltersFormComponent } from '@modules/administrator/components';
-import { SESSIONS_TABS } from '@modules/administrator/enums';
 import { ISession } from '@modules/administrator/interfaces';
 import { SessionsService } from '@modules/administrator/services';
 import { CrudComponent } from '@shared/components';
@@ -11,7 +10,6 @@ import { cleanObject } from '@shared/helpers';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, UserService, XlsxService } from '@shared/services';
-import { TabsModule } from 'primeng/tabs';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -21,16 +19,11 @@ import { finalize } from 'rxjs';
   imports: [
     TranslateModule,
     CrudComponent,
-    TabsModule,
     SessionsFiltersFormComponent
   ]
 })
 export class SessionsComponent {
   @ViewChild('filtersForm', { static: false }) filtersForm!: SessionsFiltersFormComponent;
-
-  public readonly SESSIONS_TABS = SESSIONS_TABS;
-  public currentTab: SESSIONS_TABS;
-  public isRefresh: boolean;
 
   public showTable = false;
   public crudValues: ISession[] = [];
@@ -52,8 +45,6 @@ export class SessionsComponent {
   private datesService = inject(DatesService);
 
   ngOnInit() {
-    this.isRefresh = false;
-    this.currentTab = SESSIONS_TABS.SESSIONS;
     this.translateService.stream('SESSIONS')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
@@ -63,21 +54,9 @@ export class SessionsComponent {
       });
   }
 
-  public onTabChange($event: string | number): void {
-    if ($event === this.currentTab) {
-      return;
-    }
-
-    this.currentTab = $event as SESSIONS_TABS;
-    this.isRefresh = this.currentTab === SESSIONS_TABS.REFRESH_SESSIONS;
-    this.onClearFilters();
-    this.setCrudConfig();
-    this.getValues();
-  }
-
   public async onExportData(): Promise<void> {
     const values = await new Promise<ISession[]>((resolve) => {
-      this.sessionsService.find(null, this.isRefresh)
+      this.sessionsService.find(null)
         .pipe(takeUntilDestroyed(this.destroyRef$))
         .subscribe({
           next: (res: ISession[]) => resolve(res ?? []),
@@ -99,9 +78,13 @@ export class SessionsComponent {
       return {
         ['_id']: item._id,
         [this.literals?.['COLS']['USER']]: item?.user?.email,
-        [this.literals?.['COLS']['JTI']]: item.jti,
-        [this.literals?.['COLS']['EXPIRES_AT']]: item.expiresAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.expiresAt) : '',
+        [this.literals?.['COLS']['ACCESS_JTI']]: item.accessJti,
+        [this.literals?.['COLS']['ACCESS_EXPIRES_AT']]: item.accessExpiresAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.accessExpiresAt) : '',
+        [this.literals?.['COLS']['REFRESH_JTI']]: item.refreshJti,
+        [this.literals?.['COLS']['REFRESH_EXPIRES_AT']]: item.refreshExpiresAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.refreshExpiresAt) : '',
         [this.literals?.['COLS']['IS_REVOKED']]: item.isRevoked ? yes : no,
+        [this.literals?.['COLS']['IS_ACCESS_REVOKED']]: item.isAccessRevoked ? yes : no,
+        [this.literals?.['COLS']['IS_REFRESH_REVOKED']]: item.isRefreshRevoked ? yes : no,
         [this.literals?.['COLS']['REVOKED_AT']]: item.revokedAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.revokedAt) : '',
         [this.literals?.['COLS']['CREATED_AT']]: item.createdAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.createdAt) : '',
         [this.literals?.['COLS']['UPDATED_AT']]: item.updatedAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.updatedAt) : ''
@@ -110,7 +93,7 @@ export class SessionsComponent {
 
     this.xlsxService.exportAsExcel(
       formatData,
-      !this.isRefresh ? this.literals?.['FILENAME'] : this.literals?.['REFRESH_FILENAME'],
+      this.literals?.['FILENAME'],
       this.xlsxService.createStandardColsInfo(formatData)
     );
   }
@@ -140,7 +123,7 @@ export class SessionsComponent {
       acceptButton: { label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
-        this.sessionsService.deleteMultiple(values, this.isRefresh)
+        this.sessionsService.deleteMultiple(values)
           .pipe(
             takeUntilDestroyed(this.destroyRef$),
             finalize(() => this.spinnerService.hide())
@@ -200,7 +183,7 @@ export class SessionsComponent {
     const filter: any = Object.values(cleanObject(this.filtersValue))?.length
       ? this.filtersValue
       : null;
-    this.sessionsService.find(filter, this.isRefresh, this.paginationQuery)
+    this.sessionsService.find(filter, this.paginationQuery)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.showTable = true)
@@ -220,12 +203,12 @@ export class SessionsComponent {
 
     this.confirmDialogService.confirm({
       header: this.literals?.['DELETE']?.['HEADER'],
-      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${value?.user?.email} - ${value?.jti}</center>`,
+      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${value?.user?.email} - ${value?._id}</center>`,
       rejectButton: { label: this.literals?.['DELETE']?.['CANCEL'] },
       acceptButton: { label: this.literals?.['DELETE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
-        this.sessionsService.delete(value, this.isRefresh)
+        this.sessionsService.delete(value)
           .pipe(
             takeUntilDestroyed(this.destroyRef$),
             finalize(() => this.spinnerService.hide())
@@ -264,12 +247,12 @@ export class SessionsComponent {
 
     this.confirmDialogService.confirm({
       header: this.literals?.['REVOKE']?.['HEADER'],
-      message: `${this.literals?.['REVOKE']?.['MESSAGE']}<br><br><center>${value?.user?.email} - ${value?.jti}</center>`,
+      message: `${this.literals?.['REVOKE']?.['MESSAGE']}<br><br><center>${value?.user?.email} - ${value?._id}</center>`,
       rejectButton: { label: this.literals?.['REVOKE']?.['CANCEL'] },
       acceptButton: { label: this.literals?.['REVOKE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
-        this.sessionsService.revoke(value?._id, this.isRefresh)
+        this.sessionsService.revoke(value?._id)
           .pipe(
             takeUntilDestroyed(this.destroyRef$),
             finalize(() => this.spinnerService.hide())
@@ -327,14 +310,32 @@ export class SessionsComponent {
           options: { callback: { fn: (value: ISession) => value?.user?.email ?? '' } }
         },
         {
-          header: this.literals?.['COLS']['JTI'],
-          field: 'jti'
+          header: this.literals?.['COLS']['ACCESS_JTI'],
+          field: 'accessJti',
+          headerStyles: 'min-width: 300px',
+          fieldStyles: 'min-width: 300px',
         },
         {
-          header: this.literals?.['COLS']['EXPIRES_AT'],
-          field: 'expiresAt',
+          header: this.literals?.['COLS']['ACCESS_EXPIRES_AT'],
+          field: 'accessExpiresAt',
           type: CRUD_COLUMN_TYPE.DATE,
-          options: { date: { format: DATES.ISO_DATETIME } }
+          options: { date: { format: DATES.ISO_DATETIME } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
+        },
+        {
+          header: this.literals?.['COLS']['REFRESH_JTI'],
+          field: 'refreshJti',
+          headerStyles: 'min-width: 300px',
+          fieldStyles: 'min-width: 300px',
+        },
+        {
+          header: this.literals?.['COLS']['REFRESH_EXPIRES_AT'],
+          field: 'refreshExpiresAt',
+          type: CRUD_COLUMN_TYPE.DATE,
+          options: { date: { format: DATES.ISO_DATETIME } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
         },
         {
           header: this.literals?.['COLS']['IS_REVOKED'],
@@ -342,25 +343,41 @@ export class SessionsComponent {
           type: CRUD_COLUMN_TYPE.BOOLEAN
         },
         {
+          header: this.literals?.['COLS']['IS_ACCESS_REVOKED'],
+          field: 'isAccessRevoked',
+          type: CRUD_COLUMN_TYPE.BOOLEAN
+        },
+        {
+          header: this.literals?.['COLS']['IS_REFRESH_REVOKED'],
+          field: 'isRefreshRevoked',
+          type: CRUD_COLUMN_TYPE.BOOLEAN
+        },
+        {
           header: this.literals?.['COLS']['REVOKED_AT'],
           field: 'revokedAt',
           type: CRUD_COLUMN_TYPE.DATE,
-          options: { date: { format: DATES.ISO_DATETIME } }
+          options: { date: { format: DATES.ISO_DATETIME } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
         },
         {
           header: this.literals?.['COLS']['CREATED_AT'],
           field: 'createdAt',
           type: CRUD_COLUMN_TYPE.DATE,
-          options: { date: { format: DATES.ISO_DATETIME } }
+          options: { date: { format: DATES.ISO_DATETIME } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
         },
         {
           header: this.literals?.['COLS']['UPDATED_AT'],
           field: 'updatedAt',
           type: CRUD_COLUMN_TYPE.DATE,
-          options: { date: { format: DATES.ISO_DATETIME } }
+          options: { date: { format: DATES.ISO_DATETIME } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
         },
       ],
-      globalFilterFields: ['user', 'jti'],
+      globalFilterFields: ['user'],
       dataKey: '_id',
       titleKeys: [],
       rowHover: true,
@@ -374,7 +391,7 @@ export class SessionsComponent {
         first: null
       },
       literals: {
-        TITLE: !this.isRefresh ? this.literals?.['TITLE'] : this.literals?.['REFRESH_TITLE']
+        TITLE: this.literals?.['TITLE']
       },
       disabledButtons: {
         [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.READ),

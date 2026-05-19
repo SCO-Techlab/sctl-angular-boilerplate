@@ -486,21 +486,19 @@
   },
   "SESSIONS": {
     "TITLE": "Manage sessions",
-    "REFRESH_TITLE": "Manage refresh sessions",
-    "TABS": {
-      "SESSIONS": "Sessions",
-      "REFRESH_SESSIONS": "Refresh Sessions"
-    },
     "FILENAME": "sessions",
-    "REFRESH_FILENAME": "refresh_sessions",
     "COLS": {
       "USER": "User",
-      "JTI": "Jti",
-      "EXPIRES_AT": "Expires at",
+      "ACCESS_JTI": "Access Jti",
+      "ACCESS_EXPIRES_AT": "Access Expires At",
+      "REFRESH_JTI": "Refresh Jti",
+      "REFRESH_EXPIRES_AT": "Refresh Expires At",
       "IS_REVOKED": "Revoked",
-      "REVOKED_AT": "Revoked at",
-      "CREATED_AT": "Created at",
-      "UPDATED_AT": "Updated at"
+      "IS_ACCESS_REVOKED": "Access Revoked",
+      "IS_REFRESH_REVOKED": "Refresh Revoked",
+      "REVOKED_AT": "Revoked At",
+      "CREATED_AT": "Created At",
+      "UPDATED_AT": "Updated At"
     },
     "DELETE": {
       "HEADER": "Delete session",

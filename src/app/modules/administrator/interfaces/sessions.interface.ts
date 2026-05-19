@@ -3,10 +3,14 @@ import { IUser } from "@shared/interfaces";
 export interface ISession {
   _id?: string;
   user: IUser;
-  jti: string;
-  expiresAt: Date;
+  accessJti: string;
+  accessExpiresAt: Date;
+  refreshJti?: string;
+  refreshExpiresAt?: Date;
   isRevoked: boolean;
-  revokedAt: Date | undefined;
+  isAccessRevoked?: boolean;
+  isRefreshRevoked?: boolean;
+  revokedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

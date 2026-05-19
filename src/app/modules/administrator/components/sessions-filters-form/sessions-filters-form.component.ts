@@ -46,8 +46,11 @@ export class SessionsFiltersFormComponent implements OnInit {
   private initForm(): void {
     this.form = new FormGroup({
       user: new FormControl(null),
-      jti: new FormControl(null),
-      isRevoked: new FormControl(null)
+      accessJti: new FormControl(null),
+      refreshJti: new FormControl(null),
+      isRevoked: new FormControl(null),
+      isAccessRevoked: new FormControl(null),
+      isRefreshRevoked: new FormControl(null)
     });
 
     this.form.valueChanges

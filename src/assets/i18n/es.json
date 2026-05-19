@@ -486,18 +486,16 @@
   },
   "SESSIONS": {
     "TITLE": "Administrar sesiones",
-    "REFRESH_TITLE": "Administrar sesiones de refresco",
-    "TABS": {
-      "SESSIONS": "Sesiones",
-      "REFRESH_SESSIONS": "Sesiones de refresco"
-    },
     "FILENAME": "sesiones",
-    "REFRESH_FILENAME": "sesiones_refresco",
     "COLS": {
       "USER": "Usuario",
-      "JTI": "Jti",
-      "EXPIRES_AT": "Expira en",
+      "ACCESS_JTI": "Jti acceso",
+      "ACCESS_EXPIRES_AT": "Acceso expira en",
+      "REFRESH_JTI": "Jti refresh",
+      "REFRESH_EXPIRES_AT": "Refresh expira en",
       "IS_REVOKED": "Revocada",
+      "IS_ACCESS_REVOKED": "Acceso revocado",
+      "IS_REFRESH_REVOKED": "Refresh revocado",
       "REVOKED_AT": "Revocada en",
       "CREATED_AT": "Creado en",
       "UPDATED_AT": "Actualizado en"

@@ -1,29 +1,20 @@
-<p-tabs body [value]="currentTab" (valueChange)="onTabChange($event)">
-  <p-tablist>
-    <p-tab [value]="SESSIONS_TABS.SESSIONS">{{ 'SESSIONS.TABS.SESSIONS' | translate }}</p-tab>
-    <p-tab [value]="SESSIONS_TABS.REFRESH_SESSIONS">{{ 'SESSIONS.TABS.REFRESH_SESSIONS' | translate }}</p-tab>
-  </p-tablist>
-</p-tabs>
-
-<div class="mt-2">
-  <sctl-crud
-    [showTable]="showTable"
-    [data]="crudValues"
-    [state]="crudState"
-    [config]="crudConfig" 
-    (new)="undefined"
-    (deleteMultiple)="onDeleteMultiple($event)"
-    (selectAction)="onSelectAction($event)"
-    (closeForm)="undefined"
-    (pagination)="onPagination($event)"
-    (clearFilters)="onClearFilters()"
-    (searchFilters)="onSearchFilters()"
-    (export)="onExportData()"
-  >
-    <sctl-sessions-filters-form class="contents"
-      filtersForm 
-      #filtersForm
-      (valueChange)="filtersValue=$event;"
-    ></sctl-sessions-filters-form>
-  </sctl-crud>
-</div>
+<sctl-crud
+  [showTable]="showTable"
+  [data]="crudValues"
+  [state]="crudState"
+  [config]="crudConfig" 
+  (new)="undefined"
+  (deleteMultiple)="onDeleteMultiple($event)"
+  (selectAction)="onSelectAction($event)"
+  (closeForm)="undefined"
+  (pagination)="onPagination($event)"
+  (clearFilters)="onClearFilters()"
+  (searchFilters)="onSearchFilters()"
+  (export)="onExportData()"
+>
+  <sctl-sessions-filters-form class="contents"
+    filtersForm 
+    #filtersForm
+    (valueChange)="filtersValue=$event;"
+  ></sctl-sessions-filters-form>
+</sctl-crud>
