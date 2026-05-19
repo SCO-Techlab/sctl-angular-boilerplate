@@ -348,13 +348,17 @@ export class PermissionsComponent {
           header: this.literals?.['COLS']['CREATED_AT'],
           field: 'createdAt',
           type: CRUD_COLUMN_TYPE.DATE,
-          options: { date: { format: DATES.ISO_DATETIME } }
+          options: { date: { format: DATES.ISO_DATETIME } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
         },
         {
           header: this.literals?.['COLS']['UPDATED_AT'],
           field: 'updatedAt',
           type: CRUD_COLUMN_TYPE.DATE,
-          options: { date: { format: DATES.ISO_DATETIME } }
+          options: { date: { format: DATES.ISO_DATETIME } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
         },
       ],
       globalFilterFields: ['name', 'type'],
