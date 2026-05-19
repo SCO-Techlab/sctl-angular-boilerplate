@@ -21,7 +21,10 @@
       formControlName="role"
       [optionLabel]="'name'"
       [optionValue]="'value'"
-      class="w-full md:w-56" 
+      class="w-full md:w-56"
+      [filter]="true" 
+      [filterBy]="'name'"
+      [showClear]="true"
     />
   </div>
   <div>
@@ -36,7 +39,8 @@
       formControlName="active"
       [optionLabel]="'name'"
       [optionValue]="'value'"
-      class="w-full md:w-56" 
+      class="w-full md:w-56"
+      [showClear]="true"
     />
   </div>
   <div>
@@ -72,6 +76,7 @@
       [optionLabel]="'name'"
       [optionValue]="'value'"
       class="w-full md:w-56" 
+      [showClear]="true"
     />
   </div>
 </form>
