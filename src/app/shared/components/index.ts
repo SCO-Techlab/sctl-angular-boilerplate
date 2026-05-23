@@ -1,6 +1,5 @@
 export * from './card';
 export * from './crud';
-export * from './dialog';
 export * from './file-upload-dialog';
 export * from './json-editor-dialog';
 export * from './loader';

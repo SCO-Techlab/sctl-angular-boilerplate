@@ -1,4 +1,4 @@
-import { IDialogComponent } from "./dialog.interface";
+import { IDialogComponent } from "@core/shared/interfaces";
 
 export interface IFileUploadDialogComponent {
   dialogConfig: IDialogComponent;

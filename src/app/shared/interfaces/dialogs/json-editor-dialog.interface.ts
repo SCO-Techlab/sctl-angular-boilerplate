@@ -1,5 +1,4 @@
-import { IJsonEditorComponent } from "@core/shared/interfaces";
-import { IDialogComponent } from "./dialog.interface";
+import { IDialogComponent, IJsonEditorComponent } from "@core/shared/interfaces";
 
 export interface IJsonEditorDialogComponent {
   dialogConfig: IDialogComponent;
