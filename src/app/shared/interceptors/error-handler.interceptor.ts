@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { UserService } from '@shared/services';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

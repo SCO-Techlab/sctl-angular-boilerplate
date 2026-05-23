@@ -2,9 +2,10 @@ import { Component, DestroyRef, HostListener, inject, OnInit } from '@angular/co
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import { SessionStorageState } from '@core/session-storage';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { Store } from '@ngxs/store';
 import { SpinnerComponent, ToastComponent } from '@shared/components';
-import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
+import { CONFIG_CONSTANTS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
 import { ILayoutConfig, ISpinnerComponent, IToastComponent } from '@shared/interfaces';
 import { ConfigService, LayoutService, ScreenService, SpinnerService, TranslateService } from '@shared/services';

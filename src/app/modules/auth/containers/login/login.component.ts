@@ -6,13 +6,14 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { InputErrorComponent } from '@core/components';
 import { SessionStorageState, SetRefreshToken } from '@core/session-storage';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { INPUT_ERROR } from '@core/shared/enums';
 import { IInputErrorComponent } from '@core/shared/interfaces';
 import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components';
 import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent, IAuthEvent, IAuthInput, IAuthLinksComponent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
-import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
+import { REGEX_PATTERNS } from '@shared/constants';
 import { TOAST_SEVERITY } from '@shared/enums';
 import { IJwtPayload, IJwtToken, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';

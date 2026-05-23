@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MAGIC_NUMBERS } from '@shared/constants';
 import { IJwtPayload } from '@shared/interfaces';
 import { jwtDecode } from 'jwt-decode';
 

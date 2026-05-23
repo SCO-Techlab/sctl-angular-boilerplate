@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { SCREEN_SIZE } from '@shared/enums';
 import { Subject } from 'rxjs';
 
@@ -77,7 +77,7 @@ export class ScreenService {
     else {
       this._size = SCREEN_SIZE.XS;
     }
-    
+
     this.onSizeChange.next({ size: this._size, width });
   }
 }

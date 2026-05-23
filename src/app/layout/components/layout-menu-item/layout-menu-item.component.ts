@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { TranslateModule } from '@shared/modules';
 import { LayoutService } from '@shared/services';
 import { MenuItem } from 'primeng/api';

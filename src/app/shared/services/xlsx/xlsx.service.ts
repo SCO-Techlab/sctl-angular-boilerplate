@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MAGIC_NUMBERS, XLSX_CONSTANTS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { XLSX_CONSTANTS } from '@shared/constants';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 

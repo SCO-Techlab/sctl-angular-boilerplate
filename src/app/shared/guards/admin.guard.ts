@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { MAGIC_NUMBERS, ROLES } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { ROLES } from '@shared/constants';
 import { UserService } from '@shared/services';
 
 @Injectable()

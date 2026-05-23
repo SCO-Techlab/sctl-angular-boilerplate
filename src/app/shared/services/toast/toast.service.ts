@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { TOAST_SEVERITY } from '@shared/enums';
 import { IToastMessage } from '@shared/interfaces';
 import { BehaviorSubject } from 'rxjs';

@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { ISpinnerComponent } from '@shared/interfaces';
 import { SpinnerService } from '@shared/services';
 import { LoaderComponent } from '../loader';

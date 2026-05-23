@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { IAuthLinksComponent } from '@modules/auth/interfaces';
-import { MAGIC_NUMBERS } from '@shared/constants';
 
 @Component({
   selector: 'sctl-auth-links',

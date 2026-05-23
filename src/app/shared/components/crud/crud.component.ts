@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, input, OnInit, output, QueryList, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CRUD_ACTIONS, DATES, MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { CRUD_ACTIONS, DATES } from '@shared/constants';
 import { CrudTemplateDirective } from '@shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
 import { ICrudColumn, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@shared/interfaces';

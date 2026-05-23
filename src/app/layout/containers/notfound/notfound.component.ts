@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { INotfoundComponent } from '@layout/interfaces';
-import { MAGIC_NUMBERS } from '@shared/constants';
 import { ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { TranslateService } from '@shared/services';

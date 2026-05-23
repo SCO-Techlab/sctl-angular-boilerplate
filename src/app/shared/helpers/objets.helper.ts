@@ -1,4 +1,4 @@
-import { MAGIC_NUMBERS } from "@shared/constants";
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 
 export const cleanObject = <T extends Record<string, any>>(obj: T): Partial<T> =>
   Object.entries(obj ?? {}).reduce((acc, [key, value]) => {

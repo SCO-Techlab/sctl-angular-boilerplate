@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Inject, Injectable } from '@angular/core';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { ITranslateConfig, ITranslateLiterals } from '@shared/interfaces';
 import { BehaviorSubject, from, map, Observable, of, switchMap } from 'rxjs';
 

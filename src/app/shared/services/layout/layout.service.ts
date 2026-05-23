@@ -1,5 +1,6 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
-import { LAYOUT_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { LAYOUT_CONSTANTS } from '@shared/constants';
 import { ILayoutConfig, ILayoutMenuChangeEvent, ILayoutState } from '@shared/interfaces';
 import { Subject } from 'rxjs';
 

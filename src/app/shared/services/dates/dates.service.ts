@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DATES, MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { DATES, REGEX_PATTERNS } from '@shared/constants';
 import { DateInput } from '@shared/types';
 import {
   addDays,
@@ -30,8 +31,8 @@ import {
 export class DatesService {
 
   public formatDate(formatTo?: string, date?: DateInput): string {
-    return date 
-      ? format(new Date(date), formatTo) 
+    return date
+      ? format(new Date(date), formatTo)
       : format(new Date(), formatTo);
   }
 

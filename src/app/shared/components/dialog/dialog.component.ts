@@ -1,5 +1,5 @@
 import { Component, effect, inject, input, OnInit, output } from '@angular/core';
-import { MAGIC_NUMBERS } from '@shared/constants';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@shared/enums';
 import { IDialogComponent } from '@shared/interfaces';
 import { ScreenService } from '@shared/services';
