@@ -1,8 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { TranslateDirective } from '@shared/directives';
-import { TranslateProviderFactory } from '@shared/factories';
-import { ITranslateConfig } from '@shared/interfaces';
-import { TranslatePipe } from '@shared/pipes';
+import { TranslateDirective } from '@core/shared/directives';
+import { TranslateProviderFactory } from '@core/shared/factories';
+import { ITranslateConfig } from '@core/shared/interfaces';
+import { TranslatePipe } from '@core/shared/pipes';
 
 @NgModule({
   imports: [

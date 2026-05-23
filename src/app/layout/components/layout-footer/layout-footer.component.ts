@@ -1,9 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { TranslateService } from '@core/shared/services';
 import { CONFIG_CONSTANTS } from '@shared/constants';
-import { ITranslateLiterals } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { ConfigService, TranslateService } from '@shared/services';
+import { ConfigService } from '@shared/services';
 
 @Component({
   standalone: true,
@@ -18,9 +19,9 @@ export class LayoutFooterComponent implements OnInit {
   public footerLink: string = '';
   public footerLinkText: string = '';
 
-  private destroyRef$ = inject(DestroyRef);
-  private configService = inject(ConfigService);
-  private translateService = inject(TranslateService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly configService = inject(ConfigService);
+  private readonly translateService = inject(TranslateService);
 
   constructor() {
     this.footerLinkText = this.configService.get(CONFIG_CONSTANTS.APP_NAME);

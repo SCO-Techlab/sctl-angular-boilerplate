@@ -3,12 +3,13 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angula
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { SessionStorageState } from '@core/session-storage';
+import { TranslateProviderFactory } from '@core/shared/factories';
 import { ScreenService, ToastService } from '@core/shared/services';
 import { environment } from '@environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import Aura from '@primeuix/themes/aura';
-import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
+import { ConfigInitializerFactory } from '@shared/factories';
 import { AdminGuard, AuthGuard } from '@shared/guards';
 import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
 import { ConfigService } from '@shared/services';

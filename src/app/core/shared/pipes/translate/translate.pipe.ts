@@ -1,19 +1,20 @@
 import { ChangeDetectorRef, DestroyRef, Pipe, PipeTransform, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslateService } from '@shared/services';
+import { TranslateService } from '@core/shared/services';
 
 @Pipe({
   name: 'translate',
   pure: false
 })
 export class TranslatePipe implements PipeTransform {
+
   private lastKey?: string;
   private lastParams?: Record<string, any>;
   private value?: string;
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   constructor() {
     this.translateService.onLangChange$
@@ -25,7 +26,7 @@ export class TranslatePipe implements PipeTransform {
       });
   }
 
-  transform(key: string, params?: Record<string, any>): string {
+  public transform(key: string, params?: Record<string, any>): string {
     if (!key) {
       return '';
     }

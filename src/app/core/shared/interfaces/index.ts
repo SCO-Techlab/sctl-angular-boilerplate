@@ -4,4 +4,5 @@ export * from './json-editor';
 export * from './loader';
 export * from './spinner';
 export * from './toast';
+export * from './translate';
 

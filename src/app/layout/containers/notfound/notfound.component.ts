@@ -2,10 +2,10 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { TranslateService } from '@core/shared/services';
 import { INotfoundComponent } from '@layout/interfaces';
-import { ITranslateLiterals } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 
 @Component({

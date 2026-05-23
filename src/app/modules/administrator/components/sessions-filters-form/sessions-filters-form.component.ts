@@ -1,11 +1,11 @@
 import { Component, DestroyRef, inject, OnInit, output, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@core/shared/modules';
+import { TranslateService } from '@core/shared/services';
 import { ISession } from '@modules/administrator/interfaces';
 import { UsersService } from '@modules/administrator/services';
 import { IUser } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { TranslateService } from '@shared/services';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 

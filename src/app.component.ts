@@ -6,11 +6,11 @@ import { SessionStorageState } from '@core/session-storage';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { TOAST_POSITION } from '@core/shared/enums';
 import { ISpinnerComponent, IToastComponent } from '@core/shared/interfaces';
-import { ScreenService, SpinnerService } from '@core/shared/services';
+import { ScreenService, SpinnerService, TranslateService } from '@core/shared/services';
 import { Store } from '@ngxs/store';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { ILayoutConfig } from '@shared/interfaces';
-import { ConfigService, LayoutService, TranslateService } from '@shared/services';
+import { ConfigService, LayoutService } from '@shared/services';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({

@@ -2,16 +2,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
-import { SpinnerService, ToastService } from '@core/shared/services';
+import { ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { PermissionsFiltersFormComponent, PermissionsFormComponent } from '@modules/administrator/components';
 import { PermissionsService } from '@modules/administrator/services';
 import { CrudComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, PERMISSIONS } from '@shared/constants';
 import { CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers/objets.helper';
-import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, IPermission, ITranslateLiterals } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, DatesService, TranslateService, UserService, XlsxService } from '@shared/services';
+import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, IPermission } from '@shared/interfaces';
+import { ConfirmDialogService, DatesService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({

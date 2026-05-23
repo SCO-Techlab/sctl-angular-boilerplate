@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { TranslateModule } from '@shared/modules';
+import { TranslateModule } from '@core/shared/modules';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -12,11 +12,11 @@ import { ButtonModule } from 'primeng/button';
   ]
 })
 export class ProfileFormComponent {
-  
+
   public lockForm = input<boolean>(true);
   public showSaveButton = input<boolean>(true);
   public saveDisabled = input<boolean>(false);
-  
+
   public save = output<void>();
   public lock = output<void>();
 

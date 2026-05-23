@@ -3,14 +3,14 @@ import { Component, computed, DestroyRef, inject, PLATFORM_ID, signal } from '@a
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { TranslateService } from '@core/shared/services';
 import { $t, updatePreset, updateSurfacePalette } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
-import { ITranslateLiterals } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { LayoutService, TranslateService } from '@shared/services';
-import { PrimeNG } from 'primeng/config';
+import { LayoutService } from '@shared/services';
 import { SelectButtonModule } from 'primeng/selectbutton';
 
 const presets = {

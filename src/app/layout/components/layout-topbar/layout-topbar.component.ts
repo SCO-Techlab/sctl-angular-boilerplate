@@ -2,11 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { TranslateService } from '@core/shared/services';
 import { ThemeConfiguratorComponent, UserAvatarComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
-import { ITranslateLiterals, IUser } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { AuthService, ConfigService, LayoutService, TranslateService, UserService } from '@shared/services';
+import { IUser } from '@shared/interfaces';
+import { AuthService, ConfigService, LayoutService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -34,13 +36,13 @@ export class LayoutTopbarComponent implements OnInit {
   public appName: string = '';
   public user: IUser;
 
-  public layoutService = inject(LayoutService);
-  private destroyRef$ = inject(DestroyRef);
-  private configService = inject(ConfigService);
-  private router = inject(Router);
-  private translateService = inject(TranslateService);
-  private authService = inject(AuthService);
-  private userService = inject(UserService);
+  public readonly layoutService = inject(LayoutService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly configService = inject(ConfigService);
+  private readonly router = inject(Router);
+  private readonly translateService = inject(TranslateService);
+  private readonly authService = inject(AuthService);
+  private readonly userService = inject(UserService);
 
   constructor() {
     this.isSidebarEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.SIDEBAR_ENABLED);

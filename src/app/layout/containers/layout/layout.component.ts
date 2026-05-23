@@ -1,14 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { LayoutFooterComponent, LayoutSidebarComponent, LayoutTopbarComponent } from '@layout/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { LAYOUT_MENU } from '@shared/enums';
-import { ITranslateLiterals } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { ConfigService, LayoutService, TranslateService } from '@shared/services';
-import { MenuItem } from 'primeng/api';
+import { ConfigService, LayoutService } from '@shared/services';
 import { filter, Subscription } from 'rxjs';
 
 @Component({

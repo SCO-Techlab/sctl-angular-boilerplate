@@ -3,8 +3,9 @@ import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@an
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
-import { IDialogComponent } from '@core/shared/interfaces';
-import { SpinnerService, ToastService } from '@core/shared/services';
+import { IDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { EditPasswordDialogComponent, UsersFiltersFormComponent, UsersFormComponent } from '@modules/administrator/components';
 import { UsersService } from '@modules/administrator/services';
 import { CrudComponent, UserAvatarComponent } from '@shared/components';
@@ -12,9 +13,8 @@ import { CRUD_ACTIONS, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD
 import { CrudTemplateDirective } from '@shared/directives';
 import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
-import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, ITranslateLiterals, IUser } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, DatesService, TranslateService, UserService, XlsxService } from '@shared/services';
+import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, IUser } from '@shared/interfaces';
+import { ConfirmDialogService, DatesService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({

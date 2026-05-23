@@ -4,11 +4,11 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { InputErrorComponent, JsonEditorComponent } from '@core/components';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { INPUT_ERROR, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
-import { IInputErrorComponent, IJsonEditorComponent } from '@core/shared/interfaces';
+import { IInputErrorComponent, IJsonEditorComponent, ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { TranslateService } from '@core/shared/services';
 import { RolesService } from '@modules/administrator/services';
-import { IMenuFront, IRole, ITranslateLiterals } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { TranslateService } from '@shared/services';
+import { IMenuFront, IRole } from '@shared/interfaces';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';

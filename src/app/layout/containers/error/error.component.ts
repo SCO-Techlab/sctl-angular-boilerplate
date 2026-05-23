@@ -2,10 +2,10 @@ import { NgClass } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { ITranslateLiterals } from '@core/shared/interfaces';
+import { TranslateModule } from '@core/shared/modules';
+import { TranslateService } from '@core/shared/services';
 import { IErrorComponent } from '@layout/interfaces';
-import { ITranslateLiterals } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
-import { TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -16,7 +16,7 @@ import { ButtonModule } from 'primeng/button';
     NgClass,
     TranslateModule,
     ButtonModule
-],
+  ],
 })
 export class ErrorComponent implements OnInit {
 

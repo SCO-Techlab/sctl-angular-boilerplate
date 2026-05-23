@@ -1,1 +1,1 @@
-export * from './containers/layout';
+export * from './containers';

@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, output, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@core/shared/modules';
 import { IRole } from '@shared/interfaces';
-import { TranslateModule } from '@shared/modules';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({

@@ -1,6 +1,6 @@
 import { DestroyRef, Directive, ElementRef, Input, OnInit, Renderer2, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslateService } from '@shared/services';
+import { TranslateService } from '@core/shared/services';
 
 @Directive({
   selector: '[translate]',
