@@ -1,8 +1,8 @@
 import { Component, inject, input } from '@angular/core';
 import { LoaderComponent } from '@core/components';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
-import { ISpinnerComponent } from '@shared/interfaces';
-import { SpinnerService } from '@shared/services';
+import { ISpinnerComponent } from '@core/shared/interfaces';
+import { SpinnerService } from '@core/shared/services';
 
 @Component({
   selector: 'sctl-spinner',

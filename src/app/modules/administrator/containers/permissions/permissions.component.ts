@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { SpinnerService } from '@core/shared/services';
 import { PermissionsFiltersFormComponent, PermissionsFormComponent } from '@modules/administrator/components';
 import { PermissionsService } from '@modules/administrator/services';
 import { CrudComponent } from '@shared/components';
@@ -10,7 +11,7 @@ import { CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers/objets.helper';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, IPermission, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, UserService, XlsxService } from '@shared/services';
+import { ConfirmDialogService, DatesService, ToastService, TranslateService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({
