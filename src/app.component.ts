@@ -1,16 +1,15 @@
 import { Component, DestroyRef, HostListener, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
-import { SpinnerComponent } from '@core/components';
+import { SpinnerComponent, ToastComponent } from '@core/components';
 import { SessionStorageState } from '@core/session-storage';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
-import { ISpinnerComponent } from '@core/shared/interfaces';
+import { TOAST_POSITION } from '@core/shared/enums';
+import { ISpinnerComponent, IToastComponent } from '@core/shared/interfaces';
 import { ScreenService, SpinnerService } from '@core/shared/services';
 import { Store } from '@ngxs/store';
-import { ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
-import { TOAST_POSITION } from '@shared/enums';
-import { ILayoutConfig, IToastComponent } from '@shared/interfaces';
+import { ILayoutConfig } from '@shared/interfaces';
 import { ConfigService, LayoutService, TranslateService } from '@shared/services';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 

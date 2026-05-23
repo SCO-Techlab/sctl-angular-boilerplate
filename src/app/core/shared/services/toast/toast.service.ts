@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
-import { TOAST_SEVERITY } from '@shared/enums';
-import { IToastMessage } from '@shared/interfaces';
+import { TOAST_SEVERITY } from '@core/shared/enums';
+import { IToastMessage } from '@core/shared/interfaces';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

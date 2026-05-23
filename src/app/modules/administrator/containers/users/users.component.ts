@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
 import { IDialogComponent } from '@core/shared/interfaces';
-import { SpinnerService } from '@core/shared/services';
+import { SpinnerService, ToastService } from '@core/shared/services';
 import { EditPasswordDialogComponent, UsersFiltersFormComponent, UsersFormComponent } from '@modules/administrator/components';
 import { UsersService } from '@modules/administrator/services';
 import { CrudComponent, UserAvatarComponent } from '@shared/components';
@@ -14,7 +14,7 @@ import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } 
 import { cleanObject } from '@shared/helpers';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ConfirmDialogService, DatesService, ToastService, TranslateService, UserService, XlsxService } from '@shared/services';
+import { ConfirmDialogService, DatesService, TranslateService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({

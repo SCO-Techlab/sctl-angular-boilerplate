@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, inject, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SpinnerService } from '@core/shared/services';
+import { SpinnerService, ToastService } from '@core/shared/services';
 import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileHeaderComponent, ProfilePersonalInformationComponent } from '@modules/profile/components';
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
 import { CardComponent } from '@shared/components';
 import { IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { AuthService, ConfirmDialogService, ToastService, TranslateService, UserService } from '@shared/services';
+import { AuthService, ConfirmDialogService, TranslateService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { finalize } from 'rxjs';

@@ -4,12 +4,12 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { InputErrorComponent } from '@core/components';
 import { INPUT_ERROR } from '@core/shared/enums';
 import { IInputErrorComponent } from '@core/shared/interfaces';
-import { SpinnerService } from '@core/shared/services';
+import { SpinnerService, ToastService } from '@core/shared/services';
 import { ProfileService } from '@modules/profile/services';
 import { REGEX_PATTERNS } from '@shared/constants';
 import { ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { ToastService, TranslateService } from '@shared/services';
+import { TranslateService } from '@shared/services';
 import { PasswordMatchValidator } from '@shared/validators';
 import { PasswordModule } from 'primeng/password';
 import { finalize } from 'rxjs';

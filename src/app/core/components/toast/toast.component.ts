@@ -1,9 +1,9 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
-import { TOAST_POSITION } from '@shared/enums';
-import { IToastComponent, IToastMessage } from '@shared/interfaces';
-import { ToastService } from '@shared/services';
+import { TOAST_POSITION } from '@core/shared/enums';
+import { IToastComponent, IToastMessage } from '@core/shared/interfaces';
+import { ToastService } from '@core/shared/services';
 import { Subscription } from 'rxjs';
 
 @Component({
