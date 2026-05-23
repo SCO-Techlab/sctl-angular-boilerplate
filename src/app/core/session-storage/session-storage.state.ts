@@ -16,22 +16,22 @@ import { ISessionStorageState } from "./session-storage.interface";
 export class SessionStorageState {
 
   @Selector()
-  static darkMode(state: ISessionStorageState): boolean {
+  public static darkMode(state: ISessionStorageState): boolean {
     return state.darkMode;
   }
 
   @Selector()
-  static staticMenu(state: ISessionStorageState): boolean {
+  public static staticMenu(state: ISessionStorageState): boolean {
     return state.staticMenu;
   }
 
   @Selector()
-  static accessToken(state: ISessionStorageState): string {
+  public static accessToken(state: ISessionStorageState): string {
     return state.accessToken;
   }
 
   @Selector()
-  static refreshToken(state: ISessionStorageState): string {
+  public static refreshToken(state: ISessionStorageState): string {
     return state.refreshToken;
   }
 
