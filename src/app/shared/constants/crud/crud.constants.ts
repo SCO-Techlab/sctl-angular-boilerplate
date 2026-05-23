@@ -1,4 +1,4 @@
-import { BUTTON_SEVERITY } from "@shared/enums";
+import { BUTTON_SEVERITY } from "@core/shared/enums";
 import { ICrudTableAction } from "@shared/interfaces";
 
 export const CRUD_ACTIONS = {

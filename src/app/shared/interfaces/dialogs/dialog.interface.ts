@@ -1,4 +1,4 @@
-import { BUTTON_SEVERITY } from "@shared/enums";
+import { BUTTON_SEVERITY } from "@core/shared/enums";
 
 export interface IDialogComponent {
   closeOnSubmit: boolean;

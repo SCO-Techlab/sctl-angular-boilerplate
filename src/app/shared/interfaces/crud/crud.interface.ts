@@ -1,5 +1,6 @@
+import { BUTTON_SEVERITY } from "@core/shared/enums";
 import { CRUD_ACTIONS } from "@shared/constants";
-import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE } from "@shared/enums";
+import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE } from "@shared/enums";
 
 export interface ICrudComponent {
   toolbarEnabled: boolean;

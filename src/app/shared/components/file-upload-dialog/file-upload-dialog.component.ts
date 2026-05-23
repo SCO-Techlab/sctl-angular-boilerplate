@@ -1,7 +1,7 @@
 import { Component, effect, input, OnInit, output } from '@angular/core';
+import { BUTTON_SEVERITY } from '@core/shared/enums';
 import { DialogComponent } from '@shared/components';
 import { FILE_SIZES } from '@shared/constants';
-import { BUTTON_SEVERITY } from '@shared/enums';
 import { IFileUploadDialogComponent } from '@shared/interfaces';
 import { FileRemoveEvent, FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 
