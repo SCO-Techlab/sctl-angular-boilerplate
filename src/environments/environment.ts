@@ -10,6 +10,6 @@ environment.apiUrl = !environment.httpsEnabled
   ? environment.apiUrl
   : environment.apiUrl.replace('http', 'https');
 
-  environment.socketUrl = !environment.httpsEnabled
+environment.socketUrl = !environment.httpsEnabled
   ? environment.socketUrl
   : environment.socketUrl.replace('ws', 'wss');
