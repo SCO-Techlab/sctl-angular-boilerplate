@@ -1,8 +1,8 @@
 import { NgStyle } from '@angular/common';
 import { Component, ElementRef, input, OnInit, output, ViewChild } from '@angular/core';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
-import { JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
-import { IJsonEditorComponent } from '@shared/interfaces';
+import { JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
+import { IJsonEditorComponent } from '@core/shared/interfaces';
 import JSONEditor from 'jsoneditor';
 
 @Component({

@@ -1,4 +1,4 @@
-import { JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from "@shared/enums";
+import { JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
 
 export interface IJsonEditorComponent {
   mode: JSON_EDITOR_MODE;
