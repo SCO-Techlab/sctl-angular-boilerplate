@@ -124,7 +124,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
   public readonly DATES = DATES;
   public readonly CRUD_ACTIONS = CRUD_ACTIONS;
   public selectedMultipleData: any[] = [];
-  public showFilters = true;
+  public showFilters = false;
 
   public jsonEditorDialogConfig: IJsonEditorDialogComponent;
   public jsonEditorValue: any;
