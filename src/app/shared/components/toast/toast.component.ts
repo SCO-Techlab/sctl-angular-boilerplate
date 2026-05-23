@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { TOAST_POSITION } from '@shared/enums';
 import { IToastComponent, IToastMessage } from '@shared/interfaces';
-import { LayoutService, ToastService } from '@shared/services';
+import { ToastService } from '@shared/services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,18 +27,14 @@ import { Subscription } from 'rxjs';
 })
 export class ToastComponent implements OnInit, OnDestroy {
 
+  public darkTheme = input<boolean>(false);
   public config = input<IToastComponent>({});
 
   public readonly TOAST_POSITION = TOAST_POSITION;
   public messages: IToastMessage[] = [];
   public sub!: Subscription;
 
-  public get darkTheme(): boolean {
-    return this.layoutService.layoutConfig().darkTheme;
-  }
-
-  private toastService = inject(ToastService);
-  private layoutService = inject(LayoutService);
+  private readonly toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.sub = this.toastService.messages$.subscribe(msgs => (this.messages = msgs));

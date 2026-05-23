@@ -1,16 +1,16 @@
 @if (messages?.length) {
-  <div class="toast-container"
+  <div class="sctl-toast"
     [ngClass]="{
-      'toast-container__top-right': getPosition() === TOAST_POSITION.TOP_RIGHT,
-      'toast-container__top-left': getPosition() === TOAST_POSITION.TOP_LEFT,
-      'toast-container__bottom-right': getPosition() === TOAST_POSITION.BOTTOM_RIGHT,
-      'toast-container__bottom-left': getPosition() === TOAST_POSITION.BOTTOM_LEFT,
-      'toast-container__block-top': getPosition() === TOAST_POSITION.TOP_CENTER,
-      'toast-container__block-bottom': getPosition() === TOAST_POSITION.BOTTOM_CENTER
+      'sctl-toast__top-right': getPosition() === TOAST_POSITION.TOP_RIGHT,
+      'sctl-toast__top-left': getPosition() === TOAST_POSITION.TOP_LEFT,
+      'sctl-toast__bottom-right': getPosition() === TOAST_POSITION.BOTTOM_RIGHT,
+      'sctl-toast__bottom-left': getPosition() === TOAST_POSITION.BOTTOM_LEFT,
+      'sctl-toast__block-top': getPosition() === TOAST_POSITION.TOP_CENTER,
+      'sctl-toast__block-bottom': getPosition() === TOAST_POSITION.BOTTOM_CENTER
     }"
   >
     @for (msg of messages; track msg) {
-      <div class="toast {{darkTheme ? msg.severity + '-dark' : msg.severity + '-light'}}" [@toastAnim]>
+      <div class="toast {{darkTheme() ? msg.severity + '-dark' : msg.severity + '-light'}}" [@toastAnim]>
         <div class="toast-content">
           @if (!msg.disableIcon) {
             <i class="toast-icon" [class]="getIcon(msg.severity)"></i>

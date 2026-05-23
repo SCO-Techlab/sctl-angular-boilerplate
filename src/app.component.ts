@@ -29,16 +29,19 @@ export class AppComponent implements OnInit {
 
   public toastConfig: IToastComponent;
   public spinnerConfig: ISpinnerComponent;
-
   public contentReady: boolean = false;
 
-  private destroyRef$ = inject(DestroyRef);
-  private layoutService = inject(LayoutService);
-  private configService = inject(ConfigService);
-  private screenService = inject(ScreenService);
-  private spinnerService = inject(SpinnerService);
-  private translateService = inject(TranslateService);
-  private store = inject(Store);
+  public get darkTheme(): boolean {
+    return this.layoutService?.layoutConfig()?.darkTheme;
+  }
+
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly layoutService = inject(LayoutService);
+  private readonly configService = inject(ConfigService);
+  private readonly screenService = inject(ScreenService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly translateService = inject(TranslateService);
+  private readonly store = inject(Store);
 
   constructor() {
     this.setConfigTheme();
@@ -49,7 +52,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(event): void {
     this.screenService.setSize(event.target.innerWidth);
   }
 
