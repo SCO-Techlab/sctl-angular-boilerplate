@@ -61,7 +61,7 @@
 
     @if (isSidebarEnabled) {
       <div class="flex" [ngClass]="{'me-4': !isUserAvatarEnabled, 'me-2': isUserAvatarEnabled}">
-        <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
+        <button class="layout-menu-button layout-topbar-action" (click)="onMenuButtonClick()">
           <i class="pi pi-bars" [ngStyle]="{ 'font-size': '1.75rem' }"></i>
         </button>
       </div>

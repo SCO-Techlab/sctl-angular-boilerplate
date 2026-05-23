@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { CONFIG_CONSTANTS } from '@core/shared/constants';
+import { ConfigService } from '@core/shared/services';
 import { LayoutFooterComponent, LayoutSidebarComponent, LayoutTopbarComponent } from '@layout/components';
-import { CONFIG_CONSTANTS } from '@shared/constants';
 import { LAYOUT_MENU } from '@shared/enums';
-import { ConfigService, LayoutService } from '@shared/services';
+import { LayoutService } from '@shared/services';
 import { filter, Subscription } from 'rxjs';
 
 @Component({
@@ -55,11 +56,11 @@ export class LayoutComponent implements AfterViewInit, OnDestroy {
     };
   }
 
-  public layoutService = inject(LayoutService);
-  public renderer = inject(Renderer2);
-  public router = inject(Router);
-  public configService = inject(ConfigService);
-  private cdRef = inject(ChangeDetectorRef);
+  private readonly layoutService = inject(LayoutService);
+  private readonly configService = inject(ConfigService);
+  private readonly renderer = inject(Renderer2);
+  private readonly router = inject(Router);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   constructor() {
     this.isFooterEnabled = this.configService.get(CONFIG_CONSTANTS.LAYOUT.FOOTER_ENABLED);

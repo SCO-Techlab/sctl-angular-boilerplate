@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { ConfigService } from '@shared/services';
+import { ConfigService } from '@core/shared/services';
 
 @Pipe({
   name: 'config',
@@ -7,9 +7,9 @@ import { ConfigService } from '@shared/services';
 })
 export class ConfigPipe implements PipeTransform {
 
-  private configService = inject(ConfigService);
+  private readonly configService = inject(ConfigService);
 
-  transform(path: string): any {
+  public transform(path: string): any {
     return this.configService.get(path);
   }
 }

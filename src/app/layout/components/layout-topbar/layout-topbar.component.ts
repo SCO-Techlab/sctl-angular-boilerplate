@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { CONFIG_CONSTANTS } from '@core/shared/constants';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { TranslateService } from '@core/shared/services';
+import { ConfigService, TranslateService } from '@core/shared/services';
 import { ThemeConfiguratorComponent, UserAvatarComponent } from '@shared/components';
-import { CONFIG_CONSTANTS } from '@shared/constants';
 import { IUser } from '@shared/interfaces';
-import { AuthService, ConfigService, LayoutService, UserService } from '@shared/services';
+import { AuthService, LayoutService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -36,10 +36,10 @@ export class LayoutTopbarComponent implements OnInit {
   public appName: string = '';
   public user: IUser;
 
-  public readonly layoutService = inject(LayoutService);
   private readonly destroyRef$ = inject(DestroyRef);
-  private readonly configService = inject(ConfigService);
   private readonly router = inject(Router);
+  private readonly layoutService = inject(LayoutService);
+  private readonly configService = inject(ConfigService);
   private readonly translateService = inject(TranslateService);
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
@@ -61,6 +61,10 @@ export class LayoutTopbarComponent implements OnInit {
 
   public onClickLogo(): void {
     this.router.navigate(['/']);
+  }
+
+  public onMenuButtonClick(): void {
+    this.layoutService.onMenuToggle();
   }
 
   private setActions(literals: ITranslateLiterals): void {

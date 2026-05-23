@@ -1,10 +1,9 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CONFIG_CONSTANTS } from '@core/shared/constants';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { TranslateService } from '@core/shared/services';
-import { CONFIG_CONSTANTS } from '@shared/constants';
-import { ConfigService } from '@shared/services';
+import { ConfigService, TranslateService } from '@core/shared/services';
 
 @Component({
   standalone: true,

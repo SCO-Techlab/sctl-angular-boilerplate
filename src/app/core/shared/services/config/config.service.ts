@@ -9,7 +9,7 @@ export class ConfigService {
 
   private _data: any = {};
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   public async readConfigJson(path: string): Promise<void> {
     try {
@@ -21,13 +21,14 @@ export class ConfigService {
   }
 
   public get(path: string): any {
-    if (!this._data || !path) return null;
+    if (!this._data || !path) {
+      return null;
+    }
 
     return path.split('.').reduce((acc, key) => {
-      if (acc && Object.prototype.hasOwnProperty.call(acc, key)) {
-        return acc[key];
-      }
-      return null;
+      return acc && Object.prototype.hasOwnProperty.call(acc, key)
+        ? acc[key]
+        : null;
     }, this._data);
   }
 

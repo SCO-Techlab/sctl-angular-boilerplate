@@ -1,4 +1,3 @@
-export * from './config';
 export * from './confirm-dialog';
 export * from './crud';
 export * from './dates.constants';

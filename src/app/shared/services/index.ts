@@ -1,5 +1,4 @@
 export * from './auth';
-export * from './config';
 export * from './confirm-dialog';
 export * from './dates';
 export * from './jwt-token';

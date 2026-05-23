@@ -1,14 +1,14 @@
 import { NgClass, TitleCasePipe } from '@angular/common';
-import { Component, DestroyRef, ElementRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { CONFIG_CONSTANTS } from '@core/shared/constants';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { TranslateService } from '@core/shared/services';
+import { ConfigService, TranslateService } from '@core/shared/services';
 import { UserAvatarComponent } from '@shared/components';
-import { CONFIG_CONSTANTS } from '@shared/constants';
 import { IMenuFront, IUser } from '@shared/interfaces';
-import { AuthService, ConfigService, MenuFrontService, UserService } from '@shared/services';
+import { AuthService, MenuFrontService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { LayoutMenuComponent } from '../layout-menu';
@@ -33,13 +33,12 @@ export class LayoutSidebarComponent implements OnInit {
   public canOpenMenu: boolean = false;
   public menu: IMenuFront[] = [];
 
-  public readonly el = inject(ElementRef);
   private readonly destroyRef$ = inject(DestroyRef);
+  private readonly router = inject(Router);
   private readonly translateService = inject(TranslateService);
   private readonly configService = inject(ConfigService);
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
-  private readonly router = inject(Router);
   private readonly menuFrontService = inject(MenuFrontService);
 
   public get user(): IUser {
