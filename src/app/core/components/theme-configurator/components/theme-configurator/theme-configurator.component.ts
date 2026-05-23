@@ -7,37 +7,10 @@ import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
 import { $t, updatePreset, updateSurfacePalette } from '@primeuix/themes';
-import Aura from '@primeuix/themes/aura';
-import Lara from '@primeuix/themes/lara';
-import Nora from '@primeuix/themes/nora';
 import { LayoutService } from '@shared/services';
 import { SelectButtonModule } from 'primeng/selectbutton';
-
-const presets = {
-  Aura,
-  Lara,
-  Nora
-} as const;
-
-declare type KeyOfType<T> = keyof T extends infer U ? U : never;
-
-declare type SurfacesType = {
-  name?: string;
-  palette?: {
-    0?: string;
-    50?: string;
-    100?: string;
-    200?: string;
-    300?: string;
-    400?: string;
-    500?: string;
-    600?: string;
-    700?: string;
-    800?: string;
-    900?: string;
-    950?: string;
-  };
-};
+import { THEME_CONFIGURATOR_PRESETS } from '../../constants';
+import { KeyOfType, SurfacesType } from '../../types';
 
 @Component({
   selector: 'sctl-theme-configurator',
@@ -61,7 +34,7 @@ export class ThemeConfiguratorComponent {
   private platformId = inject(PLATFORM_ID);
   private translateService = inject(TranslateService);
 
-  public presets = Object.keys(presets);
+  public presets = Object.keys(THEME_CONFIGURATOR_PRESETS);
   public showMenuModeButton = signal(!this.router.url.includes('auth'));
   public menuModeOptions = [];
   public surfaces: SurfacesType[] = [
@@ -207,7 +180,7 @@ export class ThemeConfiguratorComponent {
   public selectedPreset = computed(() => this.layoutService.layoutConfig().preset);
   public menuMode = computed(() => this.layoutService.layoutConfig().menuMode);
   public primaryColors = computed<SurfacesType[]>(() => {
-    const presetPalette = presets[this.layoutService.layoutConfig().preset as KeyOfType<typeof presets>].primitive;
+    const presetPalette = THEME_CONFIGURATOR_PRESETS[this.layoutService.layoutConfig().preset as KeyOfType<typeof THEME_CONFIGURATOR_PRESETS>].primitive;
     const colors = ['emerald', 'green', 'lime', 'orange', 'amber', 'yellow', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
     const palettes: SurfacesType[] = [{ name: 'noir', palette: {} }];
 
@@ -253,7 +226,7 @@ export class ThemeConfiguratorComponent {
 
   public onPresetChange(event: any): void {
     this.layoutService.layoutConfig.update((state) => ({ ...state, preset: event }));
-    const preset = presets[event as KeyOfType<typeof presets>];
+    const preset = THEME_CONFIGURATOR_PRESETS[event as KeyOfType<typeof THEME_CONFIGURATOR_PRESETS>];
     const surfacePalette = this.surfaces.find((s) => s.name === this.selectedSurfaceColor())?.palette;
     $t().preset(preset).preset(this.getPresetExt()).surfacePalette(surfacePalette).use({ useDefaultOptions: true });
   }

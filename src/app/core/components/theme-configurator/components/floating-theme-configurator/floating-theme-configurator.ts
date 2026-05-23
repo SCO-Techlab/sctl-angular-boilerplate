@@ -3,7 +3,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { LayoutService } from "@shared/services";
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
-import { ThemeConfiguratorComponent } from "../theme-configurator.component";
+import { ThemeConfiguratorComponent } from "../theme-configurator";
 
 @Component({
   selector: 'sctl-floating-theme-configurator',
@@ -21,7 +21,7 @@ export class FloatingThemeConfigurator {
 
   public isDarkTheme = computed(() => this.LayoutService.layoutConfig().darkTheme);
 
-  private LayoutService = inject(LayoutService);
+  private readonly LayoutService = inject(LayoutService);
 
   public toggleDarkMode(): void {
     this.LayoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
