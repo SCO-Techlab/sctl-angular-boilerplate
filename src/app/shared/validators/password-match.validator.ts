@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { INPUT_ERROR } from '@shared/enums';
+import { INPUT_ERROR } from '@core/shared/enums';
 
 export const PasswordMatchValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
   const passwordCtrl = group.get('password');
@@ -13,10 +13,10 @@ export const PasswordMatchValidator: ValidatorFn = (group: AbstractControl): Val
     return null;
   }
 
-  confirmCtrl.setErrors(passwordCtrl.value !== confirmCtrl.value 
-    ? { [INPUT_ERROR.MISMATCH]: true } 
+  confirmCtrl.setErrors(passwordCtrl.value !== confirmCtrl.value
+    ? { [INPUT_ERROR.MISMATCH]: true }
     : null
   );
-  
+
   return null;
 };

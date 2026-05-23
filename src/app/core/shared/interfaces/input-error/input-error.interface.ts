@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms';
-import { INPUT_ERROR } from '@shared/enums';
+import { INPUT_ERROR } from '@core/shared/enums';
 
 export interface IInputErrorComponent {
   cssClass?: string;

@@ -1,11 +1,12 @@
 import { Component, DestroyRef, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputErrorComponent } from '@core/components';
+import { INPUT_ERROR } from '@core/shared/enums';
+import { IInputErrorComponent } from '@core/shared/interfaces';
 import { ProfileService } from '@modules/profile/services';
-import { InputErrorComponent } from '@shared/components';
 import { REGEX_PATTERNS } from '@shared/constants';
-import { INPUT_ERROR } from '@shared/enums';
-import { IInputErrorComponent, ITranslateLiterals, IUser } from '@shared/interfaces';
+import { ITranslateLiterals, IUser } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@shared/services';
 import { PasswordMatchValidator } from '@shared/validators';

@@ -1,10 +1,11 @@
 import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputErrorComponent } from '@core/components';
+import { INPUT_ERROR } from '@core/shared/enums';
+import { IInputErrorComponent } from '@core/shared/interfaces';
 import { PermissionsService } from '@modules/administrator/services';
-import { InputErrorComponent } from '@shared/components';
-import { INPUT_ERROR } from '@shared/enums';
-import { IInputErrorComponent, IPermission, IRole, ITranslateLiterals } from '@shared/interfaces';
+import { IPermission, IRole, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { TranslateService } from '@shared/services';
 import { InputTextModule } from 'primeng/inputtext';

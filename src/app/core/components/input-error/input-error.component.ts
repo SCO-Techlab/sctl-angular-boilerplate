@@ -1,5 +1,5 @@
 import { Component, input, OnInit } from '@angular/core';
-import { IInputErrorComponent } from '@shared/interfaces';
+import { IInputErrorComponent } from '@core/shared/interfaces';
 import { MessageModule } from 'primeng/message';
 
 @Component({
@@ -31,7 +31,7 @@ export class InputErrorComponent implements OnInit {
     if (!this.config()) {
       return;
     }
-    
+
     this.config().cssClass = this.config()?.cssClass ?? 'mb-8';
     this.config().formControl = this.config()?.formControl ?? undefined;
     this.config().errorsToShow = this.config()?.errorsToShow ?? [];

@@ -1,11 +1,14 @@
 import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputErrorComponent } from '@core/components';
+import { INPUT_ERROR } from '@core/shared/enums';
+import { IInputErrorComponent } from '@core/shared/interfaces';
 import { RolesService } from '@modules/administrator/services';
-import { InputErrorComponent, JsonEditorComponent } from '@shared/components';
+import { JsonEditorComponent } from '@shared/components';
 import { MAGIC_NUMBERS } from '@shared/constants';
-import { INPUT_ERROR, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
-import { IInputErrorComponent, IJsonEditorComponent, IMenuFront, IRole, ITranslateLiterals } from '@shared/interfaces';
+import { JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@shared/enums';
+import { IJsonEditorComponent, IMenuFront, IRole, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { TranslateService } from '@shared/services';
 import { InputNumberModule } from 'primeng/inputnumber';
