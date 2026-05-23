@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { SessionStorageState, SetAccessToken, SetRefreshToken } from '@core/session-storage';
 import { IAuthEvent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetAccessToken, SetRefreshToken } from '@session-storage';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { IJwtPayload, IJwtToken, IPermission, IUser } from '@shared/interfaces';
 import { JwtTokenService } from '../jwt-token';

@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { SessionStorageState } from '@core/session-storage';
 import { Store } from '@ngxs/store';
-import { SessionStorageState } from '@session-storage';
 import { TranslateService } from '@shared/services';
 
 export const HeadersInterceptor: HttpInterceptorFn = (req, next) => {

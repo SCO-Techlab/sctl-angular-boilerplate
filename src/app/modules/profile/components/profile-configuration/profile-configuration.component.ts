@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SessionStorageState, SetDarkMode, SetStaticMenu } from '@core/session-storage';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetDarkMode, SetStaticMenu } from '@session-storage';
 import { TranslateModule } from '@shared/modules';
 import { LayoutService } from '@shared/services';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';

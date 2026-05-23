@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
+import { SessionStorageState } from '@core/session-storage';
 import { Store } from '@ngxs/store';
-import { SessionStorageState } from '@session-storage';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

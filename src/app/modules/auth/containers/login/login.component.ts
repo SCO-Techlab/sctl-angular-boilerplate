@@ -4,15 +4,15 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { SessionStorageState, SetRefreshToken } from '@core/session-storage';
 import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components';
 import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent, IAuthEvent, IAuthInput, IAuthLinksComponent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
-import { SessionStorageState, SetRefreshToken } from '@session-storage';
 import { InputErrorComponent } from '@shared/components';
 import { MAGIC_NUMBERS, REGEX_PATTERNS } from '@shared/constants';
 import { INPUT_ERROR, TOAST_SEVERITY } from '@shared/enums';
-import { IInputErrorComponent, IJwtPayload, IJwtToken, ITranslateLiterals, IUser } from '@shared/interfaces';
+import { IInputErrorComponent, IJwtPayload, IJwtToken, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
 import { AuthService, JwtTokenService, SpinnerService, ToastService, TranslateService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -260,7 +260,7 @@ export class LoginComponent implements OnInit {
       )
       .subscribe({
         next: (jwtToken: IJwtToken) => {
-           if (!jwtToken?.accessToken) {
+          if (!jwtToken?.accessToken) {
             this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['LOGIN_KO_401'] });
             return;
           }

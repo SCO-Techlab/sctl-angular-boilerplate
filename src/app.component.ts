@@ -1,8 +1,8 @@
 import { Component, DestroyRef, HostListener, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
+import { SessionStorageState } from '@core/session-storage';
 import { Store } from '@ngxs/store';
-import { SessionStorageState } from '@session-storage';
 import { SpinnerComponent, ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   public spinnerConfig: ISpinnerComponent;
 
   public contentReady: boolean = false;
-  
+
   private destroyRef$ = inject(DestroyRef);
   private layoutService = inject(LayoutService);
   private configService = inject(ConfigService);
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
         if (this.spinnerService.isShowing) {
           this.spinnerService.hide();
         }
-        
+
         if (!this.contentReady) {
           this.contentReady = true;
         }

@@ -2,11 +2,11 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
+import { SessionStorageState } from '@core/session-storage';
 import { environment } from '@environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import Aura from '@primeuix/themes/aura';
-import { SessionStorageState } from '@session-storage';
 import { ConfigInitializerFactory, TranslateProviderFactory } from '@shared/factories';
 import { AdminGuard, AuthGuard } from '@shared/guards';
 import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
