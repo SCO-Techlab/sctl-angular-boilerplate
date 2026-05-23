@@ -3,12 +3,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import { SessionStorageState } from '@core/session-storage';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { ScreenService } from '@core/shared/services';
 import { Store } from '@ngxs/store';
 import { SpinnerComponent, ToastComponent } from '@shared/components';
 import { CONFIG_CONSTANTS } from '@shared/constants';
 import { TOAST_POSITION } from '@shared/enums';
 import { ILayoutConfig, ISpinnerComponent, IToastComponent } from '@shared/interfaces';
-import { ConfigService, LayoutService, ScreenService, SpinnerService, TranslateService } from '@shared/services';
+import { ConfigService, LayoutService, SpinnerService, TranslateService } from '@shared/services';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({

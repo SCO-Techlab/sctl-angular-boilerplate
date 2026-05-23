@@ -5,9 +5,9 @@ export * from './dates';
 export * from './jwt-token';
 export * from './layout';
 export * from './menu-front';
-export * from './screen';
 export * from './spinner';
 export * from './toast';
 export * from './translate';
 export * from './user';
 export * from './xlsx';
+

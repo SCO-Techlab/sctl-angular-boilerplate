@@ -3,12 +3,13 @@ import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
+import { ScreenService } from '@core/shared/services';
 import { CRUD_ACTIONS, DATES } from '@shared/constants';
 import { CrudTemplateDirective } from '@shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
 import { ICrudColumn, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@shared/interfaces';
 import { TranslateModule } from '@shared/modules';
-import { DatesService, ScreenService, TranslateService } from '@shared/services';
+import { DatesService, TranslateService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';

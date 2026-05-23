@@ -1,8 +1,8 @@
 import { Component, effect, inject, input, OnInit, output } from '@angular/core';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { ScreenService } from '@core/shared/services';
 import { BUTTON_SEVERITY } from '@shared/enums';
 import { IDialogComponent } from '@shared/interfaces';
-import { ScreenService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
