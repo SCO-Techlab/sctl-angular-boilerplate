@@ -5,11 +5,9 @@ import { SpinnerComponent, ToastComponent } from '@core/components';
 import { SessionStorageState } from '@core/session-storage';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@core/shared/constants';
 import { TOAST_POSITION } from '@core/shared/enums';
-import { ISpinnerComponent, IToastComponent } from '@core/shared/interfaces';
-import { ConfigService, ScreenService, SpinnerService, TranslateService } from '@core/shared/services';
+import { ILayoutConfig, ISpinnerComponent, IToastComponent } from '@core/shared/interfaces';
+import { ConfigService, LayoutService, ScreenService, SpinnerService, TranslateService } from '@core/shared/services';
 import { Store } from '@ngxs/store';
-import { ILayoutConfig } from '@shared/interfaces';
-import { LayoutService } from '@shared/services';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
@@ -28,10 +26,6 @@ export class AppComponent implements OnInit {
   public toastConfig: IToastComponent;
   public spinnerConfig: ISpinnerComponent;
   public contentReady: boolean = false;
-
-  public get darkTheme(): boolean {
-    return this.layoutService?.layoutConfig()?.darkTheme;
-  }
 
   private readonly destroyRef$ = inject(DestroyRef);
   private readonly layoutService = inject(LayoutService);

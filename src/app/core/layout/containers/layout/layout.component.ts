@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { LayoutFooterComponent, LayoutSidebarComponent, LayoutTopbarComponent } from '@core/layout/components';
 import { CONFIG_CONSTANTS } from '@core/shared/constants';
-import { ConfigService } from '@core/shared/services';
-import { LayoutFooterComponent, LayoutSidebarComponent, LayoutTopbarComponent } from '@layout/components';
-import { LAYOUT_MENU } from '@shared/enums';
-import { LayoutService } from '@shared/services';
+import { LAYOUT_MENU } from '@core/shared/enums';
+import { ConfigService, LayoutService } from '@core/shared/services';
 import { filter, Subscription } from 'rxjs';
 
 @Component({

@@ -2,10 +2,10 @@ import { NgClass } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { IAccessComponent } from '@core/layout/interfaces';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
-import { IAccessComponent } from '@layout/interfaces';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -22,9 +22,9 @@ export class AccessComponent implements OnInit {
 
   public config: IAccessComponent = {};
 
-  private destroyRef$ = inject(DestroyRef);
-  private router = inject(Router);
-  private translateService = inject(TranslateService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly translateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.translateService.stream('LAYOUT.ACCESS')

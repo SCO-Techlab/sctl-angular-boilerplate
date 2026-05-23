@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
+import { LayoutService } from '@core/shared/services';
 import { ICardComponent } from '@shared/interfaces';
-import { LayoutService } from '@shared/services';
 
 @Component({
   selector: 'sctl-card',

@@ -1,57 +1,54 @@
+import { NgClass } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { IErrorComponent } from '@core/layout/interfaces';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
-import { INotfoundComponent } from '@layout/interfaces';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
-  selector: 'sctl-notfound',
+  selector: 'sctl-error',
   standalone: true,
-  templateUrl: './notfound.component.html',
+  templateUrl: './error.component.html',
   imports: [
+    NgClass,
     TranslateModule,
     ButtonModule
-  ]
+  ],
 })
-export class NotfoundComponent implements OnInit {
+export class ErrorComponent implements OnInit {
 
-  public config: INotfoundComponent = {};
+  public config: IErrorComponent = {};
 
-  private destroyRef$ = inject(DestroyRef);
-  private router = inject(Router);
-  private translateService = inject(TranslateService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly translateService = inject(TranslateService);
 
   ngOnInit(): void {
-    this.translateService.stream('LAYOUT.NOTFOUND')
+    this.translateService.stream('LAYOUT.ERROR')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.setConfig(res);
       });
   }
 
-  public showActions(): boolean {
-    return this.config?.actions?.length > MAGIC_NUMBERS.N_0;
-  }
-
-  public onClickButton(link: string = ''): void {
-    if (!this.config?.buttonLink && !link) {
+  public onClickButton(): void {
+    if (!this.config?.buttonLink) {
       return;
     }
-
-    this.router.navigate([link ? link : this.config?.buttonLink]);
+    this.router.navigate([this.config?.buttonLink]);
   }
 
   private setConfig(literals: ITranslateLiterals): void {
     this.config = {
-      title: literals['TITLE'] ?? 'Not Found',
+      icon: 'pi-exclamation-circle',
+      title: literals['TITLE'] ?? 'Error Occured',
       message: literals['MESSAGE'] ?? 'Requested resource is not available',
+      image: '',
       buttonLabel: literals['BUTTON_LABEL'] ?? 'Go to Dashboard',
-      buttonLink: '/',
-      actions: []
+      buttonLink: '/'
     };
   }
 }

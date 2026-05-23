@@ -2,7 +2,6 @@ export * from './confirm-dialog';
 export * from './crud';
 export * from './dates.constants';
 export * from './file-sizes.constants';
-export * from './layout';
 export * from './permissions';
 export * from './reggex-patterns.constants';
 export * from './roles';
