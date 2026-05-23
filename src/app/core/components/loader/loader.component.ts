@@ -1,7 +1,7 @@
 import { NgStyle } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
-import { ILoaderComponent } from '@shared/interfaces';
+import { ILoaderComponent } from '@core/shared/interfaces';
 
 @Component({
   selector: 'sctl-loader',

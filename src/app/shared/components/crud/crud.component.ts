@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, input, OnInit, output, QueryList, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DialogComponent } from '@core/components';
+import { DialogComponent, LoaderComponent } from '@core/components';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
 import { IDialogComponent } from '@core/shared/interfaces';
@@ -21,7 +21,6 @@ import { Table, TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { JsonEditorDialogComponent } from '../json-editor-dialog';
-import { LoaderComponent } from '../loader';
 import { OrderListDialogComponent } from '../order-list-dialog';
 
 @Component({

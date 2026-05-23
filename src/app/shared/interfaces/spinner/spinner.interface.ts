@@ -1,4 +1,4 @@
-import { ILoaderComponent } from "../loader/loader.interface";
+import { ILoaderComponent } from "@core/shared/interfaces";
 
 export interface ISpinnerComponent {
   pathImg?: string;
