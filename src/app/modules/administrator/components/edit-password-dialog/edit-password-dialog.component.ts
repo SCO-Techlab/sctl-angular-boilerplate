@@ -6,8 +6,8 @@ import { BUTTON_SEVERITY, INPUT_ERROR } from '@core/shared/enums';
 import { IDialogComponent, IInputErrorComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
+import { PasswordMatchValidator } from '@core/shared/validators';
 import { REGEX } from '@shared/constants';
-import { PasswordMatchValidator } from '@shared/validators';
 import { PasswordModule } from 'primeng/password';
 
 @Component({
