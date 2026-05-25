@@ -1,2 +1,0 @@
-export * from './floating-theme-configurator';
-

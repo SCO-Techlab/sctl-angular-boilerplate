@@ -13,7 +13,7 @@ import { AuthService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
-import { ThemeConfiguratorComponent } from '../theme-configurator';
+import { LayoutThemeConfiguratorComponent } from '../layout-theme-configurator';
 
 @Component({
   selector: 'sctl-layout-topbar',
@@ -23,7 +23,7 @@ import { ThemeConfiguratorComponent } from '../theme-configurator';
     CommonModule,
     StyleClassModule,
     TranslateModule,
-    ThemeConfiguratorComponent,
+    LayoutThemeConfiguratorComponent,
     UserAvatarComponent,
     MenuModule
   ],

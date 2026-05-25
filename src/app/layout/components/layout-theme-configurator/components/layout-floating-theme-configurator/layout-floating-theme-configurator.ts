@@ -3,19 +3,19 @@ import { Component, computed, inject, input } from '@angular/core';
 import { LayoutService } from "@layout/services";
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
-import { ThemeConfiguratorComponent } from "../theme-configurator";
+import { LayoutThemeConfiguratorComponent } from "../layout-theme-configurator";
 
 @Component({
-  selector: 'sctl-floating-theme-configurator',
-  templateUrl: './floating-theme-configurator.html',
+  selector: 'sctl-layout-floating-theme-configurator',
+  templateUrl: './layout-floating-theme-configurator.html',
   imports: [
     CommonModule,
     ButtonModule,
     StyleClassModule,
-    ThemeConfiguratorComponent
+    LayoutThemeConfiguratorComponent
   ],
 })
-export class FloatingThemeConfigurator {
+export class LayoutFloatingThemeConfigurator {
 
   public float = input<boolean>(true);
 
