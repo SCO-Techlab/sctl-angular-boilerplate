@@ -8,6 +8,7 @@ export * from './json-editor';
 export * from './json-editor-dialog';
 export * from './loader';
 export * from './order-list-dialog';
+export * from './pagination.interface';
 export * from './spinner';
 export * from './toast';
 export * from './translate';

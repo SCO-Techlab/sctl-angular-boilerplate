@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { IPaginationQuery, IPaginationResponse } from '@core/shared/interfaces';
 import { environment } from '@environment';
 import { fillHttpParams } from '@shared/helpers';
-import { IMenuFront, IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
+import { IMenuFront } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({

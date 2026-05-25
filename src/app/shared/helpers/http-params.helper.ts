@@ -1,5 +1,5 @@
 import { HttpParams } from "@angular/common/http";
-import { IPaginationQuery } from "@shared/interfaces";
+import { IPaginationQuery } from "@core/shared/interfaces";
 
 export const fillHttpParams = (filter?: any, pagination?: IPaginationQuery): HttpParams => {
   let httpParams = new HttpParams();

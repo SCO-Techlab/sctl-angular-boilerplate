@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CrudComponent } from '@core/components';
 import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, DATES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
-import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, ITranslateLiterals } from '@core/shared/interfaces';
+import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, XlsxService } from '@core/shared/services';
 import { SessionsFiltersFormComponent } from '@modules/administrator/components';
@@ -12,7 +12,6 @@ import { SessionsService } from '@modules/administrator/services';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
-import { IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
 import { UserService } from '@shared/services';
 import { finalize } from 'rxjs';
 
