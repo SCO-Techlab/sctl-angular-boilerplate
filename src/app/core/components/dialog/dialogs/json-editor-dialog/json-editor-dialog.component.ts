@@ -2,7 +2,7 @@ import { Component, effect, input, OnInit, output } from '@angular/core';
 import { DialogComponent, JsonEditorComponent } from '@core/components';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
-import { IJsonEditorDialogComponent } from '@shared/interfaces';
+import { IJsonEditorDialogComponent } from '@core/shared/interfaces';
 
 @Component({
   selector: 'sctl-json-editor-dialog',
