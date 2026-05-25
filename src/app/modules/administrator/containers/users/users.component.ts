@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CrudComponent } from '@core/components';
 import { DATES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
 import { IDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
@@ -8,7 +9,7 @@ import { TranslateModule } from '@core/shared/modules';
 import { DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { EditPasswordDialogComponent, UsersFiltersFormComponent, UsersFormComponent } from '@modules/administrator/components';
 import { UsersService } from '@modules/administrator/services';
-import { CrudComponent, UserAvatarComponent } from '@shared/components';
+import { UserAvatarComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, PERMISSIONS, ROLES } from '@shared/constants';
 import { CrudTemplateDirective } from '@shared/directives';
 import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';

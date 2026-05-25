@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CrudComponent } from '@core/components';
 import { DATES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
 import { ITranslateLiterals } from '@core/shared/interfaces';
@@ -8,7 +9,6 @@ import { DatesService, SpinnerService, ToastService, TranslateService } from '@c
 import { SessionsFiltersFormComponent } from '@modules/administrator/components';
 import { ISession } from '@modules/administrator/interfaces';
 import { SessionsService } from '@modules/administrator/services';
-import { CrudComponent } from '@shared/components';
 import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, PERMISSIONS } from '@shared/constants';
 import { CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
