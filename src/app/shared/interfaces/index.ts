@@ -1,6 +1,5 @@
 export * from './confirm-dialog';
 export * from './crud';
-export * from './dialogs';
 export * from './jwt-token';
 export * from './menu-front.interface';
 export * from './pagination.interface';
