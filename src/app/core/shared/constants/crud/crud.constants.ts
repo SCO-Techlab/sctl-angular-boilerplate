@@ -1,5 +1,5 @@
 import { BUTTON_SEVERITY } from "@core/shared/enums";
-import { ICrudTableAction } from "@shared/interfaces";
+import { ICrudTableAction } from "@core/shared/interfaces";
 
 export const CRUD_ACTIONS = {
   NEW: 'new',

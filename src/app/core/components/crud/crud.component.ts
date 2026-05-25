@@ -3,15 +3,29 @@ import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DialogComponent, LoaderComponent } from '@core/components';
 import { JsonEditorDialogComponent, OrderListDialogComponent } from '@core/dialogs';
-import { DATES, MAGIC_NUMBERS } from '@core/shared/constants';
-import { BUTTON_SEVERITY, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
-import { IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
+import { CRUD_ACTIONS, DATES, MAGIC_NUMBERS } from '@core/shared/constants';
+import { CrudTemplateDirective } from '@core/shared/directives';
+import {
+  BUTTON_SEVERITY,
+  CRUD_COLUMN_ALIGNMENT,
+  CRUD_COLUMN_TYPE,
+  CRUD_STATE,
+  JSON_EDITOR_HEIGHT_UNIT,
+  JSON_EDITOR_MODE,
+  JSON_EDITOR_TYPE
+} from '@core/shared/enums';
+import {
+  ICrudColumn,
+  ICrudComponent,
+  ICrudPaginationEvent,
+  ICrudTableAction,
+  IDialogComponent,
+  IJsonEditorDialogComponent,
+  IOrderListDialogComponent,
+  ITranslateLiterals
+} from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { DatesService, ScreenService, TranslateService } from '@core/shared/services';
-import { CRUD_ACTIONS } from '@shared/constants';
-import { CrudTemplateDirective } from '@shared/directives';
-import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
-import { ICrudColumn, ICrudComponent, ICrudPaginationEvent, ICrudTableAction } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';

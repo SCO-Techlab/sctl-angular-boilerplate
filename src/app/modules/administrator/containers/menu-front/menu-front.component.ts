@@ -1,15 +1,16 @@
 import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CrudComponent } from '@core/components';
-import { DATES, MAGIC_NUMBERS } from '@core/shared/constants';
-import { ITranslateLiterals } from '@core/shared/interfaces';
+import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS } from '@core/shared/constants';
+import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
+import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { MenuFrontFiltersFormComponent, MenuFrontFormComponent } from '@modules/administrator/components';
-import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, PERMISSIONS } from '@shared/constants';
-import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE, PERMISSION_TYPE } from '@shared/enums';
+import { PERMISSIONS } from '@shared/constants';
+import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
-import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IMenuFront, IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
+import { IMenuFront, IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
 import { ConfirmDialogService, MenuFrontService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 

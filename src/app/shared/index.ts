@@ -1,6 +1,5 @@
 export * from './components';
 export * from './constants';
-export * from './directives';
 export * from './enums';
 export * from './guards';
 export * from './helpers';
