@@ -10,7 +10,7 @@
     }"
   >
     @for (msg of messages; track msg) {
-      <div class="toast {{darkTheme ? msg.severity + '-dark' : msg.severity + '-light'}}" [@toastAnim]>
+      <div class="toast {{darkTheme() ? msg.severity + '-dark' : msg.severity + '-light'}}" [@toastAnim]>
         <div class="toast-content">
           @if (!msg.disableIcon) {
             <i class="toast-icon" [class]="getIcon(msg.severity)"></i>

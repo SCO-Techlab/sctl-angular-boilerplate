@@ -28,15 +28,12 @@ import { Subscription } from 'rxjs';
 })
 export class ToastComponent implements OnInit, OnDestroy {
 
+  public darkTheme = input<boolean>(false);
   public config = input<IToastComponent>({});
 
   public readonly TOAST_POSITION = TOAST_POSITION;
   public messages: IToastMessage[] = [];
   public sub!: Subscription;
-
-  public get darkTheme(): boolean {
-    return this.layoutService?.layoutConfig()?.darkTheme;
-  }
 
   private readonly layoutService = inject(LayoutService);
   private readonly toastService = inject(ToastService);

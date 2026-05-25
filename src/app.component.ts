@@ -29,6 +29,10 @@ export class AppComponent implements OnInit {
   public spinnerConfig: ISpinnerComponent;
   public contentReady: boolean = false;
 
+  public get darkTheme(): boolean {
+    return this.layoutService?.layoutConfig()?.darkTheme;
+  }
+
   private readonly destroyRef$ = inject(DestroyRef);
   private readonly layoutService = inject(LayoutService);
   private readonly configService = inject(ConfigService);
