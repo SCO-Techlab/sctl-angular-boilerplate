@@ -1,4 +1,4 @@
-import { IRole } from "./roles.interface";
+import { IRole } from "../roles";
 
 export interface IMenuFront {
   _id?: string;

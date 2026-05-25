@@ -11,9 +11,9 @@ import { JwtTokenService } from '../jwt-token';
 })
 export class UserService {
 
-  private store = inject(Store);
-  private jwtTokenService = inject(JwtTokenService);
-  private router = inject(Router);
+  private readonly store = inject(Store);
+  private readonly jwtTokenService = inject(JwtTokenService);
+  private readonly router = inject(Router);
 
   public login(jwtToken: IJwtToken, rememberMe: boolean): void {
     this.store.dispatch(new SetAccessToken({ accessToken: jwtToken?.accessToken }));

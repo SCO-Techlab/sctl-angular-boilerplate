@@ -1,4 +1,4 @@
-import { IPermission } from "./permissions.interface";
+import { IPermission } from "../permissions";
 
 export interface IRole {
   _id?: string;

@@ -9,23 +9,23 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  logIn(email: string, password: string, rememberMe: boolean = false): Observable<IJwtToken> {
+  public logIn(email: string, password: string, rememberMe: boolean = false): Observable<IJwtToken> {
     const body = { email, password, rememberMe };
     return this.http.post<IJwtToken>(`${environment.apiUrl}/auth/login`, body);
   }
 
-  refreshLogIn(email: string, token: string): Observable<IJwtToken> {
+  public refreshLogIn(email: string, token: string): Observable<IJwtToken> {
     const body = { email, token };
     return this.http.post<IJwtToken>(`${environment.apiUrl}/auth/refresh/login`, body);
   }
 
-  logOut(): Observable<void> {
+  public logOut(): Observable<void> {
     return this.http.post<void>(`${environment.apiUrl}/auth/logout`, {});
   }
 
-  register(user: IUser): Observable<boolean> {
+  public register(user: IUser): Observable<boolean> {
     const body = {
       email: user.email,
       userName: user.userName,
@@ -37,23 +37,23 @@ export class AuthService {
     return this.http.post<boolean>(`${environment.apiUrl}/auth/register`, body);
   }
 
-  findUser(email: string): Observable<IUser> {
+  public findUser(email: string): Observable<IUser> {
     return this.http.get<IUser>(`${environment.apiUrl}/auth/find/user/${email}`);
   }
 
-  confirmEmail(email: string): Observable<boolean> {
+  public confirmEmail(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${environment.apiUrl}/auth/confirm/email/${email}`);
   }
 
-  forgotPassword(email: string): Observable<boolean> {
+  public forgotPassword(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${environment.apiUrl}/auth/forgot/password/${email}`);
   }
 
-  passwordRecoveryFind(pwdRecoveryToken: string): Observable<IUser> {
+  public passwordRecoveryFind(pwdRecoveryToken: string): Observable<IUser> {
     return this.http.get<IUser>(`${environment.apiUrl}/auth/recover/password/find/${pwdRecoveryToken}`);
   }
 
-  passwordRecoveryReset(userId: string, password: string): Observable<boolean> {
+  public passwordRecoveryReset(userId: string, password: string): Observable<boolean> {
     const body = { userId, password };
     return this.http.put<boolean>(`${environment.apiUrl}/auth/recover/password/reset`, body);
   }
