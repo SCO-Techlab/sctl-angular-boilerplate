@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit {
             return;
           }
 
-          this.userService.login(jwtToken, event);
+          this.userService.login(jwtToken, event?.rememberMe);
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['LOGIN_OK'] });
         },
         error: (error: HttpErrorResponse) => {
@@ -273,7 +273,7 @@ export class LoginComponent implements OnInit {
             password: this.loginForm.get('password')?.value,
             rememberMe: this.loginForm.get('rememberMe')?.value
           };
-          this.userService.login(jwtToken, authEvent);
+          this.userService.login(jwtToken, authEvent?.rememberMe);
           this.toastService.success({ summary: this.translateService.instant('TOAST.SUCCESS'), detail: this.literals['LOGIN_OK'] });
         },
         error: () => this.clearRememberLogin()

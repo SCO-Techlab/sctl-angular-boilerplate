@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionStorageState, SetAccessToken, SetRefreshToken } from '@core/session-storage';
-import { IAuthEvent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { IJwtPayload, IJwtToken, IPermission, IUser } from '@shared/interfaces';
@@ -16,10 +15,10 @@ export class UserService {
   private jwtTokenService = inject(JwtTokenService);
   private router = inject(Router);
 
-  public login(jwtToken: IJwtToken, event: IAuthEvent): void {
+  public login(jwtToken: IJwtToken, rememberMe: boolean): void {
     this.store.dispatch(new SetAccessToken({ accessToken: jwtToken?.accessToken }));
     this.store.dispatch(new SetRefreshToken({
-      refreshToken: jwtToken?.refreshToken && event?.rememberMe
+      refreshToken: jwtToken?.refreshToken && rememberMe
         ? jwtToken?.refreshToken
         : undefined
     }));
