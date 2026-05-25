@@ -7,7 +7,7 @@ import { CrudTemplateDirective } from '@core/shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, XlsxService } from '@core/shared/services';
 import { EditPasswordDialogComponent, UsersFiltersFormComponent, UsersFormComponent } from '@modules/administrator/components';
 import { UsersService } from '@modules/administrator/services';
 import { UserAvatarComponent } from '@shared/components';
@@ -15,7 +15,7 @@ import { PERMISSIONS, ROLES } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
 import { IPaginationQuery, IPaginationResponse, IUser } from '@shared/interfaces';
-import { UserService, XlsxService } from '@shared/services';
+import { UserService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -50,16 +50,16 @@ export class UsersComponent {
   private selectedItemId: string;
   private paginationQuery: IPaginationQuery = { page: MAGIC_NUMBERS.N_1, limit: MAGIC_NUMBERS.N_5 };
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private usersService = inject(UsersService);
-  private confirmDialogService = inject(ConfirmDialogService);
-  private toastService = inject(ToastService);
-  private userService = inject(UserService);
-  private spinnerService = inject(SpinnerService);
-  private xlsxService = inject(XlsxService);
-  private datesService = inject(DatesService);
-  private cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly usersService = inject(UsersService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
+  private readonly toastService = inject(ToastService);
+  private readonly userService = inject(UserService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly xlsxService = inject(XlsxService);
+  private readonly datesService = inject(DatesService);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.translateService.stream('USERS')
