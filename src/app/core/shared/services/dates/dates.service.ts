@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MAGIC_NUMBERS } from '@core/shared/constants';
-import { DATES, REGEX_PATTERNS } from '@shared/constants';
-import { DateInput } from '@shared/types';
+import { DATES, DATES_TIME_PATTERN, MAGIC_NUMBERS } from '@core/shared/constants';
+import { DateInput } from '@core/shared/types';
 import {
   addDays,
   addHours,
@@ -122,6 +121,6 @@ export class DatesService {
   }
 
   public formatToHour(hour: string,): string {
-    return REGEX_PATTERNS.TIME.test(hour) ? hour : this.formatDate(DATES.BASIC_TIME, hour);
+    return DATES_TIME_PATTERN.test(hour) ? hour : this.formatDate(DATES.BASIC_TIME, hour);
   }
 }

@@ -6,3 +6,5 @@ export const DATES = {
   EUROPEAN_DATE: 'dd-MM-yyyy',
   EUROPEAN_DATETIME: 'dd-MM-yyyy HH:mm:ss',
 };
+
+export const DATES_TIME_PATTERN = /^(?:[01]\d|2[0-3]):[0-5]\d$/;

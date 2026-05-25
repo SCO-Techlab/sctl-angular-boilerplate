@@ -1,4 +1,5 @@
 export * from './config';
+export * from './dates';
 export * from './screen';
 export * from './spinner';
 export * from './toast';
