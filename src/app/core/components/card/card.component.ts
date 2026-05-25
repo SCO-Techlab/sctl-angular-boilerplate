@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
-import { LayoutService } from '@layout/services';
-import { ICardComponent } from '@shared/interfaces';
+import { Component, input } from '@angular/core';
+import { ICardComponent } from '@core/shared/interfaces';
 
 @Component({
   selector: 'sctl-card',
@@ -13,15 +12,10 @@ import { ICardComponent } from '@shared/interfaces';
   ]
 })
 export class CardComponent {
+  public darkTheme = input<boolean>(false);
   public config = input<ICardComponent>({
     title: '',
     contrast: true,
     noPadding: false
   });
-
-  public get isDarkTheme(): boolean {
-    return this.layoutService.layoutConfig().darkTheme;
-  }
-
-  private layoutService = inject(LayoutService);
 }

@@ -1,4 +1,3 @@
-export * from './card';
 export * from './crud';
 export * from './file-upload-dialog';
 export * from './json-editor-dialog';

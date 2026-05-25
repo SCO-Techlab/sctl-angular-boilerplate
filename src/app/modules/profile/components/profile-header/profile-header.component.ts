@@ -1,17 +1,19 @@
 import { NgClass, NgStyle, TitleCasePipe } from '@angular/common';
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CardComponent } from '@core/components';
 import { SetAccessToken } from '@core/session-storage';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
-import { ITranslateLiterals } from '@core/shared/interfaces';
+import { ICardComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ScreenService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { LayoutService } from '@layout/services';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
-import { CardComponent, FileUploadDialogComponent, UserAvatarComponent } from '@shared/components';
+import { FileUploadDialogComponent, UserAvatarComponent } from '@shared/components';
 import { FILE_SIZES } from '@shared/constants';
-import { ICardComponent, IFileUploadDialogComponent, IJwtToken, IUser } from '@shared/interfaces';
+import { IFileUploadDialogComponent, IJwtToken, IUser } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { finalize } from 'rxjs';
@@ -53,13 +55,18 @@ export class ProfileHeaderComponent implements OnInit {
     return this.user()?.active ? 'var(--p-message-success-color)' : 'var(--p-message-error-color)';
   }
 
-  public screenService = inject(ScreenService);
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private profileService = inject(ProfileService);
-  private spinnerService = inject(SpinnerService);
-  private toastService = inject(ToastService);
-  private store = inject(Store);
+  public get darkTheme(): boolean {
+    return this.layoutService?.layoutConfig()?.darkTheme;
+  }
+
+  public readonly screenService = inject(ScreenService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly profileService = inject(ProfileService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly toastService = inject(ToastService);
+  private readonly layoutService = inject(LayoutService);
+  private readonly store = inject(Store);
 
   ngOnInit(): void {
     this.translateService.stream('PROFILE.HEADER')

@@ -1,7 +1,7 @@
   <div class="card flex flex-col gap-4 sctl-card" 
     [ngClass]="{
       'sctl-card__contrast': config()?.contrast,
-      'sctl-card__contrast--dark': config()?.contrast && isDarkTheme,
+      'sctl-card__contrast--dark': config()?.contrast && darkTheme(),
       'sctl-card__no-padding': config()?.noPadding
     }"
   >

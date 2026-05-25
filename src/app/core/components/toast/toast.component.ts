@@ -4,7 +4,6 @@ import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { TOAST_POSITION } from '@core/shared/enums';
 import { IToastComponent, IToastMessage } from '@core/shared/interfaces';
 import { ToastService } from '@core/shared/services';
-import { LayoutService } from '@layout/services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -35,7 +34,6 @@ export class ToastComponent implements OnInit, OnDestroy {
   public messages: IToastMessage[] = [];
   public sub!: Subscription;
 
-  private readonly layoutService = inject(LayoutService);
   private readonly toastService = inject(ToastService);
 
   ngOnInit(): void {

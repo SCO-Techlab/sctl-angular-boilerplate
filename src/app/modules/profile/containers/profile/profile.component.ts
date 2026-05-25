@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, inject, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CardComponent } from '@core/components';
 import { TranslateModule } from '@core/shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { LayoutService } from '@layout/services';
 import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileHeaderComponent, ProfilePersonalInformationComponent } from '@modules/profile/components';
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
-import { CardComponent } from '@shared/components';
 import { IUser } from '@shared/interfaces';
 import { AuthService, ConfirmDialogService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -42,15 +43,20 @@ export class ProfileComponent implements AfterViewInit {
     return this.userService.loggedUser();
   }
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private authService = inject(AuthService);
-  private userService = inject(UserService);
-  private profileService = inject(ProfileService);
-  private toastService = inject(ToastService);
-  private spinnerService = inject(SpinnerService);
-  private confirmDialogService = inject(ConfirmDialogService);
-  private cdRef = inject(ChangeDetectorRef);
+  public get darkTheme(): boolean {
+    return this.layoutService?.layoutConfig()?.darkTheme;
+  }
+
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly authService = inject(AuthService);
+  private readonly userService = inject(UserService);
+  private readonly profileService = inject(ProfileService);
+  private readonly toastService = inject(ToastService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
+  private readonly layoutService = inject(LayoutService);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
     this.setTabTemplate();

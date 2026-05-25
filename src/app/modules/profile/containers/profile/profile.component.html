@@ -1,5 +1,5 @@
 <div class="profile">
-  <sctl-card [config]="{ title: 'PROFILE.TITLE' | translate }">
+  <sctl-card [darkTheme]="darkTheme" [config]="{ title: 'PROFILE.TITLE' | translate }">
     <div body class="flex flex-col gap-4">
 
       <sctl-profile-header [user]="user"></sctl-profile-header>
@@ -12,7 +12,7 @@
           </p-tablist>
       </p-tabs>
 
-      <sctl-card [config]="{ title: '', contrast: false, noPadding: true }">
+      <sctl-card [darkTheme]="darkTheme" [config]="{ title: '', contrast: false, noPadding: true }">
         <ng-container body [ngTemplateOutlet]="currentTabTemplate"></ng-container>
         <ng-template #personalInformation>
           <sctl-profile-personal-information [user]="user"></sctl-profile-personal-information>

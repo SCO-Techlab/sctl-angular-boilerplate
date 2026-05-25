@@ -1,4 +1,3 @@
-export * from './card';
 export * from './confirm-dialog';
 export * from './crud';
 export * from './dialogs';
