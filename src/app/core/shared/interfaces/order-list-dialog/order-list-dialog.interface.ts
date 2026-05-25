@@ -1,4 +1,4 @@
-import { IDialogComponent } from "@core/shared/interfaces";
+import { IDialogComponent } from "../dialog";
 
 export interface IOrderListDialogComponent {
   dialogConfig: IDialogComponent;

@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, input, OnInit, output, QueryList, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DialogComponent, LoaderComponent } from '@core/components';
+import { DialogComponent, LoaderComponent, OrderListDialogComponent } from '@core/components';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
-import { IDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
+import { IDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ScreenService, TranslateService } from '@core/shared/services';
 import { CRUD_ACTIONS, DATES } from '@shared/constants';
 import { CrudTemplateDirective } from '@shared/directives';
 import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@shared/enums';
-import { ICrudColumn, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IJsonEditorDialogComponent, IOrderListDialogComponent } from '@shared/interfaces';
+import { ICrudColumn, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IJsonEditorDialogComponent } from '@shared/interfaces';
 import { DatesService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -21,7 +21,6 @@ import { Table, TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { JsonEditorDialogComponent } from '../json-editor-dialog';
-import { OrderListDialogComponent } from '../order-list-dialog';
 
 @Component({
   selector: 'sctl-crud',
