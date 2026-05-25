@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { ThemeConfiguratorComponent } from '@core/components';
 import { CONFIG_CONSTANTS } from '@core/shared/constants';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
@@ -14,6 +13,7 @@ import { AuthService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
+import { ThemeConfiguratorComponent } from '../theme-configurator';
 
 @Component({
   selector: 'sctl-layout-topbar',
