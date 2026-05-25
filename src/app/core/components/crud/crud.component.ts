@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, input, OnInit, output, QueryList, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DialogComponent, JsonEditorDialogComponent, LoaderComponent, OrderListDialogComponent } from '@core/components';
+import { DialogComponent, LoaderComponent } from '@core/components';
+import { JsonEditorDialogComponent, OrderListDialogComponent } from '@core/dialogs';
 import { DATES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
 import { IDialogComponent, IJsonEditorDialogComponent, IOrderListDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';

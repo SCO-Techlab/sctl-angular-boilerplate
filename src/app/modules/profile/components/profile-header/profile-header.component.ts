@@ -1,7 +1,8 @@
 import { NgClass, NgStyle, TitleCasePipe } from '@angular/common';
 import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CardComponent, FileUploadDialogComponent } from '@core/components';
+import { CardComponent } from '@core/components';
+import { FileUploadDialogComponent } from '@core/dialogs';
 import { SetAccessToken } from '@core/session-storage';
 import { FILE_SIZES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
