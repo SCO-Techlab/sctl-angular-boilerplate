@@ -6,14 +6,14 @@ import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, 
 import { CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, XlsxService } from '@core/shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { PermissionsFiltersFormComponent, PermissionsFormComponent } from '@modules/administrator/components';
 import { PermissionsService } from '@modules/administrator/services';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers/objets.helper';
 import { IPaginationQuery, IPaginationResponse, IPermission } from '@shared/interfaces';
-import { UserService } from '@shared/services';
+import { UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -42,16 +42,16 @@ export class PermissionsComponent {
   private selectedItemId: string;
   private paginationQuery: IPaginationQuery = { page: MAGIC_NUMBERS.N_1, limit: MAGIC_NUMBERS.N_5 };
 
-  private readonly destroyRef$ = inject(DestroyRef);
-  private readonly translateService = inject(TranslateService);
-  private readonly permissionsService = inject(PermissionsService);
-  private readonly confirmDialogService = inject(ConfirmDialogService);
-  private readonly toastService = inject(ToastService);
-  private readonly userService = inject(UserService);
-  private readonly spinnerService = inject(SpinnerService);
-  private readonly xlsxService = inject(XlsxService);
-  private readonly datesService = inject(DatesService);
-  private readonly cdRef = inject(ChangeDetectorRef);
+  private destroyRef$ = inject(DestroyRef);
+  private translateService = inject(TranslateService);
+  private permissionsService = inject(PermissionsService);
+  private confirmDialogService = inject(ConfirmDialogService);
+  private toastService = inject(ToastService);
+  private userService = inject(UserService);
+  private spinnerService = inject(SpinnerService);
+  private xlsxService = inject(XlsxService);
+  private datesService = inject(DatesService);
+  private cdRef = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.translateService.stream('PERMISSIONS')

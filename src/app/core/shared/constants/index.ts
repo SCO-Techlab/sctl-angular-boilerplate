@@ -4,5 +4,4 @@ export * from './crud';
 export * from './dates';
 export * from './file-sizes.constants';
 export * from './magic-numbers.constants';
-export * from './xlsx';
 

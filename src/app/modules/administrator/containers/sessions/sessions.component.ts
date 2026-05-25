@@ -5,7 +5,7 @@ import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, DATES, MAGIC_NUMBERS } from '@c
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, XlsxService } from '@core/shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { SessionsFiltersFormComponent } from '@modules/administrator/components';
 import { ISession } from '@modules/administrator/interfaces';
 import { SessionsService } from '@modules/administrator/services';
@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
 import { IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
-import { UserService } from '@shared/services';
+import { UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -38,15 +38,15 @@ export class SessionsComponent {
   private literals: ITranslateLiterals;
   private paginationQuery: IPaginationQuery = { page: MAGIC_NUMBERS.N_1, limit: MAGIC_NUMBERS.N_5 };
 
-  private readonly destroyRef$ = inject(DestroyRef);
-  private readonly translateService = inject(TranslateService);
-  private readonly sessionsService = inject(SessionsService);
-  private readonly userService = inject(UserService);
-  private readonly confirmDialogService = inject(ConfirmDialogService);
-  private readonly spinnerService = inject(SpinnerService);
-  private readonly toastService = inject(ToastService);
-  private readonly xlsxService = inject(XlsxService);
-  private readonly datesService = inject(DatesService);
+  private destroyRef$ = inject(DestroyRef);
+  private translateService = inject(TranslateService);
+  private sessionsService = inject(SessionsService);
+  private userService = inject(UserService);
+  private confirmDialogService = inject(ConfirmDialogService);
+  private spinnerService = inject(SpinnerService);
+  private toastService = inject(ToastService);
+  private xlsxService = inject(XlsxService);
+  private datesService = inject(DatesService);
 
   ngOnInit() {
     this.translateService.stream('SESSIONS')
