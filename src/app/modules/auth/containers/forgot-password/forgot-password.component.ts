@@ -11,7 +11,7 @@ import { SpinnerService, ToastService, TranslateService } from '@core/shared/ser
 import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components';
 import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent, IAuthInput, IAuthLinksComponent } from '@modules/auth/interfaces';
-import { REGEX_PATTERNS } from '@shared/constants';
+import { REGEX } from '@shared/constants';
 import { AuthService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -95,7 +95,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   private initForm(): void {
     this.forgotPasswordForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)])
+      email: new FormControl('', [Validators.required, Validators.pattern(REGEX.EMAIL)])
     });
   }
 

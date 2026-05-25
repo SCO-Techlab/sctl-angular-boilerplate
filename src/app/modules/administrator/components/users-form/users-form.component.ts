@@ -7,7 +7,7 @@ import { IInputErrorComponent, ITranslateLiterals } from '@core/shared/interface
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
 import { RolesService } from '@modules/administrator/services';
-import { REGEX_PATTERNS } from '@shared/constants';
+import { REGEX } from '@shared/constants';
 import { IRole, IUser } from '@shared/interfaces';
 import { PasswordMatchValidator } from '@shared/validators';
 import { InputTextModule } from 'primeng/inputtext';
@@ -71,7 +71,7 @@ export class UsersFormComponent implements OnInit {
 
   private initForm(): void {
     this.usersForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
+      email: new FormControl('', [Validators.required, Validators.pattern(REGEX.EMAIL)]),
       userName: new FormControl<string>('', [Validators.required]),
       personalName: new FormControl<string>('', [Validators.required]),
       role: new FormControl<IRole>(null, [Validators.required]),
@@ -80,8 +80,8 @@ export class UsersFormComponent implements OnInit {
     });
 
     if (!this.isEdit) {
-      this.usersForm.addControl('password', new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]));
-      this.usersForm.addControl('confirmPassword', new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]));
+      this.usersForm.addControl('password', new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]));
+      this.usersForm.addControl('confirmPassword', new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]));
       this.usersForm.setValidators([PasswordMatchValidator]);
     }
 

@@ -6,8 +6,8 @@ import { Store } from '@ngxs/store';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  private store = inject(Store);
-  private router = inject(Router);
+  private readonly store = inject(Store);
+  private readonly router = inject(Router);
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     const accessToken: string = this.store.selectSnapshot(SessionStorageState.accessToken);

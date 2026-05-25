@@ -7,7 +7,7 @@ import { IInputErrorComponent, ITranslateLiterals } from '@core/shared/interface
 import { TranslateModule } from '@core/shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { ProfileService } from '@modules/profile/services';
-import { REGEX_PATTERNS } from '@shared/constants';
+import { REGEX } from '@shared/constants';
 import { IUser } from '@shared/interfaces';
 import { PasswordMatchValidator } from '@shared/validators';
 import { PasswordModule } from 'primeng/password';
@@ -97,9 +97,9 @@ export class ProfileChangePasswordComponent {
   private initForm(): void {
     this.changePasswordForm = new FormGroup(
       {
-        currentPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
-        password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
-        confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)])
+        currentPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
+        password: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
+        confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)])
       },
       { validators: [PasswordMatchValidator] }
     );

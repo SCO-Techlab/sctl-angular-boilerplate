@@ -6,7 +6,7 @@ import { BUTTON_SEVERITY, INPUT_ERROR } from '@core/shared/enums';
 import { IDialogComponent, IInputErrorComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
-import { REGEX_PATTERNS } from '@shared/constants';
+import { REGEX } from '@shared/constants';
 import { PasswordMatchValidator } from '@shared/validators';
 import { PasswordModule } from 'primeng/password';
 
@@ -100,8 +100,8 @@ export class EditPasswordDialogComponent implements OnInit {
   private initForm(): void {
     this.editPasswordForm = new FormGroup(
       {
-        password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
-        confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)])
+        password: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
+        confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)])
       },
       { validators: [PasswordMatchValidator] }
     );

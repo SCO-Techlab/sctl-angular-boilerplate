@@ -11,7 +11,7 @@ import { SpinnerService, ToastService, TranslateService } from '@core/shared/ser
 import { AuthCardComponent } from '@modules/auth/components';
 import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent, IAuthInput } from '@modules/auth/interfaces';
-import { REGEX_PATTERNS } from '@shared/constants';
+import { REGEX } from '@shared/constants';
 import { IUser } from '@shared/interfaces';
 import { AuthService } from '@shared/services';
 import { PasswordMatchValidator } from '@shared/validators';
@@ -106,8 +106,8 @@ export class ResetPasswordComponent implements OnInit {
   private initForm(): void {
     this.resetPasswordForm = new FormGroup(
       {
-        password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
-        confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)])
+        password: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
+        confirmPassword: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)])
       },
       {
         validators: [PasswordMatchValidator]

@@ -1,3 +1,3 @@
 export * from './jwt-token';
-export * from './permissions.enum';
+export * from './permissions';
 

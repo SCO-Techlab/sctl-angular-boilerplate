@@ -7,8 +7,8 @@ import { UserService } from '@shared/services';
 @Injectable()
 export class AdminGuard implements CanActivate {
 
-  private userService = inject(UserService);
-  private router = inject(Router);
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     if (!this.userService.isLoggedIn() || !this.userService.loggedUser()?.role) {

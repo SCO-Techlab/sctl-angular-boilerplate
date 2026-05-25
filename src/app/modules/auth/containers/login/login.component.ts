@@ -15,7 +15,7 @@ import { AuthCardComponent, AuthLinksComponent } from '@modules/auth/components'
 import { setAuthCardConfig } from '@modules/auth/helpers';
 import { IAuthCardComponent, IAuthEvent, IAuthInput, IAuthLinksComponent } from '@modules/auth/interfaces';
 import { Store } from '@ngxs/store';
-import { REGEX_PATTERNS } from '@shared/constants';
+import { REGEX } from '@shared/constants';
 import { IJwtPayload, IJwtToken } from '@shared/interfaces';
 import { AuthService, JwtTokenService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -160,8 +160,8 @@ export class LoginComponent implements OnInit {
 
   private initForm(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
-      password: new FormControl('', [Validators.required, Validators.pattern(REGEX_PATTERNS.PASSWORD)]),
+      email: new FormControl('', [Validators.required, Validators.pattern(REGEX.EMAIL)]),
+      password: new FormControl('', [Validators.required, Validators.pattern(REGEX.PASSWORD)]),
       rememberMe: new FormControl(false)
     });
   }

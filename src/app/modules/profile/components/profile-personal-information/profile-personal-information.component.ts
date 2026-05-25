@@ -11,7 +11,7 @@ import { TranslateModule } from '@core/shared/modules';
 import { DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
-import { REGEX_PATTERNS } from '@shared/constants';
+import { REGEX } from '@shared/constants';
 import { IJwtToken, IUser } from '@shared/interfaces';
 import { JwtTokenService } from '@shared/services';
 import { InputTextModule } from 'primeng/inputtext';
@@ -118,7 +118,7 @@ export class ProfilePersonalInformationComponent implements OnInit {
     this.personalInformationForm = new FormGroup({
       personalName: new FormControl(this.user()?.personalName ?? '', [Validators.required]),
       userName: new FormControl(this.user()?.userName ?? '', [Validators.required]),
-      email: new FormControl(this.user()?.email ?? '', [Validators.required, Validators.pattern(REGEX_PATTERNS.EMAIL)]),
+      email: new FormControl(this.user()?.email ?? '', [Validators.required, Validators.pattern(REGEX.EMAIL)]),
       role: new FormControl(this.formatRoleName() ?? ''),
       createdAt: new FormControl(this.datesService.formatDate(DATES.ISO_DATE, this.user()?.createdAt) ?? '')
     });
