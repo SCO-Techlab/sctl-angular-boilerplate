@@ -5,13 +5,13 @@ import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, 
 import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { MenuFrontFiltersFormComponent, MenuFrontFormComponent } from '@modules/administrator/components';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
 import { IMenuFront, IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
-import { ConfirmDialogService, MenuFrontService, UserService, XlsxService } from '@shared/services';
+import { MenuFrontService, UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({

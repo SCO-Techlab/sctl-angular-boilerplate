@@ -3,13 +3,13 @@ import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, inject, Templa
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardComponent } from '@core/components';
 import { TranslateModule } from '@core/shared/modules';
-import { SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { ConfirmDialogService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { LayoutService } from '@layout/services';
 import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileHeaderComponent, ProfilePersonalInformationComponent } from '@modules/profile/components';
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
 import { IUser } from '@shared/interfaces';
-import { AuthService, ConfirmDialogService, UserService } from '@shared/services';
+import { AuthService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { finalize } from 'rxjs';

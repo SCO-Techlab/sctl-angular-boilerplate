@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { CONFIRM_DIALOG_ICONS } from '@shared/constants';
-import { IConfirmDialog } from '@shared/interfaces';
+import { CONFIRM_DIALOG_ICONS } from '@core/shared/constants';
+import { IConfirmDialog } from '@core/shared/interfaces';
 import { ConfirmationService } from 'primeng/api';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class ConfirmDialogService {
 
-  private confirmationService = inject(ConfirmationService);
+  private readonly confirmationService = inject(ConfirmationService);
 
   confirm(confirm: IConfirmDialog): void {
     this.confirmationService.confirm({

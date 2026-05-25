@@ -7,7 +7,7 @@ import { CrudTemplateDirective } from '@core/shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { EditPasswordDialogComponent, UsersFiltersFormComponent, UsersFormComponent } from '@modules/administrator/components';
 import { UsersService } from '@modules/administrator/services';
 import { UserAvatarComponent } from '@shared/components';
@@ -15,7 +15,7 @@ import { PERMISSIONS, ROLES } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
 import { IPaginationQuery, IPaginationResponse, IUser } from '@shared/interfaces';
-import { ConfirmDialogService, UserService, XlsxService } from '@shared/services';
+import { UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({

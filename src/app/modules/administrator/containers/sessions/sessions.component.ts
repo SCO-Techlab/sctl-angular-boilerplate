@@ -5,7 +5,7 @@ import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, DATES, MAGIC_NUMBERS } from '@c
 import { BUTTON_SEVERITY, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { SessionsFiltersFormComponent } from '@modules/administrator/components';
 import { ISession } from '@modules/administrator/interfaces';
 import { SessionsService } from '@modules/administrator/services';
@@ -13,7 +13,7 @@ import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
 import { IPaginationQuery, IPaginationResponse } from '@shared/interfaces';
-import { ConfirmDialogService, UserService, XlsxService } from '@shared/services';
+import { UserService, XlsxService } from '@shared/services';
 import { finalize } from 'rxjs';
 
 @Component({

@@ -1,4 +1,5 @@
 export * from './card';
+export * from './confirm-dialog';
 export * from './crud';
 export * from './dialog';
 export * from './file-upload-dialog';

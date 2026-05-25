@@ -1,4 +1,3 @@
-export * from './confirm-dialog';
 export * from './jwt-token';
 export * from './menu-front.interface';
 export * from './pagination.interface';
