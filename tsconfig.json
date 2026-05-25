@@ -25,6 +25,9 @@
       "@core/*": [
         "src/app/core/*"
       ],
+      "@layout/*": [
+        "src/app/layout/*"
+      ],
       "@modules/*": [
         "src/app/modules/*"
       ],

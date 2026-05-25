@@ -4,7 +4,7 @@ import { Component, HostBinding, inject, input, OnDestroy, OnInit } from '@angul
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { TranslateModule } from '@core/shared/modules';
-import { LayoutService } from '@core/shared/services';
+import { LayoutService } from '@layout/services';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';

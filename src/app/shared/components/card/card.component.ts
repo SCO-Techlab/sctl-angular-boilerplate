@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
-import { LayoutService } from '@core/shared/services';
+import { LayoutService } from '@layout/services';
 import { ICardComponent } from '@shared/interfaces';
 
 @Component({

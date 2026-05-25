@@ -5,8 +5,10 @@ import { SpinnerComponent, ToastComponent } from '@core/components';
 import { SessionStorageState } from '@core/session-storage';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@core/shared/constants';
 import { TOAST_POSITION } from '@core/shared/enums';
-import { ILayoutConfig, ISpinnerComponent, IToastComponent } from '@core/shared/interfaces';
-import { ConfigService, LayoutService, ScreenService, SpinnerService, TranslateService } from '@core/shared/services';
+import { ISpinnerComponent, IToastComponent } from '@core/shared/interfaces';
+import { ConfigService, ScreenService, SpinnerService, TranslateService } from '@core/shared/services';
+import { ILayoutConfig } from '@layout/interfaces';
+import { LayoutService } from '@layout/services';
 import { Store } from '@ngxs/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 

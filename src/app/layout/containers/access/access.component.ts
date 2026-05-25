@@ -2,10 +2,10 @@ import { NgClass } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { IAccessComponent } from '@core/layout/interfaces';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
+import { IAccessComponent } from '@layout/interfaces';
 import { ButtonModule } from 'primeng/button';
 
 @Component({

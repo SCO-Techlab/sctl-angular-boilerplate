@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { TOAST_POSITION } from '@core/shared/enums';
 import { IToastComponent, IToastMessage } from '@core/shared/interfaces';
-import { LayoutService, ToastService } from '@core/shared/services';
+import { ToastService } from '@core/shared/services';
+import { LayoutService } from '@layout/services';
 import { Subscription } from 'rxjs';
 
 @Component({

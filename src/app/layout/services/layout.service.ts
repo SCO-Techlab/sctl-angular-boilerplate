@@ -1,6 +1,7 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
-import { LAYOUT_CONSTANTS, MAGIC_NUMBERS } from '@core/shared/constants';
-import { ILayoutConfig, ILayoutMenuChangeEvent, ILayoutState } from '@core/shared/interfaces';
+import { MAGIC_NUMBERS } from '@core/shared/constants';
+import { LAYOUT_CONSTANTS } from '@layout/constants';
+import { ILayoutConfig, ILayoutMenuChangeEvent, ILayoutState } from '@layout/interfaces';
 import { Subject } from 'rxjs';
 
 @Injectable({

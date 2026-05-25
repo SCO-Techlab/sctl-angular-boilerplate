@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, computed, inject, input } from '@angular/core';
-import { LayoutService } from "@core/shared/services";
+import { LayoutService } from "@layout/services";
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ThemeConfiguratorComponent } from "../theme-configurator";
