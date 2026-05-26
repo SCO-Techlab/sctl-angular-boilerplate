@@ -7,25 +7,6 @@ import { BehaviorSubject, from, map, Observable, of, switchMap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class TranslateService {
 
-  private _data = new Map<string, any>();
-  private _currentLang: string;
-  private _defaultLang: string;
-  private _availableLangs: string[] = [];
-  private _onLangChange: BehaviorSubject<string>;
-  private _onLangChange$: Observable<string>;
-
-  private http = inject(HttpClient);
-
-  constructor(
-    @Inject('TRANSLATE_CONFIG') private readonly config: ITranslateConfig
-  ) {
-    this._defaultLang = this.config.defaultLang;
-    this._availableLangs = this.config.availableLangs;
-    this._onLangChange = new BehaviorSubject<string>(this._currentLang);
-    this._onLangChange$ = this._onLangChange.asObservable();
-    this.setNavigatorLanguage();
-  }
-
   public get currentLang(): string {
     return this._currentLang;
   }
@@ -42,23 +23,26 @@ export class TranslateService {
     return this._onLangChange$;
   }
 
-  setNavigatorLanguage(): void {
-    let language = navigator?.language?.includes('-')
-      ? navigator.language.split('-')[MAGIC_NUMBERS.N_0]
-      : navigator.language;
+  private _data = new Map<string, any>();
+  private _currentLang: string;
+  private _defaultLang: string;
+  private _availableLangs: string[] = [];
+  private _onLangChange: BehaviorSubject<string>;
+  private _onLangChange$: Observable<string>;
 
-    if (!language) language = this._defaultLang ?? this.config.defaultLang;
+  private readonly http = inject(HttpClient);
 
-    if (this._availableLangs.length > 0) {
-      const exists = this._availableLangs.includes(language);
-      if (!exists) language = this._defaultLang ?? this.config.defaultLang;
-    }
-
-    this._currentLang = language;
-    this._onLangChange.next(this._currentLang);
+  constructor(
+    @Inject('TRANSLATE_CONFIG') private readonly config: ITranslateConfig
+  ) {
+    this._defaultLang = this.config.defaultLang;
+    this._availableLangs = this.config.availableLangs;
+    this._onLangChange = new BehaviorSubject<string>(this._currentLang);
+    this._onLangChange$ = this._onLangChange.asObservable();
+    this.setNavigatorLanguage();
   }
 
-  use(lang: string): Promise<boolean> {
+  public use(lang: string): Promise<boolean> {
     if (this._currentLang === lang && this._data.has(lang)) {
       return Promise.resolve(true);
     }
@@ -86,39 +70,73 @@ export class TranslateService {
       });
   }
 
-  instant(key: string, params?: Record<string, any>): string {
+  public instant(key: string, params?: Record<string, any>): string {
     const langData = this._data.get(this._currentLang);
     const translation = this.getValue(langData, key);
-    return translation ? this.interpolate(translation, params) : key;
+
+    return translation
+      ? this.interpolate(translation, params)
+      : key;
   }
 
-  get(key: string, params?: Record<string, any>): Observable<string | ITranslateLiterals> {
+  public get(key: string, params?: Record<string, any>): Observable<string | ITranslateLiterals> {
     const translation = this.instant(key, params);
-    if (translation !== key) return of(translation);
+    if (translation !== key) {
+      return of(translation);
+    }
 
-    return from(this.use(this._currentLang)).pipe(
-      map(() => this.instant(key, params))
-    );
+    return from(this.use(this._currentLang))
+      .pipe(
+        map(() => this.instant(key, params))
+      );
   }
 
-  stream(key: string, params?: Record<string, any>): Observable<string | ITranslateLiterals> {
+  public stream(key: string, params?: Record<string, any>): Observable<string | ITranslateLiterals> {
     return this._onLangChange$.pipe(
       switchMap(() => this.get(key, params))
     );
   }
 
   private getValue(obj: any, path: string): string | undefined {
-    if (!obj) return undefined;
+    if (!obj) {
+      return undefined;
+    }
+
     return path
       .split('.')
       .reduce((acc, part) => (acc && acc[part] !== undefined ? acc[part] : undefined), obj);
   }
 
   private interpolate(str: string, params?: Record<string, any>): string {
-    if (!params) return str;
+    if (!params) {
+      return str;
+    }
+
     return str.replace(/{{\s*([^}]+)\s*}}/g, (_, key) => {
       const v = params[key.trim()];
-      return v === undefined || v === null ? '' : String(v);
+      return v === undefined || v === null
+        ? ''
+        : String(v);
     });
+  }
+
+  private setNavigatorLanguage(): void {
+    let language = navigator?.language?.includes('-')
+      ? navigator.language.split('-')[MAGIC_NUMBERS.N_0]
+      : navigator.language;
+
+    if (!language) {
+      language = this._defaultLang ?? this.config.defaultLang;
+    }
+
+    if (this._availableLangs.length > MAGIC_NUMBERS.N_0) {
+      const exists = this._availableLangs.includes(language);
+      if (!exists) {
+        language = this._defaultLang ?? this.config.defaultLang;
+      }
+    }
+
+    this._currentLang = language;
+    this._onLangChange.next(this._currentLang);
   }
 }

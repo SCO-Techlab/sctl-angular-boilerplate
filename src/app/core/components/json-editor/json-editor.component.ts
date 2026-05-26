@@ -18,6 +18,7 @@ export class JsonEditorComponent implements OnInit {
 
   @ViewChild('jsonEditor', { static: true }) jsonEditor: ElementRef;
 
+  public value = input<any>({});
   public config = input<IJsonEditorComponent>({
     mode: JSON_EDITOR_MODE.CODE,
     height: MAGIC_NUMBERS.N_600,
@@ -25,7 +26,6 @@ export class JsonEditorComponent implements OnInit {
     type: JSON_EDITOR_TYPE.OBJECT,
     inputId: ''
   });
-  public value = input<any>({});
 
   public valueChange = output<any>();
 

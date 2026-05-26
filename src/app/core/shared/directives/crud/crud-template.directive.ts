@@ -7,5 +7,5 @@ import { Directive, inject, Input, TemplateRef } from '@angular/core';
 export class CrudTemplateDirective {
   @Input('crudTemplate') name!: string;
 
-  public template = inject(TemplateRef<any>);
+  public readonly template = inject(TemplateRef<any>);
 }

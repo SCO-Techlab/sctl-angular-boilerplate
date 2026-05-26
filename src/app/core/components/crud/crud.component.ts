@@ -218,10 +218,10 @@ export class CrudComponent implements OnInit, AfterViewInit {
   private selectedValue: any;
   private paginationEvent: ICrudPaginationEvent;
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private datesService = inject(DatesService);
-  private screenService = inject(ScreenService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly datesService = inject(DatesService);
+  private readonly screenService = inject(ScreenService);
 
   constructor() {
     effect(() => {

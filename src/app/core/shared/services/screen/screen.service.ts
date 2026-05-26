@@ -8,8 +8,6 @@ import { Subject } from 'rxjs';
 })
 export class ScreenService {
 
-  private _size: string
-
   public get size(): string {
     return this._size;
   }
@@ -50,13 +48,14 @@ export class ScreenService {
     return this.size === SCREEN_SIZE.XL || this.size === SCREEN_SIZE.XXL;
   }
 
-  public onSizeChange = new Subject<{ size: string; width: number }>();
-
+  public readonly onSizeChange = new Subject<{ size: string; width: number }>();
   public readonly SM_BREAKPOINT = MAGIC_NUMBERS.N_576;
   public readonly MD_BREAKPOINT = MAGIC_NUMBERS.N_768;
   public readonly LG_BREAKPOINT = MAGIC_NUMBERS.N_992;
   public readonly XL_BREAKPOINT = MAGIC_NUMBERS.N_1200;
   public readonly XXL_BREAKPOINT = MAGIC_NUMBERS.N_1920;
+
+  private _size: string
 
   public setSize(width: number): void {
     if (width >= MAGIC_NUMBERS.N_1920) {

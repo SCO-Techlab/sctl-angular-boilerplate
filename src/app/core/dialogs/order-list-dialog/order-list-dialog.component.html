@@ -5,11 +5,11 @@
     (close)="onClose()" 
     (submit)="onSubmit($event)"
   >
-    <div content class="flex flex-col gap-2" [ngClass]="{'no-actions': config()?.readonly === true}">
+    <div content class="flex flex-col gap-2" [ngClass]="{'no-actions': config()?.readonly}">
       <p-orderlist 
         [value]="values()"
         [dataKey]="config()?.dataKey"
-        [responsive]="config()?.notResponsive === true ? false : true"
+        [responsive]="config()?.notResponsive ? false : true"
         (onReorder)="onReorder()"
       >
         <ng-template #item let-option>

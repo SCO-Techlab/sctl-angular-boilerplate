@@ -10,7 +10,7 @@ export class ConfirmDialogService {
 
   private readonly confirmationService = inject(ConfirmationService);
 
-  confirm(confirm: IConfirmDialog): void {
+  public confirm(confirm: IConfirmDialog): void {
     this.confirmationService.confirm({
       header: confirm.header,
       message: confirm.message,

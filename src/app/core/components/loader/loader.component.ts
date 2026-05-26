@@ -21,7 +21,7 @@ export class LoaderComponent {
     borderWidth: MAGIC_NUMBERS.N_5
   });
 
-  private cdRef = inject(ChangeDetectorRef);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   public show(): void {
     this.config().showLoader = true;

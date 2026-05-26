@@ -12,12 +12,9 @@ export class TranslateDirective implements OnInit {
   @Input('translateParams') params?: Record<string, any>;
 
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(
-    private readonly el: ElementRef,
-    private readonly renderer: Renderer2,
-    private readonly translate: TranslateService
-  ) { }
+  private readonly el = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+  private readonly translate = inject(TranslateService);
 
   ngOnInit(): void {
     this.updateText();
@@ -28,7 +25,10 @@ export class TranslateDirective implements OnInit {
   }
 
   private updateText(): void {
-    if (!this.key) return;
+    if (!this.key) {
+      return;
+    }
+
     const text = this.translate.instant(this.key, this.params);
     this.renderer.setProperty(this.el.nativeElement, 'textContent', text);
   }

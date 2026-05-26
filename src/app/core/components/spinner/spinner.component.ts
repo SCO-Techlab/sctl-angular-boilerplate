@@ -27,9 +27,9 @@ export class SpinnerComponent {
     }
   });
 
-  private spinnerService = inject(SpinnerService);
-
   public get isShowing(): boolean {
     return this.spinnerService.isShowing;
   }
+
+  private readonly spinnerService = inject(SpinnerService);
 }

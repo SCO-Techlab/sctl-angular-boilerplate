@@ -40,10 +40,7 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     importProvidersFrom(
-      NgxsModule.forRoot(
-        [SessionStorageState],
-        { developmentMode: !environment.production }
-      ),
+      NgxsModule.forRoot([SessionStorageState], { developmentMode: !environment.production }),
       NgxsStoragePluginModule.forRoot({ keys: ['sctlangularboilerplate'] }),
       RippleModule
     ),

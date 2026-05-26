@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnDestroy, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TOAST_POSITION } from '@core/shared/enums';
 import { IToastComponent, IToastMessage } from '@core/shared/interfaces';
 import { ToastService } from '@core/shared/services';
@@ -32,12 +33,17 @@ export class ToastComponent implements OnInit, OnDestroy {
 
   public readonly TOAST_POSITION = TOAST_POSITION;
   public messages: IToastMessage[] = [];
-  public sub!: Subscription;
 
+  private sub!: Subscription;
+
+  private readonly destroyRef$ = inject(DestroyRef);
   private readonly toastService = inject(ToastService);
 
   ngOnInit(): void {
-    this.sub = this.toastService.messages$.subscribe(msgs => (this.messages = msgs));
+    this.sub = this.toastService.messages$
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe(msgs => (this.messages = msgs));
+
     this.toastService.toastLimit = this.config()?.toastLimit ?? undefined;
   }
 
@@ -45,11 +51,11 @@ export class ToastComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  close(id: string): void {
+  public close(id: string): void {
     this.toastService.remove(id);
   }
 
-  getIcon(severity?: string): string {
+  public getIcon(severity?: string): string {
     switch (severity) {
       case 'success':
         return 'pi pi-check-circle';
@@ -64,7 +70,7 @@ export class ToastComponent implements OnInit, OnDestroy {
     }
   }
 
-  getPosition(): string {
+  public getPosition(): string {
     if (!this.config()?.position) {
       return TOAST_POSITION.TOP_RIGHT;
     }

@@ -7,17 +7,15 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ToastService {
 
-  private _messages = new BehaviorSubject<IToastMessage[]>([]);
+  private _messages: BehaviorSubject<IToastMessage[]> = new BehaviorSubject<IToastMessage[]>([]);
   private _toastLimit: number = undefined;
 
-  public messages$ = this._messages.asObservable();
+  public readonly messages$ = this._messages.asObservable();
 
-  public set toastLimit(value: number) {
-    if (!value === null || value === undefined || value <= MAGIC_NUMBERS.N_0) {
-      value = undefined;
-    }
-
-    this._toastLimit = value;
+  public set toastLimit(value: number | undefined) {
+    this._toastLimit = !value || value <= MAGIC_NUMBERS.N_0
+      ? undefined
+      : value;
   }
 
   public success(message: IToastMessage): void {
@@ -44,7 +42,7 @@ export class ToastService {
     message.id = this.genId();
     const msgs = this._messages.getValue();
 
-    if (this._toastLimit !== undefined && this._toastLimit > MAGIC_NUMBERS.N_0) {
+    if (this._toastLimit > MAGIC_NUMBERS.N_0) {
       if (msgs.length >= this._toastLimit) {
         msgs.shift();
       }

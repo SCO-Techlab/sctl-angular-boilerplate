@@ -74,7 +74,7 @@ export class DialogComponent implements OnInit {
       : this.config()?.footer?.submitButton?.disabled?.();
   }
 
-  private screenService = inject(ScreenService);
+  private readonly screenService = inject(ScreenService);
 
   constructor() {
     effect(() => {
