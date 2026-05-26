@@ -67,8 +67,8 @@ export class LayoutMenuItemComponent implements OnInit, OnDestroy {
     return this.active && !this.isRoot;
   }
 
-  private router = inject(Router);
-  private layoutService = inject(LayoutService);
+  private readonly router = inject(Router);
+  private readonly layoutService = inject(LayoutService);
 
   constructor() {
     this.menuSourceSubscription = this.layoutService.menuSource$.subscribe((value) => {

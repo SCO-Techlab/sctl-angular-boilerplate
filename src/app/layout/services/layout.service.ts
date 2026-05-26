@@ -70,7 +70,6 @@ export class LayoutService {
 
     effect(() => {
       const config = this.layoutConfig();
-
       if (!this.initialized || !config) {
         this.initialized = true;
         return;
@@ -80,28 +79,7 @@ export class LayoutService {
     });
   }
 
-  private handleDarkModeTransition(config: ILayoutConfig): void {
-    if ((document as any).startViewTransition) {
-      this.startViewTransition(config);
-    } else {
-      this.toggleDarkMode(config);
-      this.onTransitionEnd();
-    }
-  }
-
-  private startViewTransition(config: ILayoutConfig): void {
-    const transition = (document as any).startViewTransition(() => {
-      this.toggleDarkMode(config);
-    });
-
-    transition.ready
-      .then(() => {
-        this.onTransitionEnd();
-      })
-      .catch(() => { });
-  }
-
-  toggleDarkMode(config?: ILayoutConfig): void {
+  public toggleDarkMode(config?: ILayoutConfig): void {
     const _config = config || this.layoutConfig();
     if (_config.darkTheme) {
       document.documentElement.classList.add('app-dark');
@@ -110,14 +88,7 @@ export class LayoutService {
     }
   }
 
-  private onTransitionEnd() {
-    this.transitionComplete.set(true);
-    setTimeout(() => {
-      this.transitionComplete.set(false);
-    });
-  }
-
-  onMenuToggle() {
+  public onMenuToggle(): void {
     if (this.isOverlay()) {
       this.layoutState.update((prev) => ({ ...prev, overlayMenuActive: !this.layoutState().overlayMenuActive }));
 
@@ -137,24 +108,43 @@ export class LayoutService {
     }
   }
 
-  isDesktop() {
-    return window.innerWidth > MAGIC_NUMBERS.N_991;
+  public onMenuStateChange(event: ILayoutMenuChangeEvent): void {
+    this.menuSource.next(event);
   }
 
-  isMobile() {
-    return !this.isDesktop();
+  public reset(): void {
+    this.resetSource.next(true);
   }
 
-  onConfigUpdate() {
+  private onConfigUpdate() {
     this._config = { ...this.layoutConfig() };
     this.configUpdate.next(this.layoutConfig());
   }
 
-  onMenuStateChange(event: ILayoutMenuChangeEvent) {
-    this.menuSource.next(event);
+  private isDesktop(): boolean {
+    return window.innerWidth > MAGIC_NUMBERS.N_991;
   }
 
-  reset() {
-    this.resetSource.next(true);
+  private onTransitionEnd() {
+    this.transitionComplete.set(true);
+    setTimeout(() => {
+      this.transitionComplete.set(false);
+    });
+  }
+
+  private handleDarkModeTransition(config: ILayoutConfig): void {
+    if ((document as any).startViewTransition) {
+      this.startViewTransition(config);
+    } else {
+      this.toggleDarkMode(config);
+      this.onTransitionEnd();
+    }
+  }
+
+  private startViewTransition(config: ILayoutConfig): void {
+    const transition = (document as any).startViewTransition(() => this.toggleDarkMode(config));
+    transition.ready
+      .then(() => this.onTransitionEnd())
+      .catch(() => { });
   }
 }
