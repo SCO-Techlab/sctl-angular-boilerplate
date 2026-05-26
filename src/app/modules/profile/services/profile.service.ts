@@ -10,29 +10,29 @@ import { Observable } from 'rxjs';
 })
 export class ProfileService {
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  updateUserInfo(_id: string, user: Partial<IUser>): Observable<IJwtToken> {
+  public updateUserInfo(_id: string, user: Partial<IUser>): Observable<IJwtToken> {
     const body = { ...user };
     return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/info/${_id}`, body);
   }
 
-  updateUserPassword(_id: string, password: string, newPassword: string): Observable<boolean> {
+  public updateUserPassword(_id: string, password: string, newPassword: string): Observable<boolean> {
     const body = { password, newPassword };
     return this.http.put<boolean>(`${environment.apiUrl}/profile/update/user/password/${_id}`, body);
   }
 
-  updateUserAvatar(_id: string, file: File): Observable<IJwtToken> {
+  public updateUserAvatar(_id: string, file: File): Observable<IJwtToken> {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/avatar/${_id}`, formData);
   }
 
-  deleteUserAccount(_id: string): Observable<boolean> {
+  public deleteUserAccount(_id: string): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.apiUrl}/profile/delete/user/account/${_id}`);
   }
 
-  disableOrEnableForm(form: FormGroup, disable: boolean = false): void {
+  public disableOrEnableForm(form: FormGroup, disable: boolean = false): void {
     const action = {
       true: 'disable',
       false: 'enable'

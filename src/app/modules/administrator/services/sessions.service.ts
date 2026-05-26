@@ -11,23 +11,23 @@ import { ISession } from '../interfaces';
 })
 export class SessionsService {
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  find(filter: Partial<ISession>, pagination?: IPaginationQuery): Observable<ISession[] | IPaginationResponse<ISession>> {
+  public find(filter: Partial<ISession>, pagination?: IPaginationQuery): Observable<ISession[] | IPaginationResponse<ISession>> {
     const httpParams: HttpParams = fillHttpParams(filter, pagination);
     return this.http
       .get<ISession[] | IPaginationResponse<ISession>>(`${environment.apiUrl}/sessions`, { params: httpParams });
   }
 
-  revoke(_id: string): Observable<ISession> {
+  public revoke(_id: string): Observable<ISession> {
     return this.http.put<ISession>(`${environment.apiUrl}/sessions/revoke/${_id}`, {});
   }
 
-  delete(session: ISession): Observable<boolean> {
+  public delete(session: ISession): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.apiUrl}/sessions/${session._id}`);
   }
 
-  deleteMultiple(_ids: string[]): Observable<number> {
+  public deleteMultiple(_ids: string[]): Observable<number> {
     const body = { _ids };
     return this.http.delete<number>(`${environment.apiUrl}/sessions/delete/bulk`, { body });
   }

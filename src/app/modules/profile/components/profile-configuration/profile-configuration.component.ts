@@ -25,9 +25,9 @@ export class ProfileConfigurationComponent {
   public lockForm: boolean = true;
   public configurationForm: FormGroup;
 
-  private store = inject(Store);
-  private layoutService = inject(LayoutService);
-  private profileService = inject(ProfileService);
+  private readonly store = inject(Store);
+  private readonly layoutService = inject(LayoutService);
+  private readonly profileService = inject(ProfileService);
 
   ngOnInit(): void {
     this.initForm();

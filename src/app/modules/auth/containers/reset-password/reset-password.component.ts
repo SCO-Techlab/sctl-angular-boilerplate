@@ -44,13 +44,13 @@ export class ResetPasswordComponent implements OnInit {
   private literals: ITranslateLiterals;
   private userId: string;
 
-  private destroyRef$ = inject(DestroyRef);
-  private router = inject(Router);
-  private translateService = inject(TranslateService);
-  private authService = inject(AuthService);
-  private spinnerService = inject(SpinnerService);
-  private toastService = inject(ToastService);
-  private route = inject(ActivatedRoute);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly translateService = inject(TranslateService);
+  private readonly authService = inject(AuthService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly toastService = inject(ToastService);
+  private readonly route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.initForm();
@@ -66,13 +66,13 @@ export class ResetPasswordComponent implements OnInit {
       });
   }
 
-  onClickLink(url: string): void {
+  public onClickLink(url: string): void {
     if (url) {
       this.router.navigate([url]);
     }
   }
 
-  onClickButton(): void {
+  public onClickButton(): void {
     const password: string = this.resetPasswordForm.get('password')?.value;
 
     this.spinnerService.show();

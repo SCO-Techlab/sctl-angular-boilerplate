@@ -29,9 +29,9 @@ export class SessionsFiltersFormComponent implements OnInit {
   public userOptions: { name: string; value: string }[] = [];
   public booleanOptions: { name: string; value: string }[] = [];
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private usersService = inject(UsersService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly usersService = inject(UsersService);
 
   ngOnInit(): void {
     this.initForm();

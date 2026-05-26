@@ -11,7 +11,7 @@ import { PermissionsFiltersFormComponent, PermissionsFormComponent } from '@modu
 import { PermissionsService } from '@modules/administrator/services';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
-import { cleanObject } from '@shared/helpers/objets.helper';
+import { cleanObject } from '@shared/helpers';
 import { IPermission } from '@shared/interfaces';
 import { UserService } from '@shared/services';
 import { finalize } from 'rxjs';
@@ -393,11 +393,11 @@ export class PermissionsComponent {
         [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.DELETE),
         [CRUD_ACTIONS.CLEAR_FILTERS]: () => {
           return (
-            !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
+            !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.READ) ||
             Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
           );
         },
-        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.READ),
       }
     };
   }

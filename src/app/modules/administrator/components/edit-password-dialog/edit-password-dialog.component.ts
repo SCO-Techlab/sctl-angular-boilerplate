@@ -63,8 +63,8 @@ export class EditPasswordDialogComponent implements OnInit {
   public editPasswordForm: FormGroup;
   public formErrors: { [key: string]: IInputErrorComponent } = {};
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
 
   constructor() {
     effect(() => {

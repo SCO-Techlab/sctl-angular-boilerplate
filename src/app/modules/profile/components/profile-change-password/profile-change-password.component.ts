@@ -36,11 +36,11 @@ export class ProfileChangePasswordComponent {
 
   private literals: ITranslateLiterals;
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private profileService = inject(ProfileService);
-  private spinnerService = inject(SpinnerService);
-  private toastService = inject(ToastService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly profileService = inject(ProfileService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.initForm();

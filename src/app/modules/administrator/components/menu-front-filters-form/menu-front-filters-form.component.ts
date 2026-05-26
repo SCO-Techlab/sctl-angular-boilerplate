@@ -29,8 +29,8 @@ export class MenuFrontFiltersFormComponent implements OnInit {
   public form: FormGroup;
   public booleanOptions: { name: string; value: string }[] = [];
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.initForm();

@@ -48,12 +48,12 @@ export class RegisterComponent implements OnInit {
 
   private literals: ITranslateLiterals;
 
-  private destroyRef$ = inject(DestroyRef);
-  private router = inject(Router);
-  private translateService = inject(TranslateService);
-  private authService = inject(AuthService);
-  private spinnerService = inject(SpinnerService);
-  private toastService = inject(ToastService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly translateService = inject(TranslateService);
+  private readonly authService = inject(AuthService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.initForm();

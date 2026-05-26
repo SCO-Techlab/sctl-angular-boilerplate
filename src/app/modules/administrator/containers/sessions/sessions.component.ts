@@ -297,7 +297,7 @@ export class SessionsComponent {
           name: 'revoke',
           icon: 'pi pi-ban',
           severity: BUTTON_SEVERITY.INFO,
-          disabled: (value: ISession) => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.DELETE) || value?.isRevoked
+          disabled: (value: ISession) => !this.userService.hasPermission(PERMISSIONS.SESSIONS, PERMISSION_TYPE.DELETE) || value?.isRevoked
         },
         { ...CRUD_DELETE_TABLE_ACTION }
       ],
@@ -397,17 +397,17 @@ export class SessionsComponent {
         TITLE: this.literals?.['TITLE']
       },
       disabledButtons: {
-        [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.READ),
-        [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.READ),
-        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.DELETE),
-        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => !this.userService.hasPermission(PERMISSIONS.PERMISSIONS, PERMISSION_TYPE.DELETE_BULK),
+        [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.SESSIONS, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.SESSIONS, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.SESSIONS, PERMISSION_TYPE.DELETE),
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => !this.userService.hasPermission(PERMISSIONS.SESSIONS, PERMISSION_TYPE.DELETE_BULK),
         [CRUD_ACTIONS.CLEAR_FILTERS]: () => {
           return (
-            !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
+            !this.userService.hasPermission(PERMISSIONS.SESSIONS, PERMISSION_TYPE.READ) ||
             Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
           );
         },
-        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.SESSIONS, PERMISSION_TYPE.READ),
       }
     };
   }

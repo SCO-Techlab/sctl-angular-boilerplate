@@ -28,8 +28,8 @@ export class PermissionsFiltersFormComponent implements OnInit {
   public form: FormGroup;
   public typeOptions: { name: string; type: string }[] = [];
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.initForm();

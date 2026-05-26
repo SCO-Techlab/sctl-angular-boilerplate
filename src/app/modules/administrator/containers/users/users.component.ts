@@ -5,7 +5,15 @@ import { CrudComponent } from '@core/components';
 import { CRUD_ACTIONS, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { CrudTemplateDirective } from '@core/shared/directives';
 import { BUTTON_SEVERITY, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
-import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals } from '@core/shared/interfaces';
+import {
+  ICrudComponent,
+  ICrudPaginationEvent,
+  ICrudTableAction,
+  IDialogComponent,
+  IPaginationQuery,
+  IPaginationResponse,
+  ITranslateLiterals
+} from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, XlsxService } from '@core/shared/services';
 import { EditPasswordDialogComponent, UsersFiltersFormComponent, UsersFormComponent } from '@modules/administrator/components';
@@ -614,7 +622,7 @@ export class UsersComponent {
           return (
             !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
             Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
-          );
+          )
         },
         [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
       }

@@ -399,11 +399,11 @@ export class RolesComponent {
         [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.DELETE),
         [CRUD_ACTIONS.CLEAR_FILTERS]: () => {
           return (
-            !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ) ||
+            !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.READ) ||
             Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
           );
         },
-        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.USERS, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.ROLES, PERMISSION_TYPE.READ),
       }
     };
   }

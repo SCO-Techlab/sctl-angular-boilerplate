@@ -15,13 +15,13 @@ export class AuthHeaderComponent implements OnInit {
 
   public config = input<IAuthHeaderComponent>({});
 
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   ngOnInit() {
     this.config().containerCssClass = this.config().containerCssClass ?? 'text-center mb-8';
   }
 
-  onClickLogo(): void {
+  public onClickLogo(): void {
     if (!this.config()?.logoRedirect) {
       return;
     }

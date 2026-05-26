@@ -11,27 +11,27 @@ import { Observable } from 'rxjs';
 })
 export class PermissionsService {
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  find(filter: Partial<IPermission>, pagination?: IPaginationQuery): Observable<IPermission[] | IPaginationResponse<IPermission>> {
+  public find(filter: Partial<IPermission>, pagination?: IPaginationQuery): Observable<IPermission[] | IPaginationResponse<IPermission>> {
     const httpParams: HttpParams = fillHttpParams(filter, pagination);
     return this.http
       .get<IPermission[] | IPaginationResponse<IPermission>>(`${environment.apiUrl}/permissions`, { params: httpParams });
   }
 
-  save(permission: IPermission): Observable<IPermission> {
+  public save(permission: IPermission): Observable<IPermission> {
     return this.http.post<IPermission>(`${environment.apiUrl}/permissions`, permission);
   }
 
-  update(_id: string, permission: IPermission): Observable<IPermission> {
+  public update(_id: string, permission: IPermission): Observable<IPermission> {
     return this.http.put<IPermission>(`${environment.apiUrl}/permissions/${_id}`, permission);
   }
 
-  delete(permission: IPermission): Observable<boolean> {
+  public delete(permission: IPermission): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.apiUrl}/permissions/${permission._id}`);
   }
 
-  deleteMultiple(_ids: string[]): Observable<number> {
+  public deleteMultiple(_ids: string[]): Observable<number> {
     const body = { _ids };
     return this.http.delete<number>(`${environment.apiUrl}/permissions/delete/bulk`, { body });
   }

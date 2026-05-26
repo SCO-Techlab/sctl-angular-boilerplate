@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ITranslateLiterals } from '@core/shared';
+import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { SpinnerService, TranslateService } from '@core/shared/services';
 import { AuthCardComponent } from '@modules/auth/components';
@@ -34,13 +34,13 @@ export class ConfirmEmailComponent implements OnInit {
 
   private literals: ITranslateLiterals;
 
-  private destroyRef$ = inject(DestroyRef);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private translateService = inject(TranslateService);
-  private authService = inject(AuthService);
-  private spinnerService = inject(SpinnerService);
-  private cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly translateService = inject(TranslateService);
+  private readonly authService = inject(AuthService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly cdRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.translateService.stream('AUTH.CONFIRM_EMAIL')

@@ -38,9 +38,9 @@ export class RolesFormComponent implements OnInit {
   private literals: ITranslateLiterals;
   private firstChange: boolean;
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private permissionsService = inject(PermissionsService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly permissionsService = inject(PermissionsService);
 
   ngOnInit(): void {
     this.firstChange = true;

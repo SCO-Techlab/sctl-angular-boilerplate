@@ -38,8 +38,8 @@ export class PermissionsFormComponent implements OnInit {
   private literals: ITranslateLiterals;
   private firstChange: boolean;
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
 
   ngOnInit(): void {
     this.firstChange = true;

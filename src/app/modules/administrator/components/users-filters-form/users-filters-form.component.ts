@@ -29,9 +29,9 @@ export class UsersFiltersFormComponent implements OnInit {
   public rolesOptions: { name: string; value: string }[] = [];
   public booleanOptions: { name: string; value: string }[] = [];
 
-  private destroyRef$ = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  private rolesService = inject(RolesService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly rolesService = inject(RolesService);
 
   ngOnInit(): void {
     this.initForm();

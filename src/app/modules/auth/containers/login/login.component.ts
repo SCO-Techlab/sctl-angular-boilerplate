@@ -53,16 +53,16 @@ export class LoginComponent implements OnInit {
   private literals: ITranslateLiterals;
   private doAutoLogin: boolean = false;
 
-  private destroyRef$ = inject(DestroyRef);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private store = inject(Store);
-  private translateService = inject(TranslateService);
-  private authService = inject(AuthService);
-  private spinnerService = inject(SpinnerService);
-  private toastService = inject(ToastService);
-  private userService = inject(UserService);
-  private jwtTokenService = inject(JwtTokenService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly store = inject(Store);
+  private readonly translateService = inject(TranslateService);
+  private readonly authService = inject(AuthService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly toastService = inject(ToastService);
+  private readonly userService = inject(UserService);
+  private readonly jwtTokenService = inject(JwtTokenService);
 
   ngOnInit(): void {
     this.initForm();

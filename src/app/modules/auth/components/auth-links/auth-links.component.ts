@@ -13,7 +13,7 @@ export class AuthLinksComponent {
     links: []
   });
 
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   public showLinks(): boolean {
     return this.config()?.links?.length > MAGIC_NUMBERS.N_0;

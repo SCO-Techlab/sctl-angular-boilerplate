@@ -5,7 +5,12 @@ import { CardComponent } from '@core/components';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { LayoutService } from '@layout/services';
-import { ProfileChangePasswordComponent, ProfileConfigurationComponent, ProfileHeaderComponent, ProfilePersonalInformationComponent } from '@modules/profile/components';
+import {
+  ProfileChangePasswordComponent,
+  ProfileConfigurationComponent,
+  ProfileHeaderComponent,
+  ProfilePersonalInformationComponent
+} from '@modules/profile/components';
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
 import { IUser } from '@shared/interfaces';

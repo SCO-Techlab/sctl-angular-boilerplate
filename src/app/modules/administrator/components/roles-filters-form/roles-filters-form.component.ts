@@ -23,7 +23,7 @@ export class RolesFiltersFormComponent implements OnInit {
 
   public form: FormGroup;
 
-  private destroyRef$ = inject(DestroyRef);
+  private readonly destroyRef$ = inject(DestroyRef);
 
   ngOnInit(): void {
     this.initForm();

@@ -41,14 +41,14 @@ export class ProfilePersonalInformationComponent implements OnInit {
 
   private literals: ITranslateLiterals;
 
-  private destroyRef$ = inject(DestroyRef);
-  private store = inject(Store);
-  private translateService = inject(TranslateService);
-  private profileService = inject(ProfileService);
-  private datesService = inject(DatesService);
-  private spinnerService = inject(SpinnerService);
-  private toastService = inject(ToastService);
-  private tokenService = inject(JwtTokenService);
+  private readonly destroyRef$ = inject(DestroyRef);
+  private readonly store = inject(Store);
+  private readonly translateService = inject(TranslateService);
+  private readonly profileService = inject(ProfileService);
+  private readonly datesService = inject(DatesService);
+  private readonly spinnerService = inject(SpinnerService);
+  private readonly toastService = inject(ToastService);
+  private readonly tokenService = inject(JwtTokenService);
 
   ngOnInit(): void {
     this.initForm();
