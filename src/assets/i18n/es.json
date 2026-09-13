@@ -161,7 +161,8 @@
           "MENU-FRONT": "Menu Front",
           "ROLES": "Roles",
           "PERMISSIONS": "Permisos",
-          "SESSIONS": "Sesiones"
+          "SESSIONS": "Sesiones",
+          "TENANTS": "Tenancias"
         }
       }
     },
@@ -523,6 +524,51 @@
       "SUBMIT": "Revocar",
       "SUCCESS": "La sesión se ha revocado correctamente",
       "ERROR": "Hubo un error intentando revocar la sesión"
+    }
+  },
+  "TENANTS": {
+    "TITLE": "Administrar tenancias",
+    "FORM_NEW": "Nueva tenancia",
+    "FORM_EDIT": "Editar tenancia",
+    "FILENAME": "tenancias",
+    "COLS": {
+      "NAME": "Nombre",
+      "IS_ACTIVE": "Activo",
+      "OWNER": "Propietario",
+      "DESCRIPTION": "Descripción",
+      "MEMBERS": "Miembros",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "NAME": "El nombre es obligatorio",
+      "OWNER": "El propietario es obligatorio"
+    },
+    "EDIT": {
+      "SUCCESS": "La tenancia se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar la tenancia",
+      "DUPLICATE": "La tenancia ya existe"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar tenancia",
+      "MESSAGE": "¿Está seguro de que desea eliminar la tenancia?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "La tenancia se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar la tenancia"
+    },
+    "ADD": {
+      "SUCCESS": "La tenancia se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir la tenancia",
+      "DUPLICATE": "La tenancia ya existe"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar tenancias",
+      "MESSAGE": "¿Está seguro de que desea eliminar las tenancias seleccionadas?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Las tenancias se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar las tenancias"
     }
   }
 }

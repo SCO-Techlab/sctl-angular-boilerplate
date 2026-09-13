@@ -1,0 +1,77 @@
+<form [formGroup]="tenantsForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="tenants-form-name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'TENANTS.COLS.NAME' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="tenants-form-name"
+        type="text"
+        formControlName="name"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['name']"></sctl-input-error>
+    </div>
+
+     <div class="mb-6 w-full">
+      <label for="tenants-form-isActive" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'TENANTS.COLS.IS_ACTIVE' | translate }}
+      </label>
+      <div class="ps-1">
+        <p-toggleswitch inputId="tenants-form-isActive" formControlName="isActive" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="tenants-form-owner" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'TENANTS.COLS.OWNER' | translate }}
+      </label>
+       <p-select
+        [appendTo]="'body'"
+        [className]="'w-full'"
+        [inputId]="'tenants-form-owner'"
+        [options]="usersOptions" 
+        formControlName="owner" 
+        [optionLabel]="'name'"  
+        [optionValue]="'value'"
+        class="w-full md:w-56" 
+      />
+      <sctl-input-error [config]="formErrors?.['owner']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="tenants-form-members" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'TENANTS.COLS.MEMBERS' | translate }}
+      </label>
+      <p-multiselect class="w-full"
+        [appendTo]="'body'"
+        inputId="tenants-form-members"
+        [options]="usersOptions" 
+        [optionLabel]="'name'"
+        [optionValue]="'value'"
+        formControlName="members"
+        placeholder=""
+        [filter]="true" 
+        [showToggleAll]="true"
+        [maxSelectedLabels]="3"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="tenants-form-description" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'TENANTS.COLS.DESCRIPTION' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="tenants-form-description"
+        type="text"
+        formControlName="description"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['description']"></sctl-input-error>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,28 @@
+<sctl-crud
+  [showTable]="showTable"
+  [data]="crudValues"
+  [state]="crudState"
+  [config]="crudConfig" 
+  (new)="onNew()"
+  (deleteMultiple)="onDeleteMultiple($event)"
+  (selectAction)="onSelectAction($event)"
+  (closeForm)="onCloseFormDialog($event)"
+  (pagination)="onPagination($event)"
+  (clearFilters)="onClearFilters()"
+  (searchFilters)="onSearchFilters()"
+  (export)="onExportData()"
+>
+  <sctl-tenants-filters-form class="contents"
+    filtersForm 
+    #filtersForm
+    (valueChange)="filtersValue=$event;"
+  ></sctl-tenants-filters-form>
+
+  @if (selectedItem) {
+    <sctl-tenants-form form
+      [value]="selectedItem"
+      (valueChange)="selectedItem = $event;"
+      (formValid)="formValid = $event;"
+    ></sctl-tenants-form>
+  }
+</sctl-crud>
