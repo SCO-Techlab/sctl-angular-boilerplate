@@ -27,11 +27,12 @@
   }
 
   <ng-template [crudTemplate]="'avatar'" let-user let-col="col">
-    <sctl-user-avatar
-      [user]="user"
+    <sctl-bucket-avatar
+      [src]="getUserAvatarSrc(user)"
+      [errorSrc]="'../../../../../assets/images/user-avatar.png'"
       [cssClass]="'w-[32px] h-[32px]'" 
       [canClick]="false" 
-    ></sctl-user-avatar>
+    ></sctl-bucket-avatar>
   </ng-template>
 </sctl-crud>
 

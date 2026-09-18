@@ -35,4 +35,8 @@ export class TenantsService {
     const body = { _ids };
     return this.http.delete<number>(`${environment.apiUrl}/tenants/delete/bulk`, { body });
   }
+
+  public deleteTenantAvatar(_id: string): Observable<boolean> {
+    return this.http.put<boolean>(`${environment.apiUrl}/tenants/delete/avatar/${_id}`, {});
+  }
 }

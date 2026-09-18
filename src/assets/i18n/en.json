@@ -211,7 +211,8 @@
     "TABS": {
       "PERSONAL_INFORMATION": "Personal Information",
       "CHANGE_PASSWORD": "Change Password",
-      "CONFIGURATION": "Configuration"
+      "CONFIGURATION": "Configuration",
+      "TENANTS": "Organizations"
     },
     "HEADER": {
       "ACTIVE": "Active",

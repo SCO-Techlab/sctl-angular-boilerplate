@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AccessComponent, ErrorComponent, LayoutComponent, NotfoundComponent } from '@layout/containers';
-import { AuthGuard } from '@shared/guards';
+import { AuthGuard, SelectTenantGuard } from '@shared/guards';
 
 export const appRoutes: Routes = [
   {
@@ -12,7 +12,7 @@ export const appRoutes: Routes = [
       { path: 'administrator', loadChildren: () => import('./app/modules/administrator/administrator.routes') },
       { path: 'pages', loadChildren: () => import('./app/modules/pages/pages.routes') },
     ],
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, SelectTenantGuard],
   },
   { path: 'auth', loadChildren: () => import('./app/modules/auth/auth.routes') },
   { path: 'access', component: AccessComponent },

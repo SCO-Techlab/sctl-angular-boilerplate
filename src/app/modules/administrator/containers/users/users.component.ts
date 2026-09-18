@@ -16,9 +16,10 @@ import {
 } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, XlsxService } from '@core/shared/services';
+import { environment } from '@environment';
 import { EditPasswordDialogComponent, UsersFiltersFormComponent, UsersFormComponent } from '@modules/administrator/components';
 import { UsersService } from '@modules/administrator/services';
-import { UserAvatarComponent } from '@shared/components';
+import { BucketAvatarComponent } from '@shared/components';
 import { PERMISSIONS, ROLES } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
@@ -36,7 +37,7 @@ import { finalize } from 'rxjs';
     CrudTemplateDirective,
     UsersFormComponent,
     EditPasswordDialogComponent,
-    UserAvatarComponent,
+    BucketAvatarComponent,
     UsersFiltersFormComponent
   ]
 })
@@ -293,6 +294,10 @@ export class UsersComponent {
 
   public onSearchFilters(): void {
     this.getValues();
+  }
+
+  public getUserAvatarSrc(user: IUser): string {
+    return `${environment.apiUrl}/profile/get/user/avatar/${user?._id}/${user?.avatar}`;
   }
 
   private getValues(): void {

@@ -2,16 +2,24 @@
   <div class="flex-1 ps-6 pe-6 pt-2 overflow-auto">
     <sctl-layout-menu [menu]="menu"></sctl-layout-menu>
   </div>
+
+  @if (multitenancyEnabled) {
+    <div class="p-4 pb-0">
+      <sctl-select-tenant></sctl-select-tenant>
+    </div>
+  }
+
   @if (isUserAvatarEnabled) {
     <div #menuContainer class="p-5 flex items-center justify-start" (click)="clickMenu($event, menu)">
       <p-menu #menu [model]="actions" [popup]="true" appendTo="body" [style]="{ 'width': '20rem' }" />
       <div class="flex gap-4 cursor-pointer" (click)="clickAvatar(menuContainer)">
-        <sctl-user-avatar
-          [user]="user"
+        <sctl-bucket-avatar
+          [src]="userAvatar"
+          [errorSrc]="'../../../../../assets/images/user-avatar.png'"
           [cssClass]="'w-[42px] h-[42px]'" 
           [canClick]="false" 
           (clickAvatar)="undefined"
-        ></sctl-user-avatar>
+        ></sctl-bucket-avatar>
         <div class="flex flex-col">
           <span class="text-lg font-bold">
             {{ (user?.personalName ?? user?.userName ?? user?.email) | titlecase }}

@@ -12,15 +12,30 @@
       }"
     >
       <div class="relative w-[125px] h-[125px]">
-        <sctl-user-avatar [user]="user()" [cssClass]="'w-[125px] h-[125px]'"></sctl-user-avatar>
+        <sctl-bucket-avatar 
+          [src]="userAvatar" 
+          [errorSrc]="'../../../../../assets/images/user-avatar.png'"
+          [cssClass]="'w-[125px] h-[125px]'"
+        ></sctl-bucket-avatar>
 
-        <p-button
-          icon="pi pi-pencil"
-          class="absolute -bottom-2 -right-2"
-          [rounded]="true"
-          [text]="true"
-          (click)="showFileUploadDialog = true;"
-        ></p-button>
+        @if (user()?.avatar) {
+          <p-button
+            icon="pi pi-times"
+            class="absolute -bottom-2 -right-2"
+            [severity]="'danger'"
+            [rounded]="true"
+            [text]="true"
+            (click)="deleteUserAvatar()"
+          ></p-button>
+        } @else {
+          <p-button
+            icon="pi pi-pencil"
+            class="absolute -bottom-2 -right-2"
+            [rounded]="true"
+            [text]="true"
+            (click)="showFileUploadDialog = true;"
+          ></p-button>
+        }
       </div>
     </div>
     

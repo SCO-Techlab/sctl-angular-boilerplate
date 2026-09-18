@@ -1,0 +1,30 @@
+@use '../../../../../assets/scss/mixins' as *;
+
+.sctl-profile-form {
+  &__tabs {
+    margin-bottom: 24px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    @include mobile() {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    &--inputs {
+      flex: 1;
+      width: 100%;
+    }
+  }
+
+  /* Make PrimeNG listbox selected option transparent inside this component */
+  ::ng-deep .p-listbox .p-listbox-list .p-listbox-option.p-listbox-option-selected,
+  ::ng-deep .p-listbox .p-listbox-list .p-listbox-option.p-listbox-option-selected.p-focus {
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+}

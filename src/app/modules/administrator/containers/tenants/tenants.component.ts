@@ -2,14 +2,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CrudComponent } from '@core/components';
-import { CRUD_ACTIONS, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS } from '@core/shared/constants';
+import { CRUD_ACTIONS, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, DATES, MAGIC_NUMBERS } from '@core/shared/constants';
+import { CrudTemplateDirective } from '@core/shared/directives';
 import { CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_STATE } from '@core/shared/enums';
 import { ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfirmDialogService, DatesService, SpinnerService, ToastService, TranslateService, XlsxService } from '@core/shared/services';
+import { environment } from '@environment';
 import { TenantsFiltersFormComponent, TenantsFormComponent } from '@modules/administrator/components';
 import { TenantsService } from '@modules/administrator/services';
-import { PERMISSIONS } from '@shared/constants';
+import { BucketAvatarComponent } from '@shared/components';
+import { PERMISSIONS, ROLES } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums';
 import { cleanObject } from '@shared/helpers';
 import { ITenant } from '@shared/interfaces';
@@ -23,8 +26,10 @@ import { finalize } from 'rxjs';
   imports: [
     TranslateModule,
     CrudComponent,
+    CrudTemplateDirective,
     TenantsFormComponent,
-    TenantsFiltersFormComponent
+    TenantsFiltersFormComponent,
+    BucketAvatarComponent
   ]
 })
 export class TenantsComponent {
@@ -61,6 +66,10 @@ export class TenantsComponent {
         this.setCrudConfig();
         this.getValues();
       });
+  }
+
+  public getTenantAvatarSrc(tenant: ITenant): string {
+    return `${environment.apiUrl}/profile/get/tenant/avatar/${this.userService.loggedUser()?._id}/${tenant?._id}/${tenant?.avatar}`;
   }
 
   public onNew(): void {
@@ -166,6 +175,9 @@ export class TenantsComponent {
     }
 
     const actionMethods = {
+      ['avatar']: () => {
+        this.deleteAvatar(action?.value);
+      },
       [CRUD_ACTIONS.EDIT]: () => {
         this.selectedItem = structuredClone(action?.value);
         this.selectedItemId = action?.value?._id;
@@ -332,6 +344,14 @@ export class TenantsComponent {
       filtersEnabled: true,
       onlyTable: false,
       tableActions: [
+        {
+          ...CRUD_DEFAULT_TABLE_ACTION,
+          name: 'avatar',
+          icon: 'pi pi-image',
+          disabled: (value: ITenant) => {
+            return this.userService.loggedUser?.()?.role?.name !== ROLES.SUPERADMIN || !value?.avatar;
+          }
+        },
         { ...CRUD_EDIT_TABLE_ACTION },
         { ...CRUD_DELETE_TABLE_ACTION }
       ],
@@ -340,6 +360,15 @@ export class TenantsComponent {
       exportButtonEnabled: true,
       searchInputEnabled: false,
       cols: [
+        {
+          header: this.literals?.['COLS']['AVATAR'],
+          field: 'avatar',
+          type: CRUD_COLUMN_TYPE.HTML,
+          headerStyles: 'max-width: 5rem',
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          fieldStyles: 'max-width: 5rem',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER
+        },
         {
           header: this.literals?.['COLS']['NAME'],
           field: 'name'
@@ -447,5 +476,49 @@ export class TenantsComponent {
     }
 
     this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
+  }
+
+  private deleteAvatar(value: ITenant): void {
+    if (!value) {
+      return;
+    }
+
+    this.confirmDialogService.confirm({
+      header: this.literals?.['DELETE_AVATAR']?.['HEADER'],
+      message: `${this.literals?.['DELETE_AVATAR']?.['MESSAGE']}<br><br><center>${value.name}</center>`,
+      rejectButton: { label: this.literals?.['DELETE_AVATAR']?.['REJECT'] },
+      acceptButton: { label: this.literals?.['DELETE_AVATAR']?.['ACCEPT'] },
+      accept: () => {
+        this.spinnerService.show();
+        this.tenantsService.deleteTenantAvatar(value?._id)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef$),
+            finalize(() => this.spinnerService.hide())
+          )
+          .subscribe({
+            next: (res: boolean) => {
+              if (!res) {
+                this.toastService.error({
+                  summary: this.translateService.instant('TOAST.ERROR'),
+                  detail: this.literals?.['DELETE_AVATAR']?.['ERROR']
+                });
+                return;
+              }
+
+              this.toastService.success({
+                summary: this.translateService.instant('TOAST.SUCCESS'),
+                detail: this.literals?.['DELETE_AVATAR']?.['SUCCESS']
+              });
+              this.resetCrud();
+            },
+            error: () => {
+              this.toastService.error({
+                summary: this.translateService.instant('TOAST.ERROR'),
+                detail: this.literals?.['DELETE_AVATAR']?.['ERROR']
+              });
+            }
+          });
+      }
+    });
   }
 }

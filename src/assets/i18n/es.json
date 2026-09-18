@@ -162,7 +162,7 @@
           "ROLES": "Roles",
           "PERMISSIONS": "Permisos",
           "SESSIONS": "Sesiones",
-          "TENANTS": "Tenancias"
+          "TENANTS": "Organizaciones"
         }
       }
     },
@@ -212,7 +212,8 @@
     "TABS": {
       "PERSONAL_INFORMATION": "Información personal",
       "CHANGE_PASSWORD": "Cambiar contraseña",
-      "CONFIGURATION": "Configuración"
+      "CONFIGURATION": "Configuración",
+      "TENANTS": "Organizaciones"
     },
     "HEADER": {
       "ACTIVE": "Activo",
@@ -225,7 +226,9 @@
         "CANCEL": "Cancelar",
         "SUBMIT": "Actualizar",
         "REQUEST_KO": "Hubo un error intentando actualizar el avatar",
-        "REQUEST_OK": "El avatar se ha actualizado correctamente"
+        "REQUEST_OK": "El avatar se ha actualizado correctamente",
+        "DELETE_OK": "El avatar se ha eliminado correctamente",
+        "DELETE_KO": "Hubo un error intentando eliminar el avatar"
       }
     },
     "FORM": {
@@ -274,6 +277,32 @@
       "LABELS": {
         "DARK_THEME": "Tema oscuro",
         "STATIC_MENU": "Menú estático"
+      }
+    },
+    "ORGANIZATION": {
+      "LABELS": {
+        "NAME": "Nombre",
+        "DESCRIPTION": "Descripción",
+        "OWNER": "Propietario",
+        "MEMBERS": "Miembros"
+      },
+      "ERROR": {
+        "NAME": "El nombre es obligatorio",
+        "DESCRIPTION": "La descripción es obligatoria"
+      },
+      "REQUEST_KO": "Hubo un error intentando actualizar la organización",
+      "REQUEST_OK": "La organización se ha actualizado correctamente",
+      "AVATAR_MODAL": {
+        "TITLE": "Actualizar avatar",
+        "SUB_TITLE": "El fichero debe ser de tipo imagen máximo de 1MB",
+        "SELECT": "Seleccionar",
+        "CLEAR": "Limpiar",
+        "CANCEL": "Cancelar",
+        "SUBMIT": "Actualizar",
+        "REQUEST_KO": "Hubo un error intentando actualizar el avatar",
+        "REQUEST_OK": "El avatar se ha actualizado correctamente",
+        "DELETE_OK": "El avatar se ha eliminado correctamente",
+        "DELETE_KO": "Hubo un error intentando eliminar el avatar"
       }
     }
   },
@@ -527,11 +556,12 @@
     }
   },
   "TENANTS": {
-    "TITLE": "Administrar tenancias",
-    "FORM_NEW": "Nueva tenancia",
-    "FORM_EDIT": "Editar tenancia",
-    "FILENAME": "tenancias",
+    "TITLE": "Administrar organizaciones",
+    "FORM_NEW": "Nueva organización",
+    "FORM_EDIT": "Editar organización",
+    "FILENAME": "organizaciones",
     "COLS": {
+      "AVATAR": "Avatar",
       "NAME": "Nombre",
       "IS_ACTIVE": "Activo",
       "OWNER": "Propietario",
@@ -545,30 +575,38 @@
       "OWNER": "El propietario es obligatorio"
     },
     "EDIT": {
-      "SUCCESS": "La tenancia se ha actualizado correctamente",
-      "ERROR": "Hubo un error intentando actualizar la tenancia",
-      "DUPLICATE": "La tenancia ya existe"
+      "SUCCESS": "La organización se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar la organización",
+      "DUPLICATE": "La organización ya existe"
     },
     "DELETE": {
-      "HEADER": "Eliminar tenancia",
-      "MESSAGE": "¿Está seguro de que desea eliminar la tenancia?",
+      "HEADER": "Eliminar organización",
+      "MESSAGE": "¿Está seguro de que desea eliminar la organización?",
       "CANCEL": "Cancelar",
       "SUBMIT": "Eliminar",
-      "SUCCESS": "La tenancia se ha eliminado correctamente",
-      "ERROR": "Hubo un error intentando eliminar la tenancia"
+      "SUCCESS": "La organización se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar la organización"
     },
     "ADD": {
-      "SUCCESS": "La tenancia se ha añadido correctamente",
-      "ERROR": "Hubo un error intentando añadir la tenancia",
-      "DUPLICATE": "La tenancia ya existe"
+      "SUCCESS": "La organización se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir la organización",
+      "DUPLICATE": "La organización ya existe"
     },
     "DELETE_MULTIPLE": {
-      "HEADER": "Eliminar tenancias",
-      "MESSAGE": "¿Está seguro de que desea eliminar las tenancias seleccionadas?",
+      "HEADER": "Eliminar organizaciones",
+      "MESSAGE": "¿Está seguro de que desea eliminar las organizaciones seleccionadas?",
       "CANCEL": "Cancelar",
       "SUBMIT": "Eliminar",
-      "SUCCESS": "Las tenancias se han eliminado correctamente",
-      "ERROR": "Hubo un error intentando eliminar las tenancias"
+      "SUCCESS": "Las organizaciones se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar las organizaciones"
+    },
+    "DELETE_AVATAR": {
+      "HEADER": "Eliminar avatar",
+      "MESSAGE": "¿Está seguro de que desea eliminar el avatar de la organización?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "El avatar se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar el avatar"
     }
   }
 }

@@ -25,4 +25,13 @@
       (formValid)="formValid = $event;"
     ></sctl-tenants-form>
   }
+
+  <ng-template [crudTemplate]="'avatar'" let-value let-col="col">
+    <sctl-bucket-avatar
+      [src]="getTenantAvatarSrc(value)"
+      [errorSrc]="'../../../../../assets/images/image-not-found.png'"
+      [cssClass]="'w-[32px] h-[32px]'" 
+      [canClick]="false" 
+    ></sctl-bucket-avatar>
+  </ng-template>
 </sctl-crud>

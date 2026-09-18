@@ -9,7 +9,7 @@ import { environment } from '@environment';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import Aura from '@primeuix/themes/aura';
-import { AdminGuard, AuthGuard } from '@shared/guards';
+import { AdminGuard, AuthGuard, SelectTenantGuard } from '@shared/guards';
 import { ErrorHandlerInterceptor, HeadersInterceptor } from '@shared/interceptors';
 import { ConfirmationService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
@@ -57,6 +57,7 @@ export const appConfig: ApplicationConfig = {
     },
     AuthGuard,
     AdminGuard,
+    SelectTenantGuard,
     ScreenService,
     ToastService,
     ConfirmationService

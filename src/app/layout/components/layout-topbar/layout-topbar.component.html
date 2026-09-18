@@ -70,12 +70,13 @@
     @if (isUserAvatarEnabled) {
       <div class="me-8">
         <p-menu #menu [model]="actions" [popup]="true" appendTo="body" />
-        <sctl-user-avatar
-          [user]="user"
+        <sctl-bucket-avatar
+          [src]="userAvatar"
+          [errorSrc]="'../../../../../assets/images/user-avatar.png'"
           [cssClass]="'w-[38px] h-[38px]'"
           [canClick]="true" 
           (clickAvatar)="menu.toggle($event);"
-        ></sctl-user-avatar>
+        ></sctl-bucket-avatar>
       </div>
     }
   </div>

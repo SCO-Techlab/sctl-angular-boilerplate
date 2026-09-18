@@ -7,6 +7,8 @@
     ></p-button>
   </div>
 
+  <ng-content select="[formHeader]"></ng-content>
+
   <ng-content select="[form]"></ng-content>
 
   @if (showSaveButton()) {

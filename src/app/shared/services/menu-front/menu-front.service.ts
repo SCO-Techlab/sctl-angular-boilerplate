@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { MAGIC_NUMBERS } from '@core/shared';
 import { IPaginationQuery, IPaginationResponse } from '@core/shared/interfaces';
 import { environment } from '@environment';
 import { fillHttpParams } from '@shared/helpers';
@@ -62,5 +63,27 @@ export class MenuFrontService {
         ...item,
         items: this.filterMenuItems(item.items, userRole)
       }));
+  }
+
+  public deleteMultitenancy(menu: IMenuFront[]): void {
+    if (!menu?.length) {
+      return;
+    }
+
+    if (environment.multitenancyEnabled) {
+      return;
+    }
+
+    const superAdmiMenuElement = menu.find(item => item.label === 'LAYOUT.MENU.SUPERADMINISTRATOR.LABEL');
+    if (!superAdmiMenuElement) {
+      return;
+    }
+
+    const tenantsChildIndex = superAdmiMenuElement.items?.findIndex(item => item.label === 'LAYOUT.MENU.SUPERADMINISTRATOR.ITEMS.TENANTS');
+    if (tenantsChildIndex === -1) {
+      return;
+    }
+
+    superAdmiMenuElement.items?.splice(tenantsChildIndex, MAGIC_NUMBERS.N_1);
   }
 }

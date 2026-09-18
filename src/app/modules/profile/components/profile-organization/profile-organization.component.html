@@ -1,0 +1,129 @@
+
+<sctl-profile-form
+  class="sctl-profile-form"
+  [lockForm]="lockForm"
+  [saveDisabled]="organizationForm.invalid" 
+  (save)="onClickSave()" 
+  (lock)="onClickLockOrUnlockForm()"
+>
+  @if (tenants()?.length) {
+    <div formHeader class="sctl-profile-form__tabs">
+      <p-tabs body [value]="selectedTenant" (valueChange)="onTabChange($event)">
+        <p-tablist>
+          @for (tenant of tenants(); track tenant.name; let i = $index) {
+            <p-tab [value]="i">{{ tenant.name }}</p-tab>
+          }
+        </p-tablist>
+      </p-tabs>
+    </div>
+  }
+
+  <form form [formGroup]="organizationForm" class="sctl-profile-form__form">
+    <div class="relative w-[125px] h-[125px]">
+      <sctl-bucket-avatar 
+        [src]="getTenantAvatarSrc(selectedTenant)"
+        [errorSrc]="'../../../../../assets/images/image-not-found.png'"
+        [cssClass]="'w-[125px] h-[125px]'"
+      ></sctl-bucket-avatar>
+
+      @if (!lockForm && userIsOwner(selectedTenant)) {
+        @if (tenants()?.[selectedTenant]?.avatar) {
+          <p-button
+            icon="pi pi-times"
+            class="absolute -bottom-2 -right-2"
+            [severity]="'danger'"
+            [rounded]="true"
+            [text]="true"
+            (click)="deleteTenantAvatar(selectedTenant)"
+          ></p-button>
+        } @else {
+          <p-button
+            icon="pi pi-pencil"
+            class="absolute -bottom-2 -right-2"
+            [rounded]="true"
+            [text]="true"
+            (click)="showFileUploadDialog = true;"
+          ></p-button>
+        }
+      }
+    </div>
+
+    <div class="sctl-profile-form__form--inputs">
+      <div>
+        <label for="profile-organization-name" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+          {{ 'PROFILE.ORGANIZATION.LABELS.NAME' | translate }}
+        </label>
+        <input id="profile-organization-name" 
+          class="w-full"
+          pInputText
+          type="text"
+          formControlName="name"
+          [readOnly]="!userIsOwner(selectedTenant)"
+        />
+        <sctl-input-error [config]="formErrors?.['name']"></sctl-input-error>
+      </div>
+
+      <div class="mt-4">
+        <label for="profile-organization-description" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+          {{ 'PROFILE.ORGANIZATION.LABELS.DESCRIPTION' | translate }}
+        </label>
+        <input id="profile-organization-description" 
+          class="w-full"
+          pInputText
+          type="text"
+          formControlName="description"
+          [readOnly]="!userIsOwner(selectedTenant)"
+        />
+        <sctl-input-error [config]="formErrors?.['description']"></sctl-input-error>
+      </div>
+
+      <div class="mt-4">
+        <label for="profile-organization-owner" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+          {{ 'PROFILE.ORGANIZATION.LABELS.OWNER' | translate }}
+        </label>
+        <input id="profile-organization-owner" 
+          class="w-full"
+          pInputText
+          type="text"
+          formControlName="owner"
+          readonly
+        />
+      </div>
+
+      <div class="mt-4">
+        <label for="profile-organization-description" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+          {{ 'PROFILE.ORGANIZATION.LABELS.MEMBERS' | translate }}
+        </label>
+        @if (tenants()?.[selectedTenant]?.members?.length) {
+          <sctl-card [darkTheme]="darkTheme" [config]="{ title: '', contrast: true, noPadding: true }">
+            <div body style="padding: 12px;">
+              @for (member of tenants()[selectedTenant].members; track member.email; let i = $index) {
+                <div style="display: flex; align-items: center; gap: 8px; padding: {{lockForm ? 4 : 0}}px;">
+                  {{ member.email }}
+                  @if (!lockForm && userIsOwner(selectedTenant)) {
+                    <p-button
+                      icon="pi pi-times"
+                      [severity]="'danger'"
+                      [rounded]="true"
+                      [text]="true"
+                      (click)="deleteMember(member)"
+                    ></p-button>
+                  }
+                </div>
+              }
+            </div>
+          </sctl-card>
+        }
+      </div>
+    </div>
+  </form>
+</sctl-profile-form>
+
+<sctl-file-upload-dialog 
+  [visible]="showFileUploadDialog"
+  [config]="fileUploadDialogConfig"
+  (select)="files = $event;"
+  (clear)="files = $event;"
+  (close)="onCloseFileUploadDialog()" 
+  (submit)="onSubmitFileUploadDialog()"
+></sctl-file-upload-dialog>

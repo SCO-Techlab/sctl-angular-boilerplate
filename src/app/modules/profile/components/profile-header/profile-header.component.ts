@@ -9,10 +9,11 @@ import { BUTTON_SEVERITY } from '@core/shared/enums';
 import { ICardComponent, IFileUploadDialogComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ScreenService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
+import { environment } from '@environment';
 import { LayoutService } from '@layout/services';
 import { ProfileService } from '@modules/profile/services';
 import { Store } from '@ngxs/store';
-import { UserAvatarComponent } from '@shared/components';
+import { BucketAvatarComponent } from '@shared/components';
 import { IJwtToken, IUser } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
@@ -31,7 +32,7 @@ import { finalize } from 'rxjs';
     MessageModule,
     CardComponent,
     FileUploadDialogComponent,
-    UserAvatarComponent
+    BucketAvatarComponent
   ]
 })
 export class ProfileHeaderComponent implements OnInit {
@@ -57,6 +58,10 @@ export class ProfileHeaderComponent implements OnInit {
 
   public get darkTheme(): boolean {
     return this.layoutService?.layoutConfig()?.darkTheme;
+  }
+
+  public get userAvatar(): string {
+    return `${environment.apiUrl}/profile/get/user/avatar/${this.user()?._id}/${this.user()?.avatar}`;
   }
 
   public readonly screenService = inject(ScreenService);
@@ -114,6 +119,30 @@ export class ProfileHeaderComponent implements OnInit {
           })
         }
       })
+  }
+
+  public deleteUserAvatar(): void {
+    this.spinnerService.show();
+    this.profileService.deleteUserAvatar(this.user()?._id)
+      .pipe(takeUntilDestroyed(this.destroyRef$), finalize(() => this.spinnerService.hide()))
+      .subscribe({
+        next: (token: IJwtToken) => {
+          if (!token?.accessToken) {
+            this.toastService.error({
+              summary: this.translateService.instant('TOAST.ERROR'),
+              detail: this.literals?.['AVATAR_MODAL']['DELETE_KO']
+            });
+            return;
+          }
+          this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
+        },
+        error: () => {
+          this.toastService.error({
+            summary: this.translateService.instant('TOAST.ERROR'),
+            detail: this.literals?.['AVATAR_MODAL']['DELETE_KO'],
+          })
+        }
+      });
   }
 
   private setFileUploadDialogConfig(): void {

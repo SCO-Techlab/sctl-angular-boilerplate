@@ -1,0 +1,21 @@
+<div class="w-full">
+  <form [formGroup]="form">
+    <p-inputgroup>
+      <p-inputgroup-addon>
+        <i class="pi pi-globe"></i>
+      </p-inputgroup-addon>
+    
+      <p-select
+        class="w-full md:w-56" 
+        formControlName="tenant"
+        [appendTo]="'body'"
+        [className]="'w-full'"
+        [inputId]="'select-tenant-component-tenant'"
+        [options]="tenantsOptions"
+        [optionLabel]="'name'"  
+        [optionValue]="'value'"
+        (onChange)="onChangeValue($event)"
+      />
+    </p-inputgroup>
+  </form>
+</div>

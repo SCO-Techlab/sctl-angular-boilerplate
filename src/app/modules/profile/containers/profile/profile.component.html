@@ -9,6 +9,9 @@
             <p-tab [value]="PROFILE_TABS.PERSONAL_INFORMATION">{{ 'PROFILE.TABS.PERSONAL_INFORMATION' | translate }}</p-tab>
             <p-tab [value]="PROFILE_TABS.CHANGE_PASSWORD">{{ 'PROFILE.TABS.CHANGE_PASSWORD' | translate }}</p-tab>
             <p-tab [value]="PROFILE_TABS.CONFIGURATION">{{ 'PROFILE.TABS.CONFIGURATION' | translate }}</p-tab>
+            @if (multitenancyEnabled) {
+              <p-tab [value]="PROFILE_TABS.TENANTS">{{ 'PROFILE.TABS.TENANTS' | translate }}</p-tab>
+            }
           </p-tablist>
       </p-tabs>
 
@@ -22,6 +25,9 @@
         </ng-template>
         <ng-template #configuration>
           <sctl-profile-configuration></sctl-profile-configuration>
+        </ng-template>
+        <ng-template #organization>
+          <sctl-profile-organization [user]="user" [tenants]="tenants"></sctl-profile-organization>
         </ng-template>
       </sctl-card>
 

@@ -4,7 +4,7 @@ export const environment = {
   apiUrl: 'http://0.0.0.0:3000/api/v1',
   socketUrl: `ws://0.0.0.0:3005`,
   httpsEnabled: false,
-  multitenancyEnabled: false,
+  multitenancyEnabled: true,
 };
 
 environment.apiUrl = !environment.httpsEnabled

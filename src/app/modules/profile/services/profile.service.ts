@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { environment } from '@environment';
-import { IJwtToken, IUser } from '@shared/interfaces';
+import { IJwtToken, ITenant, IUser } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -28,8 +28,32 @@ export class ProfileService {
     return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/avatar/${_id}`, formData);
   }
 
+  public deleteUserAvatar(_id: string): Observable<IJwtToken> {
+    return this.http.delete<IJwtToken>(`${environment.apiUrl}/profile/delete/user/avatar/${_id}`);
+  }
+
   public deleteUserAccount(_id: string): Observable<boolean> {
     return this.http.delete<boolean>(`${environment.apiUrl}/profile/delete/user/account/${_id}`);
+  }
+
+  public getUserTenants(_id: string): Observable<ITenant[]> {
+    return this.http.get<ITenant[]>(`${environment.apiUrl}/profile/get/user/tenants/${_id}`);
+  }
+
+  public updateUserTenant(_id: string, tenant: Partial<ITenant>): Observable<ITenant> {
+    const members = tenant?.members?.map(member => member._id);
+    const body = { ...tenant, members };
+    return this.http.put<ITenant>(`${environment.apiUrl}/profile/update/user/tenant/${_id}`, body);
+  }
+
+  public updateTenantAvatar(_id: string, _tenantId: string, file: File): Observable<ITenant> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.put<ITenant>(`${environment.apiUrl}/profile/update/tenant/avatar/${_id}/${_tenantId}`, formData);
+  }
+
+  public deleteTenantAvatar(_id: string, _tenantId: string): Observable<ITenant> {
+    return this.http.delete<ITenant>(`${environment.apiUrl}/profile/delete/tenant/avatar/${_id}/${_tenantId}`);
   }
 
   public disableOrEnableForm(form: FormGroup, disable: boolean = false): void {

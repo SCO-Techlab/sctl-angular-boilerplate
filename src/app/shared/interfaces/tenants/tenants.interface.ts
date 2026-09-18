@@ -7,6 +7,7 @@ export interface ITenant {
   owner: IUser;
   description?: string;
   members?: IUser[];
+  avatar?: string;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

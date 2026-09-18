@@ -6,7 +6,8 @@ import { CONFIG_CONSTANTS } from '@core/shared/constants';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfigService, TranslateService } from '@core/shared/services';
-import { UserAvatarComponent } from '@shared/components';
+import { environment } from '@environment';
+import { BucketAvatarComponent, SelectTenantComponent } from '@shared/components';
 import { IMenuFront, IUser } from '@shared/interfaces';
 import { AuthService, MenuFrontService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
@@ -22,8 +23,9 @@ import { LayoutMenuComponent } from '../layout-menu';
     TitleCasePipe,
     TranslateModule,
     LayoutMenuComponent,
-    UserAvatarComponent,
-    MenuModule
+    BucketAvatarComponent,
+    MenuModule,
+    SelectTenantComponent
   ]
 })
 export class LayoutSidebarComponent implements OnInit {
@@ -32,6 +34,12 @@ export class LayoutSidebarComponent implements OnInit {
   public actions: MenuItem[] = [];
   public canOpenMenu: boolean = false;
   public menu: IMenuFront[] = [];
+
+  public get userAvatar(): string {
+    return `${environment.apiUrl}/profile/get/user/avatar/${this.user?._id}/${this.user?.avatar}`;
+  }
+
+  public multitenancyEnabled: boolean = environment.multitenancyEnabled;
 
   private readonly destroyRef$ = inject(DestroyRef);
   private readonly router = inject(Router);
@@ -62,6 +70,7 @@ export class LayoutSidebarComponent implements OnInit {
         this.menu?.forEach((menuElement: IMenuFront, index: number) => {
           this.menu[index].items = this.menuFrontService.filterMenuItems(menuElement.items, this.user?.role?.name ?? '');
         });
+        this.menuFrontService.deleteMultitenancy(this.menu);
       });
   }
 

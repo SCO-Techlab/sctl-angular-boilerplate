@@ -6,8 +6,9 @@ import { CONFIG_CONSTANTS } from '@core/shared/constants';
 import { ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfigService, TranslateService } from '@core/shared/services';
+import { environment } from '@environment';
 import { LayoutService } from '@layout/services';
-import { UserAvatarComponent } from '@shared/components';
+import { BucketAvatarComponent } from '@shared/components';
 import { IUser } from '@shared/interfaces';
 import { AuthService, UserService } from '@shared/services';
 import { MenuItem } from 'primeng/api';
@@ -24,7 +25,7 @@ import { LayoutThemeConfiguratorComponent } from '../layout-theme-configurator';
     StyleClassModule,
     TranslateModule,
     LayoutThemeConfiguratorComponent,
-    UserAvatarComponent,
+    BucketAvatarComponent,
     MenuModule
   ],
 })
@@ -37,6 +38,10 @@ export class LayoutTopbarComponent implements OnInit {
   public isUserAvatarEnabled = true;
   public appName: string = '';
   public user: IUser;
+
+  public get userAvatar(): string {
+    return `${environment.apiUrl}/profile/get/user/avatar/${this.user?._id}/${this.user?.avatar}`;
+  }
 
   private readonly destroyRef$ = inject(DestroyRef);
   private readonly router = inject(Router);
