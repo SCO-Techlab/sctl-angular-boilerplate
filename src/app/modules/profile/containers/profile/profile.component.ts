@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardComponent } from '@core/components';
+import { SessionStorageState } from '@core/session-storage';
 import { TranslateModule } from '@core/shared/modules';
 import { ConfirmDialogService, SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { environment } from '@environment';
@@ -15,6 +16,7 @@ import {
 } from '@modules/profile/components';
 import { PROFILE_TABS } from '@modules/profile/enums';
 import { ProfileService } from '@modules/profile/services';
+import { Store } from '@ngxs/store';
 import { ITenant, IUser } from '@shared/interfaces';
 import { AuthService, UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -71,11 +73,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly layoutService = inject(LayoutService);
   private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly store = inject(Store);
 
   ngOnInit(): void {
-    this.profileService.getUserTenants(this.user?._id)
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((res: ITenant[]) => this.tenants = res);
+    this.tenants = structuredClone(this.userService.userTenants());
+    this.listenToTokenChange();
   }
 
   ngAfterViewInit(): void {
@@ -144,5 +146,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     } else {
       this.currentTabTemplate = this.personalInformation;
     }
+  }
+
+  private listenToTokenChange(): void {
+    this.store.select(SessionStorageState.accessToken)
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe((token: string) => this.tenants = structuredClone(this.userService.userTenants()));
   }
 }

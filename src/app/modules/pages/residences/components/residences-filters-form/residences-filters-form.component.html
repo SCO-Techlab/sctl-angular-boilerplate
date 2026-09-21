@@ -1,0 +1,52 @@
+<form class="contents" filtersForm [formGroup]="form">
+  <div>
+    <label for="residences-street-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.STREET' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-street-filter"
+      type="text"
+      [formControlName]="'street'"
+    />
+  </div>
+  <div>
+    <label for="residences-number-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.NUMBER' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-number-filter"
+      type="text"
+      [formControlName]="'number'"
+    />
+  </div>
+  <div>
+    <label for="residences-door-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.DOOR' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-door-filter"
+      type="text"
+      [formControlName]="'door'"
+    />
+  </div>
+  <div>
+    <label for="residences-cadastre-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.CADASTRE' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-cadastre-filter"
+      type="text"
+      [formControlName]="'cadastre'"
+    />
+  </div>
+  <div>
+    <label for="residences-description-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.DESCRIPTION' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-description-filter"
+      type="text"
+      [formControlName]="'description'"
+    />
+  </div>
+</form>

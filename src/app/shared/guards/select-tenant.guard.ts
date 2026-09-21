@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { MAGIC_NUMBERS } from '@core/shared';
 import { environment } from '@environment';
 import { SelectTenantService, UserService } from '@shared/services';
-import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class SelectTenantGuard implements CanActivate {
@@ -20,13 +19,10 @@ export class SelectTenantGuard implements CanActivate {
       return true;
     }
 
-    if (this.selectTenantService.tenants?.length) {
-      return true;
-    }
+    this.selectTenantService.selectedTenant = !this.selectTenantService.selectedTenant
+      ? this.userService.userTenants()?.[MAGIC_NUMBERS.N_0]?._id
+      : this.selectTenantService.selectedTenant;
 
-    const tenants = await lastValueFrom(this.selectTenantService.getUserTenants(this.userService.loggedUser()._id));
-    this.selectTenantService.tenants = tenants;
-    this.selectTenantService.selectedTenant = tenants?.[MAGIC_NUMBERS.N_0]?._id ?? '';
     return true;
   }
 }

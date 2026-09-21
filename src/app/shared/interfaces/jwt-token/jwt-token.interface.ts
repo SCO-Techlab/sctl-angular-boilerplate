@@ -1,4 +1,5 @@
 import { JWT_TOKEN_TYPE } from "@shared/enums";
+import { ITenant } from "../tenants";
 import { IUser } from "../user";
 
 export interface IJwtToken {
@@ -12,6 +13,7 @@ export interface IJwtPayload {
   jti: string;
   isRefreshToken: boolean;
   user: IUser;
+  tenants?: ITenant[];
   exp?: number;
   iat?: number;
   iss?: string;

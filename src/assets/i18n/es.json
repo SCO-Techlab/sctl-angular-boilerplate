@@ -146,7 +146,7 @@
       "PAGES": {
         "LABEL": "Páginas",
         "ITEMS": {
-          "DEFAULT-PAGE": "Página por defecto"
+          "RESIDENCES": "Residencias"
         }
       },
       "ADMINISTRATOR": {
@@ -607,6 +607,54 @@
       "SUBMIT": "Eliminar",
       "SUCCESS": "El avatar se ha eliminado correctamente",
       "ERROR": "Hubo un error intentando eliminar el avatar"
+    }
+  },
+  "RESIDENCES": {
+    "TITLE": "Administrar residencias",
+    "FORM_NEW": "Nueva residencia",
+    "FORM_EDIT": "Editar residencia",
+    "FILENAME": "residencias",
+    "COLS": {
+      "TENANT": "Organización",
+      "STREET": "Calle",
+      "NUMBER": "Número",
+      "DOOR": "Puerta",
+      "CADASTRE": "Catastro",
+      "DESCRIPTION": "Descripción",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "TENANT": "La organización es obligatoria",
+      "STREET": "La calle es obligatoria",
+      "NUMBER": "El número es obligatorio",
+      "DOOR": "La puerta es obligatoria"
+    },
+    "EDIT": {
+      "SUCCESS": "La residencia se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar la residencia",
+      "DUPLICATE": "La residencia ya existe"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar residencia",
+      "MESSAGE": "¿Está seguro de que desea eliminar la residencia?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "La residencia se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar la residencia"
+    },
+    "ADD": {
+      "SUCCESS": "La residencia se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir la residencia",
+      "DUPLICATE": "La residencia ya existe"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar residencias",
+      "MESSAGE": "¿Está seguro de que desea eliminar las residencias seleccionadas?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Las residencias se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar las residencias"
     }
   }
 }

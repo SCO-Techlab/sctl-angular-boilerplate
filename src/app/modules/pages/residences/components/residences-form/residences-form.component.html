@@ -1,0 +1,70 @@
+<form [formGroup]="residenceForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="residences-form-street" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.STREET' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-street"
+        type="text"
+        formControlName="street"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['street']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="residences-form-number" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.NUMBER' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-number"
+        type="text"
+        formControlName="number"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['number']"></sctl-input-error>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="residences-form-door" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.DOOR' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-door"
+        type="text"
+        formControlName="door"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['door']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="residences-form-cadastre" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.CADASTRE' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-cadastre"
+        type="text"
+        formControlName="cadastre"
+        [placeholder]="''"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="residences-form-description" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.DESCRIPTION' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-description"
+        type="text"
+        formControlName="description"
+        [placeholder]="''"
+      />
+    </div>
+  </div>
+</form>

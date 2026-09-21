@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SessionStorageState, SetAccessToken, SetRefreshToken } from '@core/session-storage';
 import { Store } from '@ngxs/store';
 import { PERMISSION_TYPE } from '@shared/enums';
-import { IJwtPayload, IJwtToken, IPermission, IUser } from '@shared/interfaces';
+import { IJwtPayload, IJwtToken, IPermission, ITenant, IUser } from '@shared/interfaces';
 import { JwtTokenService } from '../jwt-token';
 
 @Injectable({
@@ -46,6 +46,10 @@ export class UserService {
     return this.getUser();
   }
 
+  public userTenants(): ITenant[] {
+    return this.getTenants();
+  }
+
   public hasPermission(name: string, type: PERMISSION_TYPE): boolean {
     const user: IUser = this.getUser();
     if (!user) {
@@ -72,5 +76,15 @@ export class UserService {
 
     const decoded: IJwtPayload = this.jwtTokenService.decodeToken(accessToken);
     return decoded?.user ?? undefined;
+  }
+
+  private getTenants(): ITenant[] {
+    const accessToken: string = this.store.selectSnapshot(SessionStorageState.accessToken);
+    if (!accessToken) {
+      return undefined;
+    }
+
+    const decoded: IJwtPayload = this.jwtTokenService.decodeToken(accessToken);
+    return decoded?.tenants ?? undefined;
   }
 }

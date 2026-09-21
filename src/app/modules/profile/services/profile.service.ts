@@ -36,24 +36,20 @@ export class ProfileService {
     return this.http.delete<boolean>(`${environment.apiUrl}/profile/delete/user/account/${_id}`);
   }
 
-  public getUserTenants(_id: string): Observable<ITenant[]> {
-    return this.http.get<ITenant[]>(`${environment.apiUrl}/profile/get/user/tenants/${_id}`);
-  }
-
-  public updateUserTenant(_id: string, tenant: Partial<ITenant>): Observable<ITenant> {
+  public updateUserTenant(_id: string, tenant: Partial<ITenant>): Observable<IJwtToken> {
     const members = tenant?.members?.map(member => member._id);
     const body = { ...tenant, members };
-    return this.http.put<ITenant>(`${environment.apiUrl}/profile/update/user/tenant/${_id}`, body);
+    return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/user/tenant/${_id}`, body);
   }
 
-  public updateTenantAvatar(_id: string, _tenantId: string, file: File): Observable<ITenant> {
+  public updateTenantAvatar(_id: string, _tenantId: string, file: File): Observable<IJwtToken> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.put<ITenant>(`${environment.apiUrl}/profile/update/tenant/avatar/${_id}/${_tenantId}`, formData);
+    return this.http.put<IJwtToken>(`${environment.apiUrl}/profile/update/tenant/avatar/${_id}/${_tenantId}`, formData);
   }
 
-  public deleteTenantAvatar(_id: string, _tenantId: string): Observable<ITenant> {
-    return this.http.delete<ITenant>(`${environment.apiUrl}/profile/delete/tenant/avatar/${_id}/${_tenantId}`);
+  public deleteTenantAvatar(_id: string, _tenantId: string): Observable<IJwtToken> {
+    return this.http.delete<IJwtToken>(`${environment.apiUrl}/profile/delete/tenant/avatar/${_id}/${_tenantId}`);
   }
 
   public disableOrEnableForm(form: FormGroup, disable: boolean = false): void {

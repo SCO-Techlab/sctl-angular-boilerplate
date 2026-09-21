@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardComponent, InputErrorComponent } from '@core/components';
 import { FileUploadDialogComponent } from '@core/dialogs';
+import { SetAccessToken } from '@core/session-storage';
 import { FILE_SIZES, MAGIC_NUMBERS } from '@core/shared';
 import { BUTTON_SEVERITY, INPUT_ERROR } from '@core/shared/enums';
 import { IFileUploadDialogComponent, IInputErrorComponent, ITranslateLiterals } from '@core/shared/interfaces';
@@ -12,8 +13,10 @@ import { ScreenService, SpinnerService, ToastService, TranslateService } from '@
 import { environment } from '@environment';
 import { LayoutService } from '@layout/services';
 import { ProfileService } from '@modules/profile/services';
+import { Store } from '@ngxs/store';
 import { BucketAvatarComponent } from '@shared/components';
-import { ITenant, IUser } from '@shared/interfaces';
+import { IJwtToken, ITenant, IUser } from '@shared/interfaces';
+import { UserService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
@@ -68,6 +71,8 @@ export class ProfileOrganizationComponent implements OnInit {
   private readonly spinnerService = inject(SpinnerService);
   private readonly toastService = inject(ToastService);
   private readonly layoutService = inject(LayoutService);
+  private readonly store = inject(Store);
+  private readonly userService = inject(UserService);
 
   ngOnInit(): void {
     this.selectedTenant = MAGIC_NUMBERS.N_0;
@@ -117,25 +122,32 @@ export class ProfileOrganizationComponent implements OnInit {
       description: this.organizationForm.value.description
     };
 
-    const tenant = {
+    const updateTenant = {
       ...this.tenants()?.[this.selectedTenant],
       name: organizationInformation.name,
       description: organizationInformation.description,
     }
 
     this.spinnerService.show();
-    this.profileService.updateUserTenant(_id, tenant)
+    this.profileService.updateUserTenant(_id, updateTenant)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
-        next: (tenant: ITenant) => {
-          if (!tenant) {
+        next: (token: IJwtToken) => {
+          if (!token?.accessToken) {
             this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['REQUEST_KO'] });
             return;
           }
 
+          if (!token?.accessToken) {
+            this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail: this.literals['REQUEST_KO'] });
+            return;
+          }
+
+          this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
+          const tenant = this.userService.userTenants().find(t => t._id === this.tenants()?.[this.selectedTenant]?._id);
           this.tenants()[this.selectedTenant] = tenant;
           this.setMembersOptions(this.selectedTenant);
           this.fillForm(tenant);
@@ -169,8 +181,8 @@ export class ProfileOrganizationComponent implements OnInit {
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
-        next: (tenant: ITenant) => {
-          if (!tenant) {
+        next: (token: IJwtToken) => {
+          if (!token?.accessToken) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
               detail: this.literals?.['AVATAR_MODAL']['REQUEST_KO']
@@ -178,6 +190,8 @@ export class ProfileOrganizationComponent implements OnInit {
             return;
           }
 
+          this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
+          const tenant = this.userService.userTenants().find(t => t._id === this.tenants()?.[this.selectedTenant]?._id);
           this.tenants()[this.selectedTenant] = tenant;
           this.files = [];
           this.showFileUploadDialog = false;
@@ -203,14 +217,16 @@ export class ProfileOrganizationComponent implements OnInit {
     this.profileService.deleteTenantAvatar(this.user()?._id, this.tenants()?.[index]?._id)
       .pipe(takeUntilDestroyed(this.destroyRef$), finalize(() => this.spinnerService.hide()))
       .subscribe({
-        next: (tenant: ITenant) => {
-          if (!tenant) {
+        next: (token: IJwtToken) => {
+          if (!token?.accessToken) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
               detail: this.literals?.['AVATAR_MODAL']['DELETE_KO']
             });
             return;
           }
+          this.store.dispatch(new SetAccessToken({ accessToken: token.accessToken }));
+          const tenant = this.userService.userTenants().find(t => t._id === this.tenants()?.[index]?._id);
           this.tenants()[index] = tenant;
         },
         error: () => {
