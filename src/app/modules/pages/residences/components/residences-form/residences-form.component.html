@@ -29,6 +29,18 @@
 
   <div class="flex flex-col md:flex-row gap-0 md:gap-8">
     <div class="mb-6 w-full">
+      <label for="residences-form-flat" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.FLAT' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-flat"
+        type="text"
+        formControlName="flat"
+        [placeholder]="''"
+      />
+    </div>
+
+    <div class="mb-6 w-full">
       <label for="residences-form-door" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
         {{ 'RESIDENCES.COLS.DOOR' | translate }}
       </label>
@@ -38,7 +50,47 @@
         formControlName="door"
         [placeholder]="''"
       />
-      <sctl-input-error [config]="formErrors?.['door']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="residences-form-city" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.CITY' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-city"
+        type="text"
+        formControlName="city"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['city']"></sctl-input-error>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="residences-form-province" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.PROVINCE' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-province"
+        type="text"
+        formControlName="province"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['province']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="residences-form-postal-code" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'RESIDENCES.COLS.POSTAL_CODE' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="residences-form-postal-code"
+        type="text"
+        formControlName="postalCode"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['postalCode']"></sctl-input-error>
     </div>
 
     <div class="mb-6 w-full">
@@ -59,12 +111,12 @@
       <label for="residences-form-description" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
         {{ 'RESIDENCES.COLS.DESCRIPTION' | translate }}
       </label>
-      <input pInputText class="w-full"
+      <textarea pInputTextarea class="w-full"
         id="residences-form-description"
-        type="text"
         formControlName="description"
+        rows="5"
         [placeholder]="''"
-      />
+      ></textarea>
     </div>
   </div>
 </form>

@@ -618,7 +618,11 @@
       "TENANT": "Organización",
       "STREET": "Calle",
       "NUMBER": "Número",
+      "FLAT": "Piso",
       "DOOR": "Puerta",
+      "CITY": "Ciudad",
+      "PROVINCE": "Provincia",
+      "POSTAL_CODE": "Código postal",
       "CADASTRE": "Catastro",
       "DESCRIPTION": "Descripción",
       "CREATED_AT": "Creado en",
@@ -628,7 +632,9 @@
       "TENANT": "La organización es obligatoria",
       "STREET": "La calle es obligatoria",
       "NUMBER": "El número es obligatorio",
-      "DOOR": "La puerta es obligatoria"
+      "CITY": "La ciudad es obligatoria",
+      "PROVINCE": "La provincia es obligatoria",
+      "POSTAL_CODE": "El código postal es obligatorio"
     },
     "EDIT": {
       "SUCCESS": "La residencia se ha actualizado correctamente",

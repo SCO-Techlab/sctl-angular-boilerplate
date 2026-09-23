@@ -20,6 +20,16 @@
     />
   </div>
   <div>
+    <label for="residences-flat-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.FLAT' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-flat-filter"
+      type="text"
+      [formControlName]="'flat'"
+    />
+  </div>
+  <div>
     <label for="residences-door-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
       {{ 'RESIDENCES.COLS.DOOR' | translate }}
     </label>
@@ -30,6 +40,36 @@
     />
   </div>
   <div>
+    <label for="residences-city-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.CITY' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-city-filter"
+      type="text"
+      [formControlName]="'city'"
+    />
+  </div>
+  <div>
+    <label for="residences-province-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.PROVINCE' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-province-filter"
+      type="text"
+      [formControlName]="'province'"
+    />
+  </div>
+  <div>
+    <label for="residences-postal-code-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'RESIDENCES.COLS.POSTAL_CODE' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="residences-postal-code-filter"
+      type="text"
+      [formControlName]="'postalCode'"
+    />
+  </div>
+  <div>
     <label for="residences-cadastre-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
       {{ 'RESIDENCES.COLS.CADASTRE' | translate }}
     </label>
@@ -37,16 +77,6 @@
       id="residences-cadastre-filter"
       type="text"
       [formControlName]="'cadastre'"
-    />
-  </div>
-  <div>
-    <label for="residences-description-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
-      {{ 'RESIDENCES.COLS.DESCRIPTION' | translate }}
-    </label>
-    <input pInputText class="w-full"
-      id="residences-description-filter"
-      type="text"
-      [formControlName]="'description'"
     />
   </div>
 </form>

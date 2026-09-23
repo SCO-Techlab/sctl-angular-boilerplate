@@ -146,7 +146,8 @@
       "PAGES": {
         "LABEL": "Pages",
         "ITEMS": {
-          "DEFAULT-PAGE": "Default Page"
+          "DEFAULT-PAGE": "Default Page",
+          "RESIDENCES": "Residences"
         }
       },
       "ADMINISTRATOR": {
@@ -524,6 +525,60 @@
       "SUBMIT": "Revoke",
       "SUCCESS": "The session has been revoked successfully",
       "ERROR": "There was an error trying to revoke the session"
+    }
+  },
+  "RESIDENCES": {
+    "TITLE": "Manage residences",
+    "FORM_NEW": "New residence",
+    "FORM_EDIT": "Edit residence",
+    "FILENAME": "residences",
+    "COLS": {
+      "TENANT": "Organization",
+      "STREET": "Street",
+      "NUMBER": "Number",
+      "FLAT": "Flat",
+      "DOOR": "Door",
+      "CITY": "City",
+      "PROVINCE": "Province",
+      "POSTAL_CODE": "Postal code",
+      "CADASTRE": "Cadastre",
+      "DESCRIPTION": "Description",
+      "CREATED_AT": "Created at",
+      "UPDATED_AT": "Updated at"
+    },
+    "ERRORS": {
+      "TENANT": "Organization is required",
+      "STREET": "Street is required",
+      "NUMBER": "Number is required",
+      "CITY": "City is required",
+      "PROVINCE": "Province is required",
+      "POSTAL_CODE": "Postal code is required"
+    },
+    "EDIT": {
+      "SUCCESS": "Residence updated successfully",
+      "ERROR": "Error trying to update residence",
+      "DUPLICATE": "Residence already exists"
+    },
+    "DELETE": {
+      "HEADER": "Delete residence",
+      "MESSAGE": "Are you sure you want to delete the residence?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Residence deleted successfully",
+      "ERROR": "Error trying to delete residence"
+    },
+    "ADD": {
+      "SUCCESS": "Residence added successfully",
+      "ERROR": "Error trying to add residence",
+      "DUPLICATE": "Residence already exists"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete residences",
+      "MESSAGE": "Are you sure you want to delete the selected residences?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Residences deleted successfully",
+      "ERROR": "Error trying to delete residences"
     }
   }
 }

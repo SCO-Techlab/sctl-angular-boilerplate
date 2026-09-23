@@ -5,9 +5,14 @@ export interface IResidence {
   tenant: ITenant;
   street: string;
   number: string;
-  door: string;
+  flat?: string;
+  door?: string;
+  city: string;
+  province: string;
+  postalCode: string;
   cadastre?: string;
   description?: string;
+  images?: string[];
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

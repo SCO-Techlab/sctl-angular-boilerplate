@@ -412,10 +412,33 @@ export class CrudComponent implements OnInit, AfterViewInit {
   }
 
   private getModalTitle(value: any): string {
-    if (!this.config()?.titleKeys?.length) {
-      return value[this.config().dataKey ?? '_id'];
+    if (!value) {
+      return '';
     }
 
-    return this.config()?.titleKeys.map(key => value[key]).join(' - ');
+    if (!this.config()?.titleKeys?.length) {
+      return value[this.config().dataKey ?? '_id'] ?? '';
+    }
+
+    const titleValues: string[] = this.config().titleKeys
+      .map((key: string) => value[key])
+      .filter((fieldValue: unknown) => {
+        if (fieldValue === null || fieldValue === undefined) {
+          return false;
+        }
+
+        if (typeof fieldValue === 'string') {
+          return fieldValue.trim().length > MAGIC_NUMBERS.N_0;
+        }
+
+        return true;
+      })
+      .map((fieldValue: unknown) => String(fieldValue).trim());
+
+    if (!titleValues.length) {
+      return value[this.config().dataKey ?? '_id'] ?? '';
+    }
+
+    return titleValues.join(' - ');
   }
 }

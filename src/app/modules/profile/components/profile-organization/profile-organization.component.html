@@ -100,7 +100,7 @@
               @for (member of tenants()[selectedTenant].members; track member.email; let i = $index) {
                 <div style="display: flex; align-items: center; gap: 8px; padding: {{lockForm ? 4 : 0}}px;">
                   {{ member.email }}
-                  @if (!lockForm && userIsOwner(selectedTenant)) {
+                  @if (!lockForm && userIsOwner(selectedTenant) && user()?.email !== member.email) {
                     <p-button
                       icon="pi pi-times"
                       [severity]="'danger'"

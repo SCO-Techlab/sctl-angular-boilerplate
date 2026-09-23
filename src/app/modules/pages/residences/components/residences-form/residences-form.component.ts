@@ -7,6 +7,7 @@ import { IInputErrorComponent, ITranslateLiterals } from '@core/shared/interface
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
 import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
 import { IResidence } from '../../interfaces';
 
 @Component({
@@ -18,6 +19,7 @@ import { IResidence } from '../../interfaces';
     ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
+    TextareaModule,
     InputErrorComponent
   ]
 })
@@ -54,7 +56,11 @@ export class ResidencesFormComponent implements OnInit {
     this.residenceForm = new FormGroup({
       street: new FormControl<string>('', [Validators.required]),
       number: new FormControl<string>('', [Validators.required]),
-      door: new FormControl<string>('', [Validators.required]),
+      flat: new FormControl<string>(''),
+      door: new FormControl<string>(''),
+      city: new FormControl<string>('', [Validators.required]),
+      province: new FormControl<string>('', [Validators.required]),
+      postalCode: new FormControl<string>('', [Validators.required]),
       cadastre: new FormControl<string>(''),
       description: new FormControl<string>(''),
     });
@@ -81,7 +87,11 @@ export class ResidencesFormComponent implements OnInit {
     this.residenceForm.setValue({
       street: value?.street ?? '',
       number: value?.number ?? '',
+      flat: value?.flat ?? '',
       door: value?.door ?? '',
+      city: value?.city ?? '',
+      province: value?.province ?? '',
+      postalCode: value?.postalCode ?? '',
       cadastre: value?.cadastre ?? '',
       description: value?.description ?? ''
     });
@@ -103,11 +113,25 @@ export class ResidencesFormComponent implements OnInit {
           { error: INPUT_ERROR.REQUIRED, message: this.literals?.['ERRORS']?.['NUMBER'] }
         ]
       },
-      door: {
-        formControl: this.residenceForm?.get?.('door'),
+      city: {
+        formControl: this.residenceForm?.get?.('city'),
         cssClass: 'mb-0',
         errorsToShow: [
-          { error: INPUT_ERROR.REQUIRED, message: this.literals?.['ERRORS']?.['DOOR'] }
+          { error: INPUT_ERROR.REQUIRED, message: this.literals?.['ERRORS']?.['CITY'] }
+        ]
+      },
+      province: {
+        formControl: this.residenceForm?.get?.('province'),
+        cssClass: 'mb-0',
+        errorsToShow: [
+          { error: INPUT_ERROR.REQUIRED, message: this.literals?.['ERRORS']?.['PROVINCE'] }
+        ]
+      },
+      postalCode: {
+        formControl: this.residenceForm?.get?.('postalCode'),
+        cssClass: 'mb-0',
+        errorsToShow: [
+          { error: INPUT_ERROR.REQUIRED, message: this.literals?.['ERRORS']?.['POSTAL_CODE'] }
         ]
       }
     }

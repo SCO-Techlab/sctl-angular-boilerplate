@@ -69,7 +69,11 @@ export class ResidencesComponent {
       tenant: undefined,
       street: '',
       number: '',
+      flat: '',
       door: '',
+      city: '',
+      province: '',
+      postalCode: '',
       cadastre: '',
       description: '',
     };
@@ -152,7 +156,11 @@ export class ResidencesComponent {
         [this.literals?.['COLS']['TENANT']]: item.tenant?.name ?? '',
         [this.literals?.['COLS']['STREET']]: item.street ?? '',
         [this.literals?.['COLS']['NUMBER']]: item.number ?? '',
+        [this.literals?.['COLS']['FLAT']]: item.flat ?? '',
         [this.literals?.['COLS']['DOOR']]: item.door ?? '',
+        [this.literals?.['COLS']['CITY']]: item.city ?? '',
+        [this.literals?.['COLS']['PROVINCE']]: item.province ?? '',
+        [this.literals?.['COLS']['POSTAL_CODE']]: item.postalCode ?? '',
         [this.literals?.['COLS']['CADASTRE']]: item.cadastre ?? '',
         [this.literals?.['COLS']['DESCRIPTION']]: item.description ?? '',
         [this.literals?.['COLS']['CREATED_AT']]: item.createdAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.createdAt) : '',
@@ -359,8 +367,24 @@ export class ResidencesComponent {
           field: 'number'
         },
         {
+          header: this.literals?.['COLS']['FLAT'],
+          field: 'flat'
+        },
+        {
           header: this.literals?.['COLS']['DOOR'],
           field: 'door'
+        },
+        {
+          header: this.literals?.['COLS']['CITY'],
+          field: 'city'
+        },
+        {
+          header: this.literals?.['COLS']['PROVINCE'],
+          field: 'province'
+        },
+        {
+          header: this.literals?.['COLS']['POSTAL_CODE'],
+          field: 'postalCode'
         },
         {
           header: this.literals?.['COLS']['CADASTRE'],
@@ -387,9 +411,9 @@ export class ResidencesComponent {
           fieldStyles: 'min-width: 165px',
         },
       ],
-      globalFilterFields: ['street', 'number', 'door', 'cadastre'],
+      globalFilterFields: ['street', 'number', 'flat', 'door', 'city', 'province', 'postalCode', 'cadastre'],
       dataKey: '_id',
-      titleKeys: ['street', 'number', 'door'],
+      titleKeys: ['street', 'number', 'flat', 'door', 'city', 'province', 'postalCode'],
       rowHover: true,
       paginator: true,
       showCurrentPageReport: true,

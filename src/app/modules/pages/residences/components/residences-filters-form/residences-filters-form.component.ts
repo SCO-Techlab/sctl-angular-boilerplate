@@ -37,9 +37,12 @@ export class ResidencesFiltersFormComponent implements OnInit {
     this.form = new FormGroup({
       street: new FormControl<string>(''),
       number: new FormControl<string>(''),
+      flat: new FormControl<string>(''),
       door: new FormControl<string>(''),
+      city: new FormControl<string>(''),
+      province: new FormControl<string>(''),
+      postalCode: new FormControl<string>(''),
       cadastre: new FormControl<string>(''),
-      description: new FormControl<string>(''),
     });
 
     this.form.valueChanges
