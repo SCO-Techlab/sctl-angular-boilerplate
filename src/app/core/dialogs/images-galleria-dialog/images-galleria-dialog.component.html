@@ -1,0 +1,18 @@
+@if (showDialog) {
+  <sctl-dialog 
+    [visible]="showDialog" 
+    [config]="config()?.dialogConfig" 
+    (close)="onClose()" 
+    (submit)="onSubmit($event)"
+  >
+    <div content class="flex flex-col gap-2">
+      <sctl-images-galleria
+        [config]="config()?.imagesGalleriaConfig"
+        [images]="values() ?? []" 
+        [imageSrc]="config()?.imagesSrc"
+        (addImages)="onUploadImages($event)"
+        (deleteImage)="onDeleteImage($event)"
+      ></sctl-images-galleria>
+    </div>
+  </sctl-dialog>
+}

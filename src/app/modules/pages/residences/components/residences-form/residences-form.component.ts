@@ -1,22 +1,16 @@
 import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ImagesGalleriaComponent, InputErrorComponent } from '@core/components';
-import { FILE_SIZES, MAGIC_NUMBERS } from '@core/shared';
-import { CRUD_STATE, INPUT_ERROR } from '@core/shared/enums';
+import { InputErrorComponent } from '@core/components';
+import { INPUT_ERROR } from '@core/shared/enums';
 import { IInputErrorComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
-import { SpinnerService, ToastService, TranslateService } from '@core/shared/services';
-import { environment } from '@environment';
-import { IImagesGalleriaComponent } from '@shared/interfaces';
-import { SelectTenantService } from '@shared/services';
+import { TranslateService } from '@core/shared/services';
 import { ButtonModule } from 'primeng/button';
 import { GalleriaModule } from 'primeng/galleria';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
-import { finalize } from 'rxjs';
 import { IResidence } from '../../interfaces';
-import { ResidencesService } from '../../services';
 
 @Component({
   selector: 'sctl-residences-form',
@@ -31,37 +25,25 @@ import { ResidencesService } from '../../services';
     GalleriaModule,
     ButtonModule,
     InputErrorComponent,
-    ImagesGalleriaComponent,
   ]
 })
 export class ResidencesFormComponent implements OnInit {
 
   public value = input<IResidence>();
-  public crudState = input<CRUD_STATE>(CRUD_STATE.NEW);
 
-  public valueChange = output<{ value: IResidence, imagesChanged: boolean }>();
+  public valueChange = output<IResidence>();
   public formValid = output<boolean>();
   public residenceForm: FormGroup;
   public formErrors: { [key: string]: IInputErrorComponent } = {};
-
-  public isEditMode: boolean;
-  public imagesGalleriaConfig: IImagesGalleriaComponent;
-  public imagesSrc: string;
 
   private literals: ITranslateLiterals;
   private firstChange: boolean;
 
   private readonly destroyRef$ = inject(DestroyRef);
   private readonly translateService = inject(TranslateService);
-  private readonly spinnerService = inject(SpinnerService);
-  private readonly toastService = inject(ToastService);
-  private readonly residenceService = inject(ResidencesService);
-  private readonly selectTenantService = inject(SelectTenantService);
 
   ngOnInit(): void {
     this.firstChange = true;
-    this.isEditMode = this.crudState() === CRUD_STATE.EDIT;
-    this.setImagesGalleriaConfig();
 
     this.initForm();
     this.fillForm(this.value());
@@ -71,87 +53,6 @@ export class ResidencesFormComponent implements OnInit {
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
         this.setFormErrors();
-      });
-  }
-
-  public onUploadImages(files: File[]): void {
-    if (this.residenceService.validateMaxImagesPerResidence(files)) {
-      this.toastService.error({
-        summary: this.translateService.instant('TOAST.ERROR'),
-        detail: this.literals?.['IMAGES']['MAX_IMAGES_ALLOWED']
-      });
-      return;
-    }
-
-    if (this.residenceService.validateMaxImageSize(files)) {
-      this.toastService.error({
-        summary: this.translateService.instant('TOAST.ERROR'),
-        detail: this.literals?.['IMAGES']['MAX_IMAGE_SIZE']
-      });
-      return;
-    }
-
-    this.spinnerService.show();
-    this.residenceService.addResidenceImages(this.value()?._id, files)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef$),
-        finalize(() => this.spinnerService.hide())
-      )
-      .subscribe({
-        next: (residence: IResidence) => {
-          if (!residence) {
-            this.toastService.error({
-              summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.literals?.['IMAGES']['UPDATE_KO']
-            });
-            return;
-          }
-
-          this.valueChange.emit({ value: residence, imagesChanged: true });
-          this.toastService.success({
-            summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.literals?.['IMAGES']['UPDATE_OK']
-          });
-        },
-        error: () => {
-          this.toastService.error({
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals?.['IMAGES']['UPDATE_KO'],
-          })
-        }
-      })
-  }
-
-  public onDeleteImage(imageIndex: number): void {
-    const imageId = this.value()?.images?.[imageIndex] ?? '';
-    this.spinnerService.show();
-    this.residenceService.deleteResidenceImage(this.value()?._id, imageId)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef$),
-        finalize(() => this.spinnerService.hide())
-      )
-      .subscribe({
-        next: (residence: IResidence) => {
-          if (!residence) {
-            this.toastService.error({
-              summary: this.translateService.instant('TOAST.ERROR'),
-              detail: this.literals?.['IMAGES']?.['DELETE_KO']
-            });
-            return;
-          }
-
-          this.toastService.success({
-            summary: this.translateService.instant('TOAST.SUCCESS'),
-            detail: this.literals?.['IMAGES']?.['DELETE_OK']
-          });
-          this.valueChange.emit({ value: residence, imagesChanged: true });
-        },
-        error: () => {
-          this.toastService.error({
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals?.['IMAGES']?.['DELETE_KO']
-          });
-        }
       });
   }
 
@@ -178,7 +79,7 @@ export class ResidencesFormComponent implements OnInit {
         return;
       }
 
-      this.valueChange.emit({ value, imagesChanged: false });
+      this.valueChange.emit(value);
     });
 
     this.residenceForm.statusChanges.subscribe((status: string) => {
@@ -238,18 +139,5 @@ export class ResidencesFormComponent implements OnInit {
         ]
       }
     }
-  }
-
-  private setImagesGalleriaConfig(): void {
-    this.imagesGalleriaConfig = {
-      showLabel: true,
-      showAddImageButton: true,
-      showDeleteImageButton: true,
-      showImageTitleIndex: true,
-      maxFileSizeMb: FILE_SIZES.MB_5,
-      maxFiles: MAGIC_NUMBERS.N_5,
-    };
-
-    this.imagesSrc = `${environment.apiUrl}/residences/get/image/${this.value()?._id}/{imageId}/${this.selectTenantService.selectedTenant}`;
   }
 }

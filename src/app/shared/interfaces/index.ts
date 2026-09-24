@@ -1,4 +1,3 @@
-export * from './images-galleria';
 export * from './jwt-token';
 export * from './menu-front';
 export * from './permissions';

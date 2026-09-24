@@ -689,6 +689,8 @@
       "ERROR": "Hubo un error intentando eliminar las residencias"
     },
     "IMAGES": {
+      "TITLE": "Imágenes",
+      "CANCEL": "Cancelar",
       "MAX_IMAGES_ALLOWED": "Solo se permiten un máximo de 5 imágenes",
       "MAX_IMAGE_SIZE": "Cada imagen debe ser de un tamaño máximo de 5MB",
       "UPDATE_KO": "Hubo un error intentando actualizar las imágenes",

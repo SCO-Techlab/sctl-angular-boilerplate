@@ -1,8 +1,8 @@
+import { NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, DestroyRef, inject, input, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FileUploadDialogComponent } from '@core/dialogs';
-import { BUTTON_SEVERITY, ConfirmDialogService, FILE_SIZES, FILE_SIZES_MB, IFileUploadDialogComponent, ITranslateLiterals, MAGIC_NUMBERS, TranslateModule, TranslateService } from '@core/shared';
-import { IImagesGalleria, IImagesGalleriaComponent } from '@shared/interfaces';
+import { FileUploadDialogComponent } from '@core/dialogs/file-upload-dialog';
+import { BUTTON_SEVERITY, ConfirmDialogService, FILE_SIZES, FILE_SIZES_MB, IFileUploadDialogComponent, IImagesGalleria, IImagesGalleriaComponent, ITranslateLiterals, MAGIC_NUMBERS, TranslateModule, TranslateService } from '@core/shared';
 import { ButtonModule } from 'primeng/button';
 import { GalleriaModule } from 'primeng/galleria';
 
@@ -12,6 +12,7 @@ import { GalleriaModule } from 'primeng/galleria';
   templateUrl: './images-galleria.component.html',
   styleUrls: ['./images-galleria.component.scss'],
   imports: [
+    NgClass,
     TranslateModule,
     GalleriaModule,
     ButtonModule,

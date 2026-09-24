@@ -1,5 +1,11 @@
 @if (config()?.showLabel || config()?.showAddImageButton) {
-  <div class="flex flex-row items-center justify-between">
+  <div class="flex flex-row items-center"
+    [ngClass]="{
+      'justify-between': config()?.showLabel && config()?.showAddImageButton,
+      'justify-start': config()?.showLabel && !config()?.showAddImageButton,
+      'justify-end': !config()?.showLabel && config()?.showAddImageButton
+    }"
+  >
     @if (config()?.showLabel) {
       <label class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2"
         for="images-galleria" 

@@ -2,7 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CrudComponent } from '@core/components';
-import { ConfirmDialogService, CRUD_ACTIONS, CRUD_COLUMN_TYPE, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, CRUD_STATE, DATES, DatesService, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IPaginationQuery, IPaginationResponse, ITranslateLiterals, MAGIC_NUMBERS, SpinnerService, ToastService, TranslateModule, TranslateService, XlsxService } from '@core/shared';
+import { ImagesGalleriaDialogComponent } from '@core/dialogs/images-galleria-dialog';
+import { BUTTON_SEVERITY, ConfirmDialogService, CRUD_ACTIONS, CRUD_COLUMN_TYPE, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, CRUD_STATE, DATES, DatesService, FILE_SIZES, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IImagesGalleriaDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, MAGIC_NUMBERS, SpinnerService, ToastService, TranslateModule, TranslateService, XlsxService } from '@core/shared';
+import { environment } from '@environment';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums/permissions/permissions.enum';
 import { cleanObject } from '@shared/helpers';
@@ -20,7 +22,8 @@ import { ResidencesService } from '../../services';
     TranslateModule,
     CrudComponent,
     ResidencesFormComponent,
-    ResidencesFiltersFormComponent
+    ResidencesFiltersFormComponent,
+    ImagesGalleriaDialogComponent,
   ]
 })
 export class ResidencesComponent {
@@ -33,6 +36,9 @@ export class ResidencesComponent {
   public selectedItem: IResidence;
   public formValid: boolean = false;
   public filtersValue: Partial<IResidence> = {};
+
+  public showImagesGalleriaDialog: boolean = false;
+  public imagesGalleriaDialogConfig: IImagesGalleriaDialogComponent;
 
   private literals: ITranslateLiterals;
   private selectedItemId: string;
@@ -181,6 +187,13 @@ export class ResidencesComponent {
     }
 
     const actionMethods = {
+      ['images']: () => {
+        this.selectedItem = structuredClone(action?.value);
+        this.selectedItemId = action?.value?._id;
+        this.setImagesGalleriaConfig();
+        this.showImagesGalleriaDialog = true;
+        this.cdRef.detectChanges();
+      },
       [CRUD_ACTIONS.EDIT]: () => {
         this.selectedItem = structuredClone(action?.value);
         this.selectedItemId = action?.value?._id;
@@ -193,12 +206,8 @@ export class ResidencesComponent {
     actionMethods?.[action.name]?.(action.value);
   }
 
-  public onFormValueChange($event: { value: IResidence, imagesChanged: boolean }): void {
-    this.selectedItem = structuredClone($event.value);
-
-    if ($event.imagesChanged) {
-      this.getValues();
-    }
+  public onFormValueChange($event: IResidence): void {
+    this.selectedItem = structuredClone($event);
   }
 
   public onCloseFormDialog(isSubmit: boolean): void {
@@ -234,6 +243,89 @@ export class ResidencesComponent {
 
   public onSearchFilters(): void {
     this.getValues();
+  }
+
+  public onUploadImages(files: File[]): void {
+    if (this.residencesService.validateMaxImagesPerResidence(files)) {
+      this.toastService.error({
+        summary: this.translateService.instant('TOAST.ERROR'),
+        detail: this.literals?.['IMAGES']['MAX_IMAGES_ALLOWED']
+      });
+      return;
+    }
+
+    if (this.residencesService.validateMaxImageSize(files)) {
+      this.toastService.error({
+        summary: this.translateService.instant('TOAST.ERROR'),
+        detail: this.literals?.['IMAGES']['MAX_IMAGE_SIZE']
+      });
+      return;
+    }
+
+    this.spinnerService.show();
+    this.residencesService.addResidenceImages(this.selectedItem?._id, files)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
+      .subscribe({
+        next: (residence: IResidence) => {
+          if (!residence) {
+            this.toastService.error({
+              summary: this.translateService.instant('TOAST.ERROR'),
+              detail: this.literals?.['IMAGES']['UPDATE_KO']
+            });
+            return;
+          }
+
+          this.toastService.success({
+            summary: this.translateService.instant('TOAST.SUCCESS'),
+            detail: this.literals?.['IMAGES']['UPDATE_OK']
+          });
+          this.selectedItem = structuredClone(residence);
+          this.getValues();
+        },
+        error: () => {
+          this.toastService.error({
+            summary: this.translateService.instant('TOAST.ERROR'),
+            detail: this.literals?.['IMAGES']['UPDATE_KO'],
+          })
+        }
+      })
+  }
+
+  public onDeleteImage(imageIndex: number): void {
+    const imageId = this.selectedItem?.images?.[imageIndex] ?? '';
+    this.spinnerService.show();
+    this.residencesService.deleteResidenceImage(this.selectedItem?._id, imageId)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        finalize(() => this.spinnerService.hide())
+      )
+      .subscribe({
+        next: (residence: IResidence) => {
+          if (!residence) {
+            this.toastService.error({
+              summary: this.translateService.instant('TOAST.ERROR'),
+              detail: this.literals?.['IMAGES']?.['DELETE_KO']
+            });
+            return;
+          }
+
+          this.toastService.success({
+            summary: this.translateService.instant('TOAST.SUCCESS'),
+            detail: this.literals?.['IMAGES']?.['DELETE_OK']
+          });
+          this.selectedItem = structuredClone(residence);
+          this.getValues();
+        },
+        error: () => {
+          this.toastService.error({
+            summary: this.translateService.instant('TOAST.ERROR'),
+            detail: this.literals?.['IMAGES']?.['DELETE_KO']
+          });
+        }
+      });
   }
 
   private getValues(): void {
@@ -358,6 +450,11 @@ export class ResidencesComponent {
       filtersEnabled: true,
       onlyTable: false,
       tableActions: [
+        {
+          ...CRUD_DEFAULT_TABLE_ACTION,
+          name: 'images',
+          icon: 'pi pi-image'
+        },
         { ...CRUD_EDIT_TABLE_ACTION },
         { ...CRUD_DELETE_TABLE_ACTION }
       ],
@@ -475,5 +572,48 @@ export class ResidencesComponent {
     }
 
     this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
+  }
+
+  private setImagesGalleriaConfig(): void {
+    const imagesSrc = `${environment.apiUrl}/residences/get/image/${this.selectedItem?._id}/{imageId}/${this.selectTenantService.selectedTenant}`;
+
+    this.imagesGalleriaDialogConfig = {
+      dialogConfig: {
+        closeOnSubmit: false,
+        header: {
+          closable: true,
+          title: this.literals?.['IMAGES']?.['TITLE'],
+          subTitle: null
+        },
+        footer: {
+          cancelButton: {
+            show: true,
+            label: this.literals?.['IMAGES']?.['CANCEL'],
+            severity: BUTTON_SEVERITY.SECONDARY,
+            outlined: true,
+            text: false,
+            rounded: false,
+            disabled: undefined
+          },
+          submitButton: {
+            show: false,
+            label: '',
+            severity: BUTTON_SEVERITY.PRIMARY,
+            outlined: true,
+            text: false,
+            rounded: false
+          }
+        }
+      },
+      imagesGalleriaConfig: {
+        showLabel: false,
+        showAddImageButton: true,
+        showDeleteImageButton: true,
+        showImageTitleIndex: true,
+        maxFileSizeMb: FILE_SIZES.MB_5,
+        maxFiles: MAGIC_NUMBERS.N_5,
+      },
+      imagesSrc: imagesSrc
+    }
   }
 }

@@ -3,6 +3,8 @@ export * from './confirm-dialog';
 export * from './crud';
 export * from './dialog';
 export * from './file-upload-dialog';
+export * from './images-galleria';
+export * from './images-galleria-dialog';
 export * from './input-error';
 export * from './json-editor';
 export * from './json-editor-dialog';

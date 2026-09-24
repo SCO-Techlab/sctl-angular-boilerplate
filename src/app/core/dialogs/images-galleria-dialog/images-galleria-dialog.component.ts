@@ -1,35 +1,35 @@
 import { Component, effect, input, OnInit, output } from '@angular/core';
 import { DialogComponent } from '@core/components/dialog';
-import { FILE_SIZES, MAGIC_NUMBERS } from '@core/shared/constants';
+import { ImagesGalleriaComponent } from '@core/components/images-galleria';
+import { FILE_SIZES, MAGIC_NUMBERS } from '@core/shared';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
-import { IFileUploadDialogComponent } from '@core/shared/interfaces';
-import { FileRemoveEvent, FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import { IImagesGalleriaDialogComponent } from '@core/shared/interfaces';
 
 @Component({
-  selector: 'sctl-file-upload-dialog',
+  selector: 'sctl-images-galleria-dialog',
   standalone: true,
-  templateUrl: './file-upload-dialog.component.html',
-  styleUrls: ['./file-upload-dialog.component.scss'],
+  templateUrl: './images-galleria-dialog.component.html',
   imports: [
     DialogComponent,
-    FileUploadModule
+    ImagesGalleriaComponent,
   ]
 })
-export class FileUploadDialogComponent implements OnInit {
+export class ImagesGalleriaDialogComponent implements OnInit {
 
   public visible = input<boolean>(false);
-  public config = input<IFileUploadDialogComponent>({
+  public values = input<string[]>([]);
+  public config = input<IImagesGalleriaDialogComponent>({
     dialogConfig: {
       closeOnSubmit: false,
       header: {
         closable: true,
-        title: 'Update Avatar',
-        subTitle: 'Update your information'
+        title: 'Images Galleria Dialog',
+        subTitle: 'Images Galleria Dialog sub title'
       },
       footer: {
         cancelButton: {
           show: true,
-          label: 'Cancel',
+          label: 'Close',
           severity: BUTTON_SEVERITY.SECONDARY,
           outlined: true,
           text: false,
@@ -37,7 +37,7 @@ export class FileUploadDialogComponent implements OnInit {
           disabled: undefined
         },
         submitButton: {
-          show: true,
+          show: false,
           label: 'Save',
           severity: BUTTON_SEVERITY.PRIMARY,
           outlined: true,
@@ -47,21 +47,23 @@ export class FileUploadDialogComponent implements OnInit {
         }
       }
     },
-    multiple: false,
-    accept: 'image/*',
-    chooseLabel: 'Select',
-    cancelLabel: 'Clear',
-    maxFileSize: FILE_SIZES.MB_1,
-    fileLimit: MAGIC_NUMBERS.N_5,
+    imagesGalleriaConfig: {
+      showLabel: true,
+      showAddImageButton: true,
+      showDeleteImageButton: true,
+      showImageTitleIndex: true,
+      maxFileSizeMb: FILE_SIZES.MB_5,
+      maxFiles: MAGIC_NUMBERS.N_5,
+    },
+    imagesSrc: ''
   });
 
-  public select = output<File[]>();
-  public clear = output<File[]>();
   public submit = output<void>();
   public close = output<void>();
+  public addImages = output<File[]>();
+  public deleteImage = output<number>();
 
   public showDialog: boolean = false;
-  public files: File[] = [];
 
   constructor() {
     effect(() => {
@@ -72,24 +74,6 @@ export class FileUploadDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.showDialog = this.visible();
-  }
-
-  public onSelectFiles($event: FileSelectEvent): void {
-    this.files = !$event?.currentFiles?.length
-      ? []
-      : $event?.currentFiles;
-
-    this.select.emit(this.files);
-  }
-
-  public onClearFiles(): void {
-    this.files = [];
-    this.clear.emit(this.files);
-  }
-
-  public onRemoveFile($event: FileRemoveEvent): void {
-    this.files = this.files?.filter(f => f !== $event.file);
-    this.clear.emit(this.files);
   }
 
   public onClose(): void {
@@ -103,5 +87,13 @@ export class FileUploadDialogComponent implements OnInit {
     }
 
     this.submit.emit();
+  }
+
+  public onUploadImages($event: File[]): void {
+    this.addImages.emit($event);
+  }
+
+  public onDeleteImage($event: number): void {
+    this.deleteImage.emit($event);
   }
 }

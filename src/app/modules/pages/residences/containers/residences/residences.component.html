@@ -21,9 +21,19 @@
   @if (selectedItem) {
     <sctl-residences-form form
       [value]="selectedItem"
-      [crudState]="crudState"
       (valueChange)="onFormValueChange($event)"
       (formValid)="formValid = $event;"
     ></sctl-residences-form>
   }
 </sctl-crud>
+
+@if (showImagesGalleriaDialog) {
+  <sctl-images-galleria-dialog
+    [visible]="showImagesGalleriaDialog"
+    [values]="selectedItem?.images ?? []"
+    [config]="imagesGalleriaDialogConfig"
+    (close)="showImagesGalleriaDialog = false"
+    (addImages)="onUploadImages($event)"
+    (deleteImage)="onDeleteImage($event)"
+  ></sctl-images-galleria-dialog>
+}
