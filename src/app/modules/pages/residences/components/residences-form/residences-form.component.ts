@@ -1,14 +1,13 @@
 import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputErrorComponent } from '@core/components';
+import { ImagesGalleriaComponent, InputErrorComponent } from '@core/components';
 import { FILE_SIZES, MAGIC_NUMBERS } from '@core/shared';
 import { CRUD_STATE, INPUT_ERROR } from '@core/shared/enums';
 import { IInputErrorComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { SpinnerService, ToastService, TranslateService } from '@core/shared/services';
 import { environment } from '@environment';
-import { ImagesGalleriaComponent } from '@shared/components';
 import { IImagesGalleriaComponent } from '@shared/interfaces';
 import { SelectTenantService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
