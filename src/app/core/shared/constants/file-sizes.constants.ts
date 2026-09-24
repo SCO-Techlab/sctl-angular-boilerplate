@@ -10,3 +10,16 @@ export const FILE_SIZES = {
   MB_9: 9437184,
   MB_10: 10485760
 };
+
+export const FILE_SIZES_MB = {
+  [FILE_SIZES.MB_1]: '1',
+  [FILE_SIZES.MB_2]: '2',
+  [FILE_SIZES.MB_3]: '3',
+  [FILE_SIZES.MB_4]: '4',
+  [FILE_SIZES.MB_5]: '5',
+  [FILE_SIZES.MB_6]: '6',
+  [FILE_SIZES.MB_7]: '7',
+  [FILE_SIZES.MB_8]: '8',
+  [FILE_SIZES.MB_9]: '9',
+  [FILE_SIZES.MB_10]: '10',
+};

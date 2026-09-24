@@ -1,0 +1,52 @@
+::ng-deep .p-galleria-thumbnail-item, .p-galleria-thumbnail-item:hover {
+  transform: none !important;
+  transition: none !important;
+}
+
+.galleria-shell {
+  width: min(100%, 960px);
+  margin-inline: auto;
+}
+
+::ng-deep .galleria-root,
+::ng-deep .galleria-root .p-galleria,
+::ng-deep .galleria-root .p-galleria-content,
+::ng-deep .galleria-root .p-galleria-item-wrapper,
+::ng-deep .galleria-root .p-galleria-items-container {
+  width: 100%;
+}
+
+.galleria-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(220px, 45vw, 520px);
+  max-height: 520px;
+  margin-inline: auto;
+  border-radius: 12px;
+  object-fit: contain;
+  background-color: var(--surface-100);
+}
+
+.galleria-thumbnail {
+  width: clamp(56px, 8vw, 92px);
+  height: clamp(56px, 8vw, 92px);
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .galleria-img {
+    height: clamp(200px, 55vw, 360px);
+    max-height: 360px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .galleria-img {
+    height: clamp(180px, 62vw, 300px);
+    max-height: 300px;
+    border-radius: 8px;
+  }
+}

@@ -199,6 +199,14 @@ export class TenantsComponent {
       return;
     }
 
+    if (this.selectedItem.owner?._id) {
+      this.selectedItem.owner = this.selectedItem.owner._id as any;
+    }
+
+    if (this.selectedItem.members?.length) {
+      this.selectedItem.members = this.selectedItem.members.map(member => member?._id ?? member) as any;
+    }
+
     if (this.crudState === CRUD_STATE.NEW) {
       this.add(this.selectedItem);
     } else {

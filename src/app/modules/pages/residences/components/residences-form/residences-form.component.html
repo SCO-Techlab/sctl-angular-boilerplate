@@ -119,4 +119,18 @@
       ></textarea>
     </div>
   </div>
+
+  @if (isEditMode) {
+    <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+      <div class="mb-6 w-full">
+        <sctl-images-galleria
+          [config]="imagesGalleriaConfig"
+          [images]="value()?.images ?? []" 
+          [imageSrc]="imagesSrc"
+          (addImages)="onUploadImages($event)"
+          (deleteImage)="onDeleteImage($event)"
+        ></sctl-images-galleria>
+      </div>
+    </div>
+  }
 </form>

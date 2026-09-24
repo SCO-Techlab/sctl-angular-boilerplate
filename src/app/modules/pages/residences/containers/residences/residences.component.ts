@@ -193,6 +193,14 @@ export class ResidencesComponent {
     actionMethods?.[action.name]?.(action.value);
   }
 
+  public onFormValueChange($event: { value: IResidence, imagesChanged: boolean }): void {
+    this.selectedItem = structuredClone($event.value);
+
+    if ($event.imagesChanged) {
+      this.getValues();
+    }
+  }
+
   public onCloseFormDialog(isSubmit: boolean): void {
     if (!isSubmit) {
       this.selectedItem = undefined;

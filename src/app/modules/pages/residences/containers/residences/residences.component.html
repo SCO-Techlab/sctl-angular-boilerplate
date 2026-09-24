@@ -21,7 +21,8 @@
   @if (selectedItem) {
     <sctl-residences-form form
       [value]="selectedItem"
-      (valueChange)="selectedItem = $event;"
+      [crudState]="crudState"
+      (valueChange)="onFormValueChange($event)"
       (formValid)="formValid = $event;"
     ></sctl-residences-form>
   }

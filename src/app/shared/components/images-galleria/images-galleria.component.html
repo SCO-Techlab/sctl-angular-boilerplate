@@ -1,0 +1,66 @@
+@if (config()?.showLabel || config()?.showAddImageButton) {
+  <div class="flex flex-row items-center justify-between">
+    @if (config()?.showLabel) {
+      <label class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2"
+        for="images-galleria" 
+      >
+        {{ 'SHARED.COMPONENTS.IMAGES_GALLERIA.LABEL' | translate }}
+      </label>
+    }
+
+    @if (config()?.showAddImageButton && canManageFiles()) {
+      <p-button class="mb-2"
+        [label]="'SHARED.COMPONENTS.IMAGES_GALLERIA.ADD_IMAGE_LABEL' | translate"
+        [icon]="'pi pi-plus'"
+        severity="primary"
+        (onClick)="showFileUploadDialog = true;"
+      />
+    }
+  </div>
+}
+<div class="w-full flex justify-center items-center">
+  <div class="galleria-shell">
+    @if (showGalleria) {
+      <p-galleria
+        class="galleria-root"
+        [id]="'images-galleria'"
+        [activeIndex]="imageIndex"
+        [value]="galleriaImages" 
+        [containerStyle]="{ 'width': '100%', 'padding': '12px' }" 
+        [numVisible]="numVisible"
+        [showThumbnailNavigators]="true"
+        (activeIndexChange)="onChangeActiveIndex($event)"
+      >
+        <ng-template #item let-item>
+          <img [src]="item.imageSrc" class="galleria-img" />
+        </ng-template>
+
+        <ng-template #thumbnail let-item>
+          <img [src]="item.imageSrc" class="galleria-thumbnail" />
+        </ng-template>
+        
+        @if (config()?.showDeleteImageButton) {
+          <ng-template #footer>
+            <div class="flex justify-center items-center">
+              <p-button class="mb-2"
+                [label]="'SHARED.COMPONENTS.IMAGES_GALLERIA.DELETE_IMAGE_LABEL' | translate"
+                [icon]="'pi pi-times'"
+                severity="danger"
+                (onClick)="onDeleteImage()"
+              />
+            </div>
+          </ng-template>
+        }
+      </p-galleria>
+    }
+  </div>
+</div>
+
+<sctl-file-upload-dialog 
+  [visible]="showFileUploadDialog"
+  [config]="fileUploadDialogConfig"
+  (select)="files = $event;"
+  (clear)="files = $event;"
+  (close)="onCloseFileUploadDialog()" 
+  (submit)="onSubmitFileUploadDialog()"
+></sctl-file-upload-dialog>

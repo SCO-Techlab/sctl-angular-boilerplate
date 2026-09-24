@@ -1,6 +1,6 @@
 import { Component, effect, input, OnInit, output } from '@angular/core';
 import { DialogComponent } from '@core/components';
-import { FILE_SIZES } from '@core/shared/constants';
+import { FILE_SIZES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
 import { IFileUploadDialogComponent } from '@core/shared/interfaces';
 import { FileRemoveEvent, FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
@@ -52,6 +52,7 @@ export class FileUploadDialogComponent implements OnInit {
     chooseLabel: 'Select',
     cancelLabel: 'Clear',
     maxFileSize: FILE_SIZES.MB_1,
+    fileLimit: MAGIC_NUMBERS.N_5,
   });
 
   public select = output<File[]>();

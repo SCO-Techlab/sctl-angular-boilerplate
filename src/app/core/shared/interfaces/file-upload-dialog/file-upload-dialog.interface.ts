@@ -7,4 +7,5 @@ export interface IFileUploadDialogComponent {
   chooseLabel: string;
   cancelLabel: string;
   maxFileSize: number;
+  fileLimit: number;
 }

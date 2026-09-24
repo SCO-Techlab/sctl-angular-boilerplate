@@ -180,6 +180,7 @@ export class ProfileHeaderComponent implements OnInit {
       chooseLabel: this.literals?.['AVATAR_MODAL']['SELECT'],
       cancelLabel: this.literals?.['AVATAR_MODAL']['CLEAR'],
       maxFileSize: FILE_SIZES.MB_1,
+      fileLimit: MAGIC_NUMBERS.N_1,
     };
   }
 }
