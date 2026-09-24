@@ -14,6 +14,7 @@ export interface ICrudComponent {
   globalFilterFields: string[];
   dataKey: string;
   titleKeys: string[];
+  modalTitle?: any;
   rowHover: boolean;
   paginator: boolean;
   showCurrentPageReport: boolean;

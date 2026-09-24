@@ -147,6 +147,7 @@
         "LABEL": "Pages",
         "ITEMS": {
           "DEFAULT-PAGE": "Default Page",
+          "ROOMS": "Rooms",
           "RESIDENCES": "Residences"
         }
       },
@@ -579,6 +580,63 @@
       "SUBMIT": "Delete",
       "SUCCESS": "Residences deleted successfully",
       "ERROR": "Error trying to delete residences"
+    }
+  },
+  "ROOMS": {
+    "TITLE": "Manage rooms",
+    "FORM_NEW": "New room",
+    "FORM_EDIT": "Edit room",
+    "FILENAME": "rooms",
+    "COLS": {
+      "TENANT": "Organization",
+      "RESIDENCE": "Residence",
+      "NAME": "Name",
+      "BEDS": "Beds",
+      "IMAGES": "Images",
+      "CREATED_AT": "Created at",
+      "UPDATED_AT": "Updated at"
+    },
+    "ERRORS": {
+      "RESIDENCE": "Residence is required",
+      "NAME": "Name is required",
+      "BEDS": "Beds is required",
+      "BEDS_MIN": "Beds must be at least 1"
+    },
+    "EDIT": {
+      "SUCCESS": "Room updated successfully",
+      "ERROR": "Error trying to update room",
+      "DUPLICATE": "Room already exists"
+    },
+    "DELETE": {
+      "HEADER": "Delete room",
+      "MESSAGE": "Are you sure you want to delete the room?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Room deleted successfully",
+      "ERROR": "Error trying to delete room"
+    },
+    "ADD": {
+      "SUCCESS": "Room added successfully",
+      "ERROR": "Error trying to add room",
+      "DUPLICATE": "Room already exists"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete rooms",
+      "MESSAGE": "Are you sure you want to delete the selected rooms?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Rooms deleted successfully",
+      "ERROR": "Error trying to delete rooms"
+    },
+    "IMAGES": {
+      "TITLE": "Images",
+      "CANCEL": "Cancel",
+      "MAX_IMAGES_ALLOWED": "A maximum of 5 images are allowed",
+      "MAX_IMAGE_SIZE": "Each image must be at most 5MB",
+      "UPDATE_KO": "There was an error trying to update the images",
+      "UPDATE_OK": "Images updated successfully",
+      "DELETE_OK": "Image deleted successfully",
+      "DELETE_KO": "There was an error trying to delete the image"
     }
   }
 }

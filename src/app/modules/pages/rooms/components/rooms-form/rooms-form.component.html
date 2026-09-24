@@ -1,0 +1,50 @@
+<form [formGroup]="roomForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="rooms-form-residence" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'ROOMS.COLS.RESIDENCE' | translate }}
+      </label>
+      <p-select
+        [appendTo]="'body'"
+        [className]="'w-full'"
+        [inputId]="'rooms-form-residence'"
+        [options]="residencesOptions"
+        formControlName="residence"
+        optionLabel="name"
+        optionValue="value"
+        class="w-full md:w-56"
+      />
+      <sctl-input-error [config]="formErrors?.['residence']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="rooms-form-name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'ROOMS.COLS.NAME' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="rooms-form-name"
+        type="text"
+        formControlName="name"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['name']"></sctl-input-error>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="rooms-form-beds" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'ROOMS.COLS.BEDS' | translate }}
+      </label>
+      <p-inputnumber
+        class="w-full"
+        inputId="rooms-form-beds"
+        formControlName="beds"
+        [min]="1"
+        [showButtons]="true"
+        [fluid]="true"
+      ></p-inputnumber>
+      <sctl-input-error [config]="formErrors?.['beds']"></sctl-input-error>
+    </div>
+  </div>
+</form>

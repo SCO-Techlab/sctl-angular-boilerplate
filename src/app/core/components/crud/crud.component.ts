@@ -77,6 +77,7 @@ export class CrudComponent implements OnInit, AfterViewInit {
     globalFilterFields: [],
     dataKey: '_id',
     titleKeys: [],
+    modalTitle: undefined,
     rowHover: true,
     paginator: true,
     showCurrentPageReport: true,
@@ -414,6 +415,10 @@ export class CrudComponent implements OnInit, AfterViewInit {
   private getModalTitle(value: any): string {
     if (!value) {
       return '';
+    }
+
+    if (this.config()?.modalTitle) {
+      return this.config()?.modalTitle(value);
     }
 
     if (!this.config()?.titleKeys?.length) {

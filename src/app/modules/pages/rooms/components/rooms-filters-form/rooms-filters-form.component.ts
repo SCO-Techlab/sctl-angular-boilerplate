@@ -2,24 +2,26 @@ import { Component, DestroyRef, inject, OnInit, output, ViewEncapsulation } from
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@core/shared/modules';
-import { IResidence } from '@shared/interfaces';
+import { IRoom } from '@shared/interfaces';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-  selector: 'sctl-residences-filters-form',
+  selector: 'sctl-rooms-filters-form',
   standalone: true,
-  templateUrl: './residences-filters-form.component.html',
+  templateUrl: './rooms-filters-form.component.html',
   encapsulation: ViewEncapsulation.None,
   imports: [
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
     InputTextModule,
+    InputNumberModule,
   ]
 })
-export class ResidencesFiltersFormComponent implements OnInit {
+export class RoomsFiltersFormComponent implements OnInit {
 
-  public valueChange = output<Partial<IResidence>>();
+  public valueChange = output<Partial<IRoom>>();
 
   public form: FormGroup;
 
@@ -35,14 +37,8 @@ export class ResidencesFiltersFormComponent implements OnInit {
 
   private initForm(): void {
     this.form = new FormGroup({
-      street: new FormControl<string>(''),
-      number: new FormControl<string>(''),
-      flat: new FormControl<string>(''),
-      door: new FormControl<string>(''),
-      city: new FormControl<string>(''),
-      province: new FormControl<string>(''),
-      postalCode: new FormControl<string>(''),
-      cadastre: new FormControl<string>(''),
+      name: new FormControl<string>(''),
+      beds: new FormControl<number | null>(null),
     });
 
     this.form.valueChanges

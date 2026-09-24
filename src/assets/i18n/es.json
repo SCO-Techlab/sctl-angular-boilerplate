@@ -171,6 +171,7 @@
       "PAGES": {
         "LABEL": "Páginas",
         "ITEMS": {
+          "ROOMS": "Habitaciones",
           "RESIDENCES": "Residencias"
         }
       },
@@ -687,6 +688,63 @@
       "SUBMIT": "Eliminar",
       "SUCCESS": "Las residencias se han eliminado correctamente",
       "ERROR": "Hubo un error intentando eliminar las residencias"
+    },
+    "IMAGES": {
+      "TITLE": "Imágenes",
+      "CANCEL": "Cancelar",
+      "MAX_IMAGES_ALLOWED": "Solo se permiten un máximo de 5 imágenes",
+      "MAX_IMAGE_SIZE": "Cada imagen debe ser de un tamaño máximo de 5MB",
+      "UPDATE_KO": "Hubo un error intentando actualizar las imágenes",
+      "UPDATE_OK": "Las imágenes se han actualizado correctamente",
+      "DELETE_OK": "La imagen se ha eliminado correctamente",
+      "DELETE_KO": "Hubo un error intentando eliminar la imagen"
+    }
+  },
+  "ROOMS": {
+    "TITLE": "Administrar habitaciones",
+    "FORM_NEW": "Nueva habitación",
+    "FORM_EDIT": "Editar habitación",
+    "FILENAME": "habitaciones",
+    "COLS": {
+      "TENANT": "Organización",
+      "RESIDENCE": "Residencia",
+      "NAME": "Nombre",
+      "BEDS": "Camas",
+      "IMAGES": "Imágenes",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "RESIDENCE": "La residencia es obligatoria",
+      "NAME": "El nombre es obligatorio",
+      "BEDS": "Las camas son obligatorias",
+      "BEDS_MIN": "Las camas deben ser como mínimo 1"
+    },
+    "EDIT": {
+      "SUCCESS": "La habitación se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar la habitación",
+      "DUPLICATE": "La habitación ya existe"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar habitación",
+      "MESSAGE": "¿Está seguro de que desea eliminar la habitación?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "La habitación se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar la habitación"
+    },
+    "ADD": {
+      "SUCCESS": "La habitación se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir la habitación",
+      "DUPLICATE": "La habitación ya existe"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar habitaciones",
+      "MESSAGE": "¿Está seguro de que desea eliminar las habitaciones seleccionadas?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Las habitaciones se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar las habitaciones"
     },
     "IMAGES": {
       "TITLE": "Imágenes",

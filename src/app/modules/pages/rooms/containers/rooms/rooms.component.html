@@ -1,0 +1,39 @@
+<sctl-crud
+  [showTable]="showTable"
+  [data]="crudValues"
+  [state]="crudState"
+  [config]="crudConfig"
+  (new)="onNew()"
+  (deleteMultiple)="onDeleteMultiple($event)"
+  (selectAction)="onSelectAction($event)"
+  (closeForm)="onCloseFormDialog($event)"
+  (pagination)="onPagination($event)"
+  (clearFilters)="onClearFilters()"
+  (searchFilters)="onSearchFilters()"
+  (export)="onExportData()"
+>
+  <sctl-rooms-filters-form class="contents"
+    filtersForm
+    #filtersForm
+    (valueChange)="filtersValue=$event;"
+  ></sctl-rooms-filters-form>
+
+  @if (selectedItem) {
+    <sctl-rooms-form form
+      [value]="selectedItem"
+      (valueChange)="onFormValueChange($event)"
+      (formValid)="formValid = $event;"
+    ></sctl-rooms-form>
+  }
+</sctl-crud>
+
+@if (showImagesGalleriaDialog) {
+  <sctl-images-galleria-dialog
+    [visible]="showImagesGalleriaDialog"
+    [values]="selectedItem?.images ?? []"
+    [config]="imagesGalleriaDialogConfig"
+    (close)="showImagesGalleriaDialog = false"
+    (addImages)="onUploadImages($event)"
+    (deleteImage)="onDeleteImage($event)"
+  ></sctl-images-galleria-dialog>
+}

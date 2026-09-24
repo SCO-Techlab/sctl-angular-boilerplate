@@ -4,8 +4,8 @@ import { MAGIC_NUMBERS } from '@core/shared';
 import { IPaginationQuery, IPaginationResponse } from '@core/shared/interfaces';
 import { environment } from '@environment';
 import { fillHttpParams } from '@shared/helpers';
+import { IResidence } from '@shared/interfaces';
 import { Observable, throwError } from 'rxjs';
-import { IResidence } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'

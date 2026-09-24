@@ -3,39 +3,40 @@ import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@an
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CrudComponent } from '@core/components';
 import { ImagesGalleriaDialogComponent } from '@core/dialogs/images-galleria-dialog';
-import { BUTTON_SEVERITY, ConfirmDialogService, CRUD_ACTIONS, CRUD_COLUMN_TYPE, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, CRUD_STATE, DATES, DatesService, FILE_SIZES, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IImagesGalleriaDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, MAGIC_NUMBERS, SpinnerService, ToastService, TranslateModule, TranslateService, XlsxService } from '@core/shared';
+import { BUTTON_SEVERITY, ConfirmDialogService, CRUD_ACTIONS, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, CRUD_STATE, DATES, DatesService, FILE_SIZES, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IImagesGalleriaDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, MAGIC_NUMBERS, SpinnerService, ToastService, TranslateModule, TranslateService, XlsxService } from '@core/shared';
 import { environment } from '@environment';
+import { ResidencesService } from '@modules/pages/residences/services';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums/permissions/permissions.enum';
 import { cleanObject, formatResidenceAddress } from '@shared/helpers';
-import { IResidence } from '@shared/interfaces';
+import { IRoom } from '@shared/interfaces';
 import { SelectTenantService, UserService } from '@shared/services';
 import { finalize } from 'rxjs';
-import { ResidencesFiltersFormComponent, ResidencesFormComponent } from '../../components';
-import { ResidencesService } from '../../services';
+import { RoomsFiltersFormComponent, RoomsFormComponent } from '../../components';
+import { RoomsService } from '../../services';
 
 @Component({
-  selector: 'sctl-residences',
+  selector: 'sctl-rooms',
   standalone: true,
-  templateUrl: './residences.component.html',
+  templateUrl: './rooms.component.html',
   imports: [
     TranslateModule,
     CrudComponent,
-    ResidencesFormComponent,
-    ResidencesFiltersFormComponent,
+    RoomsFormComponent,
+    RoomsFiltersFormComponent,
     ImagesGalleriaDialogComponent,
   ]
 })
-export class ResidencesComponent {
-  @ViewChild('filtersForm', { static: false }) filtersForm!: ResidencesFiltersFormComponent;
+export class RoomsComponent {
+  @ViewChild('filtersForm', { static: false }) filtersForm!: RoomsFiltersFormComponent;
 
   public showTable = false;
-  public crudValues: IResidence[] = [];
+  public crudValues: IRoom[] = [];
   public crudState: CRUD_STATE = CRUD_STATE.VIEW;
   public crudConfig: ICrudComponent;
-  public selectedItem: IResidence;
+  public selectedItem: IRoom;
   public formValid: boolean = false;
-  public filtersValue: Partial<IResidence> = {};
+  public filtersValue: Partial<IRoom> = {};
 
   public showImagesGalleriaDialog: boolean = false;
   public imagesGalleriaDialogConfig: IImagesGalleriaDialogComponent;
@@ -46,6 +47,7 @@ export class ResidencesComponent {
 
   private readonly destroyRef$ = inject(DestroyRef);
   private readonly translateService = inject(TranslateService);
+  private readonly roomsService = inject(RoomsService);
   private readonly residencesService = inject(ResidencesService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toastService = inject(ToastService);
@@ -57,7 +59,7 @@ export class ResidencesComponent {
   private readonly selectTenantService = inject(SelectTenantService);
 
   ngOnInit() {
-    this.translateService.stream('RESIDENCES')
+    this.translateService.stream('ROOMS')
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((res: ITranslateLiterals) => {
         this.literals = res;
@@ -73,16 +75,11 @@ export class ResidencesComponent {
   public onNew(): void {
     this.selectedItem = {
       tenant: undefined,
-      street: '',
-      number: '',
-      flat: '',
-      door: '',
-      city: '',
-      province: '',
-      postalCode: '',
-      cadastre: '',
-      description: '',
-    };
+      residence: undefined,
+      name: '',
+      beds: 1,
+      images: [],
+    } as IRoom;
     this.selectedItemId = undefined;
     this.crudState = CRUD_STATE.NEW;
   }
@@ -99,7 +96,7 @@ export class ResidencesComponent {
       acceptButton: { label: this.literals?.['DELETE_MULTIPLE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
-        this.residencesService.deleteMultiple(values)
+        this.roomsService.deleteMultiple(values)
           .pipe(
             takeUntilDestroyed(this.destroyRef$),
             finalize(() => this.spinnerService.hide())
@@ -139,11 +136,11 @@ export class ResidencesComponent {
   }
 
   public async onExportData(): Promise<void> {
-    const values = await new Promise<IResidence[]>((resolve) => {
-      this.residencesService.find(null)
+    const values = await new Promise<IRoom[]>((resolve) => {
+      this.roomsService.find(null)
         .pipe(takeUntilDestroyed(this.destroyRef$))
         .subscribe({
-          next: (res: IResidence[]) => resolve(res ?? []),
+          next: (res: IRoom[]) => resolve(res ?? []),
           error: () => resolve([])
         })
     });
@@ -156,19 +153,13 @@ export class ResidencesComponent {
       return;
     }
 
-    const formatData = values.map((item: IResidence) => {
+    const formatData = values.map((item: IRoom) => {
       return {
         ['_id']: item._id,
         [this.literals?.['COLS']['TENANT']]: item.tenant?.name ?? '',
-        [this.literals?.['COLS']['STREET']]: item.street ?? '',
-        [this.literals?.['COLS']['NUMBER']]: item.number ?? '',
-        [this.literals?.['COLS']['FLAT']]: item.flat ?? '',
-        [this.literals?.['COLS']['DOOR']]: item.door ?? '',
-        [this.literals?.['COLS']['CITY']]: item.city ?? '',
-        [this.literals?.['COLS']['PROVINCE']]: item.province ?? '',
-        [this.literals?.['COLS']['POSTAL_CODE']]: item.postalCode ?? '',
-        [this.literals?.['COLS']['CADASTRE']]: item.cadastre ?? '',
-        [this.literals?.['COLS']['DESCRIPTION']]: item.description ?? '',
+        [this.literals?.['COLS']['RESIDENCE']]: item.residence ? `${item.residence?.street ?? ''} ${item.residence?.number ?? ''}`.trim() : '',
+        [this.literals?.['COLS']['NAME']]: item.name ?? '',
+        [this.literals?.['COLS']['BEDS']]: item.beds ?? '',
         [this.literals?.['COLS']['CREATED_AT']]: item.createdAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.createdAt) : '',
         [this.literals?.['COLS']['UPDATED_AT']]: item.updatedAt ? this.datesService.formatDate(DATES.ISO_DATETIME, item.updatedAt) : ''
       }
@@ -206,8 +197,11 @@ export class ResidencesComponent {
     actionMethods?.[action.name]?.(action.value);
   }
 
-  public onFormValueChange($event: IResidence): void {
-    this.selectedItem = structuredClone($event);
+  public onFormValueChange($event: IRoom): void {
+    this.selectedItem = {
+      ...this.selectedItem,
+      ...structuredClone($event)
+    };
   }
 
   public onCloseFormDialog(isSubmit: boolean): void {
@@ -219,7 +213,7 @@ export class ResidencesComponent {
       return;
     }
 
-    const formValue: IResidence = structuredClone(this.selectedItem);
+    const formValue: IRoom = structuredClone(this.selectedItem);
     const currentTenant = this.userService.userTenants().find(t => t._id === this.selectTenantService.selectedTenant);
     formValue.tenant = currentTenant;
     if (this.crudState === CRUD_STATE.NEW) {
@@ -246,7 +240,7 @@ export class ResidencesComponent {
   }
 
   public onUploadImages(files: File[]): void {
-    if (this.residencesService.validateMaxImagesPerResidence(files)) {
+    if (this.roomsService.validateMaxImagesPerRoom(files)) {
       this.toastService.error({
         summary: this.translateService.instant('TOAST.ERROR'),
         detail: this.literals?.['IMAGES']['MAX_IMAGES_ALLOWED']
@@ -254,7 +248,7 @@ export class ResidencesComponent {
       return;
     }
 
-    if (this.residencesService.validateMaxImageSize(files)) {
+    if (this.roomsService.validateMaxImageSize(files)) {
       this.toastService.error({
         summary: this.translateService.instant('TOAST.ERROR'),
         detail: this.literals?.['IMAGES']['MAX_IMAGE_SIZE']
@@ -263,14 +257,14 @@ export class ResidencesComponent {
     }
 
     this.spinnerService.show();
-    this.residencesService.addResidenceImages(this.selectedItem?._id, files)
+    this.roomsService.addRoomImages(this.selectedItem?._id, files)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
-        next: (residence: IResidence) => {
-          if (!residence) {
+        next: (room: IRoom) => {
+          if (!room) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
               detail: this.literals?.['IMAGES']['UPDATE_KO']
@@ -282,7 +276,7 @@ export class ResidencesComponent {
             summary: this.translateService.instant('TOAST.SUCCESS'),
             detail: this.literals?.['IMAGES']['UPDATE_OK']
           });
-          this.selectedItem = structuredClone(residence);
+          this.selectedItem = structuredClone(room);
           this.getValues();
         },
         error: () => {
@@ -297,14 +291,14 @@ export class ResidencesComponent {
   public onDeleteImage(imageIndex: number): void {
     const imageId = this.selectedItem?.images?.[imageIndex] ?? '';
     this.spinnerService.show();
-    this.residencesService.deleteResidenceImage(this.selectedItem?._id, imageId)
+    this.roomsService.deleteRoomImage(this.selectedItem?._id, imageId)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
-        next: (residence: IResidence) => {
-          if (!residence) {
+        next: (room: IRoom) => {
+          if (!room) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
               detail: this.literals?.['IMAGES']?.['DELETE_KO']
@@ -316,7 +310,7 @@ export class ResidencesComponent {
             summary: this.translateService.instant('TOAST.SUCCESS'),
             detail: this.literals?.['IMAGES']?.['DELETE_OK']
           });
-          this.selectedItem = structuredClone(residence);
+          this.selectedItem = structuredClone(room);
           this.getValues();
         },
         error: () => {
@@ -330,15 +324,15 @@ export class ResidencesComponent {
 
   private getValues(): void {
     this.showTable = false;
-    const filter: Partial<IResidence> = Object.values(cleanObject(this.filtersValue))?.length
+    const filter: Partial<IRoom> = Object.values(cleanObject(this.filtersValue))?.length
       ? this.filtersValue
       : null;
-    this.residencesService.find(filter, this.paginationQuery)
+    this.roomsService.find(filter, this.paginationQuery)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.showTable = true)
       )
-      .subscribe((res: IPaginationResponse<IResidence>) => {
+      .subscribe((res: IPaginationResponse<IRoom>) => {
         this.crudValues = res?.data ?? [];
         this.crudConfig.pagination.totalRecords = res?.totalRecords;
         this.crudConfig.pagination.first = res?.first;
@@ -346,15 +340,15 @@ export class ResidencesComponent {
       });
   }
 
-  private add(value: IResidence): void {
+  private add(value: IRoom): void {
     this.spinnerService.show();
-    this.residencesService.save(value)
+    this.roomsService.save(value)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
-        next: (res: IResidence) => {
+        next: (res: IRoom) => {
           if (!res) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
@@ -373,19 +367,19 @@ export class ResidencesComponent {
       });
   }
 
-  private delete(value: IResidence): void {
+  private delete(value: IRoom): void {
     if (!value) {
       return;
     }
 
     this.confirmDialogService.confirm({
       header: this.literals?.['DELETE']?.['HEADER'],
-      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${formatResidenceAddress(value)}</center>`,
+      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${value.name} (${formatResidenceAddress(value.residence)})</center>`,
       rejectButton: { label: this.literals?.['DELETE']?.['CANCEL'] },
       acceptButton: { label: this.literals?.['DELETE']?.['SUBMIT'] },
       accept: () => {
         this.spinnerService.show();
-        this.residencesService.delete(value)
+        this.roomsService.delete(value)
           .pipe(
             takeUntilDestroyed(this.destroyRef$),
             finalize(() => this.spinnerService.hide())
@@ -417,15 +411,15 @@ export class ResidencesComponent {
     });
   }
 
-  private edit(_id: string, value: IResidence): void {
+  private edit(_id: string, value: IRoom): void {
     this.spinnerService.show();
-    this.residencesService.update(_id, value)
+    this.roomsService.update(_id, value)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
         finalize(() => this.spinnerService.hide())
       )
       .subscribe({
-        next: (res: IResidence) => {
+        next: (res: IRoom) => {
           if (!res) {
             this.toastService.error({
               summary: this.translateService.instant('TOAST.ERROR'),
@@ -464,40 +458,28 @@ export class ResidencesComponent {
       searchInputEnabled: false,
       cols: [
         {
-          header: this.literals?.['COLS']['STREET'],
-          field: 'street'
+          header: this.literals?.['COLS']['RESIDENCE'],
+          field: 'residence',
+          type: CRUD_COLUMN_TYPE.CALLBACK,
+          options: {
+            callback: {
+              fn: (value: IRoom) => value?.residence
+                ? `${value.residence?.street ?? ''} ${value.residence?.number ?? ''}`.trim()
+                : ''
+            }
+          }
         },
         {
-          header: this.literals?.['COLS']['NUMBER'],
-          field: 'number'
+          header: this.literals?.['COLS']['NAME'],
+          field: 'name'
         },
         {
-          header: this.literals?.['COLS']['FLAT'],
-          field: 'flat'
-        },
-        {
-          header: this.literals?.['COLS']['DOOR'],
-          field: 'door'
-        },
-        {
-          header: this.literals?.['COLS']['CITY'],
-          field: 'city'
-        },
-        {
-          header: this.literals?.['COLS']['PROVINCE'],
-          field: 'province'
-        },
-        {
-          header: this.literals?.['COLS']['POSTAL_CODE'],
-          field: 'postalCode'
-        },
-        {
-          header: this.literals?.['COLS']['CADASTRE'],
-          field: 'cadastre'
-        },
-        {
-          header: this.literals?.['COLS']['DESCRIPTION'],
-          field: 'description'
+          header: this.literals?.['COLS']['BEDS'],
+          field: 'beds',
+          fieldAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          headerAlign: CRUD_COLUMN_ALIGNMENT.CENTER,
+          headerStyles: 'max-width: 7rem',
+          fieldStyles: 'max-width: 7rem'
         },
         {
           header: this.literals?.['COLS']['CREATED_AT'],
@@ -516,9 +498,10 @@ export class ResidencesComponent {
           fieldStyles: 'min-width: 165px',
         },
       ],
-      globalFilterFields: ['street', 'number', 'flat', 'door', 'city', 'province', 'postalCode', 'cadastre'],
+      globalFilterFields: ['name', 'beds'],
       dataKey: '_id',
-      titleKeys: ['street', 'number', 'flat', 'door', 'city', 'province', 'postalCode'],
+      titleKeys: ['name'],
+      modalTitle: (value: IRoom) => `${value.name} (${formatResidenceAddress(value.residence)})`,
       rowHover: true,
       paginator: true,
       showCurrentPageReport: true,
@@ -536,19 +519,19 @@ export class ResidencesComponent {
         FORM_EDIT: this.literals?.['FORM_EDIT']
       },
       disabledButtons: {
-        [CRUD_ACTIONS.NEW]: () => !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.CREATE),
-        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.DELETE_BULK),
-        [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.READ),
-        [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.READ),
-        [CRUD_ACTIONS.EDIT]: () => !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.UPDATE),
-        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.DELETE),
+        [CRUD_ACTIONS.NEW]: () => !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.CREATE),
+        [CRUD_ACTIONS.DELETE_MULTIPLE]: () => !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.DELETE_BULK),
+        [CRUD_ACTIONS.EXPORT]: () => !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.GLOBAL_FILTER]: () => !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.EDIT]: () => !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.UPDATE),
+        [CRUD_ACTIONS.DELETE]: () => !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.DELETE),
         [CRUD_ACTIONS.CLEAR_FILTERS]: () => {
           return (
-            !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.READ) ||
+            !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.READ) ||
             Object.values(cleanObject(this.filtersValue))?.length === MAGIC_NUMBERS.N_0
           );
         },
-        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.RESIDENCES, PERMISSION_TYPE.READ),
+        [CRUD_ACTIONS.SEARCH_FILTERS]: () => !this.userService.hasPermission(PERMISSIONS.ROOMS, PERMISSION_TYPE.READ),
       }
     };
   }
@@ -575,7 +558,7 @@ export class ResidencesComponent {
   }
 
   private setImagesGalleriaConfig(): void {
-    const imagesSrc = `${environment.apiUrl}/residences/get/image/${this.selectedItem?._id}/{imageId}/${this.selectTenantService.selectedTenant}`;
+    const imagesSrc = `${environment.apiUrl}/rooms/get/image/${this.selectedItem?._id}/{imageId}/${this.selectTenantService.selectedTenant}`;
 
     this.imagesGalleriaDialogConfig = {
       dialogConfig: {
@@ -583,7 +566,7 @@ export class ResidencesComponent {
         header: {
           closable: true,
           title: this.literals?.['IMAGES']?.['TITLE'],
-          subTitle: formatResidenceAddress(this.selectedItem)
+          subTitle: `${this.selectedItem.name} (${formatResidenceAddress(this.selectedItem.residence)})`
         },
         footer: {
           cancelButton: {

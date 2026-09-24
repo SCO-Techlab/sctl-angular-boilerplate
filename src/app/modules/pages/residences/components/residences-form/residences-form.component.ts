@@ -6,11 +6,11 @@ import { INPUT_ERROR } from '@core/shared/enums';
 import { IInputErrorComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
 import { TranslateService } from '@core/shared/services';
+import { IResidence } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { GalleriaModule } from 'primeng/galleria';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
-import { IResidence } from '../../interfaces';
 
 @Component({
   selector: 'sctl-residences-form',
