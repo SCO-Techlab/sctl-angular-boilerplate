@@ -3,7 +3,13 @@
     "YES": "Sí",
     "NO": "No",
     "NONE": "Ninguno",
-    "NO_EXPORT_DATA": "No hay datos para exportar"
+    "NO_EXPORT_DATA": "No hay datos para exportar",
+    "CLOSE": "Cerrar",
+    "CANCEL": "Cancelar",
+    "SAVE": "Guardar",
+    "UPDATE": "Actualizar",
+    "DELETE": "Eliminar",
+    "ADD": "Añadir"
   },
   "PRIMENG": {
     "LOCALE": {
@@ -707,6 +713,8 @@
       "CADASTRE": "Catastro",
       "DESCRIPTION": "Descripción",
       "IMAGES": "Imágenes",
+      "CALENDAR": "Calendario",
+      "CALENDAR_TYPE": "Tipo de calendario",
       "CREATED_AT": "Creado en",
       "UPDATED_AT": "Actualizado en"
     },
@@ -753,6 +761,12 @@
       "UPDATE_OK": "Las imágenes se han actualizado correctamente",
       "DELETE_OK": "La imagen se ha eliminado correctamente",
       "DELETE_KO": "Hubo un error intentando eliminar la imagen"
+    },
+    "CALENDAR_TYPE_OPTIONS": {
+      "MONTHLY": "Mensual",
+      "WEEKLY": "Semanal",
+      "DAILY": "Diario",
+      "LIST": "Lista"
     }
   },
   "ROOMS": {

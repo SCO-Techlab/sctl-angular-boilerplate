@@ -37,3 +37,13 @@
     (deleteImage)="onDeleteImage($event)"
   ></sctl-images-galleria-dialog>
 }
+
+@if (showResidenceCalendarDialog) {
+  <sctl-residence-calendar-dialog
+    [visible]="showResidenceCalendarDialog"
+    [value]="selectedItem?.calendar"
+    [config]="residenceCalendarDialogConfig"
+    (close)="showResidenceCalendarDialog = false"
+    (submit)="onSubmitResidenceCalendar($event)"
+  ></sctl-residence-calendar-dialog>
+}

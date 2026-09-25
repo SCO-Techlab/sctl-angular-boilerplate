@@ -3,16 +3,15 @@ import { ChangeDetectorRef, Component, DestroyRef, inject, ViewChild } from '@an
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CrudComponent } from '@core/components';
 import { ImagesGalleriaDialogComponent } from '@core/dialogs/images-galleria-dialog';
-import { BUTTON_SEVERITY, ConfirmDialogService, CRUD_ACTIONS, CRUD_COLUMN_TYPE, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, CRUD_STATE, DATES, DatesService, FILE_SIZES, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IImagesGalleriaDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, MAGIC_NUMBERS, SpinnerService, ToastService, TranslateModule, TranslateService, XlsxService } from '@core/shared';
+import { BUTTON_SEVERITY, ConfirmDialogService, CRUD_ACTIONS, CRUD_COLUMN_TYPE, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, CRUD_STATE, DATES, DatesService, FILE_SIZES, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IDialogComponent, IImagesGalleriaDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, MAGIC_NUMBERS, SpinnerService, ToastService, TranslateModule, TranslateService, XlsxService } from '@core/shared';
 import { environment } from '@environment';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums/permissions/permissions.enum';
 import { cleanObject, formatResidenceAddress } from '@shared/helpers';
-import { IResidence } from '@shared/interfaces';
-import { SelectTenantService, UserService } from '@shared/services';
+import { IResidence, IResidenceCalendar } from '@shared/interfaces';
+import { ResidencesService, SelectTenantService, UserService } from '@shared/services';
 import { finalize } from 'rxjs';
-import { ResidencesFiltersFormComponent, ResidencesFormComponent } from '../../components';
-import { ResidencesService } from '../../services';
+import { ResidenceCalendarDialogComponent, ResidencesFiltersFormComponent, ResidencesFormComponent } from '../../components';
 
 @Component({
   selector: 'sctl-residences',
@@ -24,6 +23,7 @@ import { ResidencesService } from '../../services';
     ResidencesFormComponent,
     ResidencesFiltersFormComponent,
     ImagesGalleriaDialogComponent,
+    ResidenceCalendarDialogComponent
   ]
 })
 export class ResidencesComponent {
@@ -39,6 +39,9 @@ export class ResidencesComponent {
 
   public showImagesGalleriaDialog: boolean = false;
   public imagesGalleriaDialogConfig: IImagesGalleriaDialogComponent;
+
+  public showResidenceCalendarDialog: boolean = false;
+  public residenceCalendarDialogConfig: IDialogComponent;
 
   private literals: ITranslateLiterals;
   private selectedItemId: string;
@@ -187,6 +190,13 @@ export class ResidencesComponent {
     }
 
     const actionMethods = {
+      ['calendar']: () => {
+        this.selectedItem = structuredClone(action?.value);
+        this.selectedItemId = action?.value?._id;
+        this.setResidencesCalendarDialogConfig(action?.value);
+        this.showResidenceCalendarDialog = true;
+        this.cdRef.detectChanges();
+      },
       ['images']: () => {
         this.selectedItem = structuredClone(action?.value);
         this.selectedItemId = action?.value?._id;
@@ -328,6 +338,14 @@ export class ResidencesComponent {
       });
   }
 
+  public onSubmitResidenceCalendar(value: IResidenceCalendar): void {
+    this.selectedItem = {
+      ...this.selectedItem,
+      calendar: value
+    };
+    this.edit(this.selectedItem._id, this.selectedItem);
+  }
+
   private getValues(): void {
     this.showTable = false;
     const filter: Partial<IResidence> = Object.values(cleanObject(this.filtersValue))?.length
@@ -438,6 +456,7 @@ export class ResidencesComponent {
             summary: this.translateService.instant('TOAST.SUCCESS'),
             detail: this.literals?.['EDIT']?.['SUCCESS']
           });
+          this.showResidenceCalendarDialog = false;
           this.resetCrud();
         },
         error: (error: HttpErrorResponse) => this.errorAddOrEdit(error, true)
@@ -450,6 +469,11 @@ export class ResidencesComponent {
       filtersEnabled: true,
       onlyTable: false,
       tableActions: [
+        {
+          ...CRUD_DEFAULT_TABLE_ACTION,
+          name: 'calendar',
+          icon: 'pi pi-calendar'
+        },
         {
           ...CRUD_DEFAULT_TABLE_ACTION,
           name: 'images',
@@ -615,5 +639,37 @@ export class ResidencesComponent {
       },
       imagesSrc: imagesSrc
     }
+  }
+
+  private setResidencesCalendarDialogConfig(value: IResidence): void {
+    this.residenceCalendarDialogConfig = {
+      closeOnSubmit: false,
+      fullScreen: false,
+      header: {
+        closable: true,
+        title: this.literals?.['COLS']?.['CALENDAR'],
+        subTitle: formatResidenceAddress(value)
+      },
+      footer: {
+        cancelButton: {
+          show: true,
+          label: this.translateService.instant('COMMON.CLOSE'),
+          severity: BUTTON_SEVERITY.SECONDARY,
+          outlined: true,
+          text: false,
+          rounded: false,
+          disabled: undefined
+        },
+        submitButton: {
+          show: true,
+          label: this.translateService.instant('COMMON.UPDATE'),
+          severity: BUTTON_SEVERITY.PRIMARY,
+          outlined: true,
+          text: false,
+          rounded: false,
+          disabled: undefined
+        }
+      }
+    };
   }
 }

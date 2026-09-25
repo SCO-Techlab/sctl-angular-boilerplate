@@ -1,0 +1,31 @@
+@if (showDialog) {
+  <sctl-dialog 
+    [visible]="showDialog" 
+    [config]="config()" 
+    (close)="onClose()" 
+    (submit)="onSubmit($event)"
+  >
+    <div content>
+      <form [formGroup]="form">
+        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+          <div class="mb-6 w-full">
+            <label for="residences-form-calendar-type" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+              {{ 'RESIDENCES.COLS.CALENDAR_TYPE' | translate }}
+            </label>
+            <p-select
+              [appendTo]="'body'"
+              [className]="'w-full'"
+              [inputId]="'residences-form-calendar-type'"
+              [options]="typeOptions" 
+              formControlName="calendarType" 
+              [optionLabel]="'label'"
+              [optionValue]="'value'"
+              class="w-full md:w-56" 
+              [showClear]="true"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </sctl-dialog>
+}
