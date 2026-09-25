@@ -1,0 +1,8 @@
+ <p-datepicker class="max-w-full" 
+  [(ngModel)]="currentDate" 
+  [inline]="true" 
+  [showWeek]="true"
+  [firstDayOfWeek]="1"
+  [lang]="'ES'"
+  (onSelect)="onSelectDateHandler($event)"
+/>

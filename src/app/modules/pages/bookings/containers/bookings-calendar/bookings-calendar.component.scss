@@ -1,0 +1,42 @@
+.bookings-calendar {
+  display: flex;
+  gap: 16px;
+  height: 100vh;
+  max-height: calc(100vh - 158px);
+
+  &__sidebar {
+    width: 336px;
+    height: 100%;
+  }
+
+  &__content {
+    flex-grow: 1;
+    padding: 16px;
+
+    .calendar {
+      display: block;
+      height: 100vh;
+      max-height: calc(100vh - 190px);
+
+      h2 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0 0 0 1.5em;
+      }
+
+      li {
+        margin: 1.5em 0;
+        padding: 0;
+      }
+
+      b {
+        /* used for event dates/times */
+        margin-right: 3px;
+      }
+    }
+  }
+}

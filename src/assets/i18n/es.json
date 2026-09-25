@@ -5,6 +5,43 @@
     "NONE": "Ninguno",
     "NO_EXPORT_DATA": "No hay datos para exportar"
   },
+  "PRIMENG": {
+    "LOCALE": {
+      "startsWith": "Comienza con",
+      "contains": "Contiene",
+      "notContains": "No contiene",
+      "endsWith": "Termina con",
+      "equals": "Igual",
+      "notEquals": "No es igual",
+      "noFilter": "Sin filtro",
+      "lt": "Menos que",
+      "lte": "Menos que o igual a",
+      "gt": "Mas grande que",
+      "gte": "Mayor qué o igual a",
+      "is": "Es",
+      "isNot": "No es",
+      "before": "Antes",
+      "after": "Después",
+      "apply": "Aplicar",
+      "matchAll": "Coincidir con todos",
+      "matchAny": "Coincidir con cualquiera",
+      "addRule": "Agregar regla",
+      "removeRule": "Eliminar regla",
+      "accept": "Si",
+      "reject": "No",
+      "choose": "Escoger",
+      "upload": "Subir",
+      "cancel": "Cancelar",
+      "dayNames": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+      "dayNamesShort": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+      "dayNamesMin": ["D", "L", "M", "X", "J", "V", "S"],
+      "monthNames": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      "monthNamesShort": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+      "today": "Hoy",
+      "clear": "Limpiar",
+      "weekHeader": "Sm"
+    }
+  },
   "SHARED": {
     "COMPONENTS": {
       "IMAGES_GALLERIA": {

@@ -1,3 +1,22 @@
-<p>
-  bookings-calendar works!
-</p>
+
+<div class='bookings-calendar'>
+
+  <div class='bookings-calendar__sidebar card'>
+    <sctl-bookings-calendar-sidebar
+      [calendarDate]="calendarDate()"
+      (onSelectDate)="onSelectDateHandler($event)"
+    ></sctl-bookings-calendar-sidebar>
+  </div>
+
+  <div class='bookings-calendar__content card'>
+    @if (calendarVisible()) {
+      <full-calendar #calendar class="calendar" [options]='calendarOptions()'>
+        <ng-template #eventContent let-arg>
+          <b>{{ arg.timeText }}</b>
+          <i>{{ arg.event.title }}</i>
+        </ng-template>
+      </full-calendar>
+    }
+  </div>
+
+</div>
