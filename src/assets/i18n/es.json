@@ -189,7 +189,8 @@
         "ITEMS": {
           "ROOMS": "Habitaciones",
           "RESIDENCES": "Residencias",
-          "IMAGES": "Imágenes"
+          "IMAGES": "Imágenes",
+          "BOOKINGS_CALENDAR": "Calendario de reservas"
         }
       },
       "ADMINISTRATOR": {
