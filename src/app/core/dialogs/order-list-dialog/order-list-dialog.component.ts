@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, effect, input, OnInit, output } from '@angular/core';
-import { DialogComponent } from '@core/components';
+import { DialogComponent } from '@core/components/dialog';
 import { BUTTON_SEVERITY } from '@core/shared/enums';
 import { IOrderListDialogComponent } from '@core/shared/interfaces';
 import { OrderListModule } from 'primeng/orderlist';

@@ -30,6 +30,22 @@
       }
     }
   },
+  "PAGES": {
+    "IMAGES": {
+      "TITLE": "Imágenes de la organización",
+      "TABS": {
+        "RESIDENCES": "Residencias",
+        "ROOMS": "Habitaciones"
+      },
+      "VIEW_IMAGES": "Ver imágenes",
+      "RESIDENCES": "Residencias",
+      "ROOMS": "Habitaciones",
+      "GALLERIA": {
+        "TITLE": "Imágenes",
+        "CANCEL": "Cerrar"
+      }
+    }
+  },
   "TOAST": {
     "ERROR": "Error",
     "SUCCESS": "Éxito",
@@ -172,7 +188,8 @@
         "LABEL": "Páginas",
         "ITEMS": {
           "ROOMS": "Habitaciones",
-          "RESIDENCES": "Residencias"
+          "RESIDENCES": "Residencias",
+          "IMAGES": "Imágenes"
         }
       },
       "ADMINISTRATOR": {

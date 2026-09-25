@@ -5,11 +5,15 @@
     (close)="onClose()" 
     (submit)="onSubmit($event)"
   >
-    <div content class="flex flex-col gap-2">
+    <div content class="flex flex-col gap-2"
+      [ngClass]="{ 'h-full min-h-0': config()?.dialogConfig?.fullScreen }"
+    >
       <sctl-images-galleria
+        [ngClass]="{ 'flex-1 min-h-0': config()?.dialogConfig?.fullScreen }"
         [config]="config()?.imagesGalleriaConfig"
         [images]="values() ?? []" 
         [imageSrc]="config()?.imagesSrc"
+        [fullScreen]="config()?.dialogConfig?.fullScreen ?? false"
         (addImages)="onUploadImages($event)"
         (deleteImage)="onDeleteImage($event)"
       ></sctl-images-galleria>

@@ -1,5 +1,6 @@
 import { Component, effect, input, OnInit, output } from '@angular/core';
-import { DialogComponent, JsonEditorComponent } from '@core/components';
+import { DialogComponent } from '@core/components/dialog';
+import { JsonEditorComponent } from '@core/components/json-editor';
 import { MAGIC_NUMBERS } from '@core/shared/constants';
 import { BUTTON_SEVERITY, JSON_EDITOR_HEIGHT_UNIT, JSON_EDITOR_MODE, JSON_EDITOR_TYPE } from '@core/shared/enums';
 import { IJsonEditorDialogComponent } from '@core/shared/interfaces';

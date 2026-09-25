@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, effect, input, OnInit, output } from '@angular/core';
 import { DialogComponent } from '@core/components/dialog';
 import { ImagesGalleriaComponent } from '@core/components/images-galleria';
@@ -10,6 +11,7 @@ import { IImagesGalleriaDialogComponent } from '@core/shared/interfaces';
   standalone: true,
   templateUrl: './images-galleria-dialog.component.html',
   imports: [
+    NgClass,
     DialogComponent,
     ImagesGalleriaComponent,
   ]
@@ -21,6 +23,7 @@ export class ImagesGalleriaDialogComponent implements OnInit {
   public config = input<IImagesGalleriaDialogComponent>({
     dialogConfig: {
       closeOnSubmit: false,
+      fullScreen: false,
       header: {
         closable: true,
         title: 'Images Galleria Dialog',

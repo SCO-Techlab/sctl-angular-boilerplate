@@ -24,15 +24,17 @@
     }
   </div>
 }
-<div class="w-full flex justify-center items-center">
-  <div class="galleria-shell">
+<div class="w-full flex justify-center items-center"
+  [ngClass]="{ 'flex-1 min-h-0 h-full': fullScreen() }"
+>
+  <div class="galleria-shell" [ngClass]="{ 'galleria-shell--full': fullScreen() }">
     @if (showGalleria) {
       <p-galleria
         class="galleria-root"
         [id]="'images-galleria'"
         [activeIndex]="imageIndex"
         [value]="galleriaImages" 
-        [containerStyle]="{ 'width': '100%', 'padding': '12px' }" 
+        [containerStyle]="fullScreen() ? { 'width': '100%', 'height': '100%', 'padding': '12px' } : { 'width': '100%', 'padding': '12px' }" 
         [numVisible]="numVisible"
         [showThumbnailNavigators]="true"
         (activeIndexChange)="onChangeActiveIndex($event)"

@@ -1,9 +1,15 @@
 @if (showDialog) {
   <p-dialog [(visible)]="showDialog" 
     [appendTo]="'body'"
-    [style]="{ 'width': '50%', 'max-height': '90%' }"
-    [breakpoints]="getBreakpoints()"
-    [contentStyle]="{'overflow':'auto', 'display':'flex', 'flex-direction':'column'}"
+    [style]="config()?.fullScreen 
+      ? { 'width': '100vw', 'height': '100vh', 'max-height': '100vh', 'border-radius': '0' } 
+      : { 'width': '50%', 'max-height': '90%' }
+    "
+    [breakpoints]="config()?.fullScreen 
+      ? null 
+      : getBreakpoints()
+    "
+    [contentStyle]="{'overflow':'auto', 'display':'flex', 'flex-direction':'column', 'height':'100%'}"
     [header]="''" 
     [modal]="true"
     [resizable]="false"

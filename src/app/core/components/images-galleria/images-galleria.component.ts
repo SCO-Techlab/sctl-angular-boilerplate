@@ -31,6 +31,7 @@ export class ImagesGalleriaComponent implements OnInit, OnChanges {
   });
   public images = input<string[]>([]);
   public imageSrc = input<string>('');
+  public fullScreen = input<boolean>(false);
 
   public addImages = output<File[]>();
   public deleteImage = output<number>();

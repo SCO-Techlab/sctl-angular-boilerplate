@@ -2,6 +2,7 @@ import { BUTTON_SEVERITY } from "@core/shared/enums";
 
 export interface IDialogComponent {
   closeOnSubmit: boolean;
+  fullScreen?: boolean;
   header: {
     closable: boolean;
     title: string;

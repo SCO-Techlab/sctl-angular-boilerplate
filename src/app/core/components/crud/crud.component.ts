@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ContentChildren, DestroyRef, effect, inject, input, OnInit, output, QueryList, TemplateRef, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DialogComponent, LoaderComponent } from '@core/components';
-import { JsonEditorDialogComponent, OrderListDialogComponent } from '@core/dialogs';
+import { DialogComponent } from '@core/components/dialog';
+import { LoaderComponent } from '@core/components/loader';
+import { JsonEditorDialogComponent } from '@core/dialogs/json-editor-dialog';
+import { OrderListDialogComponent } from '@core/dialogs/order-list-dialog';
 import { CRUD_ACTIONS, DATES, MAGIC_NUMBERS } from '@core/shared/constants';
 import { CrudTemplateDirective } from '@core/shared/directives';
 import {
