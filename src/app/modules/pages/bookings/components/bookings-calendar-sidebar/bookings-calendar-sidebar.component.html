@@ -1,8 +1,28 @@
- <p-datepicker class="max-w-full" 
-  [(ngModel)]="currentDate" 
-  [inline]="true" 
-  [showWeek]="true"
-  [firstDayOfWeek]="1"
-  [lang]="'ES'"
-  (onSelect)="onSelectDateHandler($event)"
-/>
+<div class="w-full">
+  <p-inputgroup>
+    <p-inputgroup-addon>
+      <i class="pi pi-home"></i>
+    </p-inputgroup-addon>
+  
+    <p-select
+      class="w-full md:w-56" 
+      [ngModel]="currentResidence"
+      [appendTo]="'body'"
+      [className]="'w-full'"
+      [options]="residencesOptions"
+      [optionLabel]="'name'"  
+      [optionValue]="'value'"
+      (onChange)="onResidenceChangeHandler($event)"
+    />
+  </p-inputgroup>
+</div> 
+ 
+<div class="mt-4">
+  <p-datepicker class="max-w-full" 
+    [(ngModel)]="currentDate" 
+    [inline]="true" 
+    [showWeek]="true"
+    [firstDayOfWeek]="1"
+    (onSelect)="onSelectDateHandler($event)"
+  />
+</div>

@@ -96,7 +96,12 @@ export class ResidenceCalendarDialogComponent implements OnInit {
       this.showDialog = false;
     }
 
-    this.submit.emit(this.value());
+    const value = {
+      ...this.value(),
+      calendarType: this.form.get('calendarType')?.value
+    }
+
+    this.submit.emit(value);
   }
 
   private initForm(): void {

@@ -7,7 +7,8 @@ export const INITIAL_EVENTS: EventInput[] = [
   {
     id: createEventId(),
     title: 'All-day event',
-    start: TODAY_STR
+    start: TODAY_STR,
+    end: '2026-09-28'
   },
   {
     id: createEventId(),

@@ -4,7 +4,9 @@
   <div class='bookings-calendar__sidebar card'>
     <sctl-bookings-calendar-sidebar
       [calendarDate]="calendarDate()"
+      [residences]="bookingCalendar()?.residences"
       (onSelectDate)="onSelectDateHandler($event)"
+      (onResidenceChange)="onResidenceChangeHandler($event)"
     ></sctl-bookings-calendar-sidebar>
   </div>
 
@@ -16,6 +18,10 @@
           <i>{{ arg.event.title }}</i>
         </ng-template>
       </full-calendar>
+    } @else {
+      <div class="loader">
+        <sctl-loader [config]="{ showLoader: true, width: 72, height: 72, borderWidth: 7 }"></sctl-loader>
+      </div>
     }
   </div>
 

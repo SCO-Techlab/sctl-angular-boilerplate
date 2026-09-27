@@ -5,7 +5,6 @@ import { CrudComponent } from '@core/components';
 import { ImagesGalleriaDialogComponent } from '@core/dialogs/images-galleria-dialog';
 import { BUTTON_SEVERITY, ConfirmDialogService, CRUD_ACTIONS, CRUD_COLUMN_ALIGNMENT, CRUD_COLUMN_TYPE, CRUD_DEFAULT_TABLE_ACTION, CRUD_DELETE_TABLE_ACTION, CRUD_EDIT_TABLE_ACTION, CRUD_STATE, DATES, DatesService, FILE_SIZES, ICrudComponent, ICrudPaginationEvent, ICrudTableAction, IImagesGalleriaDialogComponent, IPaginationQuery, IPaginationResponse, ITranslateLiterals, MAGIC_NUMBERS, SpinnerService, ToastService, TranslateModule, TranslateService, XlsxService } from '@core/shared';
 import { environment } from '@environment';
-import { ResidencesService } from '@modules/pages/residences/services';
 import { PERMISSIONS } from '@shared/constants';
 import { PERMISSION_TYPE } from '@shared/enums/permissions/permissions.enum';
 import { cleanObject, formatResidenceAddress } from '@shared/helpers';
@@ -48,7 +47,6 @@ export class RoomsComponent {
   private readonly destroyRef$ = inject(DestroyRef);
   private readonly translateService = inject(TranslateService);
   private readonly roomsService = inject(RoomsService);
-  private readonly residencesService = inject(ResidencesService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toastService = inject(ToastService);
   private readonly userService = inject(UserService);
@@ -463,9 +461,7 @@ export class RoomsComponent {
           type: CRUD_COLUMN_TYPE.CALLBACK,
           options: {
             callback: {
-              fn: (value: IRoom) => value?.residence
-                ? `${value.residence?.street ?? ''} ${value.residence?.number ?? ''}`.trim()
-                : ''
+              fn: (value: IRoom) => formatResidenceAddress(value.residence)
             }
           }
         },

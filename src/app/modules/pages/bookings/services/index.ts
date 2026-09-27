@@ -1,0 +1,2 @@
+export * from './bookings.service';
+
