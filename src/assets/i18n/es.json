@@ -87,6 +87,29 @@
         "TITLE": "Imágenes",
         "CANCEL": "Cerrar"
       }
+    },
+    "BOOKINGS": {
+      "BOOKING": "Reserva",
+      "NEW_BOOKING": "Nueva reserva",
+      "EDIT_BOOKING": "Editar reserva",
+      "NEW_BOOKING_OK": "Nueva reserva creada con éxito",
+      "NEW_BOOKING_KO": "Error al crear la nueva reserva",
+      "EDIT_BOOKING_OK": "Reserva editada con éxito",
+      "EDIT_BOOKING_KO": "Error al editar la reserva",
+      "DELETE_BOOKING_OK": "Reserva eliminada con éxito",
+      "DELETE_BOOKING_KO": "Error al eliminar la reserva",
+      "DELETE": {
+        "HEADER": "Eliminar reserva",
+        "MESSAGE": "¿Está seguro de que desea eliminar la reserva?",
+        "CANCEL": "Cancelar",
+        "SUBMIT": "Eliminar"
+      },
+      "COLS": {
+        "ROOM": "Habitación",
+        "CUSTOMER": "Cliente",
+        "START": "Inicio",
+        "END": "Fin"
+      }
     }
   },
   "TOAST": {
@@ -232,6 +255,7 @@
         "ITEMS": {
           "ROOMS": "Habitaciones",
           "RESIDENCES": "Residencias",
+          "CUSTOMERS": "Clientes",
           "IMAGES": "Imágenes",
           "BOOKINGS_CALENDAR": "Calendario de reservas"
         }
@@ -766,7 +790,8 @@
       "MONTHLY": "Mensual",
       "WEEKLY": "Semanal",
       "DAILY": "Diario",
-      "LIST": "Lista"
+      "LIST": "Lista",
+      "MULTI_MONTH": "Multimestral"
     }
   },
   "ROOMS": {
@@ -824,6 +849,51 @@
       "UPDATE_OK": "Las imágenes se han actualizado correctamente",
       "DELETE_OK": "La imagen se ha eliminado correctamente",
       "DELETE_KO": "Hubo un error intentando eliminar la imagen"
+    }
+  },
+  "CUSTOMERS": {
+    "TITLE": "Administrar clientes",
+    "FORM_NEW": "Nuevo cliente",
+    "FORM_EDIT": "Editar cliente",
+    "FILENAME": "clientes",
+    "COLS": {
+      "TENANT": "Organización",
+      "NAME": "Nombre",
+      "EMAIL": "Correo electrónico",
+      "PHONE": "Teléfono",
+      "DNI": "DNI",
+      "CREATED_AT": "Creado en",
+      "UPDATED_AT": "Actualizado en"
+    },
+    "ERRORS": {
+      "NAME": "El nombre es obligatorio",
+      "EMAIL_INVALID": "El correo electrónico no es válido"
+    },
+    "EDIT": {
+      "SUCCESS": "El cliente se ha actualizado correctamente",
+      "ERROR": "Hubo un error intentando actualizar el cliente",
+      "DUPLICATE": "El cliente ya existe"
+    },
+    "DELETE": {
+      "HEADER": "Eliminar cliente",
+      "MESSAGE": "¿Está seguro de que desea eliminar el cliente?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "El cliente se ha eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar el cliente"
+    },
+    "ADD": {
+      "SUCCESS": "El cliente se ha añadido correctamente",
+      "ERROR": "Hubo un error intentando añadir el cliente",
+      "DUPLICATE": "El cliente ya existe"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Eliminar clientes",
+      "MESSAGE": "¿Está seguro de que desea eliminar los clientes seleccionados?",
+      "CANCEL": "Cancelar",
+      "SUBMIT": "Eliminar",
+      "SUCCESS": "Los clientes se han eliminado correctamente",
+      "ERROR": "Hubo un error intentando eliminar los clientes"
     }
   }
 }

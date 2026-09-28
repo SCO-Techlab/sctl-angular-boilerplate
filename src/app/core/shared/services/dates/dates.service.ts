@@ -98,16 +98,19 @@ export class DatesService {
   public fromUnixTime(date?: number): Date {
     return fromUnixTime(date);
   }
+
   public differenceInDays(dateA: DateInput, dateB?: DateInput): number {
     return dateB
       ? differenceInDays(new Date(dateA), new Date(dateB))
       : differenceInDays(new Date(dateA), new Date());
   }
+
   public isWithinInterval(interval: Interval, date?: DateInput): boolean {
     return date
       ? isWithinInterval(new Date(date), interval)
       : isWithinInterval(new Date(), interval);
   }
+
   public isAfter(dateA: DateInput, dateB?: DateInput): boolean {
     return dateB
       ? isAfter(new Date(dateB), new Date(dateA))
@@ -122,5 +125,43 @@ export class DatesService {
 
   public formatToHour(hour: string,): string {
     return DATES_TIME_PATTERN.test(hour) ? hour : this.formatDate(DATES.BASIC_TIME, hour);
+  }
+
+  public toLocalDateTime(value: string): string {
+    return value.slice(MAGIC_NUMBERS.N_0, MAGIC_NUMBERS.N_19);
+  }
+
+  public formatLocalDateTime(value: Date | null): string | null {
+    if (!value) {
+      return null;
+    }
+
+    const year = value.getFullYear();
+    const month = String(value.getMonth() + MAGIC_NUMBERS.N_1).padStart(MAGIC_NUMBERS.N_2, '0');
+    const day = String(value.getDate()).padStart(MAGIC_NUMBERS.N_2, '0');
+    const hours = String(value.getHours()).padStart(MAGIC_NUMBERS.N_2, '0');
+    const minutes = String(value.getMinutes()).padStart(MAGIC_NUMBERS.N_2, '0');
+    const seconds = String(value.getSeconds()).padStart(MAGIC_NUMBERS.N_2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  }
+
+  public parseLocalDateTime(value: string): Date | null {
+    if (!value) {
+      return null;
+    }
+
+    const [datePart, timePart = '00:00:00'] = value.split('T');
+    const [year, month, day] = datePart.split('-').map(Number);
+    const [hour, minute, second = 0] = timePart.split(':').map(Number);
+
+    return new Date(
+      year,
+      month - MAGIC_NUMBERS.N_1,
+      day,
+      hour,
+      minute,
+      second
+    );
   }
 }

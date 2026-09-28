@@ -1,0 +1,45 @@
+<form class="contents" filtersForm [formGroup]="form">
+  <div>
+    <label for="customers-name-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'CUSTOMERS.COLS.NAME' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="customers-name-filter"
+      type="text"
+      [formControlName]="'name'"
+    />
+  </div>
+
+  <div>
+    <label for="customers-email-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'CUSTOMERS.COLS.EMAIL' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="customers-email-filter"
+      type="text"
+      [formControlName]="'email'"
+    />
+  </div>
+
+  <div>
+    <label for="customers-phone-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'CUSTOMERS.COLS.PHONE' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="customers-phone-filter"
+      type="text"
+      [formControlName]="'phone'"
+    />
+  </div>
+
+  <div>
+    <label for="customers-dni-filter" class="block text-surface-900 dark:text-surface-0 text-md font-medium mb-2">
+      {{ 'CUSTOMERS.COLS.DNI' | translate }}
+    </label>
+    <input pInputText class="w-full"
+      id="customers-dni-filter"
+      type="text"
+      [formControlName]="'dni'"
+    />
+  </div>
+</form>

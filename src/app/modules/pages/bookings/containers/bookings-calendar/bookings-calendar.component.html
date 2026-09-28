@@ -26,3 +26,16 @@
   </div>
 
 </div>
+
+@if (showBookingFormDialog()) {
+  <sctl-booking-form-dialog
+    [visible]="showBookingFormDialog()"
+    [config]="bookingFormDialogConfig()"
+    [value]="selectedBooking()"
+    [rooms]="selectedResidenceRooms()"
+    [customers]="tenantCustomers()"
+    (close)="showBookingFormDialog.set(false)"
+    (submit)="onNewBookingHandler($event)"
+    (delete)="deleteBookingHandler($event)"
+  ></sctl-booking-form-dialog>
+}

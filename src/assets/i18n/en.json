@@ -148,7 +148,8 @@
         "ITEMS": {
           "DEFAULT-PAGE": "Default Page",
           "ROOMS": "Rooms",
-          "RESIDENCES": "Residences"
+          "RESIDENCES": "Residences",
+          "CUSTOMERS": "Customers"
         }
       },
       "ADMINISTRATOR": {
@@ -637,6 +638,51 @@
       "UPDATE_OK": "Images updated successfully",
       "DELETE_OK": "Image deleted successfully",
       "DELETE_KO": "There was an error trying to delete the image"
+    }
+  },
+  "CUSTOMERS": {
+    "TITLE": "Manage customers",
+    "FORM_NEW": "New customer",
+    "FORM_EDIT": "Edit customer",
+    "FILENAME": "customers",
+    "COLS": {
+      "TENANT": "Organization",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "DNI": "ID number",
+      "CREATED_AT": "Created at",
+      "UPDATED_AT": "Updated at"
+    },
+    "ERRORS": {
+      "NAME": "Name is required",
+      "EMAIL_INVALID": "Email is not valid"
+    },
+    "EDIT": {
+      "SUCCESS": "Customer updated successfully",
+      "ERROR": "Error trying to update customer",
+      "DUPLICATE": "Customer already exists"
+    },
+    "DELETE": {
+      "HEADER": "Delete customer",
+      "MESSAGE": "Are you sure you want to delete the customer?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Customer deleted successfully",
+      "ERROR": "Error trying to delete customer"
+    },
+    "ADD": {
+      "SUCCESS": "Customer added successfully",
+      "ERROR": "Error trying to add customer",
+      "DUPLICATE": "Customer already exists"
+    },
+    "DELETE_MULTIPLE": {
+      "HEADER": "Delete customers",
+      "MESSAGE": "Are you sure you want to delete the selected customers?",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Delete",
+      "SUCCESS": "Customers deleted successfully",
+      "ERROR": "Error trying to delete customers"
     }
   }
 }

@@ -1,0 +1,55 @@
+<form [formGroup]="customerForm">
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="customers-form-name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'CUSTOMERS.COLS.NAME' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="customers-form-name"
+        type="text"
+        formControlName="name"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['name']"></sctl-input-error>
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="customers-form-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'CUSTOMERS.COLS.EMAIL' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="customers-form-email"
+        type="text"
+        formControlName="email"
+        [placeholder]="''"
+      />
+      <sctl-input-error [config]="formErrors?.['email']"></sctl-input-error>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="customers-form-phone" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'CUSTOMERS.COLS.PHONE' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="customers-form-phone"
+        type="text"
+        formControlName="phone"
+        [placeholder]="''"
+      />
+    </div>
+
+    <div class="mb-6 w-full">
+      <label for="customers-form-dni" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'CUSTOMERS.COLS.DNI' | translate }}
+      </label>
+      <input pInputText class="w-full"
+        id="customers-form-dni"
+        type="text"
+        formControlName="dni"
+        [placeholder]="''"
+      />
+    </div>
+  </div>
+</form>

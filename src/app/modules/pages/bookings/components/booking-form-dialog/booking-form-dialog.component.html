@@ -1,0 +1,92 @@
+@if (showDialog) {
+  <sctl-dialog 
+    [visible]="showDialog" 
+    [config]="dialogConfig" 
+    (close)="onClose()" 
+    (submit)="onSubmit($event)"
+  >
+    <div content>
+      <form [formGroup]="form">
+        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+          <div class="mb-6 w-full">
+            <label for="booking-form-dialog-room" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+              {{ 'PAGES.BOOKINGS.COLS.ROOM' | translate }}
+            </label>
+            <p-select
+              [appendTo]="'body'"
+              [className]="'w-full'"
+              [inputId]="'booking-form-dialog-room'"
+              [options]="roomOptions" 
+              formControlName="room" 
+              [optionLabel]="'label'"
+              [optionValue]="'value'"
+              class="w-full md:w-56" 
+              [showClear]="true"
+            />
+          </div>
+
+          <div class="mb-6 w-full">
+            <label for="booking-form-dialog-customer" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+              {{ 'PAGES.BOOKINGS.COLS.CUSTOMER' | translate }}
+            </label>
+            <p-select
+              [appendTo]="'body'"
+              [className]="'w-full'"
+              [inputId]="'booking-form-dialog-customer'"
+              [options]="customerOptions" 
+              formControlName="customer" 
+              [optionLabel]="'label'"
+              [optionValue]="'value'"
+              class="w-full md:w-56" 
+              [showClear]="true"
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+          <div class="mb-6 w-full">
+            <label for="booking-form-dialog-start" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+              {{ 'PAGES.BOOKINGS.COLS.START' | translate }}
+            </label>
+            <p-datepicker
+              [appendTo]="'body'"
+              [className]="'w-full'"
+              [inputId]="'booking-form-dialog-start'"
+              formControlName="start"
+              class="w-full"
+              [showIcon]="true"
+              [inputStyle]="{'width': '100%'}"
+              [showTime]="true"
+            ></p-datepicker>
+          </div>
+          <div class="mb-6 w-full">
+            <label for="booking-form-dialog-end" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+              {{ 'PAGES.BOOKINGS.COLS.END' | translate }}
+            </label>
+            <p-datepicker
+              [appendTo]="'body'"
+              [className]="'w-full'"
+              [inputId]="'booking-form-dialog-end'"
+              formControlName="end"
+              class="w-full"
+              [showIcon]="true"
+              [inputStyle]="{'width': '100%'}"
+              [showTime]="true" 
+            ></p-datepicker>
+          </div>
+        </div>
+      </form>
+
+      <div class="w-full flex justify-end items-center mt-4">
+        <p-button
+          [label]="'COMMON.DELETE' | translate"
+          [severity]="'danger'"
+          [outlined]="true"
+          [rounded]="true"
+          [icon]="'pi pi-trash'"
+          (onClick)="onDelete()"
+        ></p-button>
+      </div>
+    </div>
+  </sctl-dialog>
+}

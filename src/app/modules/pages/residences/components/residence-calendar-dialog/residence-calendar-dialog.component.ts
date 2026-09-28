@@ -123,7 +123,8 @@ export class ResidenceCalendarDialogComponent implements OnInit {
       [RESIDENCES_CALENDAR_TYPE.DAY_GRID_MONTH]: this.literals?.['MONTHLY'],
       [RESIDENCES_CALENDAR_TYPE.TIME_GRID_WEEK]: this.literals?.['WEEKLY'],
       [RESIDENCES_CALENDAR_TYPE.TIME_GRID_DAY]: this.literals?.['DAILY'],
-      [RESIDENCES_CALENDAR_TYPE.LIST_WEEK]: this.literals?.['LIST']
+      [RESIDENCES_CALENDAR_TYPE.LIST_WEEK]: this.literals?.['LIST'],
+      [RESIDENCES_CALENDAR_TYPE.MULTI_MONTH]: this.literals?.['MULTI_MONTH']
     }
 
     this.typeOptions = values.map(value => ({ label: labels[value], value }));
