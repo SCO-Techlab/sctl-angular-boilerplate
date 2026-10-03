@@ -871,12 +871,24 @@
       "EMAIL": "Correo electrónico",
       "PHONE": "Teléfono",
       "DNI": "DNI",
+      "BIRTHDAY": "Fecha de nacimiento",
+      "PRIMARY_GUARDIAN": "Tutor principal",
+      "SECONDARY_GUARDIAN": "Tutor secundario",
       "CREATED_AT": "Creado en",
       "UPDATED_AT": "Actualizado en"
     },
+    "ADD_PRIMARY_GUARDIAN": "Añadir tutor principal",
+    "REMOVE_PRIMARY_GUARDIAN": "Eliminar tutor principal",
+    "ADD_SECONDARY_GUARDIAN": "Añadir tutor secundario",
+    "REMOVE_SECONDARY_GUARDIAN": "Eliminar tutor secundario",
     "ERRORS": {
       "NAME": "El nombre es obligatorio",
-      "EMAIL_INVALID": "El correo electrónico no es válido"
+      "EMAIL": "El correo electrónico es obligatorio",
+      "EMAIL_INVALID": "El correo electrónico no es válido",
+      "PHONE": "El teléfono es obligatorio",
+      "DNI": "El DNI es obligatorio",
+      "BIRTHDAY": "La fecha de nacimiento es obligatoria",
+      "PRIMARY_GUARDIAN": "El tutor principal es obligatorio"
     },
     "EDIT": {
       "SUCCESS": "El cliente se ha actualizado correctamente",

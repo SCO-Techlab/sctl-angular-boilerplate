@@ -6,16 +6,18 @@
     (submit)="onSubmit($event)"
   >
     <div content>
-      <div class="w-full flex justify-end items-center">
-        <p-button
-          [label]="'COMMON.DELETE' | translate"
-          [severity]="'danger'"
-          [outlined]="true"
-          [rounded]="true"
-          [icon]="'pi pi-trash'"
-          (onClick)="onDelete()"
-        ></p-button>
-      </div>
+      @if (isEdit) {
+        <div class="w-full flex justify-end items-center">
+          <p-button
+            [label]="'COMMON.DELETE' | translate"
+            [severity]="'danger'"
+            [outlined]="true"
+            [rounded]="true"
+            [icon]="'pi pi-trash'"
+            (onClick)="onDelete()"
+          ></p-button>
+        </div>
+      }
 
       <form [formGroup]="form">
         <div class="flex flex-col md:flex-row gap-0 md:gap-8">
@@ -68,6 +70,7 @@
               [inputStyle]="{'width': '100%'}"
               [showTime]="true"
               [dateFormat]="'dd/mm/yy'"
+              [firstDayOfWeek]="1"
             ></p-datepicker>
           </div>
         </div>
@@ -87,6 +90,7 @@
               [inputStyle]="{'width': '100%'}"
               [showTime]="true" 
               [dateFormat]="'dd/mm/yy'"
+              [firstDayOfWeek]="1"
             ></p-datepicker>
           </div>
         </div>

@@ -61,8 +61,9 @@ export class ProfileConfigurationComponent {
   }
 
   private fillForm(): void {
-    const darkTheme: boolean = this.store.selectSnapshot(SessionStorageState.darkMode);
-    const staticMenu: boolean = this.store.selectSnapshot(SessionStorageState.staticMenu);
+    const layoutConfig = this.layoutService.layoutConfig();
+    const darkTheme: boolean = this.store.selectSnapshot(SessionStorageState.darkMode) ?? layoutConfig.darkTheme;
+    const staticMenu: boolean = this.store.selectSnapshot(SessionStorageState.staticMenu) ?? layoutConfig.menuMode === 'static';
 
     this.configurationForm.setValue({
       darkTheme: darkTheme,

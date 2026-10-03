@@ -5,11 +5,12 @@ import { SpinnerComponent, ToastComponent } from '@core/components';
 import { SessionStorageState } from '@core/session-storage';
 import { CONFIG_CONSTANTS, MAGIC_NUMBERS } from '@core/shared/constants';
 import { TOAST_POSITION } from '@core/shared/enums';
-import { ISpinnerComponent, IToastComponent } from '@core/shared/interfaces';
+import { ISpinnerComponent, IToastComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { ConfigService, ScreenService, SpinnerService, TranslateService } from '@core/shared/services';
 import { ILayoutConfig } from '@layout/interfaces';
 import { LayoutService } from '@layout/services';
 import { Store } from '@ngxs/store';
+import { PrimeNG } from 'primeng/config';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
   private readonly spinnerService = inject(SpinnerService);
   private readonly translateService = inject(TranslateService);
   private readonly store = inject(Store);
+  private readonly primeNG = inject(PrimeNG);
 
   constructor() {
     this.setConfigTheme();
@@ -55,9 +57,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translateService.stream('')
+    this.translateService.stream('PRIMENG.LOCALE')
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe(() => {
+      .subscribe((literals: ITranslateLiterals) => {
+        this.primeNG.setTranslation(literals);
+
         if (this.spinnerService.isShowing) {
           this.spinnerService.hide();
         }

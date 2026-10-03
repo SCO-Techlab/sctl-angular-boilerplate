@@ -71,6 +71,7 @@ export class CustomersComponent {
       email: '',
       phone: '',
       dni: '',
+      birthDate: '',
     } as ICustomer;
     this.selectedItemId = undefined;
     this.crudState = CRUD_STATE.NEW;
@@ -370,6 +371,14 @@ export class CustomersComponent {
         {
           header: this.literals?.['COLS']['DNI'],
           field: 'dni'
+        },
+        {
+          header: this.literals?.['COLS']['BIRTHDAY'],
+          field: 'birthDate',
+          type: CRUD_COLUMN_TYPE.DATE,
+          options: { date: { format: DATES.ISO_DATE } },
+          headerStyles: 'min-width: 165px',
+          fieldStyles: 'min-width: 165px',
         },
         {
           header: this.literals?.['COLS']['CREATED_AT'],

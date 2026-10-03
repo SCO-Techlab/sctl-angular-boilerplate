@@ -651,9 +651,16 @@
       "EMAIL": "Email",
       "PHONE": "Phone",
       "DNI": "ID number",
+      "BIRTHDAY": "Birth date",
+      "PRIMARY_GUARDIAN": "Primary guardian",
+      "SECONDARY_GUARDIAN": "Secondary guardian",
       "CREATED_AT": "Created at",
       "UPDATED_AT": "Updated at"
     },
+    "ADD_PRIMARY_GUARDIAN": "Add primary guardian",
+    "REMOVE_PRIMARY_GUARDIAN": "Remove primary guardian",
+    "ADD_SECONDARY_GUARDIAN": "Add secondary guardian",
+    "REMOVE_SECONDARY_GUARDIAN": "Remove secondary guardian",
     "ERRORS": {
       "NAME": "Name is required",
       "EMAIL_INVALID": "Email is not valid"

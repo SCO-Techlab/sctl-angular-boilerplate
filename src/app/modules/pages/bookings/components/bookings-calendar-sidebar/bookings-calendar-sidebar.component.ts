@@ -7,7 +7,6 @@ import { formatResidenceAddress } from '@shared/helpers';
 import { IResidence, IResidenceCalendar } from '@shared/interfaces';
 import { ResidencesService } from '@shared/services';
 import { ButtonModule } from 'primeng/button';
-import { PrimeNG } from 'primeng/config';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -46,16 +45,11 @@ export class BookingsCalendarSidebarComponent implements OnInit, OnChanges {
   public showResidenceCalendarDialog: boolean;
 
   private readonly destroyRef = inject(DestroyRef);
-  private readonly primeNG = inject(PrimeNG);
   private readonly translateService = inject(TranslateService);
   private readonly spinnerService = inject(SpinnerService);
   private readonly residencesService = inject(ResidencesService);
 
   ngOnInit(): void {
-    this.translateService.stream('PRIMENG.LOCALE')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((translation: any) => this.primeNG.setTranslation(translation));
-
     this.currentDate = this.calendarDate() ? this.calendarDate() : new Date();
     this.setResidencesOptions(this.residences());
   }

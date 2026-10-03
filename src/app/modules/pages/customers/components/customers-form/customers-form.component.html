@@ -38,6 +38,7 @@
         formControlName="phone"
         [placeholder]="''"
       />
+      <sctl-input-error [config]="formErrors?.['phone']"></sctl-input-error>
     </div>
 
     <div class="mb-6 w-full">
@@ -50,6 +51,172 @@
         formControlName="dni"
         [placeholder]="''"
       />
+      <sctl-input-error [config]="formErrors?.['dni']"></sctl-input-error>
     </div>
   </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="customers-form-birthDate" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'CUSTOMERS.COLS.BIRTHDAY' | translate }}
+      </label>
+      <p-datepicker class="w-full"
+        id="customers-form-birthDate"
+        formControlName="birthDate"
+        [appendTo]="'body'"
+        [maxDate]="maxBirthDate"
+        [placeholder]="''"
+        [dateFormat]="'dd/mm/yy'"
+        [inputStyle]="{'width': '100%'}"
+        [firstDayOfWeek]="1"
+      ></p-datepicker>
+      <sctl-input-error [config]="formErrors?.['birthDate']"></sctl-input-error>
+    </div>
+  </div>
+
+  @if (!hasPrimaryGuardian) {
+    <p-button
+      [label]="'CUSTOMERS.ADD_PRIMARY_GUARDIAN' | translate"
+      icon="pi pi-plus"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="addPrimaryGuardian()"
+    />
+  } @else {
+    <section formGroupName="primaryGuardian" class="mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium">{{ 'CUSTOMERS.COLS.PRIMARY_GUARDIAN' | translate }}</h3>
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          [text]="true"
+          [rounded]="true"
+          [attr.aria-label]="'CUSTOMERS.REMOVE_PRIMARY_GUARDIAN' | translate"
+          (onClick)="removePrimaryGuardian()"
+        />
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 w-full">
+          <label for="customers-primary-guardian-name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.NAME' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-primary-guardian-name" formControlName="name" />
+          <sctl-input-error [config]="formErrors?.['primaryGuardian.name']"></sctl-input-error>
+        </div>
+        <div class="mb-6 w-full">
+          <label for="customers-primary-guardian-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.EMAIL' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-primary-guardian-email" formControlName="email" />
+          <sctl-input-error [config]="formErrors?.['primaryGuardian.email']"></sctl-input-error>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 w-full">
+          <label for="customers-primary-guardian-phone" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.PHONE' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-primary-guardian-phone" formControlName="phone" />
+          <sctl-input-error [config]="formErrors?.['primaryGuardian.phone']"></sctl-input-error>
+        </div>
+        <div class="mb-6 w-full">
+          <label for="customers-primary-guardian-dni" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.DNI' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-primary-guardian-dni" formControlName="dni" />
+          <sctl-input-error [config]="formErrors?.['primaryGuardian.dni']"></sctl-input-error>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 w-full">
+          <label for="customers-primary-guardian-birthDate" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.BIRTHDAY' | translate }}
+          </label>
+          <p-datepicker class="w-full"
+            inputId="customers-primary-guardian-birthDate"
+            formControlName="birthDate"
+            [appendTo]="'body'"
+            [maxDate]="maxBirthDate"
+            [dateFormat]="'dd/mm/yy'"
+            [inputStyle]="{'width': '100%'}"
+            [firstDayOfWeek]="1"
+          ></p-datepicker>
+          <sctl-input-error [config]="formErrors?.['primaryGuardian.birthDate']"></sctl-input-error>
+        </div>
+      </div>
+    </section>
+  }
+
+  @if (!hasSecondaryGuardian) {
+    <p-button
+      [label]="'CUSTOMERS.ADD_SECONDARY_GUARDIAN' | translate"
+      icon="pi pi-plus"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="addSecondaryGuardian()"
+    />
+  } @else {
+    <section formGroupName="secondaryGuardian" class="mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium">{{ 'CUSTOMERS.COLS.SECONDARY_GUARDIAN' | translate }}</h3>
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          [text]="true"
+          [rounded]="true"
+          [attr.aria-label]="'CUSTOMERS.REMOVE_SECONDARY_GUARDIAN' | translate"
+          (onClick)="removeSecondaryGuardian()"
+        />
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 w-full">
+          <label for="customers-secondary-guardian-name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.NAME' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-secondary-guardian-name" formControlName="name" />
+          <sctl-input-error [config]="formErrors?.['secondaryGuardian.name']"></sctl-input-error>
+        </div>
+        <div class="mb-6 w-full">
+          <label for="customers-secondary-guardian-email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.EMAIL' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-secondary-guardian-email" formControlName="email" />
+          <sctl-input-error [config]="formErrors?.['secondaryGuardian.email']"></sctl-input-error>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 w-full">
+          <label for="customers-secondary-guardian-phone" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.PHONE' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-secondary-guardian-phone" formControlName="phone" />
+          <sctl-input-error [config]="formErrors?.['secondaryGuardian.phone']"></sctl-input-error>
+        </div>
+        <div class="mb-6 w-full">
+          <label for="customers-secondary-guardian-dni" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.DNI' | translate }}
+          </label>
+          <input pInputText class="w-full" id="customers-secondary-guardian-dni" formControlName="dni" />
+          <sctl-input-error [config]="formErrors?.['secondaryGuardian.dni']"></sctl-input-error>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+        <div class="mb-6 w-full">
+          <label for="customers-secondary-guardian-birthDate" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+            {{ 'CUSTOMERS.COLS.BIRTHDAY' | translate }}
+          </label>
+          <p-datepicker class="w-full"
+            inputId="customers-secondary-guardian-birthDate"
+            formControlName="birthDate"
+            [appendTo]="'body'"
+            [maxDate]="maxBirthDate"
+            [dateFormat]="'dd/mm/yy'"
+            [inputStyle]="{'width': '100%'}"
+            [firstDayOfWeek]="1"
+          ></p-datepicker>
+          <sctl-input-error [config]="formErrors?.['secondaryGuardian.birthDate']"></sctl-input-error>
+        </div>
+      </div>
+    </section>
+  }
 </form>

@@ -2,7 +2,9 @@ import { Component, DestroyRef, inject, OnInit, output, ViewEncapsulation } from
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@core/shared/modules';
+import { DatesService } from '@core/shared/services';
 import { ICustomer } from '@shared/interfaces';
+import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
@@ -14,6 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
+    DatePickerModule,
     InputTextModule,
   ]
 })
@@ -24,6 +27,7 @@ export class CustomersFiltersFormComponent implements OnInit {
   public form: FormGroup;
 
   private readonly destroyRef$ = inject(DestroyRef);
+  private readonly datesService = inject(DatesService);
 
   ngOnInit(): void {
     this.initForm();
@@ -39,10 +43,14 @@ export class CustomersFiltersFormComponent implements OnInit {
       email: new FormControl<string>(''),
       phone: new FormControl<string>(''),
       dni: new FormControl<string>(''),
+      birthDate: new FormControl<Date | null>(null),
     });
 
     this.form.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe(value => this.valueChange.emit(value));
+      .subscribe(value => this.valueChange.emit({
+        ...value,
+        birthDate: value.birthDate ? this.datesService.formatDate('yyyy-MM-dd', value.birthDate) : ''
+      }));
   }
 }
