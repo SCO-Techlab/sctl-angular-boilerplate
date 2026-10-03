@@ -99,6 +99,8 @@
       "EDIT_BOOKING_KO": "Error al editar la reserva",
       "DELETE_BOOKING_OK": "Reserva eliminada con éxito",
       "DELETE_BOOKING_KO": "Error al eliminar la reserva",
+      "BOOKING_END_MUST_BE_AFTER_START": "La fecha de fin debe ser posterior a la fecha de inicio",
+      "BOOKING_NOT_AVAILABLE": "La habitación {room} ({beds}) no está disponible para las fechas seleccionadas",
       "DELETE": {
         "HEADER": "Eliminar reserva",
         "MESSAGE": "¿Está seguro de que desea eliminar la reserva?",

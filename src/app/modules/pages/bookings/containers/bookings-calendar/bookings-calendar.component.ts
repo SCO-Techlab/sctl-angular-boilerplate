@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, DestroyRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LoaderComponent } from '@core/components';
@@ -67,7 +68,7 @@ export class BookingsCalendarComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((literals: ITranslateLiterals) => {
         this.literals = literals;
-        this.listenTonSelecTenantChanges();
+        this.listenToSelecTenantChanges();
       });
   }
 
@@ -117,11 +118,9 @@ export class BookingsCalendarComponent implements OnInit {
             detail: this.literals?.['NEW_BOOKING_OK']
           });
         },
-        error: () => {
-          this.toastService.error({
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals?.['NEW_BOOKING_KO']
-          });
+        error: (error: HttpErrorResponse) => {
+          const detail = this.formatNewOrEditBookingError(error, false);
+          this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
         }
       });
   }
@@ -150,11 +149,9 @@ export class BookingsCalendarComponent implements OnInit {
             detail: this.literals?.['EDIT_BOOKING_OK']
           });
         },
-        error: () => {
-          this.toastService.error({
-            summary: this.translateService.instant('TOAST.ERROR'),
-            detail: this.literals?.['EDIT_BOOKING_KO']
-          });
+        error: (error: HttpErrorResponse) => {
+          const detail = this.formatNewOrEditBookingError(error, true);
+          this.toastService.error({ summary: this.translateService.instant('TOAST.ERROR'), detail });
         }
       });
   }
@@ -211,7 +208,7 @@ export class BookingsCalendarComponent implements OnInit {
     this.initBookingFormDialog();
   }
 
-  private listenTonSelecTenantChanges(): void {
+  private listenToSelecTenantChanges(): void {
     this.selectTenantService.onTenantChange$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -303,6 +300,23 @@ export class BookingsCalendarComponent implements OnInit {
       }
     });
     this.showBookingFormDialog.set(true);
+  }
+
+  private formatNewOrEditBookingError(error: HttpErrorResponse, update: boolean): string {
+    let detail = !update
+      ? this.literals?.['NEW_BOOKING_KO']
+      : this.literals?.['EDIT_BOOKING_KO'];
+
+    if (error?.error?.message === 'Booking end must be after booking start') {
+      detail = this.literals?.['BOOKING_END_MUST_BE_AFTER_START'];
+    } else if (error?.error?.message.includes('is not available for the selected dates')) {
+      detail = this.literals?.['BOOKING_NOT_AVAILABLE'];
+      const roomName = error?.error?.message.split(' ')[MAGIC_NUMBERS.N_1];
+      const roomBeds = error?.error?.message.split(' ')[MAGIC_NUMBERS.N_4];
+      detail = detail?.replace('{room}', roomName)?.replace('{beds}', roomBeds);
+    }
+
+    return detail;
   }
 
   // FC
