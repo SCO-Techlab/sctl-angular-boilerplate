@@ -26,3 +26,34 @@
     (onSelect)="onSelectDateHandler($event)"
   />
 </div>
+
+<div class="mt-4 flex flex-row justify-between">
+  <p-button
+    [label]="'PAGES.BOOKINGS.CALENDAR' | translate"
+    [icon]="'pi pi-calendar'"
+    [severity]="'primary'"
+    [outlined]="true"
+    [rounded]="true"
+    (click)="onOpenResidenceCalendarDialog()" 
+  />
+
+  <p-button
+    [label]="'PAGES.BOOKINGS.NEW_BOOKING' | translate"
+    [icon]="'pi pi-book'"
+    [severity]="'secondary'"
+    [outlined]="true"
+    [rounded]="true"
+    (click)="onNewBooking.emit()" 
+  />
+</div>
+
+
+@if (showResidenceCalendarDialog) {
+  <sctl-residence-calendar-dialog
+    [visible]="showResidenceCalendarDialog"
+    [value]="currentResidence?.calendar"
+    [config]="residenceCalendarDialogConfig"
+    (close)="showResidenceCalendarDialog = false"
+    (submit)="onSubmitResidenceCalendar($event)"
+  ></sctl-residence-calendar-dialog>
+}

@@ -33,9 +33,23 @@
         padding: 0;
       }
 
-      b {
-        /* used for event dates/times */
-        margin-right: 3px;
+      ::ng-deep .fc .fc-daygrid-event {
+        padding: 2px 4px;
+      }
+
+      .booking-event {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        min-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+
+        b,
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
 

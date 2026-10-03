@@ -55,7 +55,7 @@ export class BookingsService {
     return {
       ...booking,
       tenant: this.resolveRelationId(booking?.tenant),
-      room: this.resolveRelationId(booking?.room),
+      rooms: booking?.rooms?.map(room => this.resolveRelationId(room)) ?? [],
       customer: this.resolveRelationId(booking?.customer)
     };
   }

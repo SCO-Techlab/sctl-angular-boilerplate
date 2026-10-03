@@ -1,0 +1,45 @@
+<div class="flex flex-col gap-3">
+  @for (selection of selections; track $index) {
+    <div class="flex items-center gap-2">
+      <p-select
+        class="w-full"
+        [appendTo]="'body'"
+        [inputId]="'room-selector-' + $index"
+        [ariaLabel]="label()"
+        [options]="getOptions($index)"
+        [ngModel]="selection"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="onSelectionChange($index, $event)"
+        [optionLabel]="'name'"
+        [optionValue]="'_id'"
+        [showClear]="true"
+      >
+        <ng-template #item let-room>
+          {{ room.name }} ({{ room.beds }} {{ 'ROOMS.COLS.BEDS' | translate }})
+        </ng-template>
+      </p-select>
+      @if (selections.length > 1) {
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          [text]="true"
+          [rounded]="true"
+          [attr.aria-label]="'COMMON.DELETE' | translate"
+          (onClick)="removeSelection($index)"
+        />
+      }
+    </div>
+  }
+
+  <div class="flex items-center justify-end">
+    <p-button
+      [label]="'COMMON.ADD' | translate"
+      icon="pi pi-plus"
+      severity="secondary"
+      [outlined]="true"
+      [rounded]="true"
+      [disabled]="!canAddSelection"
+      (onClick)="addSelection()"
+    />
+  </div>
+</div>

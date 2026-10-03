@@ -44,7 +44,7 @@ export class BookingsCalendarComponent implements OnInit {
   public selectedResidence = signal<IResidence>(null);
   public selectedBooking = signal<IBooking>(null);
   public selectedResidenceRooms = computed(() => this.bookingCalendar()?.rooms?.filter(room => room.residence?._id === this.selectedResidence()?._id) ?? []);
-  public selectedResidenceBookings = computed(() => this.bookingCalendar()?.bookings?.filter(booking => booking.room?.residence?._id === this.selectedResidence()?._id) ?? []);
+  public selectedResidenceBookings = computed(() => this.bookingCalendar()?.bookings?.filter(booking => booking.rooms?.some(room => room.residence?._id === this.selectedResidence()?._id)) ?? []);
   public tenantCustomers = computed(() => this.bookingCalendar()?.customers?.filter(customer => customer.tenant?._id === this.selectTenantService.selectedTenant) ?? []);
 
   public isEdit = signal<boolean>(false);
@@ -162,7 +162,7 @@ export class BookingsCalendarComponent implements OnInit {
   public deleteBookingHandler(value: IBooking): void {
     this.confirmDialogService.confirm({
       header: this.literals?.['DELETE']?.['HEADER'],
-      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${value.customer.name} - ${value.room.name}</center>`,
+      message: `${this.literals?.['DELETE']?.['MESSAGE']}<br><br><center>${value.customer?.name} - ${value.rooms?.map(room => room.name).join(', ')}</center>`,
       rejectButton: { label: this.literals?.['DELETE']?.['CANCEL'] },
       acceptButton: { label: this.literals?.['DELETE']?.['SUBMIT'] },
       accept: () => {
@@ -196,6 +196,21 @@ export class BookingsCalendarComponent implements OnInit {
     });
   }
 
+  public onSidebarNewBooking(): void {
+    this.selectedBooking.set({
+      _id: null,
+      tenant: null,
+      rooms: [],
+      totalCustomers: MAGIC_NUMBERS.N_1,
+      customer: null,
+      start: '',
+      end: '',
+      comment: ''
+    });
+    this.isEdit.set(false);
+    this.initBookingFormDialog();
+  }
+
   private listenTonSelecTenantChanges(): void {
     this.selectTenantService.onTenantChange$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -210,7 +225,7 @@ export class BookingsCalendarComponent implements OnInit {
       .subscribe({
         next: (bookingCalendar: IBookingCalendar) => {
           this.bookingCalendar.set(bookingCalendar);
-          if (!this.selectedResidence()?._id) {
+          if (!this.selectedResidence()?._id || this.selectedResidence()?.tenant?._id !== this.selectTenantService.selectedTenant) {
             this.selectedResidence.set(bookingCalendar?.residences?.[MAGIC_NUMBERS.N_0] ?? null);
           }
           this.initCalendar();
@@ -231,11 +246,15 @@ export class BookingsCalendarComponent implements OnInit {
       initialView: this.selectedResidence()?.calendar?.calendarType,
       initialEvents: this.selectedResidenceBookings()?.map(booking => ({
         id: booking._id,
-        title: `${booking.room.name} - ${booking.customer.name}`,
+        title: `${booking.rooms?.map(room => room.name).join(', ')} - ${booking.customer?.name} (${booking.totalCustomers})`,
         start: booking.start,
         end: booking.end,
         allDay: false
       })),
+      eventDisplay: 'block',
+      eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+      allDaySlot: true,
+      displayEventTime: false,
       weekends: true,
       editable: true,
       selectable: true,
@@ -260,7 +279,7 @@ export class BookingsCalendarComponent implements OnInit {
       header: {
         closable: true,
         title: edit ? this.literals?.['EDIT_BOOKING'] : this.literals?.['NEW_BOOKING'],
-        subTitle: edit ? `${this.selectedBooking()?.customer.name} - ${this.selectedBooking()?.room.name}` : '',
+        subTitle: edit ? `${this.selectedBooking()?.customer?.name} - ${this.selectedBooking()?.rooms?.map(room => room.name).join(', ')}` : '',
       },
       footer: {
         cancelButton: {
@@ -298,10 +317,12 @@ export class BookingsCalendarComponent implements OnInit {
     this.selectedBooking.set({
       _id: null,
       tenant: null,
-      room: null,
+      rooms: [],
+      totalCustomers: MAGIC_NUMBERS.N_1,
       customer: null,
       start: this.datesService.toLocalDateTime(selectInfo.startStr),
       end: this.datesService.toLocalDateTime(selectInfo.endStr),
+      comment: ''
     });
     this.isEdit.set(false);
     this.initBookingFormDialog();

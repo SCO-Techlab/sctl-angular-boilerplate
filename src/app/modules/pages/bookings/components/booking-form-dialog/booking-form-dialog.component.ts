@@ -2,12 +2,12 @@ import { Component, effect, inject, input, OnInit, output } from '@angular/core'
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogComponent } from '@core/components';
 import { BUTTON_SEVERITY, DatesService, IDialogComponent, TranslateModule } from '@core/shared';
-import { formatResidenceAddress } from '@shared/helpers';
+import { RoomSelectorComponent } from '@shared/components';
 import { ICustomer, IRoom } from '@shared/interfaces';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
-import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { TextareaModule } from 'primeng/textarea';
 import { IBooking } from '../../interfaces';
 
 @Component({
@@ -19,10 +19,11 @@ import { IBooking } from '../../interfaces';
     ReactiveFormsModule,
     TranslateModule,
     DialogComponent,
-    InputTextModule,
     SelectModule,
+    RoomSelectorComponent,
     DatePickerModule,
-    ButtonModule
+    ButtonModule,
+    TextareaModule
   ]
 })
 export class BookingFormDialogComponent implements OnInit {
@@ -67,7 +68,6 @@ export class BookingFormDialogComponent implements OnInit {
 
   public showDialog: boolean = false;
   public form: FormGroup;
-  public roomOptions: { label: string, value: IRoom }[] = [];
   public customerOptions: { label: string, value: ICustomer }[] = [];
 
   public get dialogConfig(): IDialogComponent {
@@ -117,10 +117,12 @@ export class BookingFormDialogComponent implements OnInit {
 
     this.submit.emit({
       ...value,
-      room: formValue.room,
+      rooms: formValue.rooms ?? [],
+      totalCustomers: formValue.rooms?.length ?? 0,
       customer: formValue.customer,
       start: this.datesService.formatLocalDateTime(formValue.start),
       end: this.datesService.formatLocalDateTime(formValue.end),
+      comment: formValue.comment
     });
   }
 
@@ -129,12 +131,11 @@ export class BookingFormDialogComponent implements OnInit {
     this.delete.emit(this.value());
   }
 
-  private initializeOptions(): void {
-    this.roomOptions = this.rooms()?.map(room => ({
-      label: `${room.name} (${formatResidenceAddress(room.residence)})`,
-      value: room
-    })) || [];
+  public onRoomsChange(rooms: IRoom[]): void {
+    this.form.patchValue({ rooms });
+  }
 
+  private initializeOptions(): void {
     this.customerOptions = this.customers()?.map(customer => ({
       label: `${customer.name} ${customer?.email ? `(${customer.email})` : ''}`,
       value: customer
@@ -143,19 +144,21 @@ export class BookingFormDialogComponent implements OnInit {
 
   private initForm(): void {
     this.form = new FormGroup({
-      room: new FormControl<IRoom>(null, [Validators.required]),
+      rooms: new FormControl<IRoom[]>([], [Validators.required]),
       customer: new FormControl<ICustomer>(null, [Validators.required]),
       start: new FormControl<Date>(null, [Validators.required]),
-      end: new FormControl<Date>(null, [Validators.required])
+      end: new FormControl<Date>(null, [Validators.required]),
+      comment: new FormControl<string>('')
     });
   }
 
   private fillForm(value: IBooking): void {
     this.form.patchValue({
-      room: value?.room ?? null,
+      rooms: value?.rooms ?? [],
       customer: value?.customer ?? null,
       start: value?.start ? this.datesService.parseLocalDateTime(value.start) : null,
-      end: value?.end ? this.datesService.parseLocalDateTime(value.end) : null
+      end: value?.end ? this.datesService.parseLocalDateTime(value.end) : null,
+      comment: value?.comment ?? ''
     });
   }
 }

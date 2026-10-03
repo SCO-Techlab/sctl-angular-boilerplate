@@ -90,6 +90,7 @@
     },
     "BOOKINGS": {
       "BOOKING": "Reserva",
+      "CALENDAR": "Calendario",
       "NEW_BOOKING": "Nueva reserva",
       "EDIT_BOOKING": "Editar reserva",
       "NEW_BOOKING_OK": "Nueva reserva creada con éxito",
@@ -105,10 +106,12 @@
         "SUBMIT": "Eliminar"
       },
       "COLS": {
-        "ROOM": "Habitación",
+        "ROOM": "Habitaciones",
+        "TOTAL_CUSTOMERS": "Número de huéspedes",
         "CUSTOMER": "Cliente",
         "START": "Inicio",
-        "END": "Fin"
+        "END": "Fin",
+        "COMMENT": "Comentario"
       }
     }
   },

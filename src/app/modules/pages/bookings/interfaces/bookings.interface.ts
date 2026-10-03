@@ -3,10 +3,12 @@ import { ICustomer, IResidence, IRoom, ITenant } from "@shared/interfaces";
 export interface IBooking {
   _id?: string;
   tenant: ITenant;
-  room: IRoom;
+  rooms: IRoom[];
+  totalCustomers: number;
   customer: ICustomer;
   start: string;
   end: string;
+  comment?: string;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

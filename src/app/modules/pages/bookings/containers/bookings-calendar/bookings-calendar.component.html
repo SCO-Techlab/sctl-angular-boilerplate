@@ -7,6 +7,7 @@
       [residences]="bookingCalendar()?.residences"
       (onSelectDate)="onSelectDateHandler($event)"
       (onResidenceChange)="onResidenceChangeHandler($event)"
+      (onNewBooking)="onSidebarNewBooking()"
     ></sctl-bookings-calendar-sidebar>
   </div>
 
@@ -14,8 +15,12 @@
     @if (calendarVisible()) {
       <full-calendar #calendar class="calendar" [options]='calendarOptions()'>
         <ng-template #eventContent let-arg>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
+          <div class="booking-event">
+            <!-- @if (arg.isStart && arg.event.start) {
+              <b>{{ arg.event.start | date: 'HH:mm' }}</b>
+            } -->
+            <span>{{ arg.event.title }}</span>
+          </div>
         </ng-template>
       </full-calendar>
     } @else {
