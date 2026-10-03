@@ -25,6 +25,24 @@
             />
           </div>
         </div>
+
+        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+          <div class="mb-6 w-full">
+            <label for="residences-form-week-number" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+              {{ 'RESIDENCES.COLS.WEEK_NUMBER' | translate }}
+            </label>
+            <p-toggleswitch inputId="residences-form-week-number" formControlName="weekNumber" />
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+          <div class="mb-6 w-full">
+            <label for="residences-form-show-weekends" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+              {{ 'RESIDENCES.COLS.SHOW_WEEKENDS' | translate }}
+            </label>
+            <p-toggleswitch inputId="residences-form-show-weekends" formControlName="showWeekends" />
+          </div>
+        </div>
       </form>
     </div>
   </sctl-dialog>

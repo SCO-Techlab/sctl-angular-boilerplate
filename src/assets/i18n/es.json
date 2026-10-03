@@ -114,7 +114,9 @@
         "START": "Inicio",
         "END": "Fin",
         "COMMENT": "Comentario"
-      }
+      },
+      "WEEK_TEXT_SHORT": "Sem. ",
+      "ALL_DAY_TEXT": "Todo el día"
     }
   },
   "TOAST": {
@@ -744,6 +746,8 @@
       "IMAGES": "Imágenes",
       "CALENDAR": "Calendario",
       "CALENDAR_TYPE": "Tipo de calendario",
+      "WEEK_NUMBER": "Número de semana",
+      "SHOW_WEEKENDS": "Mostrar fines de semana",
       "CREATED_AT": "Creado en",
       "UPDATED_AT": "Actualizado en"
     },

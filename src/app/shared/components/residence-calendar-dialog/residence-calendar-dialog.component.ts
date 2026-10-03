@@ -6,6 +6,7 @@ import { BUTTON_SEVERITY, IDialogComponent, ITranslateLiterals, TranslateModule,
 import { RESIDENCES_CALENDAR_TYPE } from '@shared/enums';
 import { IResidenceCalendar } from '@shared/interfaces';
 import { SelectModule } from 'primeng/select';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'sctl-residence-calendar-dialog',
@@ -16,7 +17,8 @@ import { SelectModule } from 'primeng/select';
     ReactiveFormsModule,
     TranslateModule,
     DialogComponent,
-    SelectModule
+    SelectModule,
+    ToggleSwitchModule
   ]
 })
 export class ResidenceCalendarDialogComponent implements OnInit {
@@ -98,7 +100,9 @@ export class ResidenceCalendarDialogComponent implements OnInit {
 
     const value = {
       ...this.value(),
-      calendarType: this.form.get('calendarType')?.value
+      calendarType: this.form.get('calendarType')?.value,
+      weekNumber: this.form.get('weekNumber')?.value,
+      showWeekends: this.form.get('showWeekends')?.value
     }
 
     this.submit.emit(value);
@@ -106,13 +110,17 @@ export class ResidenceCalendarDialogComponent implements OnInit {
 
   private initForm(): void {
     this.form = new FormGroup({
-      calendarType: new FormControl(this.value()?.calendarType || '')
+      calendarType: new FormControl(this.value()?.calendarType || ''),
+      weekNumber: new FormControl(this.value()?.weekNumber || false),
+      showWeekends: new FormControl(this.value()?.showWeekends || false)
     });
   }
 
   private fillForm(value: IResidenceCalendar): void {
     this.form.patchValue({
-      calendarType: value?.calendarType || ''
+      calendarType: value?.calendarType || '',
+      weekNumber: value?.weekNumber || false,
+      showWeekends: value?.showWeekends || false
     });
   }
 

@@ -71,6 +71,11 @@ export class ImagesComponent implements OnInit {
     this.showImagesGalleriaDialog.set(true);
   }
 
+  public onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = '../../../../../../assets/images/image-not-found.png';
+  }
+
   private listenToTenantChanges(): void {
     this.selectTenantService.onTenantChange$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -143,7 +148,7 @@ export class ImagesComponent implements OnInit {
         },
         footer: {
           cancelButton: {
-            show: true,
+            show: false,
             label: this.translateService.instant('PAGES.IMAGES.GALLERIA.CANCEL'),
             severity: BUTTON_SEVERITY.SECONDARY,
             outlined: true,

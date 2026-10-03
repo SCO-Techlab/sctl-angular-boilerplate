@@ -21,8 +21,9 @@
   <p-datepicker class="max-w-full" 
     [(ngModel)]="currentDate" 
     [inline]="true" 
-    [showWeek]="true"
+    [showWeek]="currentResidence?.calendar?.weekNumber"
     [firstDayOfWeek]="1"
+    [disabledDays]="currentResidence?.calendar?.showWeekends ? [] : [0, 6]"
     (onSelect)="onSelectDateHandler($event)"
   />
 </div>

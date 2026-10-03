@@ -3,6 +3,8 @@ import { ITenant } from "@shared/interfaces";
 
 export interface IResidenceCalendar {
   calendarType?: RESIDENCES_CALENDAR_TYPE;
+  weekNumber?: boolean;
+  showWeekends?: boolean;
 }
 
 export interface IResidence {

@@ -236,6 +236,7 @@ export class BookingsCalendarComponent implements OnInit {
     this.calendarOptions.set({
       timeZone: 'Europe/Madrid',
       locale: this.translateService.currentLang,
+      allDayText: this.literals?.['ALL_DAY_TEXT'],
       height: '100%',
       plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, multiMonthPlugin, themePlugin],
       headerToolbar: { left: '', center: 'title', right: '' },
@@ -252,7 +253,9 @@ export class BookingsCalendarComponent implements OnInit {
       eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
       allDaySlot: true,
       displayEventTime: false,
-      weekends: true,
+      weekNumbers: this.selectedResidence()?.calendar?.weekNumber,
+      weekTextShort: this.literals?.['WEEK_TEXT_SHORT'],
+      weekends: this.selectedResidence()?.calendar?.showWeekends,
       editable: true,
       selectable: true,
       selectMirror: true,
@@ -261,6 +264,7 @@ export class BookingsCalendarComponent implements OnInit {
       select: this.handleDateSelect.bind(this),
       eventClick: this.handleEventClick.bind(this),
       eventDrop: this.handleEventDrop.bind(this),
+      eventResize: this.handleEventResize.bind(this),
       //eventsSet: this.setCalendarEvents.bind(this)
       /* you can update a remote database when these fire: eventAdd: eventChange: eventRemove: */
     });
@@ -321,11 +325,17 @@ export class BookingsCalendarComponent implements OnInit {
 
   // FC
   handleDateSelect(selectInfo: DateSelectInfo) {
-    const monthMode = this.calendarOptions()?.initialView === RESIDENCES_CALENDAR_TYPE.DAY_GRID_MONTH;
+    const fullDaySelection = selectInfo.allDay && selectInfo.view.type !== RESIDENCES_CALENDAR_TYPE.LIST_WEEK;
+    const start = fullDaySelection
+      ? `${selectInfo.startStr.slice(MAGIC_NUMBERS.N_0, MAGIC_NUMBERS.N_10)}T00:00:00`
+      : this.datesService.toLocalDateTime(selectInfo.startStr);
 
-    if (monthMode) {
-      console.log(selectInfo.end);
-      console.log(selectInfo.endStr);
+    let end = this.datesService.toLocalDateTime(selectInfo.endStr);
+    if (fullDaySelection) {
+      const endDate = new Date(`${selectInfo.endStr.slice(MAGIC_NUMBERS.N_0, MAGIC_NUMBERS.N_10)}T00:00:00`);
+      endDate.setDate(endDate.getDate() - MAGIC_NUMBERS.N_1);
+      endDate.setHours(MAGIC_NUMBERS.N_23, MAGIC_NUMBERS.N_59, MAGIC_NUMBERS.N_0, MAGIC_NUMBERS.N_0);
+      end = this.datesService.formatLocalDateTime(endDate);
     }
 
     this.selectedBooking.set({
@@ -334,8 +344,8 @@ export class BookingsCalendarComponent implements OnInit {
       rooms: [],
       totalCustomers: MAGIC_NUMBERS.N_1,
       customer: null,
-      start: this.datesService.toLocalDateTime(selectInfo.startStr),
-      end: this.datesService.toLocalDateTime(selectInfo.endStr),
+      start,
+      end,
       comment: ''
     });
     this.isEdit.set(false);
@@ -365,5 +375,23 @@ export class BookingsCalendarComponent implements OnInit {
     this.initBookingFormDialog(true);
 
     dropInfo.revert();
+  }
+
+  handleEventResize(resizeInfo: any): void {
+    const id: string = resizeInfo.event.id;
+    const event = resizeInfo.event;
+
+    this.selectedBooking.set({
+      ...this.bookingCalendar()?.bookings?.find(
+        booking => booking._id === id
+      ),
+      start: this.datesService.toLocalDateTime(event.startStr),
+      end: this.datesService.toLocalDateTime(event.endStr),
+    });
+
+    this.isEdit.set(true);
+    this.initBookingFormDialog(true);
+
+    resizeInfo.revert();
   }
 }
