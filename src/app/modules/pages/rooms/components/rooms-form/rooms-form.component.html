@@ -47,4 +47,20 @@
       <sctl-input-error [config]="formErrors?.['beds']"></sctl-input-error>
     </div>
   </div>
+
+  <div class="flex flex-col md:flex-row gap-0 md:gap-8">
+    <div class="mb-6 w-full">
+      <label for="rooms-form-description" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
+        {{ 'ROOMS.COLS.DESCRIPTION' | translate }}
+      </label>
+      <textarea pTextarea class="w-full"
+        id="rooms-form-description"
+        formControlName="description"
+        [placeholder]="''"
+        [autoResize]="true"
+        [rows]="5"
+      ></textarea>
+      <sctl-input-error [config]="formErrors?.['description']"></sctl-input-error>
+    </div>
+  </div>
 </form>

@@ -6,6 +6,7 @@ export interface IRoom {
   residence: IResidence;
   name: string;
   beds: number;
+  description?: string;
   images?: string[];
   createdAt?: Date;
   updatedAt?: Date;

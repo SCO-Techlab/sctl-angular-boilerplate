@@ -521,10 +521,6 @@ export class ResidencesComponent {
           field: 'cadastre'
         },
         {
-          header: this.literals?.['COLS']['DESCRIPTION'],
-          field: 'description'
-        },
-        {
           header: this.literals?.['COLS']['CREATED_AT'],
           field: 'createdAt',
           type: CRUD_COLUMN_TYPE.DATE,

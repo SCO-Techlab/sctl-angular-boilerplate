@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/c
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputErrorComponent } from '@core/components';
+import { MAGIC_NUMBERS } from '@core/shared';
 import { INPUT_ERROR } from '@core/shared/enums';
 import { IInputErrorComponent, ITranslateLiterals } from '@core/shared/interfaces';
 import { TranslateModule } from '@core/shared/modules';
@@ -11,6 +12,7 @@ import { ResidencesService } from '@shared/services';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { TextareaModule } from 'primeng/textarea';
 
 @Component({
   selector: 'sctl-rooms-form',
@@ -24,6 +26,7 @@ import { SelectModule } from 'primeng/select';
     InputNumberModule,
     SelectModule,
     InputErrorComponent,
+    TextareaModule
   ]
 })
 export class RoomsFormComponent implements OnInit {
@@ -62,7 +65,8 @@ export class RoomsFormComponent implements OnInit {
     this.roomForm = new FormGroup({
       residence: new FormControl<string>('', [Validators.required]),
       name: new FormControl<string>('', [Validators.required]),
-      beds: new FormControl<number | null>(1, [Validators.required, Validators.min(1)]),
+      beds: new FormControl<number | null>(1, [Validators.required, Validators.min(MAGIC_NUMBERS.N_1)]),
+      description: new FormControl<string>('', []),
     });
 
     this.roomForm.valueChanges.subscribe((value: IRoom) => {
@@ -87,7 +91,8 @@ export class RoomsFormComponent implements OnInit {
     this.roomForm.setValue({
       residence: typeof value?.residence === 'string' ? value?.residence : value?.residence?._id ?? '',
       name: value?.name ?? '',
-      beds: value?.beds ?? 1,
+      beds: value?.beds ?? MAGIC_NUMBERS.N_1,
+      description: value?.description ?? '',
     });
   }
 

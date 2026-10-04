@@ -545,6 +545,17 @@
       "POSTAL_CODE": "Postal code",
       "CADASTRE": "Cadastre",
       "DESCRIPTION": "Description",
+      "CALENDAR": "Calendar",
+      "CALENDAR_TYPE": "Calendar view",
+      "WEEK_NUMBER": "Week numbers",
+      "SHOW_WEEKENDS": "Show weekends",
+      "OVERLAPPING_BOOKINGS": "Allow overlapping bookings",
+      "REMINDER_EMAIL_DAYS_BEFORE": "Advance notice (days)",
+      "NEW_BOOKING_EMAIL_ENABLED": "New booking",
+      "BOOKING_UPDATED_EMAIL_ENABLED": "Booking updated",
+      "BOOKING_COMPLETION_REMINDER_EMAIL_ENABLED": "Completion reminder",
+      "BOOKING_COMPLETED_EMAIL_ENABLED": "Booking completed",
+      "BOOKING_CANCELLED_EMAIL_ENABLED": "Booking cancelled",
       "CREATED_AT": "Created at",
       "UPDATED_AT": "Updated at"
     },
@@ -581,6 +592,18 @@
       "SUBMIT": "Delete",
       "SUCCESS": "Residences deleted successfully",
       "ERROR": "Error trying to delete residences"
+    },
+    "CALENDAR_SECTIONS": {
+      "DISPLAY": "Display",
+      "REMINDERS": "Reminders",
+      "NOTIFICATIONS": "Email notifications"
+    },
+    "CALENDAR_TYPE_OPTIONS": {
+      "MONTHLY": "Monthly",
+      "WEEKLY": "Weekly",
+      "DAILY": "Daily",
+      "LIST": "List",
+      "MULTI_MONTH": "Multi-month"
     }
   },
   "ROOMS": {

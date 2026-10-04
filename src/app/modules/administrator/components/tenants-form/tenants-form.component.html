@@ -65,12 +65,13 @@
       <label for="tenants-form-description" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
         {{ 'TENANTS.COLS.DESCRIPTION' | translate }}
       </label>
-      <input pInputText class="w-full"
+      <textarea pTextarea class="w-full"
         id="tenants-form-description"
-        type="text"
         formControlName="description"
         [placeholder]="''"
-      />
+        [autoResize]="true"
+        [rows]="5"
+      ></textarea>
       <sctl-input-error [config]="formErrors?.['description']"></sctl-input-error>
     </div>
   </div>

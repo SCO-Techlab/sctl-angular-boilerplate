@@ -64,20 +64,6 @@
       </div>
 
       <div class="mt-4">
-        <label for="profile-organization-description" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
-          {{ 'PROFILE.ORGANIZATION.LABELS.DESCRIPTION' | translate }}
-        </label>
-        <input id="profile-organization-description" 
-          class="w-full"
-          pInputText
-          type="text"
-          formControlName="description"
-          [readOnly]="!userIsOwner(selectedTenant)"
-        />
-        <sctl-input-error [config]="formErrors?.['description']"></sctl-input-error>
-      </div>
-
-      <div class="mt-4">
         <label for="profile-organization-owner" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
           {{ 'PROFILE.ORGANIZATION.LABELS.OWNER' | translate }}
         </label>
@@ -91,7 +77,7 @@
       </div>
 
       <div class="mt-4">
-        <label for="profile-organization-description" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+        <label for="profile-organization-members" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
           {{ 'PROFILE.ORGANIZATION.LABELS.MEMBERS' | translate }}
         </label>
         @if (tenants()?.[selectedTenant]?.members?.length) {
@@ -114,6 +100,20 @@
             </div>
           </sctl-card>
         }
+      </div>
+
+      <div class="mt-4">
+        <label for="profile-organization-description" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">
+          {{ 'PROFILE.ORGANIZATION.LABELS.DESCRIPTION' | translate }}
+        </label>
+        <textarea pTextarea id="profile-organization-description"
+          class="w-full"
+          formControlName="description"
+          [readOnly]="!userIsOwner(selectedTenant)"
+          [autoResize]="true"
+          [rows]="5"
+        ></textarea>
+        <sctl-input-error [config]="formErrors?.['description']"></sctl-input-error>
       </div>
     </div>
   </form>

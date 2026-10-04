@@ -9,6 +9,9 @@ export interface IBooking {
   start: string;
   end: string;
   comment?: string;
+  newBookingEmailSent?: boolean;
+  completionEmailSent?: boolean;
+  reminderCompletionEmailSent?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

@@ -745,9 +745,16 @@
       "DESCRIPTION": "Descripción",
       "IMAGES": "Imágenes",
       "CALENDAR": "Calendario",
-      "CALENDAR_TYPE": "Tipo de calendario",
+      "CALENDAR_TYPE": "Vista del calendario",
       "WEEK_NUMBER": "Número de semana",
       "SHOW_WEEKENDS": "Mostrar fines de semana",
+      "OVERLAPPING_BOOKINGS": "Permitir reservas simultáneas",
+      "REMINDER_EMAIL_DAYS_BEFORE": "Antelación (días)",
+      "NEW_BOOKING_EMAIL_ENABLED": "Nueva reserva",
+      "BOOKING_UPDATED_EMAIL_ENABLED": "Reserva modificada",
+      "BOOKING_COMPLETION_REMINDER_EMAIL_ENABLED": "Recordatorio de finalización",
+      "BOOKING_COMPLETED_EMAIL_ENABLED": "Reserva completada",
+      "BOOKING_CANCELLED_EMAIL_ENABLED": "Reserva cancelada",
       "CREATED_AT": "Creado en",
       "UPDATED_AT": "Actualizado en"
     },
@@ -795,6 +802,11 @@
       "DELETE_OK": "La imagen se ha eliminado correctamente",
       "DELETE_KO": "Hubo un error intentando eliminar la imagen"
     },
+    "CALENDAR_SECTIONS": {
+      "DISPLAY": "Visualización",
+      "REMINDERS": "Recordatorios",
+      "NOTIFICATIONS": "Avisos por correo"
+    },
     "CALENDAR_TYPE_OPTIONS": {
       "MONTHLY": "Mensual",
       "WEEKLY": "Semanal",
@@ -813,6 +825,7 @@
       "RESIDENCE": "Residencia",
       "NAME": "Nombre",
       "BEDS": "Camas",
+      "DESCRIPTION": "Descripción",
       "IMAGES": "Imágenes",
       "CREATED_AT": "Creado en",
       "UPDATED_AT": "Actualizado en"

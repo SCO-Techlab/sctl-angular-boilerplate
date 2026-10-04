@@ -5,6 +5,13 @@ export interface IResidenceCalendar {
   calendarType?: RESIDENCES_CALENDAR_TYPE;
   weekNumber?: boolean;
   showWeekends?: boolean;
+  overlappingBookings?: boolean;
+  reminderEmailDaysBefore?: number;
+  newBookingEmailEnabled?: boolean;
+  bookingUpdatedEmailEnabled?: boolean;
+  bookingCompletionReminderEmailEnabled?: boolean;
+  bookingCompletedEmailEnabled?: boolean;
+  bookingCancelledEmailEnabled?: boolean;
 }
 
 export interface IResidence {

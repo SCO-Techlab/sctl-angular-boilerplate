@@ -11,6 +11,7 @@ import { ITenant, IUser } from '@shared/interfaces';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
+import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
@@ -26,6 +27,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     InputErrorComponent,
     ToggleSwitchModule,
     MultiSelectModule,
+    TextareaModule,
   ]
 })
 export class TenantsFormComponent implements OnInit {

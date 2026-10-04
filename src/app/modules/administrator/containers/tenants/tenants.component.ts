@@ -398,10 +398,6 @@ export class TenantsComponent {
           options: { callback: { fn: (value: ITenant) => value?.owner?.email ?? '' } }
         },
         {
-          header: this.literals?.['COLS']['DESCRIPTION'],
-          field: 'description'
-        },
-        {
           header: this.literals?.['COLS']['MEMBERS'],
           field: 'members',
           type: CRUD_COLUMN_TYPE.ARRAY,

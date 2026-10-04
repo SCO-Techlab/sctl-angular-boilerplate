@@ -21,6 +21,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
 import { TabsModule } from 'primeng/tabs';
+import { TextareaModule } from 'primeng/textarea';
 import { finalize } from 'rxjs';
 import { ProfileFormComponent } from '../profile-form';
 
@@ -37,6 +38,7 @@ import { ProfileFormComponent } from '../profile-form';
     ButtonModule,
     TabsModule,
     ListboxModule,
+    TextareaModule,
     ProfileFormComponent,
     InputErrorComponent,
     BucketAvatarComponent,

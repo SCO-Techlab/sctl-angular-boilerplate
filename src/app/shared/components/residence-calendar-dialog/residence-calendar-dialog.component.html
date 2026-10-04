@@ -6,43 +6,82 @@
     (submit)="onSubmit($event)"
   >
     <div content>
-      <form [formGroup]="form">
-        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
-          <div class="mb-6 w-full">
-            <label for="residences-form-calendar-type" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-              {{ 'RESIDENCES.COLS.CALENDAR_TYPE' | translate }}
+      <form [formGroup]="form" class="flex flex-col gap-6">
+        <section class="border-b border-surface-200 dark:border-surface-700 pb-6">
+          <h3 class="text-lg font-semibold mb-4">{{ 'RESIDENCES.CALENDAR_SECTIONS.DISPLAY' | translate }}</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
+            <div>
+              <label for="residences-form-calendar-type" class="block text-surface-900 dark:text-surface-0 font-medium mb-2">
+                {{ 'RESIDENCES.COLS.CALENDAR_TYPE' | translate }}
+              </label>
+              <p-select
+                [appendTo]="'body'"
+                [className]="'w-full'"
+                inputId="residences-form-calendar-type"
+                [options]="typeOptions"
+                formControlName="calendarType"
+                [optionLabel]="'label'"
+                [optionValue]="'value'"
+                class="w-full"
+                [showClear]="true"
+              />
+            </div>
+            <label for="residences-form-week-number" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.WEEK_NUMBER' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-week-number" formControlName="weekNumber" />
             </label>
-            <p-select
-              [appendTo]="'body'"
-              [className]="'w-full'"
-              [inputId]="'residences-form-calendar-type'"
-              [options]="typeOptions" 
-              formControlName="calendarType" 
-              [optionLabel]="'label'"
-              [optionValue]="'value'"
-              class="w-full md:w-56" 
-              [showClear]="true"
-            />
+            <label for="residences-form-show-weekends" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.SHOW_WEEKENDS' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-show-weekends" formControlName="showWeekends" />
+            </label>
+            <label for="residences-form-overlapping-bookings" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.OVERLAPPING_BOOKINGS' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-overlapping-bookings" formControlName="overlappingBookings" />
+            </label>
           </div>
-        </div>
+        </section>
 
-        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
-          <div class="mb-6 w-full">
-            <label for="residences-form-week-number" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-              {{ 'RESIDENCES.COLS.WEEK_NUMBER' | translate }}
+        <section>
+          <h3 class="text-lg font-semibold mb-4">{{ 'RESIDENCES.CALENDAR_SECTIONS.NOTIFICATIONS' | translate }}</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
+            <label for="residences-form-new-booking-email-enabled" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.NEW_BOOKING_EMAIL_ENABLED' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-new-booking-email-enabled" formControlName="newBookingEmailEnabled" />
             </label>
-            <p-toggleswitch inputId="residences-form-week-number" formControlName="weekNumber" />
-          </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row gap-0 md:gap-8">
-          <div class="mb-6 w-full">
-            <label for="residences-form-show-weekends" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">
-              {{ 'RESIDENCES.COLS.SHOW_WEEKENDS' | translate }}
+            <label for="residences-form-booking-updated-email-enabled" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.BOOKING_UPDATED_EMAIL_ENABLED' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-booking-updated-email-enabled" formControlName="bookingUpdatedEmailEnabled" />
             </label>
-            <p-toggleswitch inputId="residences-form-show-weekends" formControlName="showWeekends" />
+            <label for="residences-form-booking-completed-email-enabled" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.BOOKING_COMPLETED_EMAIL_ENABLED' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-booking-completed-email-enabled" formControlName="bookingCompletedEmailEnabled" />
+            </label>
+            <label for="residences-form-booking-cancelled-email-enabled" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.BOOKING_CANCELLED_EMAIL_ENABLED' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-booking-cancelled-email-enabled" formControlName="bookingCancelledEmailEnabled" />
+            </label>
+            <label for="residences-form-booking-completion-reminder-email-enabled" class="flex items-center justify-between gap-4">
+              <span>{{ 'RESIDENCES.COLS.BOOKING_COMPLETION_REMINDER_EMAIL_ENABLED' | translate }}</span>
+              <p-toggleswitch inputId="residences-form-booking-completion-reminder-email-enabled" formControlName="bookingCompletionReminderEmailEnabled" />
+            </label>
+            <div>
+              <label for="residences-form-reminder-email-days-before" class="block text-surface-900 dark:text-surface-0 font-medium mb-2">
+                {{ 'RESIDENCES.COLS.REMINDER_EMAIL_DAYS_BEFORE' | translate }}
+              </label>
+              <p-inputNumber class="w-full"
+                inputId="residences-form-reminder-email-days-before"
+                formControlName="reminderEmailDaysBefore"
+                [min]="0"
+                [max]="30"
+                [showButtons]="true"
+                [buttonLayout]="'stacked'"
+                [step]="1"
+                [inputStyle]="{ 'width': '100%' }"
+                [disabled]="!form.get('bookingCompletionReminderEmailEnabled')?.value"
+              />
+            </div>
           </div>
-        </div>
+        </section>
       </form>
     </div>
   </sctl-dialog>
