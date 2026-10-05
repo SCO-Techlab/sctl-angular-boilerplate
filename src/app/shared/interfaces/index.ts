@@ -2,6 +2,7 @@ export * from './customers';
 export * from './jwt-token';
 export * from './menu-front';
 export * from './permissions';
+export * from './residence-room-selector';
 export * from './residences';
 export * from './roles';
 export * from './rooms';

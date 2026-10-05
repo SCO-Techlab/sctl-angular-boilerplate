@@ -1,0 +1,48 @@
+<div class="flex flex-col gap-3">
+  @for (email of emails; track $index; let i = $index) {
+    <div class="flex items-center gap-2">
+      <div class="w-full">
+        <input
+          pInputText
+          class="w-full"
+          [id]="'email-selector-' + $index"
+          [attr.aria-label]="'SHARED.COMPONENTS.EMAIL_SELECTOR.LABEL' | translate"
+          [placeholder]="'SHARED.COMPONENTS.EMAIL_SELECTOR.LABEL' | translate"
+          type="email"
+          [ngModel]="email"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="onEmailChange($index, $event)"
+        />
+       @if (showInputError(i)) {
+        <div class="mt-2 ml-2">
+          <p-message severity="error" variant="simple" size="small">
+            <span>{{ 'SHARED.COMPONENTS.EMAIL_SELECTOR.ERROR' | translate}}</span>
+          </p-message>
+        </div>
+       }
+      </div>
+      @if (emails.length > 1) {
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          [text]="true"
+          [rounded]="true"
+          [attr.aria-label]="'COMMON.DELETE' | translate"
+          (onClick)="removeEmail($index)"
+        />
+      }
+    </div>
+  }
+
+  <div class="flex items-center justify-end">
+    <p-button
+      [label]="'COMMON.ADD' | translate"
+      icon="pi pi-plus"
+      severity="secondary"
+      [outlined]="true"
+      [rounded]="true"
+      [disabled]="addButtonDisabled()"
+      (onClick)="addEmail()"
+    />
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<sctl-card [darkTheme]="true" [config]="{ title: 'PAGES.INFORMATION_EMAILS.TITLE' | translate }">
+  <p-tabs body [value]="currentTab" (valueChange)="onTabChange($event)">
+    <p-tablist>
+      <p-tab [value]="INFORMATION_EMAILS_TABS.TENANT">
+        {{ 'PAGES.INFORMATION_EMAILS.TABS.TENANT' | translate }}
+      </p-tab>
+      <p-tab [value]="INFORMATION_EMAILS_TABS.RESIDENCES">
+        {{ 'PAGES.INFORMATION_EMAILS.TABS.RESIDENCES' | translate }}
+      </p-tab>
+      <p-tab [value]="INFORMATION_EMAILS_TABS.ROOMS">
+        {{ 'PAGES.INFORMATION_EMAILS.TABS.ROOMS' | translate }}
+      </p-tab>
+      <p-tab [value]="INFORMATION_EMAILS_TABS.RESIDENCES_AND_ROOMS">
+        {{ 'PAGES.INFORMATION_EMAILS.TABS.RESIDENCES_AND_ROOMS' | translate }}
+      </p-tab>
+    </p-tablist>
+  </p-tabs>
+</sctl-card>
+
+@if (currentTab === INFORMATION_EMAILS_TABS.RESIDENCES) {
+  <div class="card mt-8">
+    <div>
+      <h6 class="text-lg font-semibold">
+        {{ 'PAGES.INFORMATION_EMAILS.COLS.RESIDENCES' | translate }}
+      </h6>
+    </div>
+    
+    <sctl-residences-selector
+      [residences]="informationEmailsData?.residences"
+      [value]="selectedResidences"
+      (valueChange)="onResidencesChange($event)"
+    ></sctl-residences-selector>
+  </div>
+}
+
+@if (currentTab === INFORMATION_EMAILS_TABS.ROOMS || currentTab === INFORMATION_EMAILS_TABS.RESIDENCES_AND_ROOMS) {
+  <div class="card mt-8">
+    <div>
+      <h6 class="text-lg font-semibold">
+        {{ 
+          (currentTab === INFORMATION_EMAILS_TABS.ROOMS 
+            ? 'PAGES.INFORMATION_EMAILS.COLS.ROOMS' 
+            : 'PAGES.INFORMATION_EMAILS.COLS.RESIDENCES_AND_ROOMS'
+          ) | translate 
+        }}
+      </h6>
+    </div>
+
+    <sctl-residence-room-selector
+      [residences]="informationEmailsData?.residences"
+      [rooms]="informationEmailsData?.rooms"
+      [value]="selectedResidenceRooms"
+      (valueChange)="onResidenceRoomsChange($event)"
+    ></sctl-residence-room-selector>
+  </div>
+}
+
+<div class="card mt-8">
+  <div>
+    <h6 class="text-lg font-semibold">
+      {{ 'PAGES.INFORMATION_EMAILS.COLS.EMAILS' | translate }}
+    </h6>
+  </div>
+
+  <sctl-email-selector
+    [value]="selectedEmails"
+    (emailsChange)="onEmailsChange($event)"
+  ></sctl-email-selector>
+</div>
+
+<div class="card mt-8" style="padding: 12px !important;">
+  <div class="flex items-center justify-end">
+    <p-button class="mr-8"
+      icon="pi pi-trash"
+      severity="secondary"
+      [text]="true"
+      [rounded]="true"
+      [outlined]="true"
+      [label]="'PAGES.INFORMATION_EMAILS.CLEAR_BUTTON' | translate"
+      (onClick)="onClearData()"
+    />
+
+    <p-button
+      icon="pi pi-send"
+      severity="primary"
+      [text]="true"
+      [rounded]="true"
+      [outlined]="true"
+      [label]="'PAGES.INFORMATION_EMAILS.SEND_BUTTON' | translate"
+      [disabled]="sendButtonDisabled()"
+      (onClick)="sendEmail()"
+    />
+  </div>
+</div>

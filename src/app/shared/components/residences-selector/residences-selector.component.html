@@ -1,0 +1,49 @@
+<div class="flex flex-col gap-3">
+  @for (selection of selections; track $index) {
+    <div class="flex items-center gap-2">
+      <p-select
+        class="w-full"
+        [appendTo]="'body'"
+        [inputId]="'residences-selector-' + $index"
+        [ariaLabel]="'SHARED.COMPONENTS.RESIDENCES_SELECTOR.LABEL' | translate"
+        [options]="getOptions($index)"
+        [ngModel]="selection"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="onSelectionChange($index, $event)"
+        [optionValue]="'_id'"
+        [showClear]="true"
+      >
+        <ng-template #selectedItem let-residence>
+          {{ formatResidenceAddress(residence) }}
+        </ng-template>
+
+        <ng-template #item let-residence>
+          {{ formatResidenceAddress(residence) }}
+        </ng-template>
+      </p-select>
+
+      @if (selections.length > 1) {
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          [text]="true"
+          [rounded]="true"
+          [attr.aria-label]="'COMMON.DELETE' | translate"
+          (onClick)="removeSelection($index)"
+        />
+      }
+    </div>
+  }
+
+  <div class="flex items-center justify-end">
+    <p-button
+      [label]="'COMMON.ADD' | translate"
+      icon="pi pi-plus"
+      severity="secondary"
+      [outlined]="true"
+      [rounded]="true"
+      [disabled]="!canAddSelection"
+      (onClick)="addSelection()"
+    />
+  </div>
+</div>

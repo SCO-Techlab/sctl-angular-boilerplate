@@ -70,6 +70,16 @@
           "CANCEL": "Cancelar",
           "SUBMIT": "Eliminar"
         }
+      },
+      "EMAIL_SELECTOR": {
+        "LABEL": "Correo electrónico",
+        "ERROR": "El correo electrónico no es válido"
+      },
+      "RESIDENCE_ROOM_SELECTOR": {
+        "LABEL": "Selector de residencia y habitación"
+      },
+      "RESIDENCES_SELECTOR": {
+        "LABEL": "Residencia"
       }
     }
   },
@@ -117,6 +127,25 @@
       },
       "WEEK_TEXT_SHORT": "Sem. ",
       "ALL_DAY_TEXT": "Todo el día"
+    },
+    "INFORMATION_EMAILS": {
+      "TITLE": "Envío de correos electrónicos de información",
+      "CLEAR_BUTTON": "Limpiar",
+      "SEND_BUTTON": "Envíar",
+      "SEND_EMAIL_OK": "El correo electrónico se ha enviado correctamente",
+      "SEND_EMAIL_KO": "Error intentando enviar el correo electrónico",
+      "TABS": {
+        "TENANT": "Organización",
+        "RESIDENCES": "Residencias",
+        "ROOMS": "Habitaciones",
+        "RESIDENCES_AND_ROOMS": "Residencias y Habitaciones"
+      },
+      "COLS": {
+        "EMAILS": "Correos electrónicos",
+        "RESIDENCES": "Residencias",
+        "ROOMS": "Habitaciones",
+        "RESIDENCES_AND_ROOMS": "Residencias / Habitaciones"
+      }
     }
   },
   "TOAST": {
@@ -264,7 +293,8 @@
           "RESIDENCES": "Residencias",
           "CUSTOMERS": "Clientes",
           "IMAGES": "Imágenes",
-          "BOOKINGS_CALENDAR": "Calendario de reservas"
+          "BOOKINGS_CALENDAR": "Calendario de reservas",
+          "INFORMATION_EMAILS": "Emails de información"
         }
       },
       "ADMINISTRATOR": {
